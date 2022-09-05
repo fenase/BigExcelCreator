@@ -13,6 +13,7 @@ namespace Investigacion.Service.Helper
     /// </summary>
     public class BigExcelWritter : IDisposable
     {
+        public string Path { get; private set; }
         public Stream Stream { get; private set; }
 
         public SpreadsheetDocumentType SpreadsheetDocumentType { get; private set; }
@@ -38,7 +39,7 @@ namespace Investigacion.Service.Helper
         private OpenXmlWriter writer;
 
 
-        private readonly WorkbookPart workbookPart;
+        private WorkbookPart workbookPart;
         private WorksheetPart workSheetPart;
 
 
@@ -52,13 +53,36 @@ namespace Investigacion.Service.Helper
         public BigExcelWritter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty)
             : this(stream, spreadsheetDocumentType, skipCellWhenEmpty, new Stylesheet()) { }
 
+        public BigExcelWritter(string path, SpreadsheetDocumentType spreadsheetDocumentType)
+        : this(path, spreadsheetDocumentType, false) { }
+        
+        public BigExcelWritter(string path, SpreadsheetDocumentType spreadsheetDocumentType, Stylesheet stylesheet)
+        : this(path, spreadsheetDocumentType, false, stylesheet) { }
+
+        public BigExcelWritter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty)
+            : this(path, spreadsheetDocumentType, skipCellWhenEmpty, new Stylesheet()) { }
+
+
+        public BigExcelWritter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
+        {
+            Path = path;
+            Document = SpreadsheetDocument.Create(Path, spreadsheetDocumentType);
+            CtorHelper(spreadsheetDocumentType, skipCellWhenEmpty, stylesheet);
+        }
+
+
         public BigExcelWritter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
             Stream = stream;
-            SpreadsheetDocumentType = spreadsheetDocumentType;
             Document = SpreadsheetDocument.Create(Stream, spreadsheetDocumentType);
+            CtorHelper(spreadsheetDocumentType, skipCellWhenEmpty, stylesheet);
+            
+        }
 
 
+        private void CtorHelper(SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
+        {
+            SpreadsheetDocumentType = spreadsheetDocumentType;
             workbookPart = Document.AddWorkbookPart();
 
             if (workbookPart.WorkbookStylesPart == null)
