@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigExcelCreator", "BigExcelCreator\BigExcelCreator.csproj", "{D53B8997-B701-4887-9829-76D87A9586BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{1965CC75-D412-48F2-AA97-A136C8D56112}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D53B8997-B701-4887-9829-76D87A9586BB} = {D53B8997-B701-4887-9829-76D87A9586BB}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D53B8997-B701-4887-9829-76D87A9586BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D53B8997-B701-4887-9829-76D87A9586BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D53B8997-B701-4887-9829-76D87A9586BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D53B8997-B701-4887-9829-76D87A9586BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1965CC75-D412-48F2-AA97-A136C8D56112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1965CC75-D412-48F2-AA97-A136C8D56112}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1965CC75-D412-48F2-AA97-A136C8D56112}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1965CC75-D412-48F2-AA97-A136C8D56112}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BB3201B1-63BC-4CDC-9CE1-6CB20CFF7947}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Create large Excel files with stylesheet Quickly using SAX</Title>
+    <Authors>Federico Seckel</Authors>
+    <PackageTags>Excel;SAX;</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.17.1" />
+  </ItemGroup>
+
+</Project>
