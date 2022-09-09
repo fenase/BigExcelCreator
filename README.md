@@ -1,12 +1,34 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+Create exel files using OpenXML SAX.
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+Styling is available, but instructions are pending.
+
+# Usage
+1. Instantiate class `BigExcelWritter` using either a file path or a stream (`MemoryStream` is recommended).
+2. Open a new Sheet using `CreateAndOpenSheet`
+3. For every row, use `BeginRow` and `EndRow`
+4. Between `BeginRow` and `EndRow`, use `WriteTextCell` to write a cell.
+5. Use `CloseSheet` to finish.
+6. If needed, repetar steps 2 -> 5 to write to another sheet
+
+## Example
+```c#
+using BigExcelCreator;
+
+....
+
+MemoryStream stream = new MemoryStream();
+using (BigExcelWritter excel = new(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+{
+    excel.CreateAndOpenSheet("Sheet Name");
+    excel.BeginRow();
+    excel.WriteTextCell("Cell content");
+    excel.EndRow();
+    excel.CloseSheet();
+}
+```
+
+
 
 # Build and Test
 TODO: Describe and show how to build your code and run the tests. 
