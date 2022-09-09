@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,8 @@ namespace BigExcelCreator.Styles
                         new FontName { Val = "Calibri" });
             Fill defaultFill = new Fill(
                         new PatternFill { PatternType = PatternValues.None });
+            Fill defaultFillGray125 = new Fill(
+                        new PatternFill { PatternType = PatternValues.Gray125 });
             Border defaultBorder = new Border(
                         new LeftBorder(),
                         new RightBorder(),
@@ -45,6 +48,12 @@ namespace BigExcelCreator.Styles
                         new DiagonalBorder());
             NumberingFormat defaultNumberingFormat = new NumberingFormat { NumberFormatId = 164, FormatCode = "0,.00;(0,.00)" };
             NewStyle(defaultFont, defaultFill, defaultBorder, defaultNumberingFormat, "DEFAULT");
+            /* https://stackoverflow.com/a/42789914/14217380
+             * For some reason I cannot seem to find documented, Fill Id 0 will always be None,
+             * and Fill Id 1 will always be Gray125. If you want a custom fill,
+             * you will need to get to at least Fill Id 2.
+             */
+            NewStyle(defaultFont, defaultFillGray125, defaultBorder, defaultNumberingFormat, "DEFAULTFillGray125");
         }
 
         public Stylesheet GetStylesheet()
@@ -113,6 +122,7 @@ namespace BigExcelCreator.Styles
                     FontId = (uint)fontId,
                     FillId = (uint)fillId,
                     BorderId = (uint)borderId,
+                    NumberFormatId = 0,
                 }
             };
             if(numberingFormat != null)

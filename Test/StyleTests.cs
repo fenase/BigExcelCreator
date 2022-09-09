@@ -63,7 +63,7 @@ namespace Test
 
 
 
-            Assert.That(list.Styles, Has.Count.EqualTo(2));
+            Assert.That(list.Styles, Has.Count.EqualTo(3));
         }
 
 
@@ -80,17 +80,17 @@ namespace Test
 
 
 
-            Assert.That(list.Styles, Has.Count.EqualTo(3));
+            Assert.That(list.Styles, Has.Count.EqualTo(4));
             
-            Assert.That(list.Styles[1], Is.EqualTo(style1));
-            Assert.That(list.Styles[2], Is.EqualTo(style2));
+            Assert.That(list.Styles[2], Is.EqualTo(style1));
+            Assert.That(list.Styles[3], Is.EqualTo(style2));
 
 
             var index1 = list.GetIndexByName(name, out StyleElement styleElement1);
             var index2 = list.GetIndexByName(name2, out StyleElement styleElement2);
 
-            Assert.That(index1, Is.EqualTo(1));
-            Assert.That(index2, Is.EqualTo(2));
+            Assert.That(index1, Is.EqualTo(2));
+            Assert.That(index2, Is.EqualTo(3));
             Assert.That(styleElement1, Is.EqualTo(style1));
             Assert.That(styleElement1.Style, Is.EqualTo(style1.Style));
             Assert.That(styleElement2, Is.EqualTo(style2));
