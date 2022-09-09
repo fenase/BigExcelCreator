@@ -77,8 +77,13 @@ namespace BigExcelCreator.Styles
         }
 
 
-
         public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, string name)
+        {
+            return NewStyle(font, fill, border, numberingFormat, null, name);
+        }
+
+
+        public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, Alignment alignment, string name)
         {
             if(GetIndexByName(name, out StyleElement style) >= 0)
             {
@@ -128,6 +133,10 @@ namespace BigExcelCreator.Styles
             if(numberingFormat != null)
             {
                 styleElement.Style.NumberFormatId = (uint)numberingFormatId;
+            }
+            if (alignment != null)
+            {
+                styleElement.Style.Alignment = alignment;
             }
 
 
