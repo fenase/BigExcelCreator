@@ -56,10 +56,10 @@ namespace Test
         {
             var list = new StyleList();
 
-            string name = "nombre";
+            const string name = "nombre";
 
-            var style1 = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], name);
-            var style2 = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], name);
+            _= list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], name);
+            _= list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], name);
 
 
 
@@ -72,8 +72,8 @@ namespace Test
         {
             var list = new StyleList();
 
-            string name = "nombre";
-            string name2 = "nombre2";
+            const string name = "nombre";
+            const string name2 = "nombre2";
 
             var style1 = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], name);
             var style2 = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], name2);

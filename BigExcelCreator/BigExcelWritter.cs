@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 namespace BigExcelCreator
@@ -15,6 +16,7 @@ namespace BigExcelCreator
     {
         public string Path { get; private set; }
         public Stream Stream { get; private set; }
+        private SavingTo SavingTo { get; set; }
 
         public SpreadsheetDocumentType SpreadsheetDocumentType { get; private set; }
 
@@ -66,6 +68,7 @@ namespace BigExcelCreator
         public BigExcelWritter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
             Path = path;
+            SavingTo = SavingTo.file;
             Document = SpreadsheetDocument.Create(Path, spreadsheetDocumentType);
             CtorHelper(spreadsheetDocumentType, skipCellWhenEmpty, stylesheet);
         }
@@ -74,6 +77,7 @@ namespace BigExcelCreator
         public BigExcelWritter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
             Stream = stream;
+            SavingTo = SavingTo.stream;
             Document = SpreadsheetDocument.Create(Stream, spreadsheetDocumentType);
             CtorHelper(spreadsheetDocumentType, skipCellWhenEmpty, stylesheet);
         }
@@ -96,7 +100,7 @@ namespace BigExcelCreator
         }
 
 
-        public void CreateAndOpenSheet(string name, List<Column> columns = null,
+        public void CreateAndOpenSheet(string name, IReadOnlyCollection<Column> columns = null,
                                        SheetStateValues sheetState = SheetStateValues.Visible)
         {
             if (!sheetOpen)
@@ -114,8 +118,8 @@ namespace BigExcelCreator
                     {
                         List<OpenXmlAttribute> atributosColumna = new List<OpenXmlAttribute>
                         {
-                            new OpenXmlAttribute("min", null, indiceColumna.ToString()),
-                            new OpenXmlAttribute("max", null, indiceColumna.ToString()),
+                            new OpenXmlAttribute("min", null, indiceColumna.ToString(CultureInfo.InvariantCulture)),
+                            new OpenXmlAttribute("max", null, indiceColumna.ToString(CultureInfo.InvariantCulture)),
                             new OpenXmlAttribute("width", null, column.Width.ToString()),
                             new OpenXmlAttribute("customWidth", null, column.CustomWidth.ToString())
                         };
@@ -183,7 +187,7 @@ namespace BigExcelCreator
                     List<OpenXmlAttribute> attributes = new List<OpenXmlAttribute>
                     {
                         // add the row index attribute to the list
-                        new OpenXmlAttribute("r", null, lastRowWritten.ToString())
+                        new OpenXmlAttribute("r", null, lastRowWritten.ToString(CultureInfo.InvariantCulture))
                     };
 
                     //write the row start element with the row index attribute
@@ -234,9 +238,9 @@ namespace BigExcelCreator
                     // add data type attribute - in this case inline string (you might want to look at the shared strings table)
                     new OpenXmlAttribute("t", null, "str"),
                     //add the cell reference attribute
-                    new OpenXmlAttribute("r", "", string.Format("{0}{1}", GetColumnName(columnNum), lastRowWritten)),
+                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", GetColumnName(columnNum), lastRowWritten)),
                     //estilos
-                    new OpenXmlAttribute("s", null, (formato).ToString())
+                    new OpenXmlAttribute("s", null, formato.ToString(CultureInfo.InvariantCulture))
                 };
 
                 //write the cell start element with the type and reference attributes
@@ -300,6 +304,11 @@ namespace BigExcelCreator
                 writer.WriteEndElement();
                 writer.Close();
                 Document.Close();
+
+                if (SavingTo == SavingTo.stream)
+                {
+                    _ = Stream.Seek(0, SeekOrigin.Begin);
+                }
             }
             open = false;
         }
@@ -307,7 +316,7 @@ namespace BigExcelCreator
 
 
         #region IDisposable
-        private bool disposed = false;
+        private bool disposed;
 
         protected virtual void Dispose(bool disposing)
         {
@@ -377,6 +386,12 @@ namespace BigExcelCreator
 
             return columnName;
         }
+    }
 
+
+    internal enum SavingTo
+    {
+        file,
+        stream,
     }
 }
