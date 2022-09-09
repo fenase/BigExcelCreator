@@ -1,6 +1,8 @@
 # Introduction 
 Create exel files using OpenXML SAX.
 
+Note: This package is a work in progress.
+
 Styling is available, but instructions are pending.
 
 # Usage

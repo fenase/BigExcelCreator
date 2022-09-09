@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
+﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,22 @@ namespace BigExcelCreator.Styles
             Borders = new List<Border>();
             NumberingFormats = new List<NumberingFormat>();
             Styles = new List<StyleElement>();
+
+            //Create default style
+            Font defaultFont = new Font(
+                        new FontSize { Val = 11 },
+                        new Color { Rgb = new HexBinaryValue { Value = "000000" } },
+                        new FontName { Val = "Calibri" });
+            Fill defaultFill = new Fill(
+                        new PatternFill { PatternType = PatternValues.None });
+            Border defaultBorder = new Border(
+                        new LeftBorder(),
+                        new RightBorder(),
+                        new TopBorder(),
+                        new BottomBorder(),
+                        new DiagonalBorder());
+            NumberingFormat defaultNumberingFormat = new NumberingFormat { NumberFormatId = 164, FormatCode = "0,.00;(0,.00)" };
+            NewStyle(defaultFont, defaultFill, defaultBorder, defaultNumberingFormat, "DEFAULT");
         }
 
         public Stylesheet GetStylesheet()
@@ -60,7 +77,7 @@ namespace BigExcelCreator.Styles
             }
 
 
-            int fontId, fillId, borderId, numberingFormatId;
+            int fontId, fillId, borderId, numberingFormatId = 0;
             
             if ((fontId = Fonts.IndexOf(font)) < 0)
             {
@@ -77,10 +94,14 @@ namespace BigExcelCreator.Styles
                 borderId = Borders.Count;
                 Borders.Add(border);
             }
-            if ((numberingFormatId = NumberingFormats.IndexOf(numberingFormat)) < 0)
+
+            if (numberingFormat != null)
             {
-                numberingFormatId = NumberingFormats.Count;
-                NumberingFormats.Add(numberingFormat);
+                if ((numberingFormatId = NumberingFormats.IndexOf(numberingFormat)) < 0)
+                {
+                    numberingFormatId = NumberingFormats.Count;
+                    NumberingFormats.Add(numberingFormat);
+                }
             }
 
 
@@ -92,9 +113,12 @@ namespace BigExcelCreator.Styles
                     FontId = (uint)fontId,
                     FillId = (uint)fillId,
                     BorderId = (uint)borderId,
-                    NumberFormatId = (uint)numberingFormatId,
                 }
             };
+            if(numberingFormat != null)
+            {
+                styleElement.Style.NumberFormatId = (uint)numberingFormatId;
+            }
 
 
             Styles.Add(styleElement);
