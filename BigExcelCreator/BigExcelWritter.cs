@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Investigacion.Service.Helper
+namespace BigExcelCreator
 {
     /// <summary>
     /// Esta clase escribe archivos Excel de forma directa utilizando OpenXML SAX.
@@ -23,18 +23,18 @@ namespace Investigacion.Service.Helper
         public bool SkipCellWhenEmpty { get; set; }
 
 
-        private bool sheetOpen = false;
+        private bool sheetOpen;
         private string currentSheetName = "";
         private uint currentSheetId = 1;
         private SheetStateValues currentSheetState = SheetStateValues.Visible;
         private bool open = true;
-        private int lastRowWritten = 0;
-        private bool rowOpen = false;
+        private int lastRowWritten;
+        private bool rowOpen;
         private int columnNum = 1;
 
         private readonly List<Sheet> sheets = new List<Sheet>();
 
-        private DataValidations sheetDataValidations = null;
+        private DataValidations sheetDataValidations;
 
         private OpenXmlWriter writer;
 
@@ -46,7 +46,7 @@ namespace Investigacion.Service.Helper
 
         public BigExcelWritter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType)
         : this(stream, spreadsheetDocumentType, false) { }
-        
+
         public BigExcelWritter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, Stylesheet stylesheet)
         : this(stream, spreadsheetDocumentType, false, stylesheet) { }
 
@@ -55,7 +55,7 @@ namespace Investigacion.Service.Helper
 
         public BigExcelWritter(string path, SpreadsheetDocumentType spreadsheetDocumentType)
         : this(path, spreadsheetDocumentType, false) { }
-        
+
         public BigExcelWritter(string path, SpreadsheetDocumentType spreadsheetDocumentType, Stylesheet stylesheet)
         : this(path, spreadsheetDocumentType, false, stylesheet) { }
 
@@ -76,7 +76,6 @@ namespace Investigacion.Service.Helper
             Stream = stream;
             Document = SpreadsheetDocument.Create(Stream, spreadsheetDocumentType);
             CtorHelper(spreadsheetDocumentType, skipCellWhenEmpty, stylesheet);
-            
         }
 
 
@@ -320,6 +319,7 @@ namespace Investigacion.Service.Helper
                     // called via myClass.Dispose(). 
                     // OK to use any private object references
                     Document.Dispose();
+                    writer.Dispose();
                 }
                 // Release unmanaged resources.
                 // Set large fields to null.                
