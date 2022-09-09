@@ -100,7 +100,7 @@ namespace BigExcelCreator
         }
 
 
-        public void CreateAndOpenSheet(string name, IReadOnlyCollection<Column> columns = null,
+        public void CreateAndOpenSheet(string name, ICollection<Column> columns = null,
                                        SheetStateValues sheetState = SheetStateValues.Visible)
         {
             if (!sheetOpen)
