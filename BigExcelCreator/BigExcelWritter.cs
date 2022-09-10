@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
+[assembly: CLSCompliant(true)]
 namespace BigExcelCreator
 {
     /// <summary>

@@ -1,36 +1,28 @@
 ﻿using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace BigExcelCreator.Styles
 {
     public class StyleList
     {
 
-        public List<Font> Fonts { get; set; }
+        private List<Font> Fonts { get; } = new List<Font>();
 
-        public List<Fill> Fills { get; set; }
+        private List<Fill> Fills { get; } = new List<Fill>();
 
-        public List<Border> Borders { get; set; }
+        private List<Border> Borders { get; } = new List<Border>();
 
-        public List<NumberingFormat> NumberingFormats { get; set; }
+        private List<NumberingFormat> NumberingFormats { get; } = new List<NumberingFormat>();
 
-        public List<StyleElement> Styles { get; set; }
+        public IList<StyleElement> Styles { get; } = new List<StyleElement>();
 
 
 
         public StyleList()
         {
-            Fonts = new List<Font>();
-            Fills = new List<Fill>();
-            Borders = new List<Border>();
-            NumberingFormats = new List<NumberingFormat>();
-            Styles = new List<StyleElement>();
-
             //Create default style
             Font defaultFont = new Font(
                         new FontSize { Val = 11 },
@@ -58,6 +50,16 @@ namespace BigExcelCreator.Styles
 
         public Stylesheet GetStylesheet()
         {
+#if NET35
+            return new Stylesheet
+            {
+                Fonts = new Fonts(Fonts.Select(f  => (OpenXmlElement)f)),
+                Fills = new Fills(Fills.Select(f  => (OpenXmlElement)f)),
+                Borders = new Borders(Borders.Select(b  => (OpenXmlElement)b)),
+                NumberingFormats = new NumberingFormats(NumberingFormats.Select(nf  => (OpenXmlElement)nf)),
+                CellFormats = new CellFormats(Styles.Select(x => (OpenXmlElement)x.Style)),
+            };
+#else
             return new Stylesheet
             {
                 Fonts = new Fonts(Fonts),
@@ -66,6 +68,7 @@ namespace BigExcelCreator.Styles
                 NumberingFormats = new NumberingFormats(NumberingFormats),
                 CellFormats = new CellFormats(Styles.Select(x => x.Style)),
             };
+#endif
         }
 
 
@@ -85,14 +88,14 @@ namespace BigExcelCreator.Styles
 
         public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, Alignment alignment, string name)
         {
-            if(GetIndexByName(name, out StyleElement style) >= 0)
+            if (GetIndexByName(name, out StyleElement style) >= 0)
             {
                 return style;
             }
 
 
             int fontId, fillId, borderId, numberingFormatId = 0;
-            
+
             if ((fontId = Fonts.IndexOf(font)) < 0)
             {
                 fontId = Fonts.Count;
@@ -118,6 +121,16 @@ namespace BigExcelCreator.Styles
                 }
             }
 
+            return NewStyle(fontId, fillId, borderId, numberingFormatId, alignment, name);
+        }
+
+
+        public StyleElement NewStyle(int? fontId, int? fillId, int? borderId, int? numberingFormatId, Alignment alignment, string name)
+        {
+            if (fontId < 0) { throw new ArgumentOutOfRangeException(nameof(fontId), "must be greater than 0"); }
+            if (fillId < 0) { throw new ArgumentOutOfRangeException(nameof(fillId), "must be greater than 0"); }
+            if (borderId < 0) { throw new ArgumentOutOfRangeException(nameof(borderId), "must be greater than 0"); }
+            if (numberingFormatId < 0) { throw new ArgumentOutOfRangeException(nameof(numberingFormatId), "must be greater than 0"); }
 
             StyleElement styleElement = new StyleElement
             {
@@ -130,7 +143,7 @@ namespace BigExcelCreator.Styles
                     NumberFormatId = 0,
                 }
             };
-            if(numberingFormat != null)
+            if (numberingFormatId != null)
             {
                 styleElement.Style.NumberFormatId = (uint)numberingFormatId;
             }

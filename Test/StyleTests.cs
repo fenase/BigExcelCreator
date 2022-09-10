@@ -28,6 +28,8 @@ namespace Test
 
             fill[0] = new Fill(
                         new PatternFill { PatternType = PatternValues.Gray125 });
+            fill[1] = new Fill(
+                        new PatternFill { PatternType = PatternValues.DarkDown });
 
             border[0] = new Border(
                         new LeftBorder(
@@ -58,8 +60,8 @@ namespace Test
 
             const string name = "nombre";
 
-            _= list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], name);
-            _= list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], name);
+            _ = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], name);
+            _ = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], name);
 
 
 
@@ -81,22 +83,82 @@ namespace Test
 
 
             Assert.That(list.Styles, Has.Count.EqualTo(4));
-            
-            Assert.That(list.Styles[2], Is.EqualTo(style1));
-            Assert.That(list.Styles[3], Is.EqualTo(style2));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(list.Styles[2], Is.EqualTo(style1));
+                Assert.That(list.Styles[3], Is.EqualTo(style2));
+            });
 
 
             var index1 = list.GetIndexByName(name, out StyleElement styleElement1);
             var index2 = list.GetIndexByName(name2, out StyleElement styleElement2);
 
-            Assert.That(index1, Is.EqualTo(2));
-            Assert.That(index2, Is.EqualTo(3));
-            Assert.That(styleElement1, Is.EqualTo(style1));
-            Assert.That(styleElement1.Style, Is.EqualTo(style1.Style));
-            Assert.That(styleElement2, Is.EqualTo(style2));
-            Assert.That(styleElement2.Style, Is.EqualTo(style2.Style));
-            Assert.That(style1, Is.Not.EqualTo(style2));
-            Assert.That(style1.Style, Is.EqualTo(style2.Style));
+            Assert.Multiple(() =>
+            {
+                Assert.That(index1, Is.EqualTo(2));
+                Assert.That(index2, Is.EqualTo(3));
+                Assert.That(styleElement1, Is.EqualTo(style1));
+                Assert.That(styleElement1.Style, Is.EqualTo(style1.Style));
+                Assert.That(styleElement2, Is.EqualTo(style2));
+                Assert.That(styleElement2.Style, Is.EqualTo(style2.Style));
+                Assert.That(style1, Is.Not.EqualTo(style2));
+                Assert.That(style1.Style, Is.EqualTo(style2.Style));
+            });
+        }
+
+
+        [Test]
+        public void DifferentStyles()
+        {
+            var list = new StyleList();
+
+            const string name = "nombre";
+            const string name2 = "nombre2";
+
+            var style1 = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], name);
+            var style2 = list.NewStyle(font[0], fill[1], border[0], numberingFormat[0], name2);
+
+
+
+            Assert.That(list.Styles, Has.Count.EqualTo(4));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(list.Styles[2], Is.EqualTo(style1));
+                Assert.That(list.Styles[3], Is.EqualTo(style2));
+            });
+
+            var index1 = list.GetIndexByName(name, out StyleElement styleElement1);
+            var index2 = list.GetIndexByName(name2, out StyleElement styleElement2);
+
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(index1, Is.EqualTo(2));
+                Assert.That(index2, Is.EqualTo(3));
+                Assert.That(styleElement1, Is.EqualTo(style1));
+                Assert.That(styleElement1.Style, Is.EqualTo(style1.Style));
+                Assert.That(styleElement2, Is.EqualTo(style2));
+                Assert.That(styleElement2.Style, Is.EqualTo(style2.Style));
+                Assert.That(style1, Is.Not.EqualTo(style2));
+                Assert.That(style1.Style, Is.EqualTo(style2.Style));
+            });
+        }
+
+
+        [Test]
+        public void GetStylesheet()
+        {
+            var list = new StyleList();
+
+            const string name = "nombre";
+            const string name2 = "nombre2";
+
+            var style1 = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], name);
+            var style2 = list.NewStyle(font[0], fill[1], border[0], numberingFormat[0], name2);
+
+            var sl = list.GetStylesheet();
         }
     }
 }
