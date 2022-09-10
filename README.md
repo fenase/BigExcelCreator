@@ -63,7 +63,70 @@ excel.CreateAndOpenSheet("Sheet Name", cols);
 
 
 ## Styling
+First, the elements that define a style (font, fill, border and, optionally, numbering format) must be created.
+```c#
+font1 = new Font(new Bold(),
+            new FontSize { Val = 11 },
+            new Color { Rgb = new HexBinaryValue { Value = "000000" } },
+            new FontName { Val = "Calibri" });
 
+fill1 = new Fill(
+            new PatternFill { PatternType = PatternValues.Gray125 });
+fill2 = new Fill(
+            new PatternFill (
+                new ForegroundColor { Rgb = new HexBinaryValue { Value = "FFFF00" } }
+            )
+            { PatternType = PatternValues.Solid });
+
+border1 = new Border(
+            new LeftBorder(
+                new Color { Rgb = new HexBinaryValue { Value = "FFD3D3D3" } }
+            )
+            { Style = BorderStyleValues.Thin },
+            new RightBorder(
+                new Color { Rgb = new HexBinaryValue { Value = "FFD3D3D3" } }
+            )
+            { Style = BorderStyleValues.Thin },
+            new TopBorder(
+                new Color { Rgb = new HexBinaryValue { Value = "FFD3D3D3" } }
+            )
+            { Style = BorderStyleValues.Thin },
+            new BottomBorder(
+                new Color { Rgb = new HexBinaryValue { Value = "FFD3D3D3" } }
+            )
+            { Style = BorderStyleValues.Thin },
+            new DiagonalBorder());
+
+numberingFormat1 = new NumberingFormat { NumberFormatId = 164, FormatCode = "0,.00;(0,.00)" };
+```
+
+After that, a new style list can be created and new styles inserted. Remember to name you styles.
+```c#
+StyleList list = new StyleList();
+string name1 = "name1";
+string name2 = "name2";
+
+list.NewStyle(font1, fill1, border1, numberingFormat1, name1);
+list.NewStyle(font1, fill2, border1, numberingFormat1, name2);
+```
+
+When instantiating `BigExcelWritter`, use the result of calling `GetStylesheet` as the `stylesheet` parameter.
+Then, when writing a cell, you can use the name given earlier to format it.
+
+```c#
+MemoryStream stream = new MemoryStream();
+using (BigExcelWritter excel = new(stream,
+                                    DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook
+                                    stylesheet: list.GetStylesheet()))
+{
+    excel.CreateAndOpenSheet("Sheet Name");
+    excel.BeginRow();
+    excel.WriteTextCell("This has a gray patterned background", name1);
+    excel.WriteTextCell("This has a yellow backgound", name2);
+    excel.EndRow();
+    excel.CloseSheet();
+}
+```
 
 
 
