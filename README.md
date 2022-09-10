@@ -1,5 +1,5 @@
 # Introduction 
-Create exel files using OpenXML SAX.
+Create Excel files using OpenXML SAX.
 
 Note: This package is a work in progress.
 
@@ -11,7 +11,7 @@ Styling is available, but instructions are pending.
 3. For every row, use `BeginRow` and `EndRow`
 4. Between `BeginRow` and `EndRow`, use `WriteTextCell` to write a cell.
 5. Use `CloseSheet` to finish.
-6. If needed, repetar steps 2 -> 5 to write to another sheet
+6. If needed, repeat steps 2 -> 5 to write to another sheet
 
 ## Example
 ```c#
@@ -29,6 +29,42 @@ using (BigExcelWritter excel = new(stream, DocumentFormat.OpenXml.SpreadsheetDoc
     excel.CloseSheet();
 }
 ```
+
+
+
+# Styling and formatting
+## Column width
+When calling `CreateAndOpenSheet`, pass `IList<Column>` as second parameter.
+Each element represents a single column.
+Only the `CustomWidth` and `Width` properties are needed and considered.
+
+> At this point, `CustomWidth` must be set to `true`
+
+`Width` represents the column width in characters (Same unit as when resizing in Excel).
+
+### Example
+```c#
+List<Column> cols = new List<Column> {
+    new Column{CustomWidth = true, Width=10},   // A
+    new Column{CustomWidth = true, Width=15},   // B
+    new Column{CustomWidth = true, Width=18},   // c
+};
+
+excel.CreateAndOpenSheet("Sheet Name", cols);
+
+```
+
+
+## Hide Sheet
+`CreateAndOpenSheet` accepts as third parameter a `SheetStateValues` variable.
+* `SheetStateValues.Visible` (default): Sheet is vissible
+* `SheetStateValues.Hidden`: Sheet is hidden
+* `SheetStateValues.VeryHidden`: Sheet is hidden and cannot be unhidden from Excel's UI.
+
+
+## Styling
+
+
 
 
 
