@@ -1,6 +1,7 @@
 using BigExcelCreator.Styles;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
+using NUnit.Framework;
 
 namespace Test
 {
