@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 
 [assembly: CLSCompliant(true)]
 namespace BigExcelCreator
@@ -35,7 +36,7 @@ namespace BigExcelCreator
         private bool rowOpen;
         private int columnNum = 1;
 
-        private readonly List<Sheet> sheets = new List<Sheet>();
+        private readonly List<Sheet> sheets = new();
 
         private DataValidations sheetDataValidations;
 
@@ -101,7 +102,7 @@ namespace BigExcelCreator
         }
 
 
-        public void CreateAndOpenSheet(string name, ICollection<Column> columns = null,
+        public void CreateAndOpenSheet(string name, IList<Column> columns = null,
                                        SheetStateValues sheetState = SheetStateValues.Visible)
         {
             if (!sheetOpen)
@@ -117,7 +118,7 @@ namespace BigExcelCreator
                     int indiceColumna = 1;
                     foreach (Column column in columns)
                     {
-                        List<OpenXmlAttribute> atributosColumna = new List<OpenXmlAttribute>
+                        List<OpenXmlAttribute> atributosColumna = new()
                         {
                             new OpenXmlAttribute("min", null, indiceColumna.ToString(CultureInfo.InvariantCulture)),
                             new OpenXmlAttribute("max", null, indiceColumna.ToString(CultureInfo.InvariantCulture)),
@@ -185,7 +186,7 @@ namespace BigExcelCreator
                 {
                     lastRowWritten = rownum;
                     //create a new list of attributes
-                    List<OpenXmlAttribute> attributes = new List<OpenXmlAttribute>
+                    List<OpenXmlAttribute> attributes = new()
                     {
                         // add the row index attribute to the list
                         new OpenXmlAttribute("r", null, lastRowWritten.ToString(CultureInfo.InvariantCulture))
@@ -234,7 +235,7 @@ namespace BigExcelCreator
             {
 
                 //reset the list of attributes
-                List<OpenXmlAttribute> attributes = new List<OpenXmlAttribute>
+                List<OpenXmlAttribute> attributes = new()
                 {
                     // add data type attribute - in this case inline string (you might want to look at the shared strings table)
                     new OpenXmlAttribute("t", null, "str"),
@@ -260,8 +261,8 @@ namespace BigExcelCreator
         {
             if (sheetOpen)
             {
-                sheetDataValidations = sheetDataValidations ?? new DataValidations();
-                DataValidation dataValidation = new DataValidation
+                sheetDataValidations ??= new DataValidations();
+                DataValidation dataValidation = new()
                 {
                     Type = DataValidationValues.List,
                     AllowBlank = true,
@@ -271,7 +272,7 @@ namespace BigExcelCreator
                     SequenceOfReferences = new ListValue<StringValue> { InnerText = rango },
                 };
 
-                Formula1 formula = new Formula1 { Text = formulaFiltro };
+                Formula1 formula = new() { Text = formulaFiltro };
 
                 dataValidation.Append(formula);
                 sheetDataValidations.Append(dataValidation);
@@ -358,7 +359,7 @@ namespace BigExcelCreator
             }
 
             writer.WriteStartElement(sheetDataValidations);
-            foreach (DataValidation item in sheetDataValidations.ChildElements)
+            foreach (DataValidation item in sheetDataValidations.ChildElements.Cast<DataValidation>())
             {
                 writer.WriteStartElement(item);
                 writer.WriteElement(item.Formula1);

@@ -24,21 +24,21 @@ namespace BigExcelCreator.Styles
         public StyleList()
         {
             //Create default style
-            Font defaultFont = new Font(
+            Font defaultFont = new(
                         new FontSize { Val = 11 },
                         new Color { Rgb = new HexBinaryValue { Value = "000000" } },
                         new FontName { Val = "Calibri" });
-            Fill defaultFill = new Fill(
+            Fill defaultFill = new(
                         new PatternFill { PatternType = PatternValues.None });
-            Fill defaultFillGray125 = new Fill(
+            Fill defaultFillGray125 = new(
                         new PatternFill { PatternType = PatternValues.Gray125 });
-            Border defaultBorder = new Border(
+            Border defaultBorder = new(
                         new LeftBorder(),
                         new RightBorder(),
                         new TopBorder(),
                         new BottomBorder(),
                         new DiagonalBorder());
-            NumberingFormat defaultNumberingFormat = new NumberingFormat { NumberFormatId = 164, FormatCode = "0,.00;(0,.00)" };
+            NumberingFormat defaultNumberingFormat = new() { NumberFormatId = 164, FormatCode = "0,.00;(0,.00)" };
             NewStyle(defaultFont, defaultFill, defaultBorder, defaultNumberingFormat, "DEFAULT");
             /* https://stackoverflow.com/a/42789914/14217380
              * For some reason I cannot seem to find documented, Fill Id 0 will always be None,
@@ -132,25 +132,8 @@ namespace BigExcelCreator.Styles
             if (borderId < 0) { throw new ArgumentOutOfRangeException(nameof(borderId), "must be greater than 0"); }
             if (numberingFormatId < 0) { throw new ArgumentOutOfRangeException(nameof(numberingFormatId), "must be greater than 0"); }
 
-            StyleElement styleElement = new StyleElement
-            {
-                Name = name,
-                Style = new CellFormat
-                {
-                    FontId = (uint)fontId,
-                    FillId = (uint)fillId,
-                    BorderId = (uint)borderId,
-                    NumberFormatId = 0,
-                }
-            };
-            if (numberingFormatId != null)
-            {
-                styleElement.Style.NumberFormatId = (uint)numberingFormatId;
-            }
-            if (alignment != null)
-            {
-                styleElement.Style.Alignment = alignment;
-            }
+            
+            StyleElement styleElement = new(name, fontId, fillId, borderId, numberingFormatId, alignment);
 
 
             Styles.Add(styleElement);
