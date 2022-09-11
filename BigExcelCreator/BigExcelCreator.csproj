@@ -16,7 +16,8 @@
     <PackageLicenseExpression>BSD-4-Clause</PackageLicenseExpression>
     <Deterministic>True</Deterministic>
     <LangVersion>latest</LangVersion>
-    <RepositoryUrl>https://dev.azure.com/fenase/BigExcelCreator/_git/BigExcelCreator</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
 
