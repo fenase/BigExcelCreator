@@ -1,9 +1,8 @@
 # Introduction 
-Create Excel files using OpenXML SAX.
+Create Excel files using OpenXML SAX with styling.
+This is specially usefull when trying to output thousands of rows
 
-Note: This package is a work in progress.
 
-Styling is available, but instructions are pending.
 
 # Usage
 1. Instantiate class `BigExcelWritter` using either a file path or a stream (`MemoryStream` is recommended).
@@ -119,25 +118,15 @@ using (BigExcelWritter excel = new(stream,
                                     DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook
                                     stylesheet: list.GetStylesheet()))
 {
+    int index_style_name1 = list.GetIndexByName(name1);
+    int index_style_name2 = list.GetIndexByName(name2);
     excel.CreateAndOpenSheet("Sheet Name");
     excel.BeginRow();
-    excel.WriteTextCell("This has a gray patterned background", name1);
-    excel.WriteTextCell("This has a yellow backgound", name2);
+    excel.WriteTextCell("This has a gray patterned background", index_style_name1);
+    excel.WriteTextCell("This has a yellow backgound", index_style_name2);
     excel.EndRow();
     excel.CloseSheet();
 }
 ```
 
 
-
-
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
-
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
-
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
