@@ -6,17 +6,18 @@ namespace BigExcelCreator.Styles
 {
     public class StyleElement
     {
-        public string Name { get; private set; }
+        #region props
+        public string Name { get; }
 
-        public CellFormat Style { get; private set; }
+        public CellFormat Style { get; }
 
-        public int? FontIndex { get; private set; }
-        public int? FillIndex { get; private set; }
-        public int? BorderIndex { get; private set; }
-        public int? NumberFormatIndex { get; private set; }
+        public int? FontIndex { get; }
+        public int? FillIndex { get; }
+        public int? BorderIndex { get; }
+        public int? NumberFormatIndex { get; }
+        #endregion
 
-
-
+        #region ctor
         public StyleElement(string name, int? fontIndex, int? fillIndex, int? borderIndex, int? numberFormatIndex, Alignment alignment)
         {
             Name = name;
@@ -41,5 +42,6 @@ namespace BigExcelCreator.Styles
                 Style.Alignment = alignment;
             }
         }
+        #endregion
     }
 }

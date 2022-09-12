@@ -16,16 +16,16 @@ namespace BigExcelCreator
     /// </summary>
     public class BigExcelWritter : IDisposable
     {
-        public string Path { get; private set; }
-        public Stream Stream { get; private set; }
-        private SavingTo SavingTo { get; set; }
+        #region props
+        public string Path { get;  }
+        public Stream Stream { get;  }
+        private SavingTo SavingTo { get; }
 
         public SpreadsheetDocumentType SpreadsheetDocumentType { get; private set; }
 
-        public SpreadsheetDocument Document { get; private set; }
+        public SpreadsheetDocument Document { get;  }
 
         public bool SkipCellWhenEmpty { get; set; }
-
 
         private bool sheetOpen;
         private string currentSheetName = "";
@@ -42,12 +42,11 @@ namespace BigExcelCreator
 
         private OpenXmlWriter writer;
 
-
         private WorkbookPart workbookPart;
         private WorksheetPart workSheetPart;
+        #endregion
 
-
-
+        #region ctor
         public BigExcelWritter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType)
         : this(stream, spreadsheetDocumentType, false) { }
 
@@ -66,7 +65,6 @@ namespace BigExcelCreator
         public BigExcelWritter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty)
             : this(path, spreadsheetDocumentType, skipCellWhenEmpty, new Stylesheet()) { }
 
-
         public BigExcelWritter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
             Path = path;
@@ -75,7 +73,6 @@ namespace BigExcelCreator
             CtorHelper(spreadsheetDocumentType, skipCellWhenEmpty, stylesheet);
         }
 
-
         public BigExcelWritter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
             Stream = stream;
@@ -83,7 +80,6 @@ namespace BigExcelCreator
             Document = SpreadsheetDocument.Create(Stream, spreadsheetDocumentType);
             CtorHelper(spreadsheetDocumentType, skipCellWhenEmpty, stylesheet);
         }
-
 
         private void CtorHelper(SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
@@ -100,7 +96,7 @@ namespace BigExcelCreator
 
             SkipCellWhenEmpty = skipCellWhenEmpty;
         }
-
+        #endregion
 
         public void CreateAndOpenSheet(string name, IList<Column> columns = null,
                                        SheetStateValues sheetState = SheetStateValues.Visible)
@@ -112,7 +108,7 @@ namespace BigExcelCreator
                 currentSheetName = name;
                 writer.WriteStartElement(new Worksheet());
 
-                if (columns != null && columns.Count > 0)
+                if (columns?.Count > 0)
                 {
                     writer.WriteStartElement(new Columns());
                     int indiceColumna = 1;
@@ -155,7 +151,6 @@ namespace BigExcelCreator
                 writer.WriteEndElement();
                 writer.Close();
 
-
                 sheets.Add(new Sheet()
                 {
                     Name = currentSheetName,
@@ -163,7 +158,6 @@ namespace BigExcelCreator
                     Id = Document.WorkbookPart.GetIdOfPart(workSheetPart),
                     State = currentSheetState,
                 });
-
 
                 currentSheetName = "";
                 sheetOpen = false;
@@ -175,8 +169,6 @@ namespace BigExcelCreator
                 throw new InvalidOperationException();
             }
         }
-
-
 
         public void BeginRow(int rownum)
         {
@@ -212,7 +204,6 @@ namespace BigExcelCreator
             BeginRow(lastRowWritten + 1);
         }
 
-
         public void EndRow()
         {
             if (rowOpen)
@@ -228,12 +219,10 @@ namespace BigExcelCreator
             }
         }
 
-
         public void WriteTextCell(string text, int formato = 0)
         {
             if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(text)))
             {
-
                 //reset the list of attributes
                 List<OpenXmlAttribute> attributes = new()
                 {
@@ -255,7 +244,6 @@ namespace BigExcelCreator
             }
             columnNum++;
         }
-
 
         public void AddValidator(string rango, string formulaFiltro)
         {
@@ -284,8 +272,6 @@ namespace BigExcelCreator
             }
         }
 
-
-
         public void CloseDocument()
         {
             if (open)
@@ -293,7 +279,6 @@ namespace BigExcelCreator
                 writer = OpenXmlWriter.Create(Document.WorkbookPart);
                 writer.WriteStartElement(new Workbook());
                 writer.WriteStartElement(new Sheets());
-
 
                 foreach (Sheet sheet in sheets)
                 {
@@ -314,8 +299,6 @@ namespace BigExcelCreator
             }
             open = false;
         }
-
-
 
         #region IDisposable
         private bool disposed;
@@ -350,7 +333,6 @@ namespace BigExcelCreator
         }
         #endregion
 
-
         private void WriteValidations()
         {
             if (sheetDataValidations == null)
@@ -370,8 +352,6 @@ namespace BigExcelCreator
             sheetDataValidations = null;
         }
 
-
-
         //A simple helper to get the column name from the column index. This is not well tested!
         private static string GetColumnName(int columnIndex)
         {
@@ -389,7 +369,6 @@ namespace BigExcelCreator
             return columnName;
         }
     }
-
 
     internal enum SavingTo
     {

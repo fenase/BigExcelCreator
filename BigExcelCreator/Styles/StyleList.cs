@@ -8,7 +8,7 @@ namespace BigExcelCreator.Styles
 {
     public class StyleList
     {
-
+        #region props
         private List<Font> Fonts { get; } = new List<Font>();
 
         private List<Fill> Fills { get; } = new List<Fill>();
@@ -18,9 +18,9 @@ namespace BigExcelCreator.Styles
         private List<NumberingFormat> NumberingFormats { get; } = new List<NumberingFormat>();
 
         public IList<StyleElement> Styles { get; } = new List<StyleElement>();
+        #endregion
 
-
-
+        #region ctor
         public StyleList()
         {
             //Create default style
@@ -47,6 +47,7 @@ namespace BigExcelCreator.Styles
              */
             NewStyle(defaultFont, defaultFillGray125, defaultBorder, defaultNumberingFormat, "DEFAULTFillGray125");
         }
+        #endregion
 
         public Stylesheet GetStylesheet()
         {
@@ -71,20 +72,21 @@ namespace BigExcelCreator.Styles
 #endif
         }
 
+        public int GetIndexByName(string name)
+        {
+            return GetIndexByName(name, out _);
+        }
 
         public int GetIndexByName(string name, out StyleElement styleElement)
         {
-
             styleElement = Styles.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
             return Styles.IndexOf(styleElement);
         }
-
 
         public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, string name)
         {
             return NewStyle(font, fill, border, numberingFormat, null, name);
         }
-
 
         public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, Alignment alignment, string name)
         {
@@ -92,7 +94,6 @@ namespace BigExcelCreator.Styles
             {
                 return style;
             }
-
 
             int fontId, fillId, borderId, numberingFormatId = 0;
 
@@ -124,7 +125,6 @@ namespace BigExcelCreator.Styles
             return NewStyle(fontId, fillId, borderId, numberingFormatId, alignment, name);
         }
 
-
         public StyleElement NewStyle(int? fontId, int? fillId, int? borderId, int? numberingFormatId, Alignment alignment, string name)
         {
             if (fontId < 0) { throw new ArgumentOutOfRangeException(nameof(fontId), "must be greater than 0"); }
@@ -132,9 +132,7 @@ namespace BigExcelCreator.Styles
             if (borderId < 0) { throw new ArgumentOutOfRangeException(nameof(borderId), "must be greater than 0"); }
             if (numberingFormatId < 0) { throw new ArgumentOutOfRangeException(nameof(numberingFormatId), "must be greater than 0"); }
 
-            
             StyleElement styleElement = new(name, fontId, fillId, borderId, numberingFormatId, alignment);
-
 
             Styles.Add(styleElement);
 
