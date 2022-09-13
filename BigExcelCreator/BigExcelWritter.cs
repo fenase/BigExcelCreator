@@ -255,7 +255,17 @@ namespace BigExcelCreator
             EndRow();
         }
 
-        public void AddValidator(string rango, string formulaFiltro)
+        [Obsolete("\"Please use AddListValidator instead.\"", true)]
+        public void AddValidator(string range, string formula)
+        {
+            AddListValidator(range, formula);
+        }
+
+        public void AddListValidator(string range,
+                                 string formula,
+                                 bool allowBlank = true,
+                                 bool showInputMessage = true,
+                                 bool showErrorMessage = true)
         {
             if (sheetOpen)
             {
@@ -263,16 +273,16 @@ namespace BigExcelCreator
                 DataValidation dataValidation = new()
                 {
                     Type = DataValidationValues.List,
-                    AllowBlank = true,
+                    AllowBlank = allowBlank,
                     Operator = DataValidationOperatorValues.Equal,
-                    ShowInputMessage = true,
-                    ShowErrorMessage = true,
-                    SequenceOfReferences = new ListValue<StringValue> { InnerText = rango },
+                    ShowInputMessage = showInputMessage,
+                    ShowErrorMessage = showErrorMessage,
+                    SequenceOfReferences = new ListValue<StringValue> { InnerText = range },
                 };
 
-                Formula1 formula = new() { Text = formulaFiltro };
+                Formula1 formula1 = new() { Text = formula };
 
-                dataValidation.Append(formula);
+                dataValidation.Append(formula1);
                 sheetDataValidations.Append(dataValidation);
                 sheetDataValidations.Count = (sheetDataValidations.Count ?? 0) + 1;
             }

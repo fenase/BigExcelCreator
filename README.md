@@ -1,18 +1,22 @@
 # Introduction 
+
 Create Excel files using OpenXML SAX with styling.
 This is specially usefull when trying to output thousands of rows
 
 
 
 # Usage
+
 1. Instantiate class `BigExcelWritter` using either a file path or a stream (`MemoryStream` is recommended).
 2. Open a new Sheet using `CreateAndOpenSheet`
 3. For every row, use `BeginRow` and `EndRow`
 4. Between `BeginRow` and `EndRow`, use `WriteTextCell` to write a cell.
+   > Alternativelly, you can use `WriteTextRow` to write an entire row at once, using the same format.
 5. Use `CloseSheet` to finish.
 6. If needed, repeat steps 2 -> 5 to write to another sheet
 
 ## Example
+
 ```c#
 using BigExcelCreator;
 
@@ -30,9 +34,29 @@ using (BigExcelWritter excel = new(stream, DocumentFormat.OpenXml.SpreadsheetDoc
 ```
 
 
+# Data Validation
+
+Use `AddListValidator` to restrict possible values to be written to a cell by an user.
+```c#
+    excel.CreateAndOpenSheet("Sheet Name");
+    
+    ...    
+    
+    // Only allow values included in sheet named "vals" between cells A1 and A6
+    // when writing to cells between B2 and B10 of the current sheet.
+    string range = "B2:B10";
+    string formula = "vals!$A$1:$A:6";
+    excel.AddValidator(range, formula);
+    
+    excel.CloseSheet();
+```
+
+
 
 # Styling and formatting
+
 ## Column width
+
 When calling `CreateAndOpenSheet`, pass `IList<Column>` as second parameter.
 Each element represents a single column.
 Only the `CustomWidth` and `Width` properties are needed and considered.
@@ -42,6 +66,7 @@ Only the `CustomWidth` and `Width` properties are needed and considered.
 `Width` represents the column width in characters (Same unit as when resizing in Excel).
 
 ### Example
+
 ```c#
 List<Column> cols = new List<Column> {
     new Column{CustomWidth = true, Width=10},   // A
@@ -55,6 +80,7 @@ excel.CreateAndOpenSheet("Sheet Name", cols);
 
 
 ## Hide Sheet
+
 `CreateAndOpenSheet` accepts as third parameter a `SheetStateValues` variable.
 * `SheetStateValues.Visible` (default): Sheet is vissible
 * `SheetStateValues.Hidden`: Sheet is hidden
@@ -62,6 +88,7 @@ excel.CreateAndOpenSheet("Sheet Name", cols);
 
 
 ## Styling
+
 First, the elements that define a style (font, fill, border and, optionally, numbering format) must be created.
 ```c#
 font1 = new Font(new Bold(),
