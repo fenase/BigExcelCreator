@@ -13,7 +13,7 @@ namespace BigExcelCreator
     /// <summary>
     /// This class writes Excel files directly using OpenXML SAX.
     /// Useful when trying to write tens of thousands of rows.
-    /// <see cref="https://www.nuget.org/packages/BigExcelCreator/">NuGet</see>
+    /// <see cref="https://www.nuget.org/packages/BigExcelCreator/#readme-body-tab">NuGet</see>
     /// <seealso cref="https://dev.azure.com/fenase/BigExcelCreator/_git/BigExcelCreator">Source</seealso>
     /// </summary>
     public class BigExcelWritter : IDisposable
