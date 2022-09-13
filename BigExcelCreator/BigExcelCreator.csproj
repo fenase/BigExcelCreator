@@ -4,6 +4,8 @@
     <TargetFrameworks>netstandard2.0;netstandard1.3;net40;net46;net48;net35</TargetFrameworks>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Title>Create large Excel files with stylesheet Quickly using SAX</Title>
+    <Description>Create Excel files using OpenXML SAX with styling.
+This is specially useful when trying to write tens of thousands of rows.</Description>
     <Authors>Federico Seckel</Authors>
     <PackageTags>Excel;SAX;</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -18,6 +20,7 @@
     <LangVersion>latest</LangVersion>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PackageProjectUrl>https://www.nuget.org/packages/BigExcelCreator/#readme-body-tab</PackageProjectUrl>
   </PropertyGroup>
 
 
