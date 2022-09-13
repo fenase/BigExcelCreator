@@ -11,8 +11,10 @@ using System.Linq;
 namespace BigExcelCreator
 {
     /// <summary>
-    /// Esta clase escribe archivos Excel de forma directa utilizando OpenXML SAX.
-    /// Cuando hay decenas de miles de filas, esta es la forma de exportar los datos.
+    /// This class writes Excel files directly using OpenXML SAX.
+    /// Useful when trying to write tens of thousands of rows.
+    /// <see cref="https://www.nuget.org/packages/BigExcelCreator/">NuGet</see>
+    /// <seealso cref="https://dev.azure.com/fenase/BigExcelCreator/_git/BigExcelCreator">Source</seealso>
     /// </summary>
     public class BigExcelWritter : IDisposable
     {
