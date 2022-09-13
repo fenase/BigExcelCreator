@@ -219,7 +219,7 @@ namespace BigExcelCreator
             }
         }
 
-        public void WriteTextCell(string text, int formato = 0)
+        public void WriteTextCell(string text, int format = 0)
         {
             if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(text)))
             {
@@ -231,7 +231,7 @@ namespace BigExcelCreator
                     //add the cell reference attribute
                     new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", GetColumnName(columnNum), lastRowWritten)),
                     //estilos
-                    new OpenXmlAttribute("s", null, formato.ToString(CultureInfo.InvariantCulture))
+                    new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                 };
 
                 //write the cell start element with the type and reference attributes
@@ -243,6 +243,16 @@ namespace BigExcelCreator
                 writer.WriteEndElement();
             }
             columnNum++;
+        }
+
+        public void WriteTextRow(IEnumerable<string> texts, int format = 0)
+        {
+            BeginRow();
+            foreach (var text in texts ?? throw new ArgumentNullException(nameof(texts)))
+            {
+                WriteTextCell(text, format);
+            }
+            EndRow();
         }
 
         public void AddValidator(string rango, string formulaFiltro)

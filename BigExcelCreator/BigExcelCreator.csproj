@@ -13,7 +13,7 @@
     <VersionSuffix>0.$([System.DateTime]::UtcNow.ToString(yyyy)).$([System.DateTime]::UtcNow.DayOfYear.ToString()).$([System.DateTime]::UtcNow.ToString(HHmm))</VersionSuffix>
     <Version Condition=" '$(VersionSuffix)' == '' ">0.1.2.0</Version>
     <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</Version>
-    <PackageLicenseExpression>BSD-4-Clause</PackageLicenseExpression>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <Deterministic>True</Deterministic>
     <LangVersion>latest</LangVersion>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
