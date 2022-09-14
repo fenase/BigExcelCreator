@@ -3,7 +3,7 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 using NUnit.Framework;
 
-namespace Test
+namespace Test35
 {
     public class StyleTests
     {

@@ -6,8 +6,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 [assembly: CLSCompliant(true)]
+[assembly: InternalsVisibleTo("Test")]
+[assembly: InternalsVisibleTo("Test35")]
+
 namespace BigExcelCreator
 {
     /// <summary>
@@ -19,13 +23,13 @@ namespace BigExcelCreator
     public class BigExcelWritter : IDisposable
     {
         #region props
-        public string Path { get;  }
-        public Stream Stream { get;  }
+        public string Path { get; }
+        public Stream Stream { get; }
         private SavingTo SavingTo { get; }
 
         public SpreadsheetDocumentType SpreadsheetDocumentType { get; private set; }
 
-        public SpreadsheetDocument Document { get;  }
+        public SpreadsheetDocument Document { get; }
 
         public bool SkipCellWhenEmpty { get; set; }
 
@@ -231,7 +235,7 @@ namespace BigExcelCreator
                     // add data type attribute - in this case inline string (you might want to look at the shared strings table)
                     new OpenXmlAttribute("t", null, "str"),
                     //add the cell reference attribute
-                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", GetColumnName(columnNum), lastRowWritten)),
+                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
                     //estilos
                     new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                 };
@@ -372,23 +376,6 @@ namespace BigExcelCreator
             writer.WriteEndElement();
 
             sheetDataValidations = null;
-        }
-
-        //A simple helper to get the column name from the column index. This is not well tested!
-        private static string GetColumnName(int columnIndex)
-        {
-            int dividend = columnIndex;
-            string columnName = string.Empty;
-            int modifier;
-
-            while (dividend > 0)
-            {
-                modifier = (dividend - 1) % 26;
-                columnName = Convert.ToChar(65 + modifier).ToString() + columnName;
-                dividend = (int)((dividend - modifier) / 26);
-            }
-
-            return columnName;
         }
     }
 
