@@ -1,6 +1,7 @@
 ﻿using BigExcelCreator.Ranges;
+using NUnit.Framework;
 
-namespace Test
+namespace Test35
 {
     internal class CellRangeTest
     {
@@ -29,7 +30,7 @@ namespace Test
         [TestCase("241:35")]
         public void Parse(string rangeStr)
         {
-            CellRange r = new(rangeStr);
+            CellRange r = new CellRange(rangeStr);
             Assert.That(r.RangeString, Is.EqualTo(rangeStr).IgnoreCase);
         }
 
@@ -55,9 +56,9 @@ namespace Test
         [TestCase("241:35")]
         public void Equivalence(string rangeStr)
         {
-            CellRange parsedRange = new(rangeStr);
+            CellRange parsedRange = new CellRange(rangeStr);
 
-            CellRange createdRange = new(parsedRange.StartingColumn, parsedRange.StartingColumnIsFixed,
+            CellRange createdRange = new CellRange(parsedRange.StartingColumn, parsedRange.StartingColumnIsFixed,
                                          parsedRange.StartingRow, parsedRange.StartingRowIsFixed,
                                          parsedRange.EndingColumn, parsedRange.EndingColumnIsFixed,
                                          parsedRange.EndingRow, parsedRange.EndingRowIsFixed,

@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml;
+﻿using BigExcelCreator.Ranges;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
@@ -273,6 +274,20 @@ namespace BigExcelCreator
                                  bool showInputMessage = true,
                                  bool showErrorMessage = true)
         {
+            AddListValidator(new CellRange(range),
+                             formula,
+                             allowBlank,
+                             showInputMessage,
+                             showErrorMessage);
+        }
+
+        public void AddListValidator(CellRange range,
+                             string formula,
+                             bool allowBlank = true,
+                             bool showInputMessage = true,
+                             bool showErrorMessage = true)
+        {
+            if (range == null) { throw new ArgumentNullException(nameof(range)); }
             if (sheetOpen)
             {
                 sheetDataValidations ??= new DataValidations();
@@ -283,7 +298,7 @@ namespace BigExcelCreator
                     Operator = DataValidationOperatorValues.Equal,
                     ShowInputMessage = showInputMessage,
                     ShowErrorMessage = showErrorMessage,
-                    SequenceOfReferences = new ListValue<StringValue> { InnerText = range },
+                    SequenceOfReferences = new ListValue<StringValue> { InnerText = range.RangeString },
                 };
 
                 Formula1 formula1 = new() { Text = formula };
