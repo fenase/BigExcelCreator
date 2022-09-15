@@ -158,6 +158,28 @@ namespace Test
             var style2 = list.NewStyle(font[0], fill[1], border[0], numberingFormat[0], name2);
 
             var sl = list.GetStylesheet();
+
+
+
+            using var excel = new BigExcelCreator.BigExcelWritter(@"c:\bin\exceltest.xlsx", SpreadsheetDocumentType.Workbook);
+
+            excel.Comment("uno B", "B1");
+            excel.CreateAndOpenSheet("hoja");
+            excel.BeginRow();
+            excel.WriteTextCell("1A");
+            excel.WriteTextCell("1B");
+            excel.WriteTextCell("1C");
+            excel.WriteTextCell("1D");
+            excel.EndRow();
+            excel.BeginRow();
+            excel.WriteTextCell("2A");
+            excel.WriteTextCell("2B");
+            excel.WriteTextCell("2C");
+            excel.WriteTextCell("2D");
+            excel.EndRow();
+            excel.CloseSheet();
+
+
         }
     }
 }
