@@ -163,7 +163,6 @@ namespace Test
 
             using var excel = new BigExcelCreator.BigExcelWritter(@"c:\bin\exceltest.xlsx", SpreadsheetDocumentType.Workbook);
 
-            excel.Comment("uno B", "B1");
             excel.CreateAndOpenSheet("hoja");
             excel.BeginRow();
             excel.WriteTextCell("1A");
@@ -177,6 +176,7 @@ namespace Test
             excel.WriteTextCell("2C");
             excel.WriteTextCell("2D");
             excel.EndRow();
+            excel.Comment("uno B", "B1");
             excel.CloseSheet();
 
 

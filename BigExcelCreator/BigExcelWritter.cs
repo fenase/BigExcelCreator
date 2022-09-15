@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml;
+﻿using BigExcelCreator.CommentsManager;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
@@ -37,6 +38,7 @@ namespace BigExcelCreator
         private int lastRowWritten;
         private bool rowOpen;
         private int columnNum = 1;
+        private int maxColumnNum = 1;
 
         private readonly List<Sheet> sheets = new();
 
@@ -46,6 +48,8 @@ namespace BigExcelCreator
 
         private WorkbookPart workbookPart;
         private WorksheetPart workSheetPart;
+
+        private CommentManager commentManager;
         #endregion
 
         #region ctor
@@ -161,7 +165,13 @@ namespace BigExcelCreator
                     State = currentSheetState,
                 });
 
+                if (commentManager != null)
+                {
+                    commentManager.SaveComments(workSheetPart);
+                }
+
                 currentSheetName = "";
+                workSheetPart.Worksheet.SheetDimension = new SheetDimension() { Reference = $"A1:{GetColumnName(maxColumnNum)}{lastRowWritten}" };
                 sheetOpen = false;
                 workSheetPart = null;
                 lastRowWritten = 0;
@@ -212,6 +222,7 @@ namespace BigExcelCreator
             {
                 // write the end row element
                 writer.WriteEndElement();
+                maxColumnNum = Math.Max(columnNum - 1, maxColumnNum);
                 columnNum = 1;
                 rowOpen = false;
             }
@@ -287,6 +298,25 @@ namespace BigExcelCreator
                 dataValidation.Append(formula1);
                 sheetDataValidations.Append(dataValidation);
                 sheetDataValidations.Count = (sheetDataValidations.Count ?? 0) + 1;
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+        }
+
+        public void Comment(string text, string reference, string author = "BigExcelCreator")
+        {
+            if (string.IsNullOrEmpty(author)) { throw new ArgumentOutOfRangeException(nameof(author)); }
+            if (sheetOpen)
+            {
+                commentManager ??= new();
+                commentManager.Add(new CommentReference()
+                {
+                    Cell = reference,
+                    Text = text,
+                    Author = author,
+                });
             }
             else
             {

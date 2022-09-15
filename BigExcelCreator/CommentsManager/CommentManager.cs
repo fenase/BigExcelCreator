@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Linq;
 
 namespace BigExcelCreator.CommentsManager
 {
@@ -15,70 +16,105 @@ namespace BigExcelCreator.CommentsManager
     {
         private List<CommentReference> CommentsToBeAdded { get; set; }
 
+        private List<string> AuthorsList { get; set; }
+
+
         internal CommentManager()
         {
             CommentsToBeAdded = new();
+            AuthorsList = new();
         }
 
-        internal void SaveComments(WorksheetPart worksheetPart,Worksheet worksheet)
+        internal void Add(CommentReference commentReference)
+        {
+            CommentsToBeAdded.Add(commentReference);
+        }
+
+        internal void SaveComments(WorksheetPart worksheetPart)
         {
             VmlDrawingPart vmlDrawingPart = worksheetPart.AddNewPart<VmlDrawingPart>();
             WorksheetCommentsPart worksheetCommentsPart = worksheetPart.AddNewPart<WorksheetCommentsPart>();
 
             LegacyDrawing legacyDrawing = new LegacyDrawing() { Id = worksheetPart.GetIdOfPart(vmlDrawingPart) };
 
-            worksheetPart.Worksheet.SheetDimension = new SheetDimension() { Reference = "A1:D5" };
-            worksheetPart.Worksheet.Append(new SheetData());
             worksheetPart.Worksheet.Append(legacyDrawing);
 
-            var comments = new Comments();
+
+            var wrtiter = BuildVmlDrawingPartBegin(vmlDrawingPart);
             Authors authors = new Authors();
-            Author author = new Author();
-            author.Text = "DR-IT";
-            authors.Append(author);
-            comments.Append(authors);
-
+            var comments = new Comments();
             CommentList commentList = new CommentList();
-            Comment comment = new Comment() { Reference = "A2", AuthorId = (UInt32Value)0U };
-            CommentText commentTextElement = new CommentText();
 
-            Run run = new Run();
-            RunProperties runProperties = new RunProperties();
-            FontSize fontSize = new FontSize() { Val = 9D };
-            Color color = new Color() { Rgb = new HexBinaryValue("FF000000") };
-            var family = new FontFamily() { Val = 2 };
-            RunFont runFont = new RunFont() { Val = "Tahoma" };
 
-            runProperties.Append(fontSize);
-            runProperties.Append(color);
-            runProperties.Append(runFont);
-            runProperties.Append(family);
-            Text text = new Text();
-            text.Text = "Comment";
+            foreach (var CommentToBeAdded in CommentsToBeAdded)
+            {
+                if (!AuthorsList.Contains(CommentToBeAdded.Author))
+                {
+                    Author author = new Author();
+                    author.Text = CommentToBeAdded.Author;
+                    authors.Append(author);
+                    AuthorsList.Add(CommentToBeAdded.Author);
+                }
 
-            run.Append(runProperties);
-            run.Append(text);
+                
+                Comment comment;
+                if (!string.IsNullOrEmpty(CommentToBeAdded.Author))
+                {
+                    comment = new Comment() { Reference = CommentToBeAdded.Cell, AuthorId = (UInt32Value)(uint)AuthorsList.IndexOf(CommentToBeAdded.Author) };
+                }
+                else
+                {
+                    comment = new Comment() { Reference = CommentToBeAdded.Cell };
+                }
+                CommentText commentTextElement = new CommentText();
 
-            commentTextElement.Append(run);
-            comment.Append(commentTextElement);
-            commentList.Append(comment);
+                Run run = new Run();
+                RunProperties runProperties = new RunProperties();
+                FontSize fontSize = new FontSize() { Val = 9D };
+                Color color = new Color() { Rgb = new HexBinaryValue("FF000000") };
+                var family = new FontFamily() { Val = 2 };
+                RunFont runFont = new RunFont() { Val = "Tahoma" };
+
+                runProperties.Append(fontSize);
+                runProperties.Append(color);
+                runProperties.Append(runFont);
+                runProperties.Append(family);
+                Text text = new Text();
+                text.Text = "Comment";
+
+                run.Append(runProperties);
+                run.Append(text);
+
+                commentTextElement.Append(run);
+                comment.Append(commentTextElement);
+                commentList.Append(comment);
+
+                
+                BuildVmlDrawingPartAdd(wrtiter);
+            }
+
+            comments.Append(authors);
             comments.Append(commentList);
             worksheetCommentsPart.Comments = comments;
             worksheetCommentsPart.Comments.Save();
 
-            BuildVmlDrawingPart(vmlDrawingPart);
+            BuildVmlDrawingPartEnd(wrtiter);
 
 
             worksheetPart.Worksheet.Save();
         }
 
-        private static void BuildVmlDrawingPart(VmlDrawingPart vmlDrawingPart, )
-        {
 
+
+        private static XmlTextWriter BuildVmlDrawingPartBegin(VmlDrawingPart vmlDrawingPart)
+        {
             var writer = new XmlTextWriter(vmlDrawingPart.GetStream(FileMode.Create), Encoding.UTF8);
             writer.WriteStartElement("xml");
+            return writer;
+        }
 
-
+        private static void BuildVmlDrawingPartAdd(XmlTextWriter writer)
+        {
             var shapeType = new DocumentFormat.OpenXml.Vml.Shapetype();
             shapeType.Id = "_x0000_t202";
             shapeType.CoordinateSize = "21600,21600";
@@ -126,7 +162,11 @@ namespace BigExcelCreator.CommentsManager
 
             shapeType.WriteTo(writer);
             shape.WriteTo(writer);
+        }
 
+
+        private static void BuildVmlDrawingPartEnd(XmlTextWriter writer)
+        {
             writer.WriteEndElement();
             writer.Flush();
             writer.Close();
