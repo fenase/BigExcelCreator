@@ -83,5 +83,14 @@ namespace Test
         {
             Assert.Throws<InvalidRangeException>(() => new CellRange(rangeStr));
         }
+
+
+        [TestCase("qw123:qw123", "qw123")]
+        [TestCase("qw123", "qw123")]
+        public void SingleRangeString(string rangeStr, string expectedRange)
+        {
+            CellRange cellRange = new(rangeStr);
+            Assert.That(cellRange.RangeString, Is.EqualTo(expectedRange).IgnoreCase);
+        }
     }
 }

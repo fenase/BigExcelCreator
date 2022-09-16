@@ -1,6 +1,7 @@
 ﻿using BigExcelCreator.Extensions;
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace BigExcelCreator.Ranges
@@ -23,33 +24,68 @@ namespace BigExcelCreator.Ranges
                 if (StartingRowIsFixed) { sb.Append('$'); }
                 if (StartingRow != null) { sb.Append(StartingRow); }
 
-                sb.Append(':');
+                if (!SingleCellRange)
+                {
+                    sb.Append(':');
 
-                if (EndingColumnIsFixed) { sb.Append('$'); }
-                if (EndingColumn != null) { sb.Append(Helpers.GetColumnName(EndingColumn)); }
+                    if (EndingColumnIsFixed) { sb.Append('$'); }
+                    if (EndingColumn != null) { sb.Append(Helpers.GetColumnName(EndingColumn)); }
 
-                if (EndingRowIsFixed) { sb.Append('$'); }
-                if (EndingRow != null) { sb.Append(EndingRow); }
+                    if (EndingRowIsFixed) { sb.Append('$'); }
+                    if (EndingRow != null) { sb.Append(EndingRow); }
+                }
 
                 return sb.ToString();
             }
         }
 
         public int? StartingRow { get; }
+
         public int? StartingColumn { get; }
+
         public int? EndingRow { get; }
+
         public int? EndingColumn { get; }
-        public string Sheetname { get; }
+
+        public string Sheetname
+        {
+            get => sheetname;
+            set
+            {
+                if (!value.IsNullOrWhiteSpace() && value.IndexOfAny(invalidSheetCharacters) >= 0)
+                {
+                    throw new InvalidRangeException();
+                }
+                else
+                {
+                    sheetname = value?.Trim();
+                }
+            }
+        }
+        private string sheetname;
 
         public bool StartingRowIsFixed { get; }
         public bool StartingColumnIsFixed { get; }
         public bool EndingRowIsFixed { get; }
         public bool EndingColumnIsFixed { get; }
 
+        private bool SingleCellRange => StartingRow == EndingRow && StartingColumn == EndingColumn;
 
-        private const int RANGE_START = 0;
-        private const int RANGE_END = 1;
+        private readonly char[] invalidSheetCharacters = @"\/*[]:?".ToCharArray();
 
+        public CellRange(int? column,
+                         int? row,
+                         string sheetname)
+            : this(column, row, column, row, sheetname)
+        { }
+
+        public CellRange(int? column,
+                         bool fixedColumn,
+                         int? row,
+                         bool fixedRow,
+                         string sheetname)
+            : this(column, fixedColumn, row, fixedRow, column, fixedColumn, row, fixedRow, sheetname)
+        { }
 
         public CellRange(int? startingColumn,
                          int? startingRow,
@@ -94,6 +130,10 @@ namespace BigExcelCreator.Ranges
 
         public CellRange(string range)
         {
+            int RANGE_START = 0;
+            int RANGE_END = 1;
+
+
             if (range.IsNullOrWhiteSpace())
             {
                 throw new ArgumentNullException(nameof(range));
@@ -121,7 +161,19 @@ namespace BigExcelCreator.Ranges
             }
 
             string[] rangearray = possibleRangeValue.Split(':');
-            if (rangearray.Length != 2) { throw new InvalidRangeException(); }
+            switch (rangearray.Length)
+            {
+                case 2:
+                    RANGE_START = 0;
+                    RANGE_END = 1;
+                    break;
+                case 1:
+                    RANGE_START = 0;
+                    RANGE_END = 0;
+                    break;
+                default:
+                    throw new InvalidRangeException();
+            }
             if (rangearray[RANGE_START].Length == 0 || rangearray[RANGE_END].Length == 0) { throw new InvalidRangeException(); }
 
             int letters1 = 0, letters2 = 0, numbers1 = 0, numbers2 = 0;
