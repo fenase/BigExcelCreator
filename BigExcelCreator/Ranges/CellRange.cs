@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BigExcelCreator.Ranges
 {
-    public class CellRange
+    public class CellRange : IEquatable<CellRange>, IComparable<CellRange>
     {
         public string RangeString
         {
@@ -239,17 +239,7 @@ namespace BigExcelCreator.Ranges
             }
 
             CellRange other = obj as CellRange;
-
-            return RangeString == other.RangeString
-                && StartingRow == other.StartingRow
-                && EndingRow == other.EndingRow
-                && StartingColumn == other.StartingColumn
-                && EndingColumn == other.EndingColumn
-                && Sheetname == other.Sheetname
-                && StartingColumnIsFixed == other.StartingColumnIsFixed
-                && EndingColumnIsFixed == other.EndingColumnIsFixed
-                && StartingRowIsFixed == other.StartingRowIsFixed
-                && EndingRowIsFixed == other.EndingRowIsFixed;
+            return Equals(other);
         }
 
         // override object.GetHashCode
@@ -270,6 +260,72 @@ namespace BigExcelCreator.Ranges
                 hc += 17 * (Sheetname?.GetHashCode() ?? 0);
                 return hc;
             }
+        }
+
+        public bool Equals(CellRange other)
+        {
+            return other != null
+                && RangeString == other.RangeString
+                && StartingRow == other.StartingRow
+                && EndingRow == other.EndingRow
+                && StartingColumn == other.StartingColumn
+                && EndingColumn == other.EndingColumn
+                && Sheetname == other.Sheetname
+                && StartingColumnIsFixed == other.StartingColumnIsFixed
+                && EndingColumnIsFixed == other.EndingColumnIsFixed
+                && StartingRowIsFixed == other.StartingRowIsFixed
+                && EndingRowIsFixed == other.EndingRowIsFixed;
+        }
+
+        public int CompareTo(CellRange other)
+        {
+            if (other == null) return 1;
+            if (StartingColumn < other.StartingColumn) return -1;
+            if (StartingColumn > other.StartingColumn) return 1;
+            if (StartingRow < other.StartingRow) return -1;
+            if (StartingRow > other.StartingRow) return 1;
+
+            if (EndingColumn < other.EndingColumn) return -1;
+            if (EndingColumn > other.EndingColumn) return 1;
+            if (EndingRow < other.EndingRow) return -1;
+            if (EndingRow > other.EndingRow) return 1;
+
+            return 0;
+        }
+
+        public static bool operator ==(CellRange left, CellRange right)
+        {
+            if (ReferenceEquals(left, null))
+            {
+                return ReferenceEquals(right, null);
+            }
+
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(CellRange left, CellRange right)
+        {
+            return !(left == right);
+        }
+
+        public static bool operator <(CellRange left, CellRange right)
+        {
+            return ReferenceEquals(left, null) ? !ReferenceEquals(right, null) : left.CompareTo(right) < 0;
+        }
+
+        public static bool operator <=(CellRange left, CellRange right)
+        {
+            return ReferenceEquals(left, null) || left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator >(CellRange left, CellRange right)
+        {
+            return !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
+        }
+
+        public static bool operator >=(CellRange left, CellRange right)
+        {
+            return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
         }
     }
 
