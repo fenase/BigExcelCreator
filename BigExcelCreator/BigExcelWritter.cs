@@ -159,22 +159,15 @@ namespace BigExcelCreator
                 // write validations
                 WriteValidations();
 
-
-
                 // write the end Worksheet element
                 writer.WriteEndElement();
 
-
-
-
                 writer.Close();
-
 
                 if (commentManager != null)
                 {
                     commentManager.SaveComments(workSheetPart);
                 }
-
 
                 sheets.Add(new Sheet()
                 {
@@ -188,6 +181,7 @@ namespace BigExcelCreator
                 workSheetPart.Worksheet.SheetDimension = new SheetDimension() { Reference = $"A1:{Helpers.GetColumnName(maxColumnNum)}{Math.Max(1, lastRowWritten)}" };
                 sheetOpen = false;
                 workSheetPart = null;
+                commentManager = null;
                 lastRowWritten = 0;
             }
             else
@@ -345,6 +339,7 @@ namespace BigExcelCreator
                     Text = text,
                     Author = author,
                 });
+
             }
             else
             {

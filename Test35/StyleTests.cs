@@ -145,20 +145,5 @@ namespace Test35
                 Assert.That(style1.Style, Is.EqualTo(style2.Style));
             });
         }
-
-
-        [Test]
-        public void GetStylesheet()
-        {
-            var list = new StyleList();
-
-            const string name = "nombre";
-            const string name2 = "nombre2";
-
-            var style1 = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], name);
-            var style2 = list.NewStyle(font[0], fill[1], border[0], numberingFormat[0], name2);
-
-            var sl = list.GetStylesheet();
-        }
     }
 }

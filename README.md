@@ -1,7 +1,7 @@
 # Introduction 
 
 Create Excel files using OpenXML SAX with styling.
-This is specially usefull when trying to output thousands of rows
+This is specially useful when trying to output thousands of rows
 
 
 
@@ -11,7 +11,7 @@ This is specially usefull when trying to output thousands of rows
 2. Open a new Sheet using `CreateAndOpenSheet`
 3. For every row, use `BeginRow` and `EndRow`
 4. Between `BeginRow` and `EndRow`, use `WriteTextCell` to write a cell.
-   > Alternativelly, you can use `WriteTextRow` to write an entire row at once, using the same format.
+   > Alternatively, you can use `WriteTextRow` to write an entire row at once, using the same format.
 5. Use `CloseSheet` to finish.
 6. If needed, repeat steps 2 -> 5 to write to another sheet
 
@@ -82,7 +82,7 @@ excel.CreateAndOpenSheet("Sheet Name", cols);
 ## Hide Sheet
 
 `CreateAndOpenSheet` accepts as third parameter a `SheetStateValues` variable.
-* `SheetStateValues.Visible` (default): Sheet is vissible
+* `SheetStateValues.Visible` (default): Sheet is visible
 * `SheetStateValues.Hidden`: Sheet is hidden
 * `SheetStateValues.VeryHidden`: Sheet is hidden and cannot be unhidden from Excel's UI.
 
@@ -150,10 +150,32 @@ using (BigExcelWritter excel = new(stream,
     excel.CreateAndOpenSheet("Sheet Name");
     excel.BeginRow();
     excel.WriteTextCell("This has a gray patterned background", index_style_name1);
-    excel.WriteTextCell("This has a yellow backgound", index_style_name2);
+    excel.WriteTextCell("This has a yellow background", index_style_name2);
     excel.EndRow();
     excel.CloseSheet();
 }
 ```
+
+
+## Comments
+
+In order to add a note (formerly known as comment) to a cell, while a sheet is open, call the `Comment` method.
+
+```c#
+excel.CreateAndOpenSheet("Sheet Name");
+excel.BeginRow();
+
+excel.WriteTextCell("This has a gray patterned background", index_style_name1);
+excel.WriteTextCell("This has a yellow background", index_style_name2);
+
+excel.Comment("test A1 another sheet", "A1");
+
+excel.EndRow();
+
+excel.Comment("test E2 another sheet", "B1", "Author");
+
+excel.CloseSheet();
+```
+
 
 
