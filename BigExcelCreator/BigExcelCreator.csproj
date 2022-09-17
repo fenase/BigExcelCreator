@@ -7,7 +7,7 @@
     <Description>Create Excel files using OpenXML SAX with styling.
 This is specially useful when trying to write tens of thousands of rows.</Description>
     <Authors>Federico Seckel</Authors>
-    <PackageTags>Excel;SAX;</PackageTags>
+    <PackageTags>Excel;SAX;OpenXML;</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
