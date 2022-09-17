@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Linq;
+using BigExcelCreator.Ranges;
+using System.Globalization;
 
 namespace BigExcelCreator.CommentsManager
 {
@@ -46,7 +48,7 @@ namespace BigExcelCreator.CommentsManager
             CommentList commentList = new CommentList();
 
 
-            foreach (var CommentToBeAdded in CommentsToBeAdded)
+            foreach (var CommentToBeAdded in CommentsToBeAdded.OrderBy(x => x.CellRange))
             {
                 if (!AuthorsList.Contains(CommentToBeAdded.Author))
                 {
@@ -56,7 +58,7 @@ namespace BigExcelCreator.CommentsManager
                     AuthorsList.Add(CommentToBeAdded.Author);
                 }
 
-                
+
                 Comment comment;
                 if (!string.IsNullOrEmpty(CommentToBeAdded.Author))
                 {
@@ -80,7 +82,7 @@ namespace BigExcelCreator.CommentsManager
                 runProperties.Append(runFont);
                 runProperties.Append(family);
                 Text text = new Text();
-                text.Text = "Comment";
+                text.Text = CommentToBeAdded.Text;
 
                 run.Append(runProperties);
                 run.Append(text);
@@ -89,8 +91,8 @@ namespace BigExcelCreator.CommentsManager
                 comment.Append(commentTextElement);
                 commentList.Append(comment);
 
-                
-                BuildVmlDrawingPartAdd(wrtiter);
+                CellRange cell = CommentToBeAdded.CellRange;
+                BuildVmlDrawingPartAdd(wrtiter, cell.StartingColumn.Value, cell.StartingRow.Value);
             }
 
             comments.Append(authors);
@@ -113,7 +115,7 @@ namespace BigExcelCreator.CommentsManager
             return writer;
         }
 
-        private static void BuildVmlDrawingPartAdd(XmlTextWriter writer)
+        private static void BuildVmlDrawingPartAdd(XmlTextWriter writer, int rowId, int colId)
         {
             var shapeType = new DocumentFormat.OpenXml.Vml.Shapetype();
             shapeType.Id = "_x0000_t202";
@@ -155,8 +157,8 @@ namespace BigExcelCreator.CommentsManager
             clientData.Append(new ResizeWithCells());
             clientData.Append(new Anchor("1, 15, 0, 8, 3, 33, 4, 7"));
             clientData.Append(new AutoFill("False"));
-            clientData.Append(new CommentRowTarget("1"));
-            clientData.Append(new CommentColumnTarget("0"));
+            clientData.Append(new CommentRowTarget((rowId - 1).ToString(CultureInfo.InvariantCulture)));
+            clientData.Append(new CommentColumnTarget((colId - 1).ToString(CultureInfo.InvariantCulture)));
 
             shape.Append(clientData);
 

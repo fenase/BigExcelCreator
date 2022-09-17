@@ -158,9 +158,23 @@ namespace BigExcelCreator
                 writer.WriteEndElement();
                 // write validations
                 WriteValidations();
+
+
+
                 // write the end Worksheet element
                 writer.WriteEndElement();
+
+
+
+
                 writer.Close();
+
+
+                if (commentManager != null)
+                {
+                    commentManager.SaveComments(workSheetPart);
+                }
+
 
                 sheets.Add(new Sheet()
                 {
@@ -170,13 +184,8 @@ namespace BigExcelCreator
                     State = currentSheetState,
                 });
 
-                if (commentManager != null)
-                {
-                    commentManager.SaveComments(workSheetPart);
-                }
-
                 currentSheetName = "";
-                workSheetPart.Worksheet.SheetDimension = new SheetDimension() { Reference = $"A1:{Helpers.GetColumnName(maxColumnNum)}{lastRowWritten}" };
+                workSheetPart.Worksheet.SheetDimension = new SheetDimension() { Reference = $"A1:{Helpers.GetColumnName(maxColumnNum)}{Math.Max(1, lastRowWritten)}" };
                 sheetOpen = false;
                 workSheetPart = null;
                 lastRowWritten = 0;
