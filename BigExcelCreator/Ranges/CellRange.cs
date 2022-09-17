@@ -280,15 +280,15 @@ namespace BigExcelCreator.Ranges
         public int CompareTo(CellRange other)
         {
             if (other == null) return 1;
-            if (StartingColumn < other.StartingColumn) return -1;
-            if (StartingColumn > other.StartingColumn) return 1;
             if (StartingRow < other.StartingRow) return -1;
             if (StartingRow > other.StartingRow) return 1;
+            if (StartingColumn < other.StartingColumn) return -1;
+            if (StartingColumn > other.StartingColumn) return 1;
 
-            if (EndingColumn < other.EndingColumn) return -1;
-            if (EndingColumn > other.EndingColumn) return 1;
             if (EndingRow < other.EndingRow) return -1;
             if (EndingRow > other.EndingRow) return 1;
+            if (EndingColumn < other.EndingColumn) return -1;
+            if (EndingColumn > other.EndingColumn) return 1;
 
             return 0;
         }

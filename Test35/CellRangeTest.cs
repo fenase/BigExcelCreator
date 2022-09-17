@@ -106,7 +106,7 @@ namespace Test35
 
 
         [TestCase("a1", "a2")]
-        [TestCase("a2", "b1")]
+        [TestCase("b1", "a2")]
         [TestCase("a2:b5", "a2:j7")]
         [TestCase("a2:j7", "a3:b5")]
         [TestCase("a2:a2", "a2:b5")]
