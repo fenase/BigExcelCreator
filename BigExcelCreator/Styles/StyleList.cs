@@ -54,10 +54,10 @@ namespace BigExcelCreator.Styles
 #if NET35
             return new Stylesheet
             {
-                Fonts = new Fonts(Fonts.Select(f  => (OpenXmlElement)f)),
-                Fills = new Fills(Fills.Select(f  => (OpenXmlElement)f)),
-                Borders = new Borders(Borders.Select(b  => (OpenXmlElement)b)),
-                NumberingFormats = new NumberingFormats(NumberingFormats.Select(nf  => (OpenXmlElement)nf)),
+                Fonts = new Fonts(Fonts.Cast<OpenXmlElement>()),
+                Fills = new Fills(Fills.Cast<OpenXmlElement>()),
+                Borders = new Borders(Borders.Cast<OpenXmlElement>()),
+                NumberingFormats = new NumberingFormats(NumberingFormats.Cast<OpenXmlElement>()),
                 CellFormats = new CellFormats(Styles.Select(x => (OpenXmlElement)x.Style)),
             };
 #else
