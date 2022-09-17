@@ -46,6 +46,8 @@ namespace Test
         [TestCase("$A$1:$c5")]
         [TestCase("$A$1:c$5")]
         [TestCase("Hoja!A1:c5")]
+        [TestCase("Hoja!A$1:c5")]
+        [TestCase("Hoja!$A1:c$5")]
         [TestCase("A4355:z315")]
         [TestCase("Aa1:ca5")]
         [TestCase("z1:z5")]
@@ -90,7 +92,14 @@ namespace Test
         public void SingleRangeString(string rangeStr, string expectedRange)
         {
             CellRange cellRange = new(rangeStr);
-            Assert.That(cellRange.RangeString, Is.EqualTo(expectedRange).IgnoreCase);
+            CellRange cellRangeExpected = new(expectedRange);
+            Assert.Multiple(() =>
+            {
+                Assert.That(cellRange.RangeString, Is.EqualTo(expectedRange).IgnoreCase);
+                Assert.That(cellRangeExpected.RangeString, Is.EqualTo(expectedRange).IgnoreCase);
+                Assert.That(cellRange, Is.EqualTo(cellRangeExpected));
+                Assert.That(cellRange.GetHashCode(), Is.EqualTo(cellRangeExpected.GetHashCode()));
+            });
         }
     }
 }

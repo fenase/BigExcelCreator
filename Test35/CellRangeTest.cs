@@ -47,6 +47,8 @@ namespace Test35
         [TestCase("$A$1:$c5")]
         [TestCase("$A$1:c$5")]
         [TestCase("Hoja!A1:c5")]
+        [TestCase("Hoja!A$1:c5")]
+        [TestCase("Hoja!$A1:c$5")]
         [TestCase("A4355:z315")]
         [TestCase("Aa1:ca5")]
         [TestCase("z1:z5")]
@@ -59,10 +61,10 @@ namespace Test35
             CellRange parsedRange = new CellRange(rangeStr);
 
             CellRange createdRange = new CellRange(parsedRange.StartingColumn, parsedRange.StartingColumnIsFixed,
-                                         parsedRange.StartingRow, parsedRange.StartingRowIsFixed,
-                                         parsedRange.EndingColumn, parsedRange.EndingColumnIsFixed,
-                                         parsedRange.EndingRow, parsedRange.EndingRowIsFixed,
-                                         parsedRange.Sheetname);
+                                                   parsedRange.StartingRow, parsedRange.StartingRowIsFixed,
+                                                   parsedRange.EndingColumn, parsedRange.EndingColumnIsFixed,
+                                                   parsedRange.EndingRow, parsedRange.EndingRowIsFixed,
+                                                   parsedRange.Sheetname);
 
             Assert.Multiple(() =>
             {
@@ -83,6 +85,22 @@ namespace Test35
         public void Error(string rangeStr)
         {
             Assert.Throws<InvalidRangeException>(() => new CellRange(rangeStr));
+        }
+
+
+        [TestCase("qw123:qw123", "qw123")]
+        [TestCase("qw123", "qw123")]
+        public void SingleRangeString(string rangeStr, string expectedRange)
+        {
+            CellRange cellRange = new CellRange(rangeStr);
+            CellRange cellRangeExpected = new CellRange(expectedRange);
+            Assert.Multiple(() =>
+            {
+                Assert.That(cellRange.RangeString, Is.EqualTo(expectedRange).IgnoreCase);
+                Assert.That(cellRangeExpected.RangeString, Is.EqualTo(expectedRange).IgnoreCase);
+                Assert.That(cellRange, Is.EqualTo(cellRangeExpected));
+                Assert.That(cellRange.GetHashCode(), Is.EqualTo(cellRangeExpected.GetHashCode()));
+            });
         }
     }
 }
