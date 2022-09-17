@@ -19,7 +19,7 @@ namespace Test
         [TestCase("$A$1:$c$5")]
         [TestCase("$A$1:$c5")]
         [TestCase("$A$1:c$5")]
-        [TestCase("Hoja!A1:c5")]
+        [TestCase("Sheet!A1:c5")]
         [TestCase("A4355:z315")]
         [TestCase("Aa1:ca5")]
         [TestCase("z1:z5")]
@@ -27,6 +27,7 @@ namespace Test
         [TestCase("ers241:ouy35")]
         [TestCase("ers:ouy")]
         [TestCase("241:35")]
+        [TestCase("vals!$A$1:$A$6")]
         public void Parse(string rangeStr)
         {
             CellRange r = new(rangeStr);
@@ -45,9 +46,9 @@ namespace Test
         [TestCase("$A$1:$c$5")]
         [TestCase("$A$1:$c5")]
         [TestCase("$A$1:c$5")]
-        [TestCase("Hoja!A1:c5")]
-        [TestCase("Hoja!A$1:c5")]
-        [TestCase("Hoja!$A1:c$5")]
+        [TestCase("Sheet!A1:c5")]
+        [TestCase("Sheet!A$1:c5")]
+        [TestCase("Sheet!$A1:c$5")]
         [TestCase("A4355:z315")]
         [TestCase("Aa1:ca5")]
         [TestCase("z1:z5")]
@@ -55,6 +56,7 @@ namespace Test
         [TestCase("ers241:ouy35")]
         [TestCase("ers:ouy")]
         [TestCase("241:35")]
+        [TestCase("vals!$A$1:$A$6")]
         public void Equivalence(string rangeStr)
         {
             CellRange parsedRange = new(rangeStr);
@@ -80,7 +82,7 @@ namespace Test
         [TestCase("A:z315")]
         [TestCase("Aa1:ca")]
         [TestCase("z1:5")]
-        [TestCase("ers241:ouy35!hoja")]
+        [TestCase("ers241:ouy35!Sheet")]
         public void Error(string rangeStr)
         {
             Assert.Throws<InvalidRangeException>(() => new CellRange(rangeStr));
