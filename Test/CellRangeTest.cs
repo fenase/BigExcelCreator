@@ -101,5 +101,17 @@ namespace Test
                 Assert.That(cellRange.GetHashCode(), Is.EqualTo(cellRangeExpected.GetHashCode()));
             });
         }
+
+
+
+        [TestCase("a1","a2")]
+        [TestCase("a2","b1")]
+        [TestCase("a2:b5", "a2:j7")]
+        [TestCase("a2:j7", "a3:b5")]
+        [TestCase("a2:a2", "a2:b5")]
+        public void Order(string a, string b)
+        {
+            Assert.IsTrue(new CellRange(a) < new CellRange(b));
+        }
     }
 }
