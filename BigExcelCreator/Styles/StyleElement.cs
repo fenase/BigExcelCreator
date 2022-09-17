@@ -1,6 +1,4 @@
 ﻿using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
-using System;
 
 namespace BigExcelCreator.Styles
 {
