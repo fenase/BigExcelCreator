@@ -3,6 +3,15 @@
 Create Excel files using OpenXML SAX with styling.
 This is specially useful when trying to output thousands of rows
 
+# Table of Contents
+
+- [Usage](#usage)
+- [Data Validation](#data-validation)
+- [Styling and formatting](#styling-and-formatting)
+    - [Column width](#column-width)
+    - [Hide Sheet](#hide-sheet)
+    - [Styling](#styling)
+    - [Comments](#comments)
 
 
 # Usage
@@ -11,7 +20,7 @@ This is specially useful when trying to output thousands of rows
 2. Open a new Sheet using `CreateAndOpenSheet`
 3. For every row, use `BeginRow` and `EndRow`
 4. Between `BeginRow` and `EndRow`, use `WriteTextCell` to write a cell.
-   > Alternatively, you can use `WriteTextRow` to write an entire row at once, using the same format.
+    > Alternatively, you can use `WriteTextRow` to write an entire row at once, using the same format.
 5. Use `CloseSheet` to finish.
 6. If needed, repeat steps 2 -> 5 to write to another sheet
 
