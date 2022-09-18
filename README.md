@@ -1,7 +1,10 @@
-# Introduction 
+# Big Excel Creator
 
 Create Excel files using OpenXML SAX with styling.
 This is specially useful when trying to output thousands of rows
+
+![Nuget](https://img.shields.io/nuget/v/BigExcelCreator)
+[![Build status](https://dev.azure.com/fenase/BigExcelCreator/_apis/build/status/BigExcelCreator-CI)](https://dev.azure.com/fenase/BigExcelCreator/_build/latest?definitionId=4)
 
 # Table of Contents
 
