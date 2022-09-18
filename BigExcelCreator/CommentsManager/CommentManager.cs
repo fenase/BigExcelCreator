@@ -44,63 +44,65 @@ namespace BigExcelCreator.CommentsManager
             worksheetPart.Worksheet.Append(legacyDrawing);
 
 
-            var wrtiter = BuildVmlDrawingPartBegin(vmlDrawingPart);
-            Authors authors = new();
-            Comments comments = new();
-            CommentList commentList = new();
-
-
-            foreach (CommentReference CommentToBeAdded in CommentsToBeAdded.OrderBy(x => x.CellRange))
+            using (XmlWriter wrtiter = BuildVmlDrawingPartBegin(vmlDrawingPart))
             {
-                if (!AuthorsList.Contains(CommentToBeAdded.Author))
+                Authors authors = new();
+                Comments comments = new();
+                CommentList commentList = new();
+
+
+                foreach (CommentReference CommentToBeAdded in CommentsToBeAdded.OrderBy(x => x.CellRange))
                 {
-                    Author author = new() { Text = CommentToBeAdded.Author };
-                    authors.Append(author);
-                    AuthorsList.Add(CommentToBeAdded.Author);
+                    if (!AuthorsList.Contains(CommentToBeAdded.Author))
+                    {
+                        Author author = new() { Text = CommentToBeAdded.Author };
+                        authors.Append(author);
+                        AuthorsList.Add(CommentToBeAdded.Author);
+                    }
+
+
+                    Comment comment;
+                    if (!string.IsNullOrEmpty(CommentToBeAdded.Author))
+                    {
+                        comment = new Comment() { Reference = CommentToBeAdded.Cell, AuthorId = (UInt32Value)(uint)AuthorsList.IndexOf(CommentToBeAdded.Author) };
+                    }
+                    else
+                    {
+                        comment = new Comment() { Reference = CommentToBeAdded.Cell };
+                    }
+                    CommentText commentTextElement = new();
+
+                    Run run = new();
+                    RunProperties runProperties = new();
+                    FontSize fontSize = new() { Val = 9D };
+                    Color color = new() { Rgb = new HexBinaryValue("FF000000") };
+                    FontFamily family = new() { Val = 2 };
+                    RunFont runFont = new() { Val = "Tahoma" };
+
+                    runProperties.Append(fontSize);
+                    runProperties.Append(color);
+                    runProperties.Append(runFont);
+                    runProperties.Append(family);
+                    Text text = new() { Text = CommentToBeAdded.Text };
+
+                    run.Append(runProperties);
+                    run.Append(text);
+
+                    commentTextElement.Append(run);
+                    comment.Append(commentTextElement);
+                    commentList.Append(comment);
+
+                    CellRange cell = CommentToBeAdded.CellRange;
+                    BuildVmlDrawingPartAdd(wrtiter, cell.StartingRow.Value, cell.StartingColumn.Value);
                 }
 
+                comments.Append(authors);
+                comments.Append(commentList);
+                worksheetCommentsPart.Comments = comments;
+                worksheetCommentsPart.Comments.Save();
 
-                Comment comment;
-                if (!string.IsNullOrEmpty(CommentToBeAdded.Author))
-                {
-                    comment = new Comment() { Reference = CommentToBeAdded.Cell, AuthorId = (UInt32Value)(uint)AuthorsList.IndexOf(CommentToBeAdded.Author) };
-                }
-                else
-                {
-                    comment = new Comment() { Reference = CommentToBeAdded.Cell };
-                }
-                CommentText commentTextElement = new();
-
-                Run run = new();
-                RunProperties runProperties = new();
-                FontSize fontSize = new() { Val = 9D };
-                Color color = new() { Rgb = new HexBinaryValue("FF000000") };
-                FontFamily family = new() { Val = 2 };
-                RunFont runFont = new() { Val = "Tahoma" };
-
-                runProperties.Append(fontSize);
-                runProperties.Append(color);
-                runProperties.Append(runFont);
-                runProperties.Append(family);
-                Text text = new() { Text = CommentToBeAdded.Text };
-
-                run.Append(runProperties);
-                run.Append(text);
-
-                commentTextElement.Append(run);
-                comment.Append(commentTextElement);
-                commentList.Append(comment);
-
-                CellRange cell = CommentToBeAdded.CellRange;
-                BuildVmlDrawingPartAdd(wrtiter, cell.StartingRow.Value, cell.StartingColumn.Value);
+                BuildVmlDrawingPartEnd(wrtiter);
             }
-
-            comments.Append(authors);
-            comments.Append(commentList);
-            worksheetCommentsPart.Comments = comments;
-            worksheetCommentsPart.Comments.Save();
-
-            BuildVmlDrawingPartEnd(wrtiter);
 
 
             worksheetPart.Worksheet.Save();
@@ -108,9 +110,10 @@ namespace BigExcelCreator.CommentsManager
 
 
 
-        private static XmlTextWriter BuildVmlDrawingPartBegin(VmlDrawingPart vmlDrawingPart)
+        private static XmlWriter BuildVmlDrawingPartBegin(VmlDrawingPart vmlDrawingPart)
         {
-            var writer = new XmlTextWriter(vmlDrawingPart.GetStream(FileMode.Create), Encoding.UTF8);
+            XmlWriterSettings xmlWriterSettings = new() { Encoding = Encoding.UTF8 };
+            XmlWriter writer = XmlWriter.Create(vmlDrawingPart.GetStream(FileMode.Create), xmlWriterSettings);
             writer.WriteStartElement("xml");
 
             Shapetype shapeType = new()
@@ -126,7 +129,7 @@ namespace BigExcelCreator.CommentsManager
             return writer;
         }
 
-        private static void BuildVmlDrawingPartAdd(XmlTextWriter writer, int rowId, int colId)
+        private static void BuildVmlDrawingPartAdd(XmlWriter writer, int rowId, int colId)
         {
             Shape shape = new()
             {
@@ -165,11 +168,9 @@ namespace BigExcelCreator.CommentsManager
         }
 
 
-        private static void BuildVmlDrawingPartEnd(XmlTextWriter writer)
+        private static void BuildVmlDrawingPartEnd(XmlWriter writer)
         {
             writer.WriteEndElement();
-            writer.Flush();
-            writer.Close();
         }
     }
 }

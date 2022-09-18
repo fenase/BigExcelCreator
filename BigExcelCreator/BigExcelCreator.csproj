@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net40;net46;net48;net35</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard1.3;net40;net46;net48;net35</TargetFrameworks>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Title>Create large Excel files with stylesheet Quickly using SAX</Title>
     <Description>Create Excel files using OpenXML SAX with styling.
