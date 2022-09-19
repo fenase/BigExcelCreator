@@ -47,6 +47,8 @@ excel.WriteTextCell("new cell??");
 
 excel.Comment("comment while writing row", "C4", "me");
 
+excel.AddAutofilter("a1:e1");
+
 excel.EndRow();
 
 
