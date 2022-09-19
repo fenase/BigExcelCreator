@@ -38,6 +38,33 @@ namespace BigExcelCreator.Ranges
             }
         }
 
+        public string RangeStringNoSheetName
+        {
+            get
+            {
+                StringBuilder sb = new();
+
+                if (StartingColumnIsFixed) { sb.Append('$'); }
+                if (StartingColumn != null) { sb.Append(Helpers.GetColumnName(StartingColumn)); }
+
+                if (StartingRowIsFixed) { sb.Append('$'); }
+                if (StartingRow != null) { sb.Append(StartingRow); }
+
+                if (!SingleCellRange)
+                {
+                    sb.Append(':');
+
+                    if (EndingColumnIsFixed) { sb.Append('$'); }
+                    if (EndingColumn != null) { sb.Append(Helpers.GetColumnName(EndingColumn)); }
+
+                    if (EndingRowIsFixed) { sb.Append('$'); }
+                    if (EndingRow != null) { sb.Append(EndingRow); }
+                }
+
+                return sb.ToString();
+            }
+        }
+
         public int? StartingRow { get; }
 
         public int? StartingColumn { get; }

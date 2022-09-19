@@ -15,6 +15,7 @@ This is specially useful when trying to output thousands of rows
     - [Hide Sheet](#hide-sheet)
     - [Styling](#styling)
     - [Comments](#comments)
+    - [Autofilter](#autofilter)
 
 
 # Usage
@@ -189,5 +190,14 @@ excel.Comment("test E2 another sheet", "B1", "Author");
 excel.CloseSheet();
 ```
 
+## Autofilter
 
+In order to add an Autofilter, call `AddAutofilter` while on a sheet.
+```c#
+excel.BeginRow();
+// ...
+excel.AddAutofilter(range); // Range's height must be 1. Example: A1:J1
+// ...
+excel.EndRow();
+```
 

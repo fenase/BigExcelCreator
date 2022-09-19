@@ -55,6 +55,8 @@ namespace BigExcelCreator
         private WorksheetPart workSheetPart;
 
         private CommentManager commentManager;
+
+        private AutoFilter SheetAutofilter;
         #endregion
 
         #region ctor
@@ -146,7 +148,7 @@ namespace BigExcelCreator
             }
             else
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Sheet is already open");
             }
         }
 
@@ -158,6 +160,8 @@ namespace BigExcelCreator
                 writer.WriteEndElement();
                 // write validations
                 WriteValidations();
+
+                WriteFilters();
 
                 // write the end Worksheet element
                 writer.WriteEndElement();
@@ -186,7 +190,7 @@ namespace BigExcelCreator
             }
             else
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("There is no open sheet");
             }
         }
 
@@ -210,12 +214,12 @@ namespace BigExcelCreator
                 }
                 else
                 {
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException("Out of order row writing is not allowed");
                 }
             }
             else
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("A row is already open. Use EndRow to close it.");
             }
         }
 
@@ -236,7 +240,7 @@ namespace BigExcelCreator
             }
             else
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("There is no row open");
             }
         }
 
@@ -275,6 +279,21 @@ namespace BigExcelCreator
             }
             EndRow();
         }
+
+
+        public void AddAutofilter(string range, bool overwrite = false)
+        {
+            AddAutofilter(new CellRange(range), overwrite);
+        }
+
+        public void AddAutofilter(CellRange range, bool overwrite = false)
+        {
+            if (range == null) { throw new ArgumentNullException(nameof(range)); }
+            if ((!overwrite) && SheetAutofilter != null) { throw new InvalidOperationException("There is already a filter in use. Set owerwrite to true to replace it"); }
+            if (range.Height != 1) { throw new ArgumentOutOfRangeException(nameof(range), "Range height must be 1"); }
+            SheetAutofilter = new AutoFilter() { Reference = range.RangeStringNoSheetName };
+        }
+
 
         [Obsolete("\"Please use AddListValidator instead.\"", true)]
         public void AddValidator(string range, string formula)
@@ -323,7 +342,7 @@ namespace BigExcelCreator
             }
             else
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("There is no open sheet");
             }
         }
 
@@ -343,7 +362,7 @@ namespace BigExcelCreator
             }
             else
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("There is no open sheet");
             }
         }
 
@@ -408,12 +427,20 @@ namespace BigExcelCreator
         }
         #endregion
 
+        private void WriteFilters()
+        {
+            if (SheetAutofilter == null) { return; }
+
+            writer.WriteElement(SheetAutofilter);
+
+            SheetAutofilter = null;
+        }
+
+
+
         private void WriteValidations()
         {
-            if (sheetDataValidations == null)
-            {
-                return;
-            }
+            if (sheetDataValidations == null) { return; }
 
             writer.WriteStartElement(sheetDataValidations);
             foreach (DataValidation item in sheetDataValidations.ChildElements.Cast<DataValidation>())
