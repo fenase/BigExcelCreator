@@ -115,5 +115,32 @@ namespace Test35
             Assert.IsTrue(new CellRange(a) < new CellRange(b));
         }
 
+
+        [TestCase("A1:c5", 3, 5)]
+        [TestCase("A1:c$5", 3, 5)]
+        [TestCase("A1:$c5", 3, 5)]
+        [TestCase("A1:$c$5", 3, 5)]
+        [TestCase("A$1:c5", 3, 5)]
+        [TestCase("$A1:c$5", 3, 5)]
+        [TestCase("$A$1:$c5", 3, 5)]
+        [TestCase("A$1:$c$5", 3, 5)]
+        [TestCase("$A$1:$c$5", 3, 5)]
+        [TestCase("$A$1:$c5", 3, 5)]
+        [TestCase("$A$1:c$5", 3, 5)]
+        [TestCase("Hoja!A1:c5", 3, 5)]
+        [TestCase("A43:z31", 26, 13)]
+        [TestCase("Aa1:ca5", 53, 5)]
+        [TestCase("z1:z5", 1, 5)]
+        [TestCase("Aa1:ZZ5", 676, 5)]
+        public void Size(string rangeStr, int expectedWidth, int expectedHeight)
+        {
+            CellRange range = new CellRange(rangeStr);
+            Assert.Multiple(() =>
+            {
+                Assert.That(range.Width, Is.EqualTo(expectedWidth));
+                Assert.That(range.Height, Is.EqualTo(expectedHeight));
+            });
+        }
+
     }
 }
