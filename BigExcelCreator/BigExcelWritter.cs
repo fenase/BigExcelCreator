@@ -290,6 +290,7 @@ namespace BigExcelCreator
         {
             if (range == null) { throw new ArgumentNullException(nameof(range)); }
             if ((!overwrite) && SheetAutofilter != null) { throw new InvalidOperationException("There is already a filter in use. Set owerwrite to true to replace it"); }
+            if (range.Height != 1) { throw new ArgumentOutOfRangeException(nameof(range), "Range height must be 1"); }
             SheetAutofilter = new AutoFilter() { Reference = range.RangeStringNoSheetName };
         }
 
