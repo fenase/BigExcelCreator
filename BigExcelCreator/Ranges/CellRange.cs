@@ -68,6 +68,10 @@ namespace BigExcelCreator.Ranges
         public bool EndingRowIsFixed { get; }
         public bool EndingColumnIsFixed { get; }
 
+        public int Width { get => Math.Abs((EndingColumn ?? 0) - (StartingColumn ?? 0)) + 1; }
+
+        public int Height { get => Math.Abs((EndingRow ?? 0) - (StartingRow ?? 0)) + 1; }
+
         private bool SingleCellRange => StartingRow == EndingRow && StartingColumn == EndingColumn;
 
         private readonly char[] invalidSheetCharacters = @"\/*[]:?".ToCharArray();
