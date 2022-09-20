@@ -15,9 +15,19 @@ do
 
 Console.WriteLine(fullpath);
 
+var columns = new List<Column>
+{
+    new Column{ CustomWidth=true, Width=15, Hidden = true },
+    new Column{ Width=15, Hidden = false },
+    new Column{ CustomWidth=true, Width=19},
+    new Column{ CustomWidth=true, Width=5, Hidden = true },
+    new Column{ Hidden = true },
+    new Column{ Hidden = false },
+};
+
 using BigExcelWritter excel = new(fullpath, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook);
 
-excel.CreateAndOpenSheet("S1", sheetState: SheetStateValues.Visible);
+excel.CreateAndOpenSheet("S1", columns: columns, sheetState: SheetStateValues.Visible);
 
 
 excel.WriteTextRow(new List<string> { "A1", "B1", "C1", "D1", "E1" });

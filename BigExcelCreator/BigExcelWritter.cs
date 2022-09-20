@@ -131,8 +131,9 @@ namespace BigExcelCreator
                         {
                             new OpenXmlAttribute("min", null, indiceColumna.ToString(CultureInfo.InvariantCulture)),
                             new OpenXmlAttribute("max", null, indiceColumna.ToString(CultureInfo.InvariantCulture)),
-                            new OpenXmlAttribute("width", null, column.Width.ToString()),
-                            new OpenXmlAttribute("customWidth", null, column.CustomWidth.ToString())
+                            new OpenXmlAttribute("width", null, (column.Width ?? 11).ToString()),
+                            new OpenXmlAttribute("customWidth", null, (column.CustomWidth ?? true).ToString()),
+                            new OpenXmlAttribute("hidden", null, (column.Hidden ?? false).ToString()),
                         };
 
                         writer.WriteStartElement(new Column(), atributosColumna);

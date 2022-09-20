@@ -68,15 +68,17 @@ Use `AddListValidator` to restrict possible values to be written to a cell by an
 
 # Styling and formatting
 
-## Column width
+## Column formatting
 
 When calling `CreateAndOpenSheet`, pass `IList<Column>` as second parameter.
 Each element represents a single column.
-Only the `CustomWidth` and `Width` properties are needed and considered.
-
-> At this point, `CustomWidth` must be set to `true`
+Only the `CustomWidth`, `Width` and `Hidden` are used.
 
 `Width` represents the column width in characters (Same unit as when resizing in Excel).
+
+`CustomWidth` allows the use of `Width`.
+
+`Hidden` hides the column.
 
 ### Example
 
