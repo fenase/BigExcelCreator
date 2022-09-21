@@ -23,6 +23,7 @@ This is specially useful when trying to output thousands of rows
 1. Instantiate class `BigExcelWritter` using either a file path or a stream (`MemoryStream` is recommended).
 2. Open a new Sheet using `CreateAndOpenSheet`
 3. For every row, use `BeginRow` and `EndRow`
+    * If you want to hide a row, pass `true` when calling `BeginRow`
 4. Between `BeginRow` and `EndRow`, use `WriteTextCell` to write a cell.
     > Alternatively, you can use `WriteTextRow` to write an entire row at once, using the same format.
 5. Use `CloseSheet` to finish.
@@ -41,6 +42,9 @@ using (BigExcelWritter excel = new(stream, DocumentFormat.OpenXml.SpreadsheetDoc
     excel.CreateAndOpenSheet("Sheet Name");
     excel.BeginRow();
     excel.WriteTextCell("Cell content");
+    excel.EndRow();
+    excel.BeginRow(true);
+    excel.WriteTextCell("This row id hidden");
     excel.EndRow();
     excel.CloseSheet();
 }
