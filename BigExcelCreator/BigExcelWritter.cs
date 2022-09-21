@@ -195,7 +195,13 @@ namespace BigExcelCreator
             }
         }
 
+
         public void BeginRow(int rownum)
+        {
+            BeginRow(rownum, false);
+        }
+
+        public void BeginRow(int rownum, bool hidden)
         {
             if (!rowOpen)
             {
@@ -206,7 +212,10 @@ namespace BigExcelCreator
                     List<OpenXmlAttribute> attributes = new()
                     {
                         // add the row index attribute to the list
-                        new OpenXmlAttribute("r", null, lastRowWritten.ToString(CultureInfo.InvariantCulture))
+                        new OpenXmlAttribute("r", null, lastRowWritten.ToString(CultureInfo.InvariantCulture)),
+                        
+                        // Hide row if requested
+                        new OpenXmlAttribute("hidden", null, hidden ? "1" : "0"),
                     };
 
                     //write the row start element with the row index attribute
@@ -226,7 +235,12 @@ namespace BigExcelCreator
 
         public void BeginRow()
         {
-            BeginRow(lastRowWritten + 1);
+            BeginRow(false);
+        }
+
+        public void BeginRow(bool hidden)
+        {
+            BeginRow(lastRowWritten + 1, hidden);
         }
 
         public void EndRow()
@@ -271,9 +285,9 @@ namespace BigExcelCreator
             columnNum++;
         }
 
-        public void WriteTextRow(IEnumerable<string> texts, int format = 0)
+        public void WriteTextRow(IEnumerable<string> texts, int format = 0, bool hidden = false)
         {
-            BeginRow();
+            BeginRow(hidden);
             foreach (var text in texts ?? throw new ArgumentNullException(nameof(texts)))
             {
                 WriteTextCell(text, format);

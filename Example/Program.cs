@@ -45,14 +45,15 @@ excel.CloseSheet();
 excel.CreateAndOpenSheet("S2");
 
 excel.WriteTextRow(new List<string> { "A1", "B1", "C1", "D1", "E1" });
-excel.WriteTextRow(new List<string> { "A2", "B2", "C2", "D2", "E2" });
+excel.WriteTextRow(new List<string> { "A2", "B2", "C2", "D2", "E2" }, hidden: true);
 excel.WriteTextRow(new List<string> { "A3", "B3", "C3", "D3", "E3" });
+excel.WriteTextRow(new List<string> { "A4", "B4", "C4", "D4", "E4" });
 
 excel.Comment("test A1 another sheet", "A1", "Me");
 excel.Comment("test E3 another sheet", "E3", "you too");
 excel.Comment("test B2 another sheet", "B2");
 
-excel.BeginRow();
+excel.BeginRow(true);
 excel.WriteTextCell("new cell??");
 
 excel.Comment("comment while writing row", "C4", "me");
