@@ -11,7 +11,7 @@ This is specially useful when trying to output thousands of rows
 - [Usage](#usage)
 - [Data Validation](#data-validation)
 - [Styling and formatting](#styling-and-formatting)
-    - [Column width](#column-width)
+    - [Column formatting](#column-formatting)
     - [Hide Sheet](#hide-sheet)
     - [Styling](#styling)
     - [Comments](#comments)
