@@ -285,7 +285,7 @@ namespace BigExcelCreator
             columnNum++;
         }
 
-        public void WriteTextCell(float number, int format = 0)
+        public void WriteNumberCell(float number, int format = 0)
         {
             //reset the list of attributes
             List<OpenXmlAttribute> attributes = new()
@@ -339,12 +339,12 @@ namespace BigExcelCreator
             EndRow();
         }
 
-        public void WriteTextRow(IEnumerable<float> numbers, int format = 0, bool hidden = false)
+        public void WriteNumberRow(IEnumerable<float> numbers, int format = 0, bool hidden = false)
         {
             BeginRow(hidden);
             foreach (float number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
             {
-                WriteTextCell(number, format);
+                WriteNumberCell(number, format);
             }
             EndRow();
         }
