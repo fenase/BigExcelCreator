@@ -47,14 +47,15 @@ excel.CreateAndOpenSheet("S2");
 excel.WriteTextRow(new List<string> { "A1", "B1", "C1", "D1", "E1" });
 excel.WriteTextRow(new List<string> { "A2", "B2", "C2", "D2", "E2" }, hidden: true);
 excel.WriteTextRow(new List<string> { "A3", "B3", "C3", "D3", "E3" });
-excel.WriteTextRow(new List<string> { "A4", "B4", "C4", "D4", "E4" });
+excel.WriteTextRow(new List<float> { 548, 1872, 14663, 1145, 1146 });
 
 excel.Comment("test A1 another sheet", "A1", "Me");
 excel.Comment("test E3 another sheet", "E3", "you too");
 excel.Comment("test B2 another sheet", "B2");
 
-excel.BeginRow(true);
-excel.WriteTextCell("new cell??");
+excel.BeginRow();
+excel.WriteTextCell("Formulas:");
+excel.WriteFormulaCell("SUM(A4:E4)");
 
 excel.Comment("comment while writing row", "C4", "me");
 
@@ -66,3 +67,14 @@ excel.EndRow();
 excel.CloseSheet();
 
 
+excel.CreateAndOpenSheet("Readme example");
+excel.BeginRow();
+excel.WriteTextCell("Cell content");
+excel.WriteTextCell(123); // write as number. This allows to use formulas.
+excel.WriteTextCell(456);
+excel.WriteFormulaCell("SUM(B1:C1)");
+excel.EndRow();
+excel.BeginRow(true);
+excel.WriteTextCell("This row id hidden");
+excel.EndRow();
+excel.CloseSheet();

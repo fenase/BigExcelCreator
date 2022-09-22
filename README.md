@@ -26,8 +26,9 @@ This is specially useful when trying to output thousands of rows
     * If you want to hide a row, pass `true` when calling `BeginRow`
 4. Between `BeginRow` and `EndRow`, use `WriteTextCell` to write a cell.
     > Alternatively, you can use `WriteTextRow` to write an entire row at once, using the same format.
-5. Use `CloseSheet` to finish.
-6. If needed, repeat steps 2 -> 5 to write to another sheet
+5. Use `WriteFormulaCell` to insert a formula.
+6. Use `CloseSheet` to finish.
+7. If needed, repeat steps 2 -> 5 to write to another sheet
 
 ## Example
 
@@ -42,9 +43,12 @@ using (BigExcelWritter excel = new(stream, DocumentFormat.OpenXml.SpreadsheetDoc
     excel.CreateAndOpenSheet("Sheet Name");
     excel.BeginRow();
     excel.WriteTextCell("Cell content");
+    excel.WriteTextCell(123); // write as number. This allows to use formulas.
+    excel.WriteTextCell(456);
+    excel.WriteFormulaCell("SUM(B1:C1)");
     excel.EndRow();
     excel.BeginRow(true);
-    excel.WriteTextCell("This row id hidden");
+    excel.WriteTextCell("This row is hidden");
     excel.EndRow();
     excel.CloseSheet();
 }

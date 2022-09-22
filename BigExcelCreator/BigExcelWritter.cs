@@ -285,12 +285,76 @@ namespace BigExcelCreator
             columnNum++;
         }
 
+        public void WriteTextCell(float number, int format = 0)
+        {
+            //reset the list of attributes
+            List<OpenXmlAttribute> attributes = new()
+            {
+                //estilos
+                new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
+            };
+
+            //write the cell start element with the type and reference attributes
+            writer.WriteStartElement(new Cell(), attributes);
+            //write the cell value
+            writer.WriteElement(new CellValue(number));
+
+            // write the end cell element
+            writer.WriteEndElement();
+
+            columnNum++;
+        }
+
+        public void WriteFormulaCell(string formula, int format = 0)
+        {
+            if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(formula)))
+            {
+                //reset the list of attributes
+                List<OpenXmlAttribute> attributes = new()
+                {
+                    //add the cell reference attribute
+                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
+                    //estilos
+                    new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
+                };
+
+                //write the cell start element with the type and reference attributes
+                writer.WriteStartElement(new Cell(), attributes);
+                //write the cell value
+                writer.WriteElement(new CellFormula(formula?.ToUpperInvariant()));
+
+                // write the end cell element
+                writer.WriteEndElement();
+            }
+            columnNum++;
+        }
+
         public void WriteTextRow(IEnumerable<string> texts, int format = 0, bool hidden = false)
         {
             BeginRow(hidden);
-            foreach (var text in texts ?? throw new ArgumentNullException(nameof(texts)))
+            foreach (string text in texts ?? throw new ArgumentNullException(nameof(texts)))
             {
                 WriteTextCell(text, format);
+            }
+            EndRow();
+        }
+
+        public void WriteTextRow(IEnumerable<float> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (float number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteTextCell(number, format);
+            }
+            EndRow();
+        }
+
+        public void WriteFormulaRow(IEnumerable<string> formulas, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (string text in formulas ?? throw new ArgumentNullException(nameof(formulas)))
+            {
+                WriteFormulaCell(text, format);
             }
             EndRow();
         }
