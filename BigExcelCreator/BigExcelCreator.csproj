@@ -12,7 +12,7 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
     <AnalysisLevel>latest-all</AnalysisLevel>
-    <VersionSuffix>0.$([System.DateTime]::UtcNow.ToString(yyyy)).$([System.DateTime]::UtcNow.DayOfYear.ToString()).$([System.DateTime]::UtcNow.ToString(HHmm))</VersionSuffix>
+    <VersionSuffix>1.0.$([System.DateTime]::UtcNow.ToString(yyyy)).$([System.DateTime]::UtcNow.DayOfYear.ToString())$([System.DateTime]::UtcNow.ToString(HH))</VersionSuffix>
     <Version Condition=" '$(VersionSuffix)' == '' ">0.1.2.0</Version>
     <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</Version>
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
