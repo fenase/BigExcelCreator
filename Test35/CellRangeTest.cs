@@ -1,12 +1,16 @@
 ﻿using BigExcelCreator.Ranges;
 using NUnit.Framework;
+using System;
 
 namespace Test35
 {
     internal class CellRangeTest
     {
         [SetUp]
-        public void Setup() { }
+        public void Setup()
+        {
+            // Method intentionally left empty.
+        }
 
 
         [TestCase("A1:c5")]
@@ -73,6 +77,8 @@ namespace Test35
                 Assert.That(parsedRange.RangeString, Is.EqualTo(rangeStr).IgnoreCase);
                 Assert.That(createdRange.RangeString, Is.EqualTo(rangeStr).IgnoreCase);
                 Assert.That(createdRange, Is.EqualTo(parsedRange));
+                Assert.That(createdRange.RangeString, Is.EqualTo(parsedRange.RangeString));
+                Assert.That(createdRange.RangeStringNoSheetName, Is.EqualTo(parsedRange.RangeStringNoSheetName));
                 Assert.That(createdRange.GetHashCode(), Is.EqualTo(parsedRange.GetHashCode()));
             });
         }
@@ -144,5 +150,35 @@ namespace Test35
             });
         }
 
+        [TestCase(0, 0, 0, 0)]
+        [TestCase(0, 0, 0, 1)]
+        [TestCase(0, 0, 1, 0)]
+        [TestCase(0, 1, 0, 0)]
+        [TestCase(1, 0, 0, 0)]
+        [TestCase(1, 1, 1, 0)]
+        [TestCase(1, 1, 0, 1)]
+        [TestCase(1, 0, 1, 1)]
+        [TestCase(0, 1, 1, 1)]
+        public void InvalidArgument(int startC, int startR, int endC, int endR)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => new CellRange(startC, startR, endC, endR, ""));
+        }
+
+        [TestCase(1, 1, 1, null)]
+        [TestCase(1, 1, null, 1)]
+        [TestCase(1, 1, null, null)]
+        [TestCase(1, null, 1, 1)]
+        [TestCase(null, 1, 1, 1)]
+        [TestCase(null, null, 1, 1)]
+        public void InvalidRange(int? startC, int? startR, int? endC, int? endR)
+        {
+            Assert.Throws<InvalidRangeException>(() => new CellRange(startC, startR, endC, endR, ""));
+        }
+
+        [Test]
+        public void RangeOK()
+        {
+            Assert.DoesNotThrow(() => new CellRange(1, 1, 1, 1, ""));
+        }
     }
 }
