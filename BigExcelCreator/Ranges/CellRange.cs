@@ -354,7 +354,7 @@ namespace BigExcelCreator.Ranges
             if (startRangeType != endRangeType) { throw new InvalidRangeException(); }
         }
 
-        private void CountLettersAndNumbers( string rangeStart, string rangeEnd ,out int letters1,out  int numbers1, out int letters2, out int numbers2)
+        private void CountLettersAndNumbers(string rangeStart, string rangeEnd, out int letters1, out int numbers1, out int letters2, out int numbers2)
         {
             letters1 = 0;
             letters2 = 0;
