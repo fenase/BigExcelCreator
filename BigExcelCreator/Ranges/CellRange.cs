@@ -80,10 +80,10 @@ namespace BigExcelCreator.Ranges
         }
         private string sheetname;
 
-        public bool StartingRowIsFixed { get; }
-        public bool StartingColumnIsFixed { get; }
-        public bool EndingRowIsFixed { get; }
-        public bool EndingColumnIsFixed { get; }
+        public bool StartingRowIsFixed { get; private set; }
+        public bool StartingColumnIsFixed { get; private set; }
+        public bool EndingRowIsFixed { get; private set; }
+        public bool EndingColumnIsFixed { get; private set; }
 
         public int Width { get => Math.Abs((EndingColumn ?? 0) - (StartingColumn ?? 0)) + 1; }
 
@@ -156,18 +156,7 @@ namespace BigExcelCreator.Ranges
 
             string[] rangearray = SplitRangeComponents(possibleRangeValue, out int RANGE_START, out int RANGE_END);
 
-            int letters1 = 0, letters2 = 0, numbers1 = 0, numbers2 = 0;
-            int i = 0, j = 0;
-
-            if (rangearray[RANGE_START][i] == '$') { StartingColumnIsFixed = true; i++; }
-            if (rangearray[RANGE_END][j] == '$') { EndingColumnIsFixed = true; j++; }
-            while (i < rangearray[RANGE_START].Length && char.IsLetter(rangearray[RANGE_START][i])) { letters1++; i++; }
-            while (j < rangearray[RANGE_END].Length && char.IsLetter(rangearray[RANGE_END][j])) { letters2++; j++; }
-
-            if (i < rangearray[RANGE_START].Length && rangearray[RANGE_START][i] == '$') { StartingRowIsFixed = true; i++; }
-            if (j < rangearray[RANGE_END].Length && rangearray[RANGE_END][j] == '$') { EndingRowIsFixed = true; j++; }
-            while (i < rangearray[RANGE_START].Length && char.IsDigit(rangearray[RANGE_START][i])) { numbers1++; i++; }
-            while (j < rangearray[RANGE_END].Length && char.IsDigit(rangearray[RANGE_END][j])) { numbers2++; j++; }
+            CountLettersAndNumbers(rangearray[RANGE_START], rangearray[RANGE_END], out int letters1, out int numbers1, out int letters2, out int numbers2);
 
             rangearray[RANGE_START] = rangearray[RANGE_START].Replace("$", "");
             rangearray[RANGE_END] = rangearray[RANGE_END].Replace("$", "");
@@ -175,25 +164,25 @@ namespace BigExcelCreator.Ranges
             AssertCompleteRange(letters1, numbers1, StartingRowIsFixed, StartingColumnIsFixed, rangearray[RANGE_START]);
             AssertCompleteRange(letters2, numbers2, EndingRowIsFixed, EndingColumnIsFixed, rangearray[RANGE_END]);
 
-            RangeType startRangeType = SetRangeType(letters1, numbers1);
-            RangeType endRangeType = SetRangeType(letters2, numbers2);
+            RangeTypes startRangeType = SetRangeType(letters1, numbers1);
+            RangeTypes endRangeType = SetRangeType(letters2, numbers2);
 
             AssertSameRangeType(startRangeType, endRangeType);
 
-            if ((startRangeType & RangeType.RowInfinite) == 0)
+            if ((startRangeType & RangeTypes.RowInfinite) == 0)
             {
                 StartingRow = int.Parse(rangearray[RANGE_START].Substring(letters1), CultureInfo.InvariantCulture);
             }
-            if ((endRangeType & RangeType.RowInfinite) == 0)
+            if ((endRangeType & RangeTypes.RowInfinite) == 0)
             {
                 EndingRow = int.Parse(rangearray[RANGE_END].Substring(letters2), CultureInfo.InvariantCulture);
             }
 
-            if ((startRangeType & RangeType.ColInfinite) == 0)
+            if ((startRangeType & RangeTypes.ColInfinite) == 0)
             {
                 StartingColumn = Helpers.GetColumnIndex(rangearray[RANGE_START].Substring(0, rangearray[RANGE_START].Length - numbers1));
             }
-            if ((endRangeType & RangeType.ColInfinite) == 0)
+            if ((endRangeType & RangeTypes.ColInfinite) == 0)
             {
                 EndingColumn = Helpers.GetColumnIndex(rangearray[RANGE_END].Substring(0, rangearray[RANGE_END].Length - numbers2));
             }
@@ -349,25 +338,44 @@ namespace BigExcelCreator.Ranges
             { throw new InvalidRangeException(); }
         }
 
-        private static RangeType SetRangeType(int lettersCount, int numbersCount)
+        private static RangeTypes SetRangeType(int lettersCount, int numbersCount)
         {
-            RangeType rangeType = 0;
-            if (lettersCount == 0) { rangeType |= RangeType.ColInfinite; }
-            if (numbersCount == 0) { rangeType |= RangeType.RowInfinite; }
+            RangeTypes rangeType = 0;
+            if (lettersCount == 0) { rangeType |= RangeTypes.ColInfinite; }
+            if (numbersCount == 0) { rangeType |= RangeTypes.RowInfinite; }
 
-            if (rangeType == (RangeType.ColInfinite | RangeType.RowInfinite)) { throw new InvalidRangeException(); }
+            if (rangeType == (RangeTypes.ColInfinite | RangeTypes.RowInfinite)) { throw new InvalidRangeException(); }
 
             return rangeType;
         }
 
-        private static void AssertSameRangeType(RangeType startRangeType, RangeType endRangeType)
+        private static void AssertSameRangeType(RangeTypes startRangeType, RangeTypes endRangeType)
         {
             if (startRangeType != endRangeType) { throw new InvalidRangeException(); }
+        }
+
+        private void CountLettersAndNumbers( string rangeStart, string rangeEnd ,out int letters1,out  int numbers1, out int letters2, out int numbers2)
+        {
+            letters1 = 0;
+            letters2 = 0;
+            numbers1 = 0;
+            numbers2 = 0;
+            int i = 0, j = 0;
+
+            if (rangeStart[i] == '$') { StartingColumnIsFixed = true; i++; }
+            if (rangeEnd[j] == '$') { EndingColumnIsFixed = true; j++; }
+            while (i < rangeStart.Length && char.IsLetter(rangeStart[i])) { letters1++; i++; }
+            while (j < rangeEnd.Length && char.IsLetter(rangeEnd[j])) { letters2++; j++; }
+
+            if (i < rangeStart.Length && rangeStart[i] == '$') { StartingRowIsFixed = true; i++; }
+            if (j < rangeEnd.Length && rangeEnd[j] == '$') { EndingRowIsFixed = true; j++; }
+            while (i < rangeStart.Length && char.IsDigit(rangeStart[i])) { numbers1++; i++; }
+            while (j < rangeEnd.Length && char.IsDigit(rangeEnd[j])) { numbers2++; j++; }
         }
     }
 
     [Flags]
-    enum RangeType
+    enum RangeTypes
     {
         None = 0b00,
         ColFinite = None,
