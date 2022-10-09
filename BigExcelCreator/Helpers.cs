@@ -18,7 +18,7 @@ namespace BigExcelCreator
             {
                 modifier = (dividend - 1) % 26;
                 columnName = Convert.ToChar(65 + modifier).ToString() + columnName;
-                dividend = (int)((dividend - modifier) / 26);
+                dividend = (dividend - modifier) / 26;
             }
 
             return columnName;

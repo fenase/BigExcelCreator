@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BigExcelCreator.Ranges
 {
-    public class CellRange : IEquatable<CellRange>, IComparable<CellRange>
+    public sealed class CellRange : IEquatable<CellRange>, IComparable<CellRange>
     {
         public string RangeString
         {
@@ -17,22 +17,7 @@ namespace BigExcelCreator.Ranges
                     sb.Append(Sheetname).Append('!');
                 }
 
-                if (StartingColumnIsFixed) { sb.Append('$'); }
-                if (StartingColumn != null) { sb.Append(Helpers.GetColumnName(StartingColumn)); }
-
-                if (StartingRowIsFixed) { sb.Append('$'); }
-                if (StartingRow != null) { sb.Append(StartingRow); }
-
-                if (!SingleCellRange)
-                {
-                    sb.Append(':');
-
-                    if (EndingColumnIsFixed) { sb.Append('$'); }
-                    if (EndingColumn != null) { sb.Append(Helpers.GetColumnName(EndingColumn)); }
-
-                    if (EndingRowIsFixed) { sb.Append('$'); }
-                    if (EndingRow != null) { sb.Append(EndingRow); }
-                }
+                RangeStringColAndRowPart(sb);
 
                 return sb.ToString();
             }
@@ -44,24 +29,29 @@ namespace BigExcelCreator.Ranges
             {
                 StringBuilder sb = new();
 
-                if (StartingColumnIsFixed) { sb.Append('$'); }
-                if (StartingColumn != null) { sb.Append(Helpers.GetColumnName(StartingColumn)); }
-
-                if (StartingRowIsFixed) { sb.Append('$'); }
-                if (StartingRow != null) { sb.Append(StartingRow); }
-
-                if (!SingleCellRange)
-                {
-                    sb.Append(':');
-
-                    if (EndingColumnIsFixed) { sb.Append('$'); }
-                    if (EndingColumn != null) { sb.Append(Helpers.GetColumnName(EndingColumn)); }
-
-                    if (EndingRowIsFixed) { sb.Append('$'); }
-                    if (EndingRow != null) { sb.Append(EndingRow); }
-                }
+                RangeStringColAndRowPart(sb);
 
                 return sb.ToString();
+            }
+        }
+
+        private void RangeStringColAndRowPart(StringBuilder sb)
+        {
+            if (StartingColumnIsFixed) { sb.Append('$'); }
+            if (StartingColumn != null) { sb.Append(Helpers.GetColumnName(StartingColumn)); }
+
+            if (StartingRowIsFixed) { sb.Append('$'); }
+            if (StartingRow != null) { sb.Append(StartingRow); }
+
+            if (!SingleCellRange)
+            {
+                sb.Append(':');
+
+                if (EndingColumnIsFixed) { sb.Append('$'); }
+                if (EndingColumn != null) { sb.Append(Helpers.GetColumnName(EndingColumn)); }
+
+                if (EndingRowIsFixed) { sb.Append('$'); }
+                if (EndingRow != null) { sb.Append(EndingRow); }
             }
         }
 
@@ -160,54 +150,13 @@ namespace BigExcelCreator.Ranges
 
         public CellRange(string range)
         {
-            int RANGE_START = 0;
-            int RANGE_END = 1;
+            range = PrepareRangeString(range);
 
+            string possibleRangeValue = SetSheetNameAndGetProbableRange(range);
 
-            if (range.IsNullOrWhiteSpace())
-            {
-                throw new ArgumentNullException(nameof(range));
-            }
-            else
-            {
-                range = range.Trim();
-            }
-
-            string[] firstSplit = range.Split('!');
-            string possibleRangeValue;
-            switch (firstSplit.Length)
-            {
-                case 2:
-                    if (firstSplit[0].IsNullOrWhiteSpace()) { throw new InvalidRangeException(); }
-                    Sheetname = firstSplit[0];
-                    possibleRangeValue = firstSplit[1].ToUpperInvariant();
-                    break;
-                case 1:
-                    Sheetname = null;
-                    possibleRangeValue = firstSplit[0].ToUpperInvariant();
-                    break;
-                default:
-                    throw new InvalidRangeException();
-            }
-
-            string[] rangearray = possibleRangeValue.Split(':');
-            switch (rangearray.Length)
-            {
-                case 2:
-                    RANGE_START = 0;
-                    RANGE_END = 1;
-                    break;
-                case 1:
-                    RANGE_START = 0;
-                    RANGE_END = 0;
-                    break;
-                default:
-                    throw new InvalidRangeException();
-            }
-            if (rangearray[RANGE_START].Length == 0 || rangearray[RANGE_END].Length == 0) { throw new InvalidRangeException(); }
+            string[] rangearray = SplitRangeComponents(possibleRangeValue, out int RANGE_START, out int RANGE_END);
 
             int letters1 = 0, letters2 = 0, numbers1 = 0, numbers2 = 0;
-
             int i = 0, j = 0;
 
             if (rangearray[RANGE_START][i] == '$') { StartingColumnIsFixed = true; i++; }
@@ -223,37 +172,28 @@ namespace BigExcelCreator.Ranges
             rangearray[RANGE_START] = rangearray[RANGE_START].Replace("$", "");
             rangearray[RANGE_END] = rangearray[RANGE_END].Replace("$", "");
 
-            if (letters1 + numbers1 + (StartingRowIsFixed ? 1 : 0) + (StartingColumnIsFixed ? 1 : 0) < rangearray[RANGE_START].Length)
-            { throw new InvalidRangeException(); }
-            if (letters2 + numbers2 + (EndingRowIsFixed ? 1 : 0) + (EndingColumnIsFixed ? 1 : 0) < rangearray[RANGE_END].Length)
-            { throw new InvalidRangeException(); }
+            AssertCompleteRange(letters1, numbers1, StartingRowIsFixed, StartingColumnIsFixed, rangearray[RANGE_START]);
+            AssertCompleteRange(letters2, numbers2, EndingRowIsFixed, EndingColumnIsFixed, rangearray[RANGE_END]);
 
-            RangeType startRangeType = 0;
-            RangeType endRangeType = 0;
-            if (letters1 == 0) { startRangeType |= RangeType.colInfinite; }
-            if (letters2 == 0) { endRangeType |= RangeType.colInfinite; }
-            if (numbers1 == 0) { startRangeType |= RangeType.rowInfinite; }
-            if (numbers2 == 0) { endRangeType |= RangeType.rowInfinite; }
+            RangeType startRangeType = SetRangeType(letters1, numbers1);
+            RangeType endRangeType = SetRangeType(letters2, numbers2);
 
-            if (startRangeType == (RangeType.colInfinite | RangeType.rowInfinite)) { throw new InvalidRangeException(); }
-            if (endRangeType == (RangeType.colInfinite | RangeType.rowInfinite)) { throw new InvalidRangeException(); }
+            AssertSameRangeType(startRangeType, endRangeType);
 
-            if (startRangeType != endRangeType) { throw new InvalidRangeException(); }
-
-            if ((startRangeType & RangeType.rowInfinite) == 0)
+            if ((startRangeType & RangeType.RowInfinite) == 0)
             {
                 StartingRow = int.Parse(rangearray[RANGE_START].Substring(letters1), CultureInfo.InvariantCulture);
             }
-            if ((endRangeType & RangeType.rowInfinite) == 0)
+            if ((endRangeType & RangeType.RowInfinite) == 0)
             {
                 EndingRow = int.Parse(rangearray[RANGE_END].Substring(letters2), CultureInfo.InvariantCulture);
             }
 
-            if ((startRangeType & RangeType.colInfinite) == 0)
+            if ((startRangeType & RangeType.ColInfinite) == 0)
             {
                 StartingColumn = Helpers.GetColumnIndex(rangearray[RANGE_START].Substring(0, rangearray[RANGE_START].Length - numbers1));
             }
-            if ((endRangeType & RangeType.colInfinite) == 0)
+            if ((endRangeType & RangeType.ColInfinite) == 0)
             {
                 EndingColumn = Helpers.GetColumnIndex(rangearray[RANGE_END].Substring(0, rangearray[RANGE_END].Length - numbers2));
             }
@@ -263,13 +203,22 @@ namespace BigExcelCreator.Ranges
         // override object.Equals
         public override bool Equals(object obj)
         {
-            if (obj == null || obj.GetType() != typeof(CellRange))
-            {
-                return false;
-            }
+            return obj is CellRange other && Equals(other);
+        }
 
-            CellRange other = obj as CellRange;
-            return Equals(other);
+        public bool Equals(CellRange other)
+        {
+            return other != null
+                && RangeString == other.RangeString
+                && StartingRow == other.StartingRow
+                && EndingRow == other.EndingRow
+                && StartingColumn == other.StartingColumn
+                && EndingColumn == other.EndingColumn
+                && Sheetname == other.Sheetname
+                && StartingColumnIsFixed == other.StartingColumnIsFixed
+                && EndingColumnIsFixed == other.EndingColumnIsFixed
+                && StartingRowIsFixed == other.StartingRowIsFixed
+                && EndingRowIsFixed == other.EndingRowIsFixed;
         }
 
         // override object.GetHashCode
@@ -290,21 +239,6 @@ namespace BigExcelCreator.Ranges
                 hc += 17 * (Sheetname?.GetHashCode() ?? 0);
                 return hc;
             }
-        }
-
-        public bool Equals(CellRange other)
-        {
-            return other != null
-                && RangeString == other.RangeString
-                && StartingRow == other.StartingRow
-                && EndingRow == other.EndingRow
-                && StartingColumn == other.StartingColumn
-                && EndingColumn == other.EndingColumn
-                && Sheetname == other.Sheetname
-                && StartingColumnIsFixed == other.StartingColumnIsFixed
-                && EndingColumnIsFixed == other.EndingColumnIsFixed
-                && StartingRowIsFixed == other.StartingRowIsFixed
-                && EndingRowIsFixed == other.EndingRowIsFixed;
         }
 
         public int CompareTo(CellRange other)
@@ -357,14 +291,88 @@ namespace BigExcelCreator.Ranges
         {
             return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
         }
+
+
+
+        private static string PrepareRangeString(string range)
+        {
+            if (range.IsNullOrWhiteSpace())
+            {
+                throw new ArgumentNullException(nameof(range));
+            }
+            else
+            {
+                return range.Trim();
+            }
+        }
+
+        private string SetSheetNameAndGetProbableRange(string range)
+        {
+            string[] firstSplit = range.Split('!');
+            switch (firstSplit.Length)
+            {
+                case 2:
+                    if (firstSplit[0].IsNullOrWhiteSpace()) { throw new InvalidRangeException(); }
+                    Sheetname = firstSplit[0];
+                    return firstSplit[1].ToUpperInvariant();
+                case 1:
+                    Sheetname = null;
+                    return firstSplit[0].ToUpperInvariant();
+                default:
+                    throw new InvalidRangeException();
+            }
+        }
+
+        private static string[] SplitRangeComponents(string possibleRangeValue, out int RANGE_START, out int RANGE_END)
+        {
+            string[] rangearray = possibleRangeValue.Split(':');
+            switch (rangearray.Length)
+            {
+                case 2:
+                    RANGE_START = 0;
+                    RANGE_END = 1;
+                    break;
+                case 1:
+                    RANGE_START = 0;
+                    RANGE_END = 0;
+                    break;
+                default:
+                    throw new InvalidRangeException();
+            }
+            if (rangearray[RANGE_START].Length == 0 || rangearray[RANGE_END].Length == 0) { throw new InvalidRangeException(); }
+            return rangearray;
+        }
+
+        private static void AssertCompleteRange(int lettersCount, int NumbersCount, bool rowFixed, bool colFixed, string rangeComponent)
+        {
+            if (lettersCount + NumbersCount + (rowFixed ? 1 : 0) + (colFixed ? 1 : 0) < rangeComponent.Length)
+            { throw new InvalidRangeException(); }
+        }
+
+        private static RangeType SetRangeType(int lettersCount, int numbersCount)
+        {
+            RangeType rangeType = 0;
+            if (lettersCount == 0) { rangeType |= RangeType.ColInfinite; }
+            if (numbersCount == 0) { rangeType |= RangeType.RowInfinite; }
+
+            if (rangeType == (RangeType.ColInfinite | RangeType.RowInfinite)) { throw new InvalidRangeException(); }
+
+            return rangeType;
+        }
+
+        private static void AssertSameRangeType(RangeType startRangeType, RangeType endRangeType)
+        {
+            if (startRangeType != endRangeType) { throw new InvalidRangeException(); }
+        }
     }
 
     [Flags]
     enum RangeType
     {
-        colFinite = 0b00,
-        rowFinite = colFinite,
-        colInfinite = 0b01,
-        rowInfinite = 0b10,
+        None = 0b00,
+        ColFinite = None,
+        RowFinite = None,
+        ColInfinite = 0b01,
+        RowInfinite = 0b10,
     }
 }

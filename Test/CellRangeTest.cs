@@ -5,7 +5,10 @@ namespace Test
     internal class CellRangeTest
     {
         [SetUp]
-        public void Setup() { }
+        public void Setup()
+        {
+            // Method intentionally left empty.
+        }
 
 
         [TestCase("A1:c5")]
@@ -113,7 +116,7 @@ namespace Test
         [TestCase("a2:a2", "a2:b5")]
         public void Order(string a, string b)
         {
-            Assert.IsTrue(new CellRange(a) < new CellRange(b));
+            Assert.That(new CellRange(a), Is.LessThan(new CellRange(b)));
         }
 
 

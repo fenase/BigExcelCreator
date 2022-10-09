@@ -2,7 +2,7 @@
 
 namespace BigExcelCreator.Ranges
 {
-#if NET35_OR_GREATER
+#if NET35_OR_GREATER || NETSTANDARD2_0_OR_GREATER
     [Serializable]
 #endif
     public class InvalidRangeException : Exception
@@ -22,7 +22,7 @@ namespace BigExcelCreator.Ranges
         {
         }
 
-#if NET35_OR_GREATER
+#if NET35_OR_GREATER || NETSTANDARD2_0_OR_GREATER
         protected InvalidRangeException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
             : base(serializationInfo, streamingContext)
         {

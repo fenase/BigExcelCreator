@@ -139,12 +139,10 @@ namespace BigExcelCreator.CommentsManager
                 InsetMode = new EnumValue<InsetMarginValues>(InsetMarginValues.Auto),
                 FillColor = "infoBackground [80]",
                 StrokeColor = "none [81]",
-                //shape.StrokeWeight = "0.75pt";
                 Type = "#_x0000_t202"
             };
 
             shape.Append(new DocumentFormat.OpenXml.Vml.Fill() { Color2 = "infoBackground [80]" });
-            //shape.Append(new DocumentFormat.OpenXml.Vml.Stroke() { LineStyle = new EnumValue<StrokeLineStyleValues>(StrokeLineStyleValues.Single), DashStyle = "solid" });
             shape.Append(new DocumentFormat.OpenXml.Vml.Shadow
             { Obscured = TrueFalseValue.FromBoolean(true), Color = "none [81]" });
             shape.Append(new DocumentFormat.OpenXml.Vml.Path() { ConnectionPointType = new EnumValue<ConnectValues>(ConnectValues.None) });

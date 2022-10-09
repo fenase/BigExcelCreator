@@ -97,8 +97,35 @@ namespace BigExcelCreator.Styles
                 return style;
             }
 
-            int fontId, fillId, borderId, numberingFormatId = 0;
+            int fontId = GetFontId(font);
 
+            int fillId = GetFillId(fill);
+
+            int borderId = GetBorderId(border);
+
+            int numberingFormatId = GetNumberingFormatId(numberingFormat);
+
+            return NewStyle(fontId, fillId, borderId, numberingFormatId, alignment, name);
+        }
+
+        public StyleElement NewStyle(int? fontId, int? fillId, int? borderId, int? numberingFormatId, Alignment alignment, string name)
+        {
+            if (fontId < 0) { throw new ArgumentOutOfRangeException(nameof(fontId), "must be greater than 0"); }
+            if (fillId < 0) { throw new ArgumentOutOfRangeException(nameof(fillId), "must be greater than 0"); }
+            if (borderId < 0) { throw new ArgumentOutOfRangeException(nameof(borderId), "must be greater than 0"); }
+            if (numberingFormatId < 0) { throw new ArgumentOutOfRangeException(nameof(numberingFormatId), "must be greater than 0"); }
+
+            StyleElement styleElement = new(name, fontId, fillId, borderId, numberingFormatId, alignment);
+
+            Styles.Add(styleElement);
+
+            return styleElement;
+        }
+
+
+        private int GetFontId(Font font)
+        {
+            int fontId;
             if (font != null)
             {
                 if ((fontId = Fonts.IndexOf(font)) < 0)
@@ -111,7 +138,12 @@ namespace BigExcelCreator.Styles
             {
                 fontId = 0;
             }
+            return fontId;
+        }
 
+        private int GetFillId(Fill fill)
+        {
+            int fillId;
             if (fill != null)
             {
                 if ((fillId = Fills.IndexOf(fill)) < 0)
@@ -124,7 +156,12 @@ namespace BigExcelCreator.Styles
             {
                 fillId = 0;
             }
+            return fillId;
+        }
 
+        private int GetBorderId(Border border)
+        {
+            int borderId;
             if (border != null)
             {
                 if ((borderId = Borders.IndexOf(border)) < 0)
@@ -137,7 +174,12 @@ namespace BigExcelCreator.Styles
             {
                 borderId = 0;
             }
+            return borderId;
+        }
 
+        private int GetNumberingFormatId(NumberingFormat numberingFormat)
+        {
+            int numberingFormatId;
             if (numberingFormat != null)
             {
                 NumberingFormat nf = NumberingFormats.FirstOrDefault(x => x.FormatCode == numberingFormat.FormatCode);
@@ -155,22 +197,7 @@ namespace BigExcelCreator.Styles
             {
                 numberingFormatId = 0;
             }
-
-            return NewStyle(fontId, fillId, borderId, numberingFormatId, alignment, name);
-        }
-
-        public StyleElement NewStyle(int? fontId, int? fillId, int? borderId, int? numberingFormatId, Alignment alignment, string name)
-        {
-            if (fontId < 0) { throw new ArgumentOutOfRangeException(nameof(fontId), "must be greater than 0"); }
-            if (fillId < 0) { throw new ArgumentOutOfRangeException(nameof(fillId), "must be greater than 0"); }
-            if (borderId < 0) { throw new ArgumentOutOfRangeException(nameof(borderId), "must be greater than 0"); }
-            if (numberingFormatId < 0) { throw new ArgumentOutOfRangeException(nameof(numberingFormatId), "must be greater than 0"); }
-
-            StyleElement styleElement = new(name, fontId, fillId, borderId, numberingFormatId, alignment);
-
-            Styles.Add(styleElement);
-
-            return styleElement;
+            return numberingFormatId;
         }
     }
 }

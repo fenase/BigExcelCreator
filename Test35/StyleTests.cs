@@ -233,7 +233,7 @@ namespace Test35
         public void NewStylesListIsNotEmpty()
         {
             var list = new StyleList();
-            Assert.That(list.Styles.Count, Is.GreaterThan(0));
+            Assert.That(list.Styles, Has.Count.GreaterThan(0));
 
             var style = list.NewStyle(new Font(), new Fill(), new Border(), new NumberingFormat(), "");
             Assert.Multiple(() =>

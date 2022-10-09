@@ -51,7 +51,6 @@ namespace BigExcelCreator
 
         private OpenXmlWriter writer;
 
-        private WorkbookPart workbookPart;
         private WorksheetPart workSheetPart;
 
         private CommentManager commentManager;
@@ -97,7 +96,7 @@ namespace BigExcelCreator
         private void CtorHelper(SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
             SpreadsheetDocumentType = spreadsheetDocumentType;
-            workbookPart = Document.AddWorkbookPart();
+            WorkbookPart workbookPart = Document.AddWorkbookPart();
 
             if (workbookPart.WorkbookStylesPart == null)
             {
