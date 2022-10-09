@@ -2,6 +2,7 @@ using BigExcelCreator.Styles;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 using NUnit.Framework;
+using System;
 
 namespace Test35
 {
@@ -15,7 +16,7 @@ namespace Test35
 
         readonly NumberingFormat[] numberingFormat = new NumberingFormat[10];
 
-
+        readonly Alignment[] alignment = new Alignment[10];
 
 
         [SetUp]
@@ -51,6 +52,9 @@ namespace Test35
                         new DiagonalBorder());
 
             numberingFormat[0] = new NumberingFormat { NumberFormatId = 164, FormatCode = "0,.00;(0,.00)" };
+
+            alignment[0] = new Alignment { Horizontal = HorizontalAlignmentValues.Left, Vertical = VerticalAlignmentValues.Top };
+            alignment[1] = new Alignment { Horizontal = HorizontalAlignmentValues.Center, Vertical = VerticalAlignmentValues.Center };
         }
 
         [Test]
@@ -77,8 +81,8 @@ namespace Test35
             const string name = "nombre";
             const string name2 = "nombre2";
 
-            var style1 = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], name);
-            var style2 = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], name2);
+            var style1 = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], alignment[0], name);
+            var style2 = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], alignment[0], name2);
 
 
 
@@ -93,11 +97,15 @@ namespace Test35
 
             var index1 = list.GetIndexByName(name, out StyleElement styleElement1);
             var index2 = list.GetIndexByName(name2, out StyleElement styleElement2);
+            var index1b = list.GetIndexByName(name);
+            var index2b = list.GetIndexByName(name2);
 
             Assert.Multiple(() =>
             {
                 Assert.That(index1, Is.EqualTo(2));
                 Assert.That(index2, Is.EqualTo(3));
+                Assert.That(index1b, Is.EqualTo(index1));
+                Assert.That(index2b, Is.EqualTo(index2));
                 Assert.That(styleElement1, Is.EqualTo(style1));
                 Assert.That(styleElement1.Style, Is.EqualTo(style1.Style));
                 Assert.That(styleElement2, Is.EqualTo(style2));
@@ -116,8 +124,8 @@ namespace Test35
             const string name = "nombre";
             const string name2 = "nombre2";
 
-            var style1 = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], name);
-            var style2 = list.NewStyle(font[0], fill[1], border[0], numberingFormat[0], name2);
+            var style1 = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], alignment[0], name);
+            var style2 = list.NewStyle(font[0], fill[1], border[0], numberingFormat[0], alignment[0], name2);
 
 
 
@@ -143,6 +151,97 @@ namespace Test35
                 Assert.That(styleElement2.Style, Is.EqualTo(style2.Style));
                 Assert.That(style1, Is.Not.EqualTo(style2));
                 Assert.That(style1.Style, Is.EqualTo(style2.Style));
+            });
+        }
+
+
+        [Test]
+        public void SameStylesheet()
+        {
+            var list1 = new StyleList();
+            var list2 = new StyleList();
+
+            const string name = "nombre";
+            const string name2 = "nombre2";
+
+            list1.NewStyle(font[0], fill[0], border[0], numberingFormat[0], alignment[0], name);
+            list1.NewStyle(font[0], fill[1], border[0], numberingFormat[0], alignment[0], name2);
+            list2.NewStyle(font[0], fill[0], border[0], numberingFormat[0], alignment[0], name2);
+            list2.NewStyle(font[0], fill[1], border[0], numberingFormat[0], alignment[0], name); //names should not influence the final style sheet
+
+            Assert.That(list1.GetStylesheet(), Is.EqualTo(list2.GetStylesheet()));
+        }
+
+
+        [Test]
+        public void SameEmptyStylesheet()
+        {
+            var list1 = new StyleList();
+            var list2 = new StyleList();
+
+            const string name = "nombre";
+            const string name2 = "nombre2";
+
+            list1.NewStyle(null, null, null, null, name);
+            list1.NewStyle(null, null, null, null, name2);
+            list2.NewStyle(null, null, null, null, name2);
+            list2.NewStyle(null, null, null, null, name); //names should not influence the final style sheet
+
+            Assert.That(list1.GetStylesheet(), Is.EqualTo(list2.GetStylesheet()));
+        }
+
+
+        [TestCase(-1, -1, -1, -1)]
+        [TestCase(0, -1, -1, -1)]
+        [TestCase(-1, 0, -1, -1)]
+        [TestCase(0, 0, -1, -1)]
+        [TestCase(-1, -1, 0, -1)]
+        [TestCase(0, -1, 0, -1)]
+        [TestCase(-1, 0, 0, -1)]
+        [TestCase(0, 0, 0, -1)]
+        [TestCase(-1, -1, -1, 0)]
+        [TestCase(0, -1, -1, 0)]
+        [TestCase(-1, 0, -1, 0)]
+        [TestCase(0, 0, -1, 0)]
+        [TestCase(-1, -1, 0, 0)]
+        [TestCase(0, -1, 0, 0)]
+        [TestCase(-1, 0, 0, 0)]
+        public void NewStyleError(int? fontId, int? fillId, int? borderId, int? numberingFormatId)
+        {
+            var list = new StyleList();
+            Assert.Multiple(() =>
+            {
+                Assert.Throws<ArgumentOutOfRangeException>(() => list.NewStyle(fontId, fillId, borderId, numberingFormatId, null, "a"));
+                Assert.Throws<ArgumentOutOfRangeException>(() => list.NewStyle(fontId, fillId, borderId, numberingFormatId, new Alignment() { Horizontal = HorizontalAlignmentValues.Center }, "a"));
+            });
+        }
+
+
+        [TestCase(0, 0, 0, 0)]
+        public void NewStyleOK(int? fontId, int? fillId, int? borderId, int? numberingFormatId)
+        {
+            var list = new StyleList();
+            Assert.Multiple(() =>
+            {
+                Assert.DoesNotThrow(() => list.NewStyle(fontId, fillId, borderId, numberingFormatId, null, "a"));
+                Assert.DoesNotThrow(() => list.NewStyle(fontId, fillId, borderId, numberingFormatId, new Alignment() { Horizontal = HorizontalAlignmentValues.Center }, "a"));
+            });
+        }
+
+
+        [Test]
+        public void NewStylesListIsNotEmpty()
+        {
+            var list = new StyleList();
+            Assert.That(list.Styles.Count, Is.GreaterThan(0));
+
+            var style = list.NewStyle(new Font(), new Fill(), new Border(), new NumberingFormat(), "");
+            Assert.Multiple(() =>
+            {
+                Assert.That(style.FontIndex, Is.GreaterThan(0));
+                Assert.That(style.FillIndex, Is.GreaterThan(0));
+                Assert.That(style.BorderIndex, Is.GreaterThan(0));
+                Assert.That(style.NumberFormatIndex, Is.GreaterThan(0));
             });
         }
     }

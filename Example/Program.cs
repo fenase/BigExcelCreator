@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using BigExcelCreator;
+using BigExcelCreator.Styles;
 using DocumentFormat.OpenXml.Spreadsheet;
 
 int attemps = 0;
@@ -25,7 +26,22 @@ var columns = new List<Column>
     new Column{ Hidden = false },
 };
 
-using BigExcelWritter excel = new(fullpath, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook);
+StyleList styleList = new();
+Font italic = new(new Italic());
+Font bold = new(new Bold());
+Font boldItalic = new(new Bold(), new Italic());
+styleList.NewStyle(italic, null, null, null, "italic default");
+styleList.NewStyle(bold, null, null, null, "bold default");
+styleList.NewStyle(boldItalic, null, null, null, "bold italic default");
+
+Alignment center = new() { Horizontal = HorizontalAlignmentValues.Center };
+
+
+styleList.NewStyle(italic, null, null, null, center, "italic center");
+styleList.NewStyle(bold, null, null, null, center, "bold center");
+styleList.NewStyle(boldItalic, null, null, null, center, "bold italic center");
+
+using BigExcelWritter excel = new(fullpath, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook, styleList.GetStylesheet());
 
 excel.CreateAndOpenSheet("S1", columns: columns, sheetState: SheetStateValues.Visible);
 
@@ -33,6 +49,8 @@ excel.CreateAndOpenSheet("S1", columns: columns, sheetState: SheetStateValues.Vi
 excel.WriteTextRow(new List<string> { "A1", "B1", "C1", "D1", "E1" });
 excel.WriteTextRow(new List<string> { "A2", "B2", "C2", "D2", "E2" });
 excel.WriteTextRow(new List<string> { "A3", "B3", "C3", "D3", "E3" });
+
+
 
 
 excel.Comment("test A1", "A1", "Me");
@@ -76,5 +94,19 @@ excel.WriteFormulaCell("SUM(B1:C1)");
 excel.EndRow();
 excel.BeginRow(true);
 excel.WriteTextCell("This row id hidden");
+excel.EndRow();
+excel.CloseSheet();
+
+
+excel.CreateAndOpenSheet("format");
+excel.BeginRow();
+excel.WriteTextCell("this is in italic", styleList.GetIndexByName("italic default"));
+excel.WriteTextCell("this is bold", styleList.GetIndexByName("bold default"));
+excel.WriteTextCell("this is bold and italic", styleList.GetIndexByName("bold italic default"));
+excel.EndRow();
+excel.BeginRow();
+excel.WriteTextCell("this is in italic (centered)", styleList.GetIndexByName("italic center"));
+excel.WriteTextCell("this is bold (centered)", styleList.GetIndexByName("bold center"));
+excel.WriteTextCell("this is bold and italic (centered)", styleList.GetIndexByName("bold italic center"));
 excel.EndRow();
 excel.CloseSheet();

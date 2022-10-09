@@ -9,35 +9,31 @@ namespace BigExcelCreator.Styles
 
         public CellFormat Style { get; }
 
-        public int? FontIndex { get; }
-        public int? FillIndex { get; }
-        public int? BorderIndex { get; }
-        public int? NumberFormatIndex { get; }
+        public int FontIndex { get; }
+        public int FillIndex { get; }
+        public int BorderIndex { get; }
+        public int NumberFormatIndex { get; }
         #endregion
 
         #region ctor
         public StyleElement(string name, int? fontIndex, int? fillIndex, int? borderIndex, int? numberFormatIndex, Alignment alignment)
         {
             Name = name;
-            FontIndex = fontIndex;
-            FillIndex = fillIndex;
-            BorderIndex = borderIndex;
-            NumberFormatIndex = numberFormatIndex;
+            FontIndex = fontIndex ?? 0;
+            FillIndex = fillIndex ?? 0;
+            BorderIndex = borderIndex ?? 0;
+            NumberFormatIndex = numberFormatIndex ?? 0;
 
             Style = new()
             {
-                FontId = (uint)fontIndex,
-                FillId = (uint)fillIndex,
-                BorderId = (uint)borderIndex,
-                NumberFormatId = 0,
+                FontId = (uint)FontIndex,
+                FillId = (uint)FillIndex,
+                BorderId = (uint)BorderIndex,
+                NumberFormatId = (uint)NumberFormatIndex,
             };
-            if (numberFormatIndex != null)
-            {
-                Style.NumberFormatId = (uint)numberFormatIndex;
-            }
             if (alignment != null)
             {
-                Style.Alignment = alignment;
+                Style.Alignment = (Alignment)alignment.Clone();
             }
         }
         #endregion

@@ -18,6 +18,8 @@ namespace BigExcelCreator.Styles
         private List<NumberingFormat> NumberingFormats { get; } = new List<NumberingFormat>();
 
         public IList<StyleElement> Styles { get; } = new List<StyleElement>();
+
+        private const uint STARTINGNUMBERFORMAT = 164;
         #endregion
 
         #region ctor
@@ -38,7 +40,7 @@ namespace BigExcelCreator.Styles
                         new TopBorder(),
                         new BottomBorder(),
                         new DiagonalBorder());
-            NumberingFormat defaultNumberingFormat = new() { NumberFormatId = 164, FormatCode = "0,.00;(0,.00)" };
+            NumberingFormat defaultNumberingFormat = new() { NumberFormatId = STARTINGNUMBERFORMAT, FormatCode = "0,.00;(0,.00)" };
             NewStyle(defaultFont, defaultFill, defaultBorder, defaultNumberingFormat, "DEFAULT");
             /* https://stackoverflow.com/a/42789914/14217380
              * For some reason I cannot seem to find documented, Fill Id 0 will always be None,
@@ -54,20 +56,20 @@ namespace BigExcelCreator.Styles
 #if NET35
             return new Stylesheet
             {
-                Fonts = new Fonts(Fonts.Cast<OpenXmlElement>()),
-                Fills = new Fills(Fills.Cast<OpenXmlElement>()),
-                Borders = new Borders(Borders.Cast<OpenXmlElement>()),
-                NumberingFormats = new NumberingFormats(NumberingFormats.Cast<OpenXmlElement>()),
-                CellFormats = new CellFormats(Styles.Select(x => (OpenXmlElement)x.Style)),
+                Fonts = new Fonts(Fonts.Select(x => (OpenXmlElement)x.Clone())),
+                Fills = new Fills(Fills.Select(x => (OpenXmlElement)x.Clone())),
+                Borders = new Borders(Borders.Select(x => (OpenXmlElement)x.Clone())),
+                NumberingFormats = new NumberingFormats(NumberingFormats.Select(x => (OpenXmlElement)x.Clone())),
+                CellFormats = new CellFormats(Styles.Select(x => (OpenXmlElement)x.Style.Clone())),
             };
 #else
             return new Stylesheet
             {
-                Fonts = new Fonts(Fonts),
-                Fills = new Fills(Fills),
-                Borders = new Borders(Borders),
-                NumberingFormats = new NumberingFormats(NumberingFormats),
-                CellFormats = new CellFormats(Styles.Select(x => x.Style)),
+                Fonts = new Fonts(Fonts.Select(x => (Font)x.Clone())),
+                Fills = new Fills(Fills.Select(x => (Fill)x.Clone())),
+                Borders = new Borders(Borders.Select(x => (Border)x.Clone())),
+                NumberingFormats = new NumberingFormats(NumberingFormats.Select(x => (NumberingFormat)x.Clone())),
+                CellFormats = new CellFormats(Styles.Select(x => (CellFormat)x.Style.Clone())),
             };
 #endif
         }
@@ -97,29 +99,61 @@ namespace BigExcelCreator.Styles
 
             int fontId, fillId, borderId, numberingFormatId = 0;
 
-            if ((fontId = Fonts.IndexOf(font)) < 0)
+            if (font != null)
             {
-                fontId = Fonts.Count;
-                Fonts.Add(font);
+                if ((fontId = Fonts.IndexOf(font)) < 0)
+                {
+                    fontId = Fonts.Count;
+                    Fonts.Add(font);
+                }
             }
-            if ((fillId = Fills.IndexOf(fill)) < 0)
+            else
             {
-                fillId = Fills.Count;
-                Fills.Add(fill);
+                fontId = 0;
             }
-            if ((borderId = Borders.IndexOf(border)) < 0)
+
+            if (fill != null)
             {
-                borderId = Borders.Count;
-                Borders.Add(border);
+                if ((fillId = Fills.IndexOf(fill)) < 0)
+                {
+                    fillId = Fills.Count;
+                    Fills.Add(fill);
+                }
+            }
+            else
+            {
+                fillId = 0;
+            }
+
+            if (border != null)
+            {
+                if ((borderId = Borders.IndexOf(border)) < 0)
+                {
+                    borderId = Borders.Count;
+                    Borders.Add(border);
+                }
+            }
+            else
+            {
+                borderId = 0;
             }
 
             if (numberingFormat != null)
             {
-                if ((numberingFormatId = NumberingFormats.IndexOf(numberingFormat)) < 0)
+                NumberingFormat nf = NumberingFormats.FirstOrDefault(x => x.FormatCode == numberingFormat.FormatCode);
+                if (nf != null)
                 {
-                    numberingFormatId = NumberingFormats.Count;
-                    NumberingFormats.Add(numberingFormat);
+                    numberingFormatId = (int)(uint)nf.NumberFormatId;
                 }
+                else
+                {
+                    numberingFormatId = (int)Math.Max(STARTINGNUMBERFORMAT, (NumberingFormats.Max(x => x.NumberFormatId) ?? 0) + 1);
+                    NumberingFormats.Add(new NumberingFormat() { NumberFormatId = (uint)numberingFormatId, FormatCode = numberingFormat.FormatCode });
+                }
+            }
+            else
+            {
+                numberingFormatId = 0;
             }
 
             return NewStyle(fontId, fillId, borderId, numberingFormatId, alignment, name);

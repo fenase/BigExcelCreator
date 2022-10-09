@@ -261,6 +261,11 @@ namespace BigExcelCreator
 
         public void WriteTextCell(string text, int format = 0)
         {
+            if (format < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(format));
+            }
+
             if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(text)))
             {
                 //reset the list of attributes
