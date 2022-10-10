@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BigExcelCreator.Ranges
 {
-    public sealed class CellRange : IEquatable<CellRange>, IComparable<CellRange>
+    public class CellRange : IEquatable<CellRange>, IComparable<CellRange>
     {
         public string RangeString
         {
@@ -195,7 +195,7 @@ namespace BigExcelCreator.Ranges
             return obj is CellRange other && Equals(other);
         }
 
-        public bool Equals(CellRange other)
+        public virtual bool Equals(CellRange other)
         {
             return other != null
                 && RangeString == other.RangeString
