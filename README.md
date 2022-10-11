@@ -7,6 +7,8 @@ This is specially useful when trying to output thousands of rows
 [![Build status](https://dev.azure.com/fenase/BigExcelCreator/_apis/build/status/BigExcelCreator-CI)](https://dev.azure.com/fenase/BigExcelCreator/_build/latest?definitionId=4)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fenase_BigExcelCreator&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fenase_BigExcelCreator)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=fenase_BigExcelCreator&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=fenase_BigExcelCreator)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fenase_BigExcelCreator&metric=coverage)](https://sonarcloud.io/summary/new_code?id=fenase_BigExcelCreator)
+
 
 # Table of Contents
 
