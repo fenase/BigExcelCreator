@@ -31,7 +31,10 @@ namespace Test
         {
             string path = Path.Combine(DirectoryPath, "creationTest.xlsx");
             using (BigExcelWritter writter = new BigExcelWritter(path, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
-                FileAssert.Exists(path);
+            {
+                // do nothing
+            }
+            FileAssert.Exists(path);
         }
 
 
@@ -119,8 +122,11 @@ namespace Test
                 writter.CloseSheet();
             }
 
-            Assert.That(stream.Position, Is.EqualTo(0));
-            Assert.That(stream, Has.Length.GreaterThan(0));
+            Assert.Multiple(() =>
+            {
+                Assert.That(stream.Position, Is.EqualTo(0));
+                Assert.That(stream, Has.Length.GreaterThan(0));
+            });
 
             using (SpreadsheetDocument reader = SpreadsheetDocument.Open(stream, false))
             {
