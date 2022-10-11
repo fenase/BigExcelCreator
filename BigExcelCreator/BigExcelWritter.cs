@@ -202,7 +202,7 @@ namespace BigExcelCreator
 
         public void BeginRow(int rownum, bool hidden)
         {
-            if (!rowOpen)
+            if (sheetOpen && !rowOpen)
             {
                 if (rownum > lastRowWritten)
                 {
@@ -265,10 +265,12 @@ namespace BigExcelCreator
                 throw new ArgumentOutOfRangeException(nameof(format));
             }
 
-            if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(text)))
+            if (rowOpen)
             {
-                //reset the list of attributes
-                List<OpenXmlAttribute> attributes = new()
+                if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(text)))
+                {
+                    //reset the list of attributes
+                    List<OpenXmlAttribute> attributes = new()
                 {
                     // add data type attribute - in this case inline string (you might want to look at the shared strings table)
                     new OpenXmlAttribute("t", null, "str"),
@@ -278,43 +280,67 @@ namespace BigExcelCreator
                     new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                 };
 
-                //write the cell start element with the type and reference attributes
-                writer.WriteStartElement(new Cell(), attributes);
-                //write the cell value
-                writer.WriteElement(new CellValue(text));
+                    //write the cell start element with the type and reference attributes
+                    writer.WriteStartElement(new Cell(), attributes);
+                    //write the cell value
+                    writer.WriteElement(new CellValue(text));
 
-                // write the end cell element
-                writer.WriteEndElement();
+                    // write the end cell element
+                    writer.WriteEndElement();
+                }
+                columnNum++;
             }
-            columnNum++;
+            else
+            {
+                throw new InvalidOperationException("There is no active row");
+            }
         }
 
         public void WriteNumberCell(float number, int format = 0)
         {
-            //reset the list of attributes
-            List<OpenXmlAttribute> attributes = new()
+            if (format < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(format));
+            }
+
+            if (rowOpen)
+            {
+                //reset the list of attributes
+                List<OpenXmlAttribute> attributes = new()
             {
                 //estilos
                 new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
             };
 
-            //write the cell start element with the type and reference attributes
-            writer.WriteStartElement(new Cell(), attributes);
-            //write the cell value
-            writer.WriteElement(new CellValue(number));
+                //write the cell start element with the type and reference attributes
+                writer.WriteStartElement(new Cell(), attributes);
+                //write the cell value
+                writer.WriteElement(new CellValue(number));
 
-            // write the end cell element
-            writer.WriteEndElement();
+                // write the end cell element
+                writer.WriteEndElement();
 
-            columnNum++;
+                columnNum++;
+            }
+            else
+            {
+                throw new InvalidOperationException("There is no active row");
+            }
         }
 
         public void WriteFormulaCell(string formula, int format = 0)
         {
-            if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(formula)))
+            if (format < 0)
             {
-                //reset the list of attributes
-                List<OpenXmlAttribute> attributes = new()
+                throw new ArgumentOutOfRangeException(nameof(format));
+            }
+
+            if (rowOpen)
+            {
+                if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(formula)))
+                {
+                    //reset the list of attributes
+                    List<OpenXmlAttribute> attributes = new()
                 {
                     //add the cell reference attribute
                     new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
@@ -322,15 +348,20 @@ namespace BigExcelCreator
                     new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                 };
 
-                //write the cell start element with the type and reference attributes
-                writer.WriteStartElement(new Cell(), attributes);
-                //write the cell value
-                writer.WriteElement(new CellFormula(formula?.ToUpperInvariant()));
+                    //write the cell start element with the type and reference attributes
+                    writer.WriteStartElement(new Cell(), attributes);
+                    //write the cell value
+                    writer.WriteElement(new CellFormula(formula?.ToUpperInvariant()));
 
-                // write the end cell element
-                writer.WriteEndElement();
+                    // write the end cell element
+                    writer.WriteEndElement();
+                }
+                columnNum++;
             }
-            columnNum++;
+            else
+            {
+                throw new InvalidOperationException("There is no active row");
+            }
         }
 
         public void WriteTextRow(IEnumerable<string> texts, int format = 0, bool hidden = false)

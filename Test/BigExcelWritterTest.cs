@@ -119,6 +119,8 @@ namespace Test
             {
                 writter.CreateAndOpenSheet("first");
                 writter.WriteTextRow(new[] { "a", "b", "c" });
+                writter.WriteNumberRow(new[] { 1f, 2f, 30f, 40f });
+                writter.WriteFormulaRow(new[] { "SUM(A2:D2)" });
                 writter.CloseSheet();
             }
 
@@ -152,10 +154,11 @@ namespace Test
                 Assert.Multiple(() =>
                 {
                     Assert.That(rows, Is.Not.Null);
-                    Assert.That(rows.Count(), Is.EqualTo(1));
+                    Assert.That(rows.Count(), Is.EqualTo(3));
                 });
 
-                IEnumerable<Cell> cells = GetCells(rows.First());
+                int skipRows = 0;
+                IEnumerable<Cell> cells = GetCells(rows.Skip(skipRows++).First());
                 Assert.Multiple(() =>
                 {
                     Assert.That(cells, Is.Not.Null);
@@ -163,6 +166,74 @@ namespace Test
                     Assert.That(cells.Skip(0).Take(1).First().CellValue!.Text, Is.EqualTo("a"));
                     Assert.That(cells.Skip(1).Take(1).First().CellValue!.Text, Is.EqualTo("b"));
                     Assert.That(cells.Skip(2).Take(1).First().CellValue!.Text, Is.EqualTo("c"));
+                });
+
+                cells = GetCells(rows.Skip(skipRows++).First());
+                Assert.Multiple(() =>
+                {
+                    Assert.That(cells, Is.Not.Null);
+                    Assert.That(cells.Count(), Is.EqualTo(4));
+                    Assert.That(cells.Skip(0).Take(1).First().CellValue!.Text, Is.EqualTo("1"));
+                    Assert.That(cells.Skip(1).Take(1).First().CellValue!.Text, Is.EqualTo("2"));
+                    Assert.That(cells.Skip(2).Take(1).First().CellValue!.Text, Is.EqualTo("30"));
+                    Assert.That(cells.Skip(3).Take(1).First().CellValue!.Text, Is.EqualTo("40"));
+                });
+
+                cells = GetCells(rows.Skip(skipRows++).First());
+                Assert.Multiple(() =>
+                {
+                    Assert.That(cells, Is.Not.Null);
+                    Assert.That(cells.Count(), Is.EqualTo(1));
+                    Assert.That(cells.Skip(0).Take(1).First().CellFormula!.Text, Is.EqualTo("SUM(A2:D2)"));
+                });
+            }
+        }
+
+
+        [Test]
+        public void InvalidStateRowOrSheet()
+        {
+            using (BigExcelWritter writter = GetWritterStream(out _))
+            {
+                Assert.Multiple(() =>
+                {
+                    Assert.Throws<InvalidOperationException>(() => writter.BeginRow());
+                    Assert.Throws<InvalidOperationException>(() => writter.BeginRow(1));
+                    Assert.Throws<InvalidOperationException>(() => writter.EndRow());
+                    Assert.Throws<InvalidOperationException>(() => writter.CloseSheet());
+                });
+            }
+
+            using (BigExcelWritter writter = GetWritterStream(out _))
+            {
+                writter.CreateAndOpenSheet("abc");
+                writter.BeginRow(2);
+                writter.EndRow();
+                Assert.Throws<InvalidOperationException>(() => writter.BeginRow(1));
+            }
+
+            using (BigExcelWritter writter = GetWritterStream(out _))
+            {
+                writter.CreateAndOpenSheet("abc");
+                Assert.Throws<InvalidOperationException>(() => writter.CreateAndOpenSheet("opq"));
+            }
+        }
+
+        [Test]
+        public void InvalidStateCell()
+        {
+            using (BigExcelWritter writter = GetWritterStream(out _))
+            {
+                Assert.Throws<InvalidOperationException>(() => writter.WriteTextCell("a"));
+            }
+            using (BigExcelWritter writter = GetWritterStream(out _))
+            {
+                writter.CreateAndOpenSheet("name");
+                Assert.Multiple(() =>
+                {
+                    Assert.Throws<InvalidOperationException>(() => writter.WriteTextCell("a"));
+                    Assert.Throws<InvalidOperationException>(() => writter.WriteNumberCell(1f));
+                    Assert.Throws<InvalidOperationException>(() => writter.WriteFormulaCell("SUM(A1:A2)"));
                 });
             }
         }
@@ -183,6 +254,12 @@ namespace Test
         private static IEnumerable<Cell> GetCells(Row row)
         {
             return row.ChildElements.OfType<Cell>();
+        }
+
+        private static BigExcelWritter GetWritterStream(out MemoryStream stream)
+        {
+            stream = new MemoryStream();
+            return new BigExcelWritter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook);
         }
     }
 }
