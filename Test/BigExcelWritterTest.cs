@@ -162,7 +162,7 @@ namespace Test
         }
 
 
-        private IEnumerable<Row> GetRows(Worksheet worksheet)
+        private static IEnumerable<Row> GetRows(Worksheet worksheet)
         {
             IEnumerable<SheetData> sheetDatas = worksheet.ChildElements.OfType<SheetData>();
             Assert.Multiple(() =>
@@ -174,7 +174,7 @@ namespace Test
             return sheetData.ChildElements.OfType<Row>();
         }
 
-        private IEnumerable<Cell> GetCells(Row row)
+        private static IEnumerable<Cell> GetCells(Row row)
         {
             return row.ChildElements.OfType<Cell>();
         }
