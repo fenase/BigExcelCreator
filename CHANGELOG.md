@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## 1.1
+### Added
+- Text cells are now written as shared strings instead of as value. This should reduce the final file's size
+
 ## 1.0
 - First version considered to be "stable".
 - Moved repository to GitHub (previously was on Azure DevOps)

@@ -56,6 +56,8 @@ namespace BigExcelCreator
         private CommentManager commentManager;
 
         private AutoFilter SheetAutofilter;
+
+        private SharedStringTablePart SharedStringTablePart;
         #endregion
 
         #region ctor
@@ -105,6 +107,9 @@ namespace BigExcelCreator
                 wbsp.Stylesheet = stylesheet;
                 wbsp.Stylesheet.Save();
             }
+
+            SharedStringTablePart = workbookPart.AddNewPart<SharedStringTablePart>();
+            SharedStringTablePart.SharedStringTable = new SharedStringTable();
 
             SkipCellWhenEmpty = skipCellWhenEmpty;
         }
@@ -258,7 +263,7 @@ namespace BigExcelCreator
             }
         }
 
-        public void WriteTextCell(string text, int format = 0)
+        public void WriteTextCell(string text, int format=0, bool useSharedStrings=true)
         {
             if (format < 0)
             {
@@ -269,24 +274,43 @@ namespace BigExcelCreator
             {
                 if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(text)))
                 {
-                    //reset the list of attributes
-                    List<OpenXmlAttribute> attributes = new()
-                {
-                    // add data type attribute - in this case inline string (you might want to look at the shared strings table)
-                    new OpenXmlAttribute("t", null, "str"),
-                    //add the cell reference attribute
-                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
-                    //estilos
-                    new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
-                };
-
-                    //write the cell start element with the type and reference attributes
-                    writer.WriteStartElement(new Cell(), attributes);
-                    //write the cell value
-                    writer.WriteElement(new CellValue(text));
+                    List<OpenXmlAttribute> attributes;
+                    if (useSharedStrings)
+                    {
+                        int ssPos = AddTextToSharedStringsTable(text);
+                        attributes = new()
+                        {
+                            new OpenXmlAttribute("t", null, "s"),
+                            new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
+                            //styles
+                            new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
+                        };
+                        //write the cell start element with the type and reference attributes
+                        writer.WriteStartElement(new Cell(), attributes);
+                        //write the cell value
+                        writer.WriteElement(new CellValue(ssPos));
+                    }
+                    else
+                    {
+                        //reset the list of attributes
+                        attributes = new()
+                        {
+                            // add data type attribute - in this case inline string (you might want to look at the shared strings table)
+                            new OpenXmlAttribute("t", null, "str"),
+                            //add the cell reference attribute
+                            new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
+                            //styles
+                            new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
+                        };
+                        //write the cell start element with the type and reference attributes
+                        writer.WriteStartElement(new Cell(), attributes);
+                        //write the cell value
+                        writer.WriteElement(new CellValue(text));
+                    }
 
                     // write the end cell element
                     writer.WriteEndElement();
+
                 }
                 columnNum++;
             }
@@ -307,10 +331,10 @@ namespace BigExcelCreator
             {
                 //reset the list of attributes
                 List<OpenXmlAttribute> attributes = new()
-            {
-                //estilos
-                new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
-            };
+                {
+                    //estilos
+                    new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
+                };
 
                 //write the cell start element with the type and reference attributes
                 writer.WriteStartElement(new Cell(), attributes);
@@ -341,12 +365,12 @@ namespace BigExcelCreator
                 {
                     //reset the list of attributes
                     List<OpenXmlAttribute> attributes = new()
-                {
-                    //add the cell reference attribute
-                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
-                    //estilos
-                    new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
-                };
+                    {
+                        //add the cell reference attribute
+                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
+                        //estilos
+                        new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
+                    };
 
                     //write the cell start element with the type and reference attributes
                     writer.WriteStartElement(new Cell(), attributes);
@@ -364,12 +388,13 @@ namespace BigExcelCreator
             }
         }
 
-        public void WriteTextRow(IEnumerable<string> texts, int format = 0, bool hidden = false)
+
+        public void WriteTextRow(IEnumerable<string> texts, int format = 0, bool hidden = false, bool useSharedStrings = true)
         {
             BeginRow(hidden);
             foreach (string text in texts ?? throw new ArgumentNullException(nameof(texts)))
             {
-                WriteTextCell(text, format);
+                WriteTextCell(text, format, useSharedStrings);
             }
             EndRow();
         }
@@ -450,8 +475,8 @@ namespace BigExcelCreator
 
                 Formula1 formula1 = new() { Text = formula };
 
-                dataValidation.Append(formula1);
-                sheetDataValidations.Append(dataValidation);
+                dataValidation.Append(new[] { formula1 });
+                sheetDataValidations.Append(new[] { dataValidation });
                 sheetDataValidations.Count = (sheetDataValidations.Count ?? 0) + 1;
             }
             else
@@ -566,6 +591,22 @@ namespace BigExcelCreator
             writer.WriteEndElement();
 
             sheetDataValidations = null;
+        }
+
+        private int AddTextToSharedStringsTable(string text)
+        {
+            int pos = 0;
+            foreach (SharedStringItem sharedStringItem in SharedStringTablePart.SharedStringTable.Elements<SharedStringItem>())
+            {
+                if (string.Equals(text, sharedStringItem.InnerText, StringComparison.Ordinal))
+                {
+                    return pos;
+                }
+                pos++;
+            }
+            SharedStringTablePart.SharedStringTable.AppendChild(new SharedStringItem(new[] { new Text(text) }));
+            SharedStringTablePart.SharedStringTable.Save();
+            return pos;
         }
     }
 

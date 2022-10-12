@@ -163,9 +163,9 @@ namespace Test
                 {
                     Assert.That(cells, Is.Not.Null);
                     Assert.That(cells.Count(), Is.EqualTo(3));
-                    Assert.That(cells.Skip(0).Take(1).First().CellValue!.Text, Is.EqualTo("a"));
-                    Assert.That(cells.Skip(1).Take(1).First().CellValue!.Text, Is.EqualTo("b"));
-                    Assert.That(cells.Skip(2).Take(1).First().CellValue!.Text, Is.EqualTo("c"));
+                    Assert.That(GetCellRealValue(cells.Skip(0).Take(1).First(),workbookPart), Is.EqualTo("a"));
+                    Assert.That(GetCellRealValue(cells.Skip(1).Take(1).First(),workbookPart), Is.EqualTo("b"));
+                    Assert.That(GetCellRealValue(cells.Skip(2).Take(1).First(),workbookPart), Is.EqualTo("c"));
                 });
 
                 cells = GetCells(rows.Skip(skipRows++).First());
@@ -254,6 +254,18 @@ namespace Test
         private static IEnumerable<Cell> GetCells(Row row)
         {
             return row.ChildElements.OfType<Cell>();
+        }
+
+        private static string GetCellRealValue(Cell cell, WorkbookPart workbookPart)
+        {
+            switch (cell.DataType!.ToString())
+            {
+                case "s":
+                    return workbookPart.SharedStringTablePart!.SharedStringTable.Elements<SharedStringItem>().ElementAt(int.Parse(cell.CellValue!.Text.ToString()!)).Text!.Text;
+                case "str":
+                default:
+                    return cell.CellValue!.Text;
+            }
         }
 
         private static BigExcelWritter GetWritterStream(out MemoryStream stream)
