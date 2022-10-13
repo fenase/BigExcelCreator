@@ -30,9 +30,13 @@ This is specially useful when trying to output thousands of rows
     * If you want to hide a row, pass `true` when calling `BeginRow`
 4. Between `BeginRow` and `EndRow`, use `WriteTextCell` to write a cell.
     > Alternatively, you can use `WriteTextRow` to write an entire row at once, using the same format.
-5. Use `WriteFormulaCell` to insert a formula.
-6. Use `CloseSheet` to finish.
-7. If needed, repeat steps 2 -> 5 to write to another sheet
+    
+    > Starting on version 1.1, text cells are written using the shared strings table, wich should reduce the generated file size.
+    > If for some reason this gives you trouble, set the parameter `useSharedStrings` to `false` when calling `WriteTextCell` or `WriteTextRow`.
+5. Use `WriteFormulaCell` or `WriteFormulaRow` to insert formulas.
+6. Use `WriteNumberCell` or `WriteNumberRow` to insert numbers. This is useful if you need to do any calculation later on.
+7. Use `CloseSheet` to finish.
+8. If needed, repeat steps 2 -> 5 to write to another sheet
 
 ## Example
 
