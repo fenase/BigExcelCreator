@@ -1,8 +1,13 @@
 ﻿using BigExcelCreator;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
-namespace Test
+namespace Test35
 {
     internal class BigExcelWritterTest
     {
@@ -51,22 +56,22 @@ namespace Test
 
             using (SpreadsheetDocument reader = SpreadsheetDocument.Open(path, false))
             {
-                WorkbookPart? workbookPart = reader.WorkbookPart;
+                WorkbookPart workbookPart = reader.WorkbookPart;
                 Assert.That(workbookPart, Is.Not.Null);
 
                 Workbook workbook = workbookPart.Workbook;
 
-                Sheets? sheets = workbook.Sheets;
+                Sheets sheets = workbook.Sheets;
                 Assert.Multiple(() =>
                 {
                     Assert.That(sheets, Is.Not.Null);
-                    Assert.That(sheets!.Count(), Is.EqualTo(1));
+                    Assert.That(sheets.Count(), Is.EqualTo(1));
                 });
-                Sheet sheet = (Sheet)sheets!.ChildElements.First();
+                Sheet sheet = (Sheet)sheets.ChildElements.First();
                 Assert.Multiple(() =>
                 {
                     Assert.That(sheet, Is.Not.Null);
-                    Assert.That(sheet.Name!.ToString(), Is.EqualTo("first"));
+                    Assert.That(sheet.Name.ToString(), Is.EqualTo("first"));
                 });
             }
         }
@@ -90,22 +95,22 @@ namespace Test
 
             using (SpreadsheetDocument reader = SpreadsheetDocument.Open(stream, false))
             {
-                WorkbookPart? workbookPart = reader.WorkbookPart;
+                WorkbookPart workbookPart = reader.WorkbookPart;
                 Assert.That(workbookPart, Is.Not.Null);
 
                 Workbook workbook = workbookPart.Workbook;
 
-                Sheets? sheets = workbook.Sheets;
+                Sheets sheets = workbook.Sheets;
                 Assert.Multiple(() =>
                 {
                     Assert.That(sheets, Is.Not.Null);
-                    Assert.That(sheets!.Count(), Is.EqualTo(1));
+                    Assert.That(sheets.Count(), Is.EqualTo(1));
                 });
-                Sheet sheet = (Sheet)sheets!.ChildElements.First();
+                Sheet sheet = (Sheet)sheets.ChildElements.First();
                 Assert.Multiple(() =>
                 {
                     Assert.That(sheet, Is.Not.Null);
-                    Assert.That(sheet.Name!.ToString(), Is.EqualTo("first"));
+                    Assert.That(sheet.Name.ToString(), Is.EqualTo("first"));
                 });
             }
         }
@@ -132,22 +137,22 @@ namespace Test
 
             using (SpreadsheetDocument reader = SpreadsheetDocument.Open(stream, false))
             {
-                WorkbookPart? workbookPart = reader.WorkbookPart;
+                WorkbookPart workbookPart = reader.WorkbookPart;
                 Assert.That(workbookPart, Is.Not.Null);
 
                 Workbook workbook = workbookPart.Workbook;
 
-                Sheets? sheets = workbook.Sheets;
+                Sheets sheets = workbook.Sheets;
                 Assert.Multiple(() =>
                 {
                     Assert.That(sheets, Is.Not.Null);
-                    Assert.That(sheets!.Count(), Is.EqualTo(1));
+                    Assert.That(sheets.Count(), Is.EqualTo(1));
                 });
-                Sheet sheet = (Sheet)sheets!.ChildElements.First();
+                Sheet sheet = (Sheet)sheets.ChildElements.First();
                 Assert.Multiple(() =>
                 {
                     Assert.That(sheet, Is.Not.Null);
-                    Assert.That(sheet.Name!.ToString(), Is.EqualTo("first"));
+                    Assert.That(sheet.Name.ToString(), Is.EqualTo("first"));
                 });
 
                 IEnumerable<Row> rows = GetRows(workbookPart.WorksheetParts.First().Worksheet);
@@ -184,7 +189,7 @@ namespace Test
                 {
                     Assert.That(cells, Is.Not.Null);
                     Assert.That(cells.Count(), Is.EqualTo(1));
-                    Assert.That(cells.Skip(0).Take(1).First().CellFormula!.Text, Is.EqualTo("SUM(A2:D2)"));
+                    Assert.That(cells.Skip(0).Take(1).First().CellFormula.Text, Is.EqualTo("SUM(A2:D2)"));
                 });
             }
         }
@@ -272,42 +277,44 @@ namespace Test
             }
 
 
-            using SpreadsheetDocument reader1 = SpreadsheetDocument.Open(m1, false);
-            using SpreadsheetDocument reader2 = SpreadsheetDocument.Open(m2, false);
-
-            WorkbookPart? workbookPart1 = reader1.WorkbookPart;
-            Assert.That(workbookPart1, Is.Not.Null);
-            IEnumerable<Row> rows1 = GetRows(workbookPart1.WorksheetParts.First().Worksheet);
-            WorkbookPart? workbookPart2 = reader2.WorkbookPart;
-            Assert.That(workbookPart2, Is.Not.Null);
-            IEnumerable<Row> rows2 = GetRows(workbookPart2.WorksheetParts.First().Worksheet);
-
-            Assert.Multiple(() =>
+            using (SpreadsheetDocument reader1 = SpreadsheetDocument.Open(m1, false))
+            using (SpreadsheetDocument reader2 = SpreadsheetDocument.Open(m2, false))
             {
-                Assert.That(rows1, Is.Not.Null);
-                Assert.That(rows1.Count(), Is.EqualTo(strings.Count));
-                Assert.That(rows2, Is.Not.Null);
-                Assert.That(rows2.Count(), Is.EqualTo(strings.Count));
 
-                for (int i = 0; i < strings.Count; i++)
+                WorkbookPart workbookPart1 = reader1.WorkbookPart;
+                Assert.That(workbookPart1, Is.Not.Null);
+                IEnumerable<Row> rows1 = GetRows(workbookPart1.WorksheetParts.First().Worksheet);
+                WorkbookPart workbookPart2 = reader2.WorkbookPart;
+                Assert.That(workbookPart2, Is.Not.Null);
+                IEnumerable<Row> rows2 = GetRows(workbookPart2.WorksheetParts.First().Worksheet);
+
+                Assert.Multiple(() =>
                 {
-                    IEnumerable<Cell> cells1 = GetCells(rows1.ElementAt(i));
-                    IEnumerable<Cell> cells2 = GetCells(rows2.ElementAt(i));
+                    Assert.That(rows1, Is.Not.Null);
+                    Assert.That(rows1.Count(), Is.EqualTo(strings.Count));
+                    Assert.That(rows2, Is.Not.Null);
+                    Assert.That(rows2.Count(), Is.EqualTo(strings.Count));
 
-                    Assert.That(cells1, Is.Not.Null);
-                    Assert.That(cells2, Is.Not.Null);
-
-                    Assert.That(cells1.Count(), Is.EqualTo(strings[i].Count));
-                    Assert.That(cells2.Count(), Is.EqualTo(strings[i].Count));
-
-                    for (int j = 0; j < strings[i].Count; j++)
+                    for (int i = 0; i < strings.Count; i++)
                     {
-                        Assert.That(GetCellRealValue(cells1.ElementAt(j), workbookPart1), Is.EqualTo(strings[i][j]));
-                        Assert.That(GetCellRealValue(cells2.ElementAt(j), workbookPart2), Is.EqualTo(strings[i][j]));
-                    }
-                }
+                        IEnumerable<Cell> cells1 = GetCells(rows1.ElementAt(i));
+                        IEnumerable<Cell> cells2 = GetCells(rows2.ElementAt(i));
 
-            });
+                        Assert.That(cells1, Is.Not.Null);
+                        Assert.That(cells2, Is.Not.Null);
+
+                        Assert.That(cells1.Count(), Is.EqualTo(strings[i].Count));
+                        Assert.That(cells2.Count(), Is.EqualTo(strings[i].Count));
+
+                        for (int j = 0; j < strings[i].Count; j++)
+                        {
+                            Assert.That(GetCellRealValue(cells1.ElementAt(j), workbookPart1), Is.EqualTo(strings[i][j]));
+                            Assert.That(GetCellRealValue(cells2.ElementAt(j), workbookPart2), Is.EqualTo(strings[i][j]));
+                        }
+                    }
+
+                });
+            }
         }
 
         [TestCase("text", "row")]
@@ -318,40 +325,42 @@ namespace Test
         [TestCase("formula", "cell")]
         public void InvalidFormat(string @type, string rowOrCell)
         {
-            using BigExcelWritter writter = GetWritterStream(out _);
-            writter.CreateAndOpenSheet("a");
-            switch (rowOrCell)
+            using (BigExcelWritter writter = GetWritterStream(out _))
             {
-                case "row":
-                    switch (type)
-                    {
-                        case "text":
-                            Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteTextRow(new[] { "a" }, -1));
-                            break;
-                        case "number":
-                            Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteNumberRow(new[] { 3f }, -1));
-                            break;
-                        case "formula":
-                            Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteFormulaRow(new[] { "a" }, -1));
-                            break;
-                    }
-                    break;
-                case "cell":
-                    writter.BeginRow();
-                    switch (type)
-                    {
-                        case "text":
-                            Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteTextCell("a", -1));
-                            break;
-                        case "number":
-                            Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteNumberCell(3f, -1));
-                            break;
-                        case "formula":
-                            Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteFormulaCell("a", -1));
-                            break;
-                    }
-                    writter.EndRow();
-                    break;
+                writter.CreateAndOpenSheet("a");
+                switch (rowOrCell)
+                {
+                    case "row":
+                        switch (type)
+                        {
+                            case "text":
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteTextRow(new[] { "a" }, -1));
+                                break;
+                            case "number":
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteNumberRow(new[] { 3f }, -1));
+                                break;
+                            case "formula":
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteFormulaRow(new[] { "a" }, -1));
+                                break;
+                        }
+                        break;
+                    case "cell":
+                        writter.BeginRow();
+                        switch (type)
+                        {
+                            case "text":
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteTextCell("a", -1));
+                                break;
+                            case "number":
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteNumberCell(3f, -1));
+                                break;
+                            case "formula":
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteFormulaCell("a", -1));
+                                break;
+                        }
+                        writter.EndRow();
+                        break;
+                }
             }
         }
 
@@ -379,10 +388,10 @@ namespace Test
             switch (cell.DataType?.ToString())
             {
                 case "s":
-                    return workbookPart.SharedStringTablePart!.SharedStringTable.Elements<SharedStringItem>().ElementAt(int.Parse(cell.CellValue!.Text.ToString()!)).Text!.Text;
+                    return workbookPart.SharedStringTablePart.SharedStringTable.Elements<SharedStringItem>().ElementAt(int.Parse(cell.CellValue.Text.ToString())).Text.Text;
                 case "str":
                 default:
-                    return cell.CellValue!.Text;
+                    return cell.CellValue.Text;
             }
         }
 
