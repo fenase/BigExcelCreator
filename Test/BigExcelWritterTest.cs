@@ -163,9 +163,9 @@ namespace Test
                 {
                     Assert.That(cells, Is.Not.Null);
                     Assert.That(cells.Count(), Is.EqualTo(3));
-                    Assert.That(GetCellRealValue(cells.Skip(0).Take(1).First(),workbookPart), Is.EqualTo("a"));
-                    Assert.That(GetCellRealValue(cells.Skip(1).Take(1).First(),workbookPart), Is.EqualTo("b"));
-                    Assert.That(GetCellRealValue(cells.Skip(2).Take(1).First(),workbookPart), Is.EqualTo("c"));
+                    Assert.That(GetCellRealValue(cells.Skip(0).Take(1).First(), workbookPart), Is.EqualTo("a"));
+                    Assert.That(GetCellRealValue(cells.Skip(1).Take(1).First(), workbookPart), Is.EqualTo("b"));
+                    Assert.That(GetCellRealValue(cells.Skip(2).Take(1).First(), workbookPart), Is.EqualTo("c"));
                 });
 
                 cells = GetCells(rows.Skip(skipRows++).First());
@@ -173,10 +173,10 @@ namespace Test
                 {
                     Assert.That(cells, Is.Not.Null);
                     Assert.That(cells.Count(), Is.EqualTo(4));
-                    Assert.That(cells.Skip(0).Take(1).First().CellValue!.Text, Is.EqualTo("1"));
-                    Assert.That(cells.Skip(1).Take(1).First().CellValue!.Text, Is.EqualTo("2"));
-                    Assert.That(cells.Skip(2).Take(1).First().CellValue!.Text, Is.EqualTo("30"));
-                    Assert.That(cells.Skip(3).Take(1).First().CellValue!.Text, Is.EqualTo("40"));
+                    Assert.That(GetCellRealValue(cells.Skip(0).Take(1).First(), workbookPart), Is.EqualTo("1"));
+                    Assert.That(GetCellRealValue(cells.Skip(1).Take(1).First(), workbookPart), Is.EqualTo("2"));
+                    Assert.That(GetCellRealValue(cells.Skip(2).Take(1).First(), workbookPart), Is.EqualTo("30"));
+                    Assert.That(GetCellRealValue(cells.Skip(3).Take(1).First(), workbookPart), Is.EqualTo("40"));
                 });
 
                 cells = GetCells(rows.Skip(skipRows++).First());
@@ -238,7 +238,80 @@ namespace Test
             }
         }
 
+        [Test]
+        public void SameResultsSharedStrings()
+        {
+            MemoryStream m1 = new MemoryStream();
+            MemoryStream m2 = new MemoryStream();
 
+            List<List<string>> strings = new List<List<string>>
+            {
+                new List<string>{ "Lorem ipsum", "dolor sit amet" ,"consectetur", "adipiscing elit", "Praesent at sapien", "id metus placerat" ,"ultricies", "a sed risus","Fusce finibus"},
+                new List<string>{ "Lorem ipsum", "dolor sit amet", "Duis sodales finibus arcu", "porttitor", "accumsan", "finibus sapien", "ultricies", "a sed risus","Fusce finibus"},
+                new List<string>{ "fermentum molestie", "parturient montes", "Lorem ipsum", "dolor sit amet" ,"eleifend", "urna", "laoreet libero", "id metus placerat" ,"justo convallis in"},
+            };
+
+            using (BigExcelWritter writter1 = new BigExcelWritter(m1, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+            {
+                writter1.CreateAndOpenSheet("s1");
+                foreach (List<string> row in strings)
+                {
+                    writter1.WriteTextRow(row, useSharedStrings: true);
+                }
+                writter1.CloseSheet();
+            }
+
+            using (BigExcelWritter writter2 = new BigExcelWritter(m2, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+            {
+                writter2.CreateAndOpenSheet("s1");
+                foreach (List<string> row in strings)
+                {
+                    writter2.WriteTextRow(row, useSharedStrings: false);
+                }
+                writter2.CloseSheet();
+            }
+
+
+            using SpreadsheetDocument reader1 = SpreadsheetDocument.Open(m1, false);
+            using SpreadsheetDocument reader2 = SpreadsheetDocument.Open(m2, false);
+
+            WorkbookPart? workbookPart1 = reader1.WorkbookPart;
+            Assert.That(workbookPart1, Is.Not.Null);
+            IEnumerable<Row> rows1 = GetRows(workbookPart1.WorksheetParts.First().Worksheet);
+            WorkbookPart? workbookPart2 = reader2.WorkbookPart;
+            Assert.That(workbookPart2, Is.Not.Null);
+            IEnumerable<Row> rows2 = GetRows(workbookPart2.WorksheetParts.First().Worksheet);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(rows1, Is.Not.Null);
+                Assert.That(rows1.Count(), Is.EqualTo(strings.Count));
+                Assert.That(rows2, Is.Not.Null);
+                Assert.That(rows2.Count(), Is.EqualTo(strings.Count));
+
+                for (int i = 0; i < strings.Count; i++)
+                {
+                    IEnumerable<Cell> cells1 = GetCells(rows1.ElementAt(i));
+                    IEnumerable<Cell> cells2 = GetCells(rows2.ElementAt(i));
+
+                    Assert.That(cells1, Is.Not.Null);
+                    Assert.That(cells2, Is.Not.Null);
+
+                    Assert.That(cells1.Count(), Is.EqualTo(strings[i].Count));
+                    Assert.That(cells2.Count(), Is.EqualTo(strings[i].Count));
+
+                    for (int j = 0; j < strings[i].Count; j++)
+                    {
+                        Assert.That(GetCellRealValue(cells1.ElementAt(j), workbookPart1), Is.EqualTo(strings[i][j]));
+                        Assert.That(GetCellRealValue(cells2.ElementAt(j), workbookPart2), Is.EqualTo(strings[i][j]));
+                    }
+                }
+
+            });
+        }
+
+
+        #region private
         private static IEnumerable<Row> GetRows(Worksheet worksheet)
         {
             IEnumerable<SheetData> sheetDatas = worksheet.ChildElements.OfType<SheetData>();
@@ -258,7 +331,7 @@ namespace Test
 
         private static string GetCellRealValue(Cell cell, WorkbookPart workbookPart)
         {
-            switch (cell.DataType!.ToString())
+            switch (cell.DataType?.ToString())
             {
                 case "s":
                     return workbookPart.SharedStringTablePart!.SharedStringTable.Elements<SharedStringItem>().ElementAt(int.Parse(cell.CellValue!.Text.ToString()!)).Text!.Text;
@@ -273,5 +346,6 @@ namespace Test
             stream = new MemoryStream();
             return new BigExcelWritter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook);
         }
+        #endregion
     }
 }
