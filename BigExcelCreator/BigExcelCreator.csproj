@@ -12,7 +12,7 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
     <AnalysisLevel>latest-all</AnalysisLevel>
-    <VersionSuffix>1.0.$([System.DateTime]::UtcNow.ToString(yyyy)).$([System.DateTime]::UtcNow.DayOfYear.ToString())$([System.DateTime]::UtcNow.ToString(HH))</VersionSuffix>
+    <VersionSuffix>1.1.$([System.DateTime]::UtcNow.ToString(yyyy)).$([System.DateTime]::UtcNow.DayOfYear.ToString())$([System.DateTime]::UtcNow.ToString(HH))</VersionSuffix>
     <Version Condition=" '$(VersionSuffix)' == '' ">0.1.2.0</Version>
     <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</Version>
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
@@ -21,6 +21,7 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <PackageProjectUrl>https://www.nuget.org/packages/BigExcelCreator/#readme-body-tab</PackageProjectUrl>
+    <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../CHANGELOG.md"))</PackageReleaseNotes>
   </PropertyGroup>
 
 
@@ -98,6 +99,10 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 
   <ItemGroup>
     <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\CHANGELOG.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

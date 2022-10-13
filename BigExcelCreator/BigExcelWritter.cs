@@ -9,6 +9,10 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
+#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
+using System.Threading.Tasks;
+#endif
 
 [assembly: CLSCompliant(true)]
 [assembly: InternalsVisibleTo("Test")]
@@ -20,7 +24,7 @@ namespace BigExcelCreator
     /// This class writes Excel files directly using OpenXML SAX.
     /// Useful when trying to write tens of thousands of rows.
     /// <see cref="https://www.nuget.org/packages/BigExcelCreator/#readme-body-tab">NuGet</see>
-    /// <seealso cref="https://dev.azure.com/fenase/BigExcelCreator/_git/BigExcelCreator">Source</seealso>
+    /// <seealso cref="https://github.com/fenase/BigExcelCreator">Source</seealso>
     /// </summary>
     public class BigExcelWritter : IDisposable
     {
@@ -49,13 +53,17 @@ namespace BigExcelCreator
 
         private DataValidations sheetDataValidations;
 
-        private OpenXmlWriter writer;
+        private OpenXmlWriter workSheetPartWriter;
+
+        private readonly List<string> SharedStringsList = new();
 
         private WorksheetPart workSheetPart;
 
         private CommentManager commentManager;
 
         private AutoFilter SheetAutofilter;
+
+        private SharedStringTablePart SharedStringTablePart;
         #endregion
 
         #region ctor
@@ -106,6 +114,8 @@ namespace BigExcelCreator
                 wbsp.Stylesheet.Save();
             }
 
+            SharedStringTablePart = workbookPart.AddNewPart<SharedStringTablePart>();
+
             SkipCellWhenEmpty = skipCellWhenEmpty;
         }
         #endregion
@@ -116,13 +126,13 @@ namespace BigExcelCreator
             if (!sheetOpen)
             {
                 workSheetPart = Document.WorkbookPart.AddNewPart<WorksheetPart>();
-                writer = OpenXmlWriter.Create(workSheetPart);
+                workSheetPartWriter = OpenXmlWriter.Create(workSheetPart);
                 currentSheetName = name;
-                writer.WriteStartElement(new Worksheet());
+                workSheetPartWriter.WriteStartElement(new Worksheet());
 
                 if (columns?.Count > 0)
                 {
-                    writer.WriteStartElement(new Columns());
+                    workSheetPartWriter.WriteStartElement(new Columns());
                     int indiceColumna = 1;
                     foreach (Column column in columns)
                     {
@@ -135,14 +145,14 @@ namespace BigExcelCreator
                             new OpenXmlAttribute("hidden", null, (column.Hidden ?? false).ToString()),
                         };
 
-                        writer.WriteStartElement(new Column(), atributosColumna);
-                        writer.WriteEndElement();
+                        workSheetPartWriter.WriteStartElement(new Column(), atributosColumna);
+                        workSheetPartWriter.WriteEndElement();
                         ++indiceColumna;
                     }
-                    writer.WriteEndElement();
+                    workSheetPartWriter.WriteEndElement();
                 }
 
-                writer.WriteStartElement(new SheetData());
+                workSheetPartWriter.WriteStartElement(new SheetData());
                 sheetOpen = true;
                 currentSheetState = sheetState;
             }
@@ -157,16 +167,17 @@ namespace BigExcelCreator
             if (sheetOpen)
             {
                 // write the end SheetData element
-                writer.WriteEndElement();
+                workSheetPartWriter.WriteEndElement();
                 // write validations
                 WriteValidations();
 
                 WriteFilters();
 
                 // write the end Worksheet element
-                writer.WriteEndElement();
+                workSheetPartWriter.WriteEndElement();
 
-                writer.Close();
+                workSheetPartWriter.Close();
+                workSheetPartWriter = null;
 
                 if (commentManager != null)
                 {
@@ -202,7 +213,7 @@ namespace BigExcelCreator
 
         public void BeginRow(int rownum, bool hidden)
         {
-            if (!rowOpen)
+            if (sheetOpen && !rowOpen)
             {
                 if (rownum > lastRowWritten)
                 {
@@ -218,7 +229,7 @@ namespace BigExcelCreator
                     };
 
                     //write the row start element with the row index attribute
-                    writer.WriteStartElement(new Row(), attributes);
+                    workSheetPartWriter.WriteStartElement(new Row(), attributes);
                     rowOpen = true;
                 }
                 else
@@ -247,7 +258,7 @@ namespace BigExcelCreator
             if (rowOpen)
             {
                 // write the end row element
-                writer.WriteEndElement();
+                workSheetPartWriter.WriteEndElement();
                 maxColumnNum = Math.Max(columnNum - 1, maxColumnNum);
                 columnNum = 1;
                 rowOpen = false;
@@ -258,87 +269,140 @@ namespace BigExcelCreator
             }
         }
 
-        public void WriteTextCell(string text, int format = 0)
+        public void WriteTextCell(string text, int format = 0, bool useSharedStrings = false)
         {
             if (format < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(format));
             }
 
-            if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(text)))
+            if (rowOpen)
             {
-                //reset the list of attributes
-                List<OpenXmlAttribute> attributes = new()
+                if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(text)))
                 {
-                    // add data type attribute - in this case inline string (you might want to look at the shared strings table)
-                    new OpenXmlAttribute("t", null, "str"),
-                    //add the cell reference attribute
-                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
-                    //estilos
-                    new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
-                };
+                    List<OpenXmlAttribute> attributes;
+                    if (useSharedStrings)
+                    {
+                        int ssPos = AddTextToSharedStringsTable(text);
+                        attributes = new()
+                        {
+                            new OpenXmlAttribute("t", null, "s"),
+                            new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
+                            //styles
+                            new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
+                        };
+                        //write the cell start element with the type and reference attributes
+                        workSheetPartWriter.WriteStartElement(new Cell(), attributes);
+                        //write the cell value
+                        workSheetPartWriter.WriteElement(new CellValue(ssPos));
+                    }
+                    else
+                    {
+                        //reset the list of attributes
+                        attributes = new()
+                        {
+                            // add data type attribute - in this case inline string (you might want to look at the shared strings table)
+                            new OpenXmlAttribute("t", null, "str"),
+                            //add the cell reference attribute
+                            new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
+                            //styles
+                            new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
+                        };
+                        //write the cell start element with the type and reference attributes
+                        workSheetPartWriter.WriteStartElement(new Cell(), attributes);
+                        //write the cell value
+                        workSheetPartWriter.WriteElement(new CellValue(text));
+                    }
 
-                //write the cell start element with the type and reference attributes
-                writer.WriteStartElement(new Cell(), attributes);
-                //write the cell value
-                writer.WriteElement(new CellValue(text));
+                    // write the end cell element
+                    workSheetPartWriter.WriteEndElement();
 
-                // write the end cell element
-                writer.WriteEndElement();
+                }
+                columnNum++;
             }
-            columnNum++;
+            else
+            {
+                throw new InvalidOperationException("There is no active row");
+            }
         }
 
         public void WriteNumberCell(float number, int format = 0)
         {
-            //reset the list of attributes
-            List<OpenXmlAttribute> attributes = new()
+            if (format < 0)
             {
-                //estilos
-                new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
-            };
+                throw new ArgumentOutOfRangeException(nameof(format));
+            }
 
-            //write the cell start element with the type and reference attributes
-            writer.WriteStartElement(new Cell(), attributes);
-            //write the cell value
-            writer.WriteElement(new CellValue(number));
-
-            // write the end cell element
-            writer.WriteEndElement();
-
-            columnNum++;
-        }
-
-        public void WriteFormulaCell(string formula, int format = 0)
-        {
-            if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(formula)))
+            if (rowOpen)
             {
                 //reset the list of attributes
                 List<OpenXmlAttribute> attributes = new()
                 {
                     //add the cell reference attribute
                     new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
-                    //estilos
+                    //styles
                     new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                 };
 
                 //write the cell start element with the type and reference attributes
-                writer.WriteStartElement(new Cell(), attributes);
+                workSheetPartWriter.WriteStartElement(new Cell(), attributes);
                 //write the cell value
-                writer.WriteElement(new CellFormula(formula?.ToUpperInvariant()));
+                workSheetPartWriter.WriteElement(new CellValue(number));
 
                 // write the end cell element
-                writer.WriteEndElement();
+                workSheetPartWriter.WriteEndElement();
+
+                columnNum++;
             }
-            columnNum++;
+            else
+            {
+                throw new InvalidOperationException("There is no active row");
+            }
         }
 
-        public void WriteTextRow(IEnumerable<string> texts, int format = 0, bool hidden = false)
+        public void WriteFormulaCell(string formula, int format = 0)
+        {
+            if (format < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(format));
+            }
+
+            if (rowOpen)
+            {
+                if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(formula)))
+                {
+                    //reset the list of attributes
+                    List<OpenXmlAttribute> attributes = new()
+                    {
+                        //add the cell reference attribute
+                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
+                        //styles
+                        new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
+                    };
+
+                    //write the cell start element with the type and reference attributes
+                    workSheetPartWriter.WriteStartElement(new Cell(), attributes);
+                    //write the cell value
+                    workSheetPartWriter.WriteElement(new CellFormula(formula?.ToUpperInvariant()));
+
+                    // write the end cell element
+                    workSheetPartWriter.WriteEndElement();
+                }
+                columnNum++;
+            }
+            else
+            {
+                throw new InvalidOperationException("There is no active row");
+            }
+        }
+
+
+        public void WriteTextRow(IEnumerable<string> texts, int format = 0, bool hidden = false, bool useSharedStrings = false)
         {
             BeginRow(hidden);
             foreach (string text in texts ?? throw new ArgumentNullException(nameof(texts)))
             {
-                WriteTextCell(text, format);
+                WriteTextCell(text, format, useSharedStrings);
             }
             EndRow();
         }
@@ -419,8 +483,8 @@ namespace BigExcelCreator
 
                 Formula1 formula1 = new() { Text = formula };
 
-                dataValidation.Append(formula1);
-                sheetDataValidations.Append(dataValidation);
+                dataValidation.Append(new[] { formula1 });
+                sheetDataValidations.Append(new[] { dataValidation });
                 sheetDataValidations.Count = (sheetDataValidations.Count ?? 0) + 1;
             }
             else
@@ -453,20 +517,25 @@ namespace BigExcelCreator
         {
             if (open)
             {
-                writer = OpenXmlWriter.Create(Document.WorkbookPart);
-                writer.WriteStartElement(new Workbook());
-                writer.WriteStartElement(new Sheets());
+                if (rowOpen) { EndRow(); }
+                if (sheetOpen) { CloseSheet(); }
 
-                foreach (Sheet sheet in sheets)
+#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
+                Task[] tasks = 
                 {
-                    writer.WriteElement(sheet);
+                    new Task(() => WriteSharedStringsPart()),
+                    new Task(() => WriteSheetsAndClosePart()),
+                };
+                foreach (Task task in tasks)
+                {
+                    task.Start();
                 }
+                Task.WaitAll(tasks.ToArray());
+#else
+                WriteSharedStringsPart();
+                WriteSheetsAndClosePart();
+#endif
 
-                // End Sheets
-                writer.WriteEndElement();
-                // End Workbook
-                writer.WriteEndElement();
-                writer.Close();
                 Document.Close();
 
                 if (SavingTo == SavingTo.stream)
@@ -489,8 +558,8 @@ namespace BigExcelCreator
                 {
                     // called via myClass.Dispose(). 
                     // OK to use any private object references
+                    workSheetPartWriter?.Dispose();
                     Document.Dispose();
-                    writer.Dispose();
                 }
                 // Release unmanaged resources.
                 // Set large fields to null.                
@@ -514,7 +583,7 @@ namespace BigExcelCreator
         {
             if (SheetAutofilter == null) { return; }
 
-            writer.WriteElement(SheetAutofilter);
+            workSheetPartWriter.WriteElement(SheetAutofilter);
 
             SheetAutofilter = null;
         }
@@ -525,16 +594,59 @@ namespace BigExcelCreator
         {
             if (sheetDataValidations == null) { return; }
 
-            writer.WriteStartElement(sheetDataValidations);
+            workSheetPartWriter.WriteStartElement(sheetDataValidations);
             foreach (DataValidation item in sheetDataValidations.ChildElements.Cast<DataValidation>())
             {
-                writer.WriteStartElement(item);
-                writer.WriteElement(item.Formula1);
-                writer.WriteEndElement();
+                workSheetPartWriter.WriteStartElement(item);
+                workSheetPartWriter.WriteElement(item.Formula1);
+                workSheetPartWriter.WriteEndElement();
             }
-            writer.WriteEndElement();
+            workSheetPartWriter.WriteEndElement();
 
             sheetDataValidations = null;
+        }
+
+        private int AddTextToSharedStringsTable(string text)
+        {
+            int pos = SharedStringsList.IndexOf(text);
+            if (pos < 0)
+            {
+                pos = SharedStringsList.Count;
+                SharedStringsList.Add(text);
+            }
+            return pos;
+        }
+
+        private void WriteSharedStringsPart()
+        {
+            using OpenXmlWriter SharedStringsWriter = OpenXmlWriter.Create(SharedStringTablePart);
+            SharedStringsWriter.WriteStartElement(new SharedStringTable());
+            foreach (string item in SharedStringsList)
+            {
+                SharedStringsWriter.WriteStartElement(new SharedStringItem());
+                SharedStringsWriter.WriteElement(new Text(item));
+                SharedStringsWriter.WriteEndElement();
+            }
+            SharedStringsWriter.WriteEndElement();
+            SharedStringsWriter.Close();
+        }
+
+        private void WriteSheetsAndClosePart()
+        {
+            using OpenXmlWriter workbookPartWriter = OpenXmlWriter.Create(Document.WorkbookPart);
+            workbookPartWriter.WriteStartElement(new Workbook());
+            workbookPartWriter.WriteStartElement(new Sheets());
+
+            foreach (Sheet sheet in sheets)
+            {
+                workbookPartWriter.WriteElement(sheet);
+            }
+
+            // End Sheets
+            workbookPartWriter.WriteEndElement();
+            // End Workbook
+            workbookPartWriter.WriteEndElement();
+            workbookPartWriter.Close();
         }
     }
 
