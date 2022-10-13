@@ -9,6 +9,10 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
+#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
+using System.Threading.Tasks;
+#endif
 
 [assembly: CLSCompliant(true)]
 [assembly: InternalsVisibleTo("Test")]
@@ -20,7 +24,7 @@ namespace BigExcelCreator
     /// This class writes Excel files directly using OpenXML SAX.
     /// Useful when trying to write tens of thousands of rows.
     /// <see cref="https://www.nuget.org/packages/BigExcelCreator/#readme-body-tab">NuGet</see>
-    /// <seealso cref="https://dev.azure.com/fenase/BigExcelCreator/_git/BigExcelCreator">Source</seealso>
+    /// <seealso cref="https://github.com/fenase/BigExcelCreator">Source</seealso>
     /// </summary>
     public class BigExcelWritter : IDisposable
     {
@@ -50,6 +54,8 @@ namespace BigExcelCreator
         private DataValidations sheetDataValidations;
 
         private OpenXmlWriter writer;
+
+        private readonly List<string> SharedStringsList = new();
 
         private WorksheetPart workSheetPart;
 
@@ -109,7 +115,6 @@ namespace BigExcelCreator
             }
 
             SharedStringTablePart = workbookPart.AddNewPart<SharedStringTablePart>();
-            SharedStringTablePart.SharedStringTable = new SharedStringTable();
 
             SkipCellWhenEmpty = skipCellWhenEmpty;
         }
@@ -263,7 +268,7 @@ namespace BigExcelCreator
             }
         }
 
-        public void WriteTextCell(string text, int format=0, bool useSharedStrings=true)
+        public void WriteTextCell(string text, int format = 0, bool useSharedStrings = true)
         {
             if (format < 0)
             {
@@ -332,7 +337,9 @@ namespace BigExcelCreator
                 //reset the list of attributes
                 List<OpenXmlAttribute> attributes = new()
                 {
-                    //estilos
+                    //add the cell reference attribute
+                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
+                    //styles
                     new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                 };
 
@@ -368,7 +375,7 @@ namespace BigExcelCreator
                     {
                         //add the cell reference attribute
                         new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
-                        //estilos
+                        //styles
                         new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                     };
 
@@ -509,6 +516,12 @@ namespace BigExcelCreator
         {
             if (open)
             {
+#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
+                Task WriteSharedStringsPartTask = new Task(() => WriteSharedStringsPart());
+                WriteSharedStringsPartTask.Start();
+#else
+                WriteSharedStringsPart();
+#endif
                 writer = OpenXmlWriter.Create(Document.WorkbookPart);
                 writer.WriteStartElement(new Workbook());
                 writer.WriteStartElement(new Sheets());
@@ -523,6 +536,10 @@ namespace BigExcelCreator
                 // End Workbook
                 writer.WriteEndElement();
                 writer.Close();
+
+#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
+                WriteSharedStringsPartTask.Wait();
+#endif
                 Document.Close();
 
                 if (SavingTo == SavingTo.stream)
@@ -533,7 +550,7 @@ namespace BigExcelCreator
             open = false;
         }
 
-        #region IDisposable
+#region IDisposable
         private bool disposed;
 
         protected virtual void Dispose(bool disposing)
@@ -564,7 +581,7 @@ namespace BigExcelCreator
         {
             Dispose(false);
         }
-        #endregion
+#endregion
 
         private void WriteFilters()
         {
@@ -595,18 +612,27 @@ namespace BigExcelCreator
 
         private int AddTextToSharedStringsTable(string text)
         {
-            int pos = 0;
-            foreach (SharedStringItem sharedStringItem in SharedStringTablePart.SharedStringTable.Elements<SharedStringItem>())
+            int pos = SharedStringsList.IndexOf(text);
+            if (pos < 0)
             {
-                if (string.Equals(text, sharedStringItem.InnerText, StringComparison.Ordinal))
-                {
-                    return pos;
-                }
-                pos++;
+                pos = SharedStringsList.Count;
+                SharedStringsList.Add(text);
             }
-            SharedStringTablePart.SharedStringTable.AppendChild(new SharedStringItem(new[] { new Text(text) }));
-            SharedStringTablePart.SharedStringTable.Save();
             return pos;
+        }
+
+        private void WriteSharedStringsPart()
+        {
+            using OpenXmlWriter SharedStringsWriter = OpenXmlWriter.Create(SharedStringTablePart);
+            SharedStringsWriter.WriteStartElement(new SharedStringTable());
+            foreach (var item in SharedStringsList)
+            {
+                SharedStringsWriter.WriteStartElement(new SharedStringItem());
+                SharedStringsWriter.WriteElement(new Text(item));
+                SharedStringsWriter.WriteEndElement();
+            }
+            SharedStringsWriter.WriteEndElement();
+            SharedStringsWriter.Close();
         }
     }
 
