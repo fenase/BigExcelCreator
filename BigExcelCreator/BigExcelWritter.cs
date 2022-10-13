@@ -53,7 +53,7 @@ namespace BigExcelCreator
 
         private DataValidations sheetDataValidations;
 
-        private OpenXmlWriter writer;
+        private OpenXmlWriter workSheetPartWriter;
 
         private readonly List<string> SharedStringsList = new();
 
@@ -126,13 +126,13 @@ namespace BigExcelCreator
             if (!sheetOpen)
             {
                 workSheetPart = Document.WorkbookPart.AddNewPart<WorksheetPart>();
-                writer = OpenXmlWriter.Create(workSheetPart);
+                workSheetPartWriter = OpenXmlWriter.Create(workSheetPart);
                 currentSheetName = name;
-                writer.WriteStartElement(new Worksheet());
+                workSheetPartWriter.WriteStartElement(new Worksheet());
 
                 if (columns?.Count > 0)
                 {
-                    writer.WriteStartElement(new Columns());
+                    workSheetPartWriter.WriteStartElement(new Columns());
                     int indiceColumna = 1;
                     foreach (Column column in columns)
                     {
@@ -145,14 +145,14 @@ namespace BigExcelCreator
                             new OpenXmlAttribute("hidden", null, (column.Hidden ?? false).ToString()),
                         };
 
-                        writer.WriteStartElement(new Column(), atributosColumna);
-                        writer.WriteEndElement();
+                        workSheetPartWriter.WriteStartElement(new Column(), atributosColumna);
+                        workSheetPartWriter.WriteEndElement();
                         ++indiceColumna;
                     }
-                    writer.WriteEndElement();
+                    workSheetPartWriter.WriteEndElement();
                 }
 
-                writer.WriteStartElement(new SheetData());
+                workSheetPartWriter.WriteStartElement(new SheetData());
                 sheetOpen = true;
                 currentSheetState = sheetState;
             }
@@ -167,16 +167,17 @@ namespace BigExcelCreator
             if (sheetOpen)
             {
                 // write the end SheetData element
-                writer.WriteEndElement();
+                workSheetPartWriter.WriteEndElement();
                 // write validations
                 WriteValidations();
 
                 WriteFilters();
 
                 // write the end Worksheet element
-                writer.WriteEndElement();
+                workSheetPartWriter.WriteEndElement();
 
-                writer.Close();
+                workSheetPartWriter.Close();
+                workSheetPartWriter = null;
 
                 if (commentManager != null)
                 {
@@ -228,7 +229,7 @@ namespace BigExcelCreator
                     };
 
                     //write the row start element with the row index attribute
-                    writer.WriteStartElement(new Row(), attributes);
+                    workSheetPartWriter.WriteStartElement(new Row(), attributes);
                     rowOpen = true;
                 }
                 else
@@ -257,7 +258,7 @@ namespace BigExcelCreator
             if (rowOpen)
             {
                 // write the end row element
-                writer.WriteEndElement();
+                workSheetPartWriter.WriteEndElement();
                 maxColumnNum = Math.Max(columnNum - 1, maxColumnNum);
                 columnNum = 1;
                 rowOpen = false;
@@ -291,9 +292,9 @@ namespace BigExcelCreator
                             new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                         };
                         //write the cell start element with the type and reference attributes
-                        writer.WriteStartElement(new Cell(), attributes);
+                        workSheetPartWriter.WriteStartElement(new Cell(), attributes);
                         //write the cell value
-                        writer.WriteElement(new CellValue(ssPos));
+                        workSheetPartWriter.WriteElement(new CellValue(ssPos));
                     }
                     else
                     {
@@ -308,13 +309,13 @@ namespace BigExcelCreator
                             new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                         };
                         //write the cell start element with the type and reference attributes
-                        writer.WriteStartElement(new Cell(), attributes);
+                        workSheetPartWriter.WriteStartElement(new Cell(), attributes);
                         //write the cell value
-                        writer.WriteElement(new CellValue(text));
+                        workSheetPartWriter.WriteElement(new CellValue(text));
                     }
 
                     // write the end cell element
-                    writer.WriteEndElement();
+                    workSheetPartWriter.WriteEndElement();
 
                 }
                 columnNum++;
@@ -344,12 +345,12 @@ namespace BigExcelCreator
                 };
 
                 //write the cell start element with the type and reference attributes
-                writer.WriteStartElement(new Cell(), attributes);
+                workSheetPartWriter.WriteStartElement(new Cell(), attributes);
                 //write the cell value
-                writer.WriteElement(new CellValue(number));
+                workSheetPartWriter.WriteElement(new CellValue(number));
 
                 // write the end cell element
-                writer.WriteEndElement();
+                workSheetPartWriter.WriteEndElement();
 
                 columnNum++;
             }
@@ -380,12 +381,12 @@ namespace BigExcelCreator
                     };
 
                     //write the cell start element with the type and reference attributes
-                    writer.WriteStartElement(new Cell(), attributes);
+                    workSheetPartWriter.WriteStartElement(new Cell(), attributes);
                     //write the cell value
-                    writer.WriteElement(new CellFormula(formula?.ToUpperInvariant()));
+                    workSheetPartWriter.WriteElement(new CellFormula(formula?.ToUpperInvariant()));
 
                     // write the end cell element
-                    writer.WriteEndElement();
+                    workSheetPartWriter.WriteEndElement();
                 }
                 columnNum++;
             }
@@ -516,30 +517,25 @@ namespace BigExcelCreator
         {
             if (open)
             {
+                if (rowOpen) { EndRow(); }
+                if (sheetOpen) { CloseSheet(); }
+
 #if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
-                Task WriteSharedStringsPartTask = new Task(() => WriteSharedStringsPart());
-                WriteSharedStringsPartTask.Start();
+                Task[] tasks = 
+                {
+                    new Task(() => WriteSharedStringsPart()),
+                    new Task(() => WriteSheetsAndClosePart()),
+                };
+                foreach (Task task in tasks)
+                {
+                    task.Start();
+                }
+                Task.WaitAll(tasks.ToArray());
 #else
                 WriteSharedStringsPart();
+                WriteSheetsAndClosePart();
 #endif
-                writer = OpenXmlWriter.Create(Document.WorkbookPart);
-                writer.WriteStartElement(new Workbook());
-                writer.WriteStartElement(new Sheets());
 
-                foreach (Sheet sheet in sheets)
-                {
-                    writer.WriteElement(sheet);
-                }
-
-                // End Sheets
-                writer.WriteEndElement();
-                // End Workbook
-                writer.WriteEndElement();
-                writer.Close();
-
-#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
-                WriteSharedStringsPartTask.Wait();
-#endif
                 Document.Close();
 
                 if (SavingTo == SavingTo.stream)
@@ -550,7 +546,7 @@ namespace BigExcelCreator
             open = false;
         }
 
-#region IDisposable
+        #region IDisposable
         private bool disposed;
 
         protected virtual void Dispose(bool disposing)
@@ -562,8 +558,8 @@ namespace BigExcelCreator
                 {
                     // called via myClass.Dispose(). 
                     // OK to use any private object references
+                    workSheetPartWriter?.Dispose();
                     Document.Dispose();
-                    writer.Dispose();
                 }
                 // Release unmanaged resources.
                 // Set large fields to null.                
@@ -581,13 +577,13 @@ namespace BigExcelCreator
         {
             Dispose(false);
         }
-#endregion
+        #endregion
 
         private void WriteFilters()
         {
             if (SheetAutofilter == null) { return; }
 
-            writer.WriteElement(SheetAutofilter);
+            workSheetPartWriter.WriteElement(SheetAutofilter);
 
             SheetAutofilter = null;
         }
@@ -598,14 +594,14 @@ namespace BigExcelCreator
         {
             if (sheetDataValidations == null) { return; }
 
-            writer.WriteStartElement(sheetDataValidations);
+            workSheetPartWriter.WriteStartElement(sheetDataValidations);
             foreach (DataValidation item in sheetDataValidations.ChildElements.Cast<DataValidation>())
             {
-                writer.WriteStartElement(item);
-                writer.WriteElement(item.Formula1);
-                writer.WriteEndElement();
+                workSheetPartWriter.WriteStartElement(item);
+                workSheetPartWriter.WriteElement(item.Formula1);
+                workSheetPartWriter.WriteEndElement();
             }
-            writer.WriteEndElement();
+            workSheetPartWriter.WriteEndElement();
 
             sheetDataValidations = null;
         }
@@ -625,7 +621,7 @@ namespace BigExcelCreator
         {
             using OpenXmlWriter SharedStringsWriter = OpenXmlWriter.Create(SharedStringTablePart);
             SharedStringsWriter.WriteStartElement(new SharedStringTable());
-            foreach (var item in SharedStringsList)
+            foreach (string item in SharedStringsList)
             {
                 SharedStringsWriter.WriteStartElement(new SharedStringItem());
                 SharedStringsWriter.WriteElement(new Text(item));
@@ -633,6 +629,24 @@ namespace BigExcelCreator
             }
             SharedStringsWriter.WriteEndElement();
             SharedStringsWriter.Close();
+        }
+
+        private void WriteSheetsAndClosePart()
+        {
+            using OpenXmlWriter workbookPartWriter = OpenXmlWriter.Create(Document.WorkbookPart);
+            workbookPartWriter.WriteStartElement(new Workbook());
+            workbookPartWriter.WriteStartElement(new Sheets());
+
+            foreach (Sheet sheet in sheets)
+            {
+                workbookPartWriter.WriteElement(sheet);
+            }
+
+            // End Sheets
+            workbookPartWriter.WriteEndElement();
+            // End Workbook
+            workbookPartWriter.WriteEndElement();
+            workbookPartWriter.Close();
         }
     }
 
