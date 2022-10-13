@@ -269,7 +269,7 @@ namespace BigExcelCreator
             }
         }
 
-        public void WriteTextCell(string text, int format = 0, bool useSharedStrings = true)
+        public void WriteTextCell(string text, int format = 0, bool useSharedStrings = false)
         {
             if (format < 0)
             {
@@ -397,7 +397,7 @@ namespace BigExcelCreator
         }
 
 
-        public void WriteTextRow(IEnumerable<string> texts, int format = 0, bool hidden = false, bool useSharedStrings = true)
+        public void WriteTextRow(IEnumerable<string> texts, int format = 0, bool hidden = false, bool useSharedStrings = false)
         {
             BeginRow(hidden);
             foreach (string text in texts ?? throw new ArgumentNullException(nameof(texts)))

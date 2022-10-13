@@ -163,7 +163,7 @@ namespace Test35
                 });
 
                 int skipRows = 0;
-                IEnumerable<Cell> cells = GetCells(rows.Skip(skipRows++).First());
+                IEnumerable<Cell> cells = GetCells(rows.Skip(skipRows).First());
                 Assert.Multiple(() =>
                 {
                     Assert.That(cells, Is.Not.Null);
@@ -172,8 +172,9 @@ namespace Test35
                     Assert.That(GetCellRealValue(cells.Skip(1).Take(1).First(), workbookPart), Is.EqualTo("b"));
                     Assert.That(GetCellRealValue(cells.Skip(2).Take(1).First(), workbookPart), Is.EqualTo("c"));
                 });
+                skipRows++;
 
-                cells = GetCells(rows.Skip(skipRows++).First());
+                cells = GetCells(rows.Skip(skipRows).First());
                 Assert.Multiple(() =>
                 {
                     Assert.That(cells, Is.Not.Null);
@@ -183,8 +184,9 @@ namespace Test35
                     Assert.That(GetCellRealValue(cells.Skip(2).Take(1).First(), workbookPart), Is.EqualTo("30"));
                     Assert.That(GetCellRealValue(cells.Skip(3).Take(1).First(), workbookPart), Is.EqualTo("40"));
                 });
+                skipRows++;
 
-                cells = GetCells(rows.Skip(skipRows++).First());
+                cells = GetCells(rows.Skip(skipRows).First());
                 Assert.Multiple(() =>
                 {
                     Assert.That(cells, Is.Not.Null);

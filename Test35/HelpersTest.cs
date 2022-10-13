@@ -6,7 +6,10 @@ namespace Test35
     internal class HelpersTest
     {
         [SetUp]
-        public void Setup() { }
+        public void Setup()
+        {
+            // Method intentionally left empty.
+        }
 
 
         [Test]

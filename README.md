@@ -13,6 +13,7 @@ This is specially useful when trying to output thousands of rows
 # Table of Contents
 
 - [Usage](#usage)
+- [Shared Strings](#shared-strings)
 - [Data Validation](#data-validation)
 - [Styling and formatting](#styling-and-formatting)
     - [Column formatting](#column-formatting)
@@ -31,12 +32,18 @@ This is specially useful when trying to output thousands of rows
 4. Between `BeginRow` and `EndRow`, use `WriteTextCell` to write a cell.
     > Alternatively, you can use `WriteTextRow` to write an entire row at once, using the same format.
     
-    > Starting on version 1.1, text cells are written using the shared strings table, wich should reduce the generated file size.
-    > If for some reason this gives you trouble, set the parameter `useSharedStrings` to `false` when calling `WriteTextCell` or `WriteTextRow`.
+    > Starting on version 1.1, text cells can be written using the shared strings table, wich should reduce the generated file size.
+    > See [Shared Strings](#shared-strings) below
 5. Use `WriteFormulaCell` or `WriteFormulaRow` to insert formulas.
 6. Use `WriteNumberCell` or `WriteNumberRow` to insert numbers. This is useful if you need to do any calculation later on.
 7. Use `CloseSheet` to finish.
 8. If needed, repeat steps 2 -> 5 to write to another sheet
+
+## Shared Strings
+
+If the same text appears across different sheets, using the shared strings table may help reduce the generated file size.
+In order to do this, simply set to `true` the `useSharedStrings` parameter when calling `WriteTextCell` or `WriteTextRow`.
+
 
 ## Example
 
