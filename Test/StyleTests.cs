@@ -25,29 +25,29 @@ namespace Test
                         new Color { Rgb = new HexBinaryValue { Value = "000000" } },
                         new FontName { Val = "Calibri" });
 
-            fill[0] = new Fill(
-                        new PatternFill { PatternType = PatternValues.Gray125 });
-            fill[1] = new Fill(
-                        new PatternFill { PatternType = PatternValues.DarkDown });
+            fill[0] = new Fill(new[]{
+                        new PatternFill { PatternType = PatternValues.Gray125 } });
+            fill[1] = new Fill(new[]{
+                        new PatternFill { PatternType = PatternValues.DarkDown } });
 
             border[0] = new Border(
-                        new LeftBorder(
-                            new Color { Rgb = new HexBinaryValue { Value = "FFD3D3D3" } }
-                        )
-                        { Style = BorderStyleValues.Thin },
-                        new RightBorder(
-                            new Color { Rgb = new HexBinaryValue { Value = "FFD3D3D3" } }
-                        )
-                        { Style = BorderStyleValues.Thin },
-                        new TopBorder(
-                            new Color { Rgb = new HexBinaryValue { Value = "FFD3D3D3" } }
-                        )
-                        { Style = BorderStyleValues.Thin },
-                        new BottomBorder(
-                            new Color { Rgb = new HexBinaryValue { Value = "FFD3D3D3" } }
-                        )
-                        { Style = BorderStyleValues.Thin },
-                        new DiagonalBorder());
+                            new LeftBorder(new[]{
+                                new Color { Rgb = new HexBinaryValue { Value = "FFD3D3D3" } } }
+                            )
+                            { Style = BorderStyleValues.Thin },
+                            new RightBorder(new[]{
+                                new Color { Rgb = new HexBinaryValue { Value = "FFD3D3D3" } } }
+                            )
+                            { Style = BorderStyleValues.Thin },
+                            new TopBorder(new[]{
+                                new Color { Rgb = new HexBinaryValue { Value = "FFD3D3D3" } } }
+                            )
+                            { Style = BorderStyleValues.Thin },
+                            new BottomBorder(new[]{
+                                new Color { Rgb = new HexBinaryValue { Value = "FFD3D3D3" } } }
+                            )
+                            { Style = BorderStyleValues.Thin },
+                            new DiagonalBorder());
 
             numberingFormat[0] = new NumberingFormat { NumberFormatId = 164, FormatCode = "0,.00;(0,.00)" };
 
