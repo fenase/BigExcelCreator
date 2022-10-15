@@ -67,6 +67,11 @@ namespace BigExcelCreator
         private AutoFilter SheetAutofilter;
 
         private SharedStringTablePart SharedStringTablePart;
+
+#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
+        private readonly List<Task> DocumentTasks = new();
+        private readonly List<Task> SheetTasks = new();
+#endif
         #endregion
 
         #region ctor
@@ -197,6 +202,11 @@ namespace BigExcelCreator
 
                 currentSheetName = "";
                 workSheetPart.Worksheet.SheetDimension = new SheetDimension() { Reference = $"A1:{Helpers.GetColumnName(maxColumnNum)}{Math.Max(1, lastRowWritten)}" };
+
+#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
+                Task.WaitAll(SheetTasks.ToArray());
+                SheetTasks.Clear();
+#endif
                 sheetOpen = false;
                 workSheetPart = null;
                 commentManager = null;
@@ -523,20 +533,14 @@ namespace BigExcelCreator
                 if (rowOpen) { EndRow(); }
                 if (sheetOpen) { CloseSheet(); }
 
-#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
-                Task[] tasks = 
-                {
-                    new Task(() => WriteSharedStringsPart()),
-                    new Task(() => WriteSheetsAndClosePart()),
-                };
-                foreach (Task task in tasks)
-                {
-                    task.Start();
-                }
-                Task.WaitAll(tasks.ToArray());
-#else
                 WriteSharedStringsPart();
                 WriteSheetsAndClosePart();
+
+#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
+                Task.WaitAll(SheetTasks.ToArray());
+                SheetTasks.Clear();
+                Task.WaitAll(DocumentTasks.ToArray());
+                DocumentTasks.Clear();
 #endif
 
                 Document.Close();
@@ -622,34 +626,52 @@ namespace BigExcelCreator
 
         private void WriteSharedStringsPart()
         {
-            using OpenXmlWriter SharedStringsWriter = OpenXmlWriter.Create(SharedStringTablePart);
-            SharedStringsWriter.WriteStartElement(new SharedStringTable());
-            foreach (string item in SharedStringsList)
+#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
+            Task task = new Task(() =>
             {
-                SharedStringsWriter.WriteStartElement(new SharedStringItem());
-                SharedStringsWriter.WriteElement(new Text(item));
+#endif
+                using OpenXmlWriter SharedStringsWriter = OpenXmlWriter.Create(SharedStringTablePart);
+                SharedStringsWriter.WriteStartElement(new SharedStringTable());
+                foreach (string item in SharedStringsList)
+                {
+                    SharedStringsWriter.WriteStartElement(new SharedStringItem());
+                    SharedStringsWriter.WriteElement(new Text(item));
+                    SharedStringsWriter.WriteEndElement();
+                }
                 SharedStringsWriter.WriteEndElement();
-            }
-            SharedStringsWriter.WriteEndElement();
-            SharedStringsWriter.Close();
+                SharedStringsWriter.Close();
+#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
+            });
+            task.Start();
+            DocumentTasks.Add(task);
+#endif
         }
 
         private void WriteSheetsAndClosePart()
         {
-            using OpenXmlWriter workbookPartWriter = OpenXmlWriter.Create(Document.WorkbookPart);
-            workbookPartWriter.WriteStartElement(new Workbook());
-            workbookPartWriter.WriteStartElement(new Sheets());
-
-            foreach (Sheet sheet in sheets)
+#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
+            Task task = new Task(() =>
             {
-                workbookPartWriter.WriteElement(sheet);
-            }
+#endif
+                using OpenXmlWriter workbookPartWriter = OpenXmlWriter.Create(Document.WorkbookPart);
+                workbookPartWriter.WriteStartElement(new Workbook());
+                workbookPartWriter.WriteStartElement(new Sheets());
 
-            // End Sheets
-            workbookPartWriter.WriteEndElement();
-            // End Workbook
-            workbookPartWriter.WriteEndElement();
-            workbookPartWriter.Close();
+                foreach (Sheet sheet in sheets)
+                {
+                    workbookPartWriter.WriteElement(sheet);
+                }
+
+                // End Sheets
+                workbookPartWriter.WriteEndElement();
+                // End Workbook
+                workbookPartWriter.WriteEndElement();
+                workbookPartWriter.Close();
+#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
+            });
+            task.Start();
+            DocumentTasks.Add(task);
+#endif
         }
     }
 
