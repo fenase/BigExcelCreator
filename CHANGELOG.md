@@ -1,9 +1,9 @@
 ﻿# Changelog
 
 ## 1.2
+### Changed
 - Renamed class BigExcelwritter to BigExcelwriter.
   Sorry for the typo.
-  BigExcelwritter will be available for compatibility reasons for a while
 
 ## 1.1
 ### Added
