@@ -2,6 +2,7 @@
 // Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
 
 using BigExcelCreator.CommentsManager;
+using BigExcelCreator.Extensions;
 using BigExcelCreator.Ranges;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
@@ -67,6 +68,8 @@ namespace BigExcelCreator
         private AutoFilter SheetAutofilter;
 
         private SharedStringTablePart SharedStringTablePart;
+
+        private readonly List<ConditionalFormatting> conditionalFormattingList = new();
 
 #if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
         private readonly List<Task> DocumentTasks = new();
@@ -176,10 +179,12 @@ namespace BigExcelCreator
             {
                 // write the end SheetData element
                 workSheetPartWriter.WriteEndElement();
-                // write validations
+                
                 WriteValidations();
 
                 WriteFilters();
+
+                WriteConditionalFormatting();
 
                 // write the end Worksheet element
                 workSheetPartWriter.WriteEndElement();
@@ -202,6 +207,8 @@ namespace BigExcelCreator
 
                 currentSheetName = "";
                 workSheetPart.Worksheet.SheetDimension = new SheetDimension() { Reference = $"A1:{Helpers.GetColumnName(maxColumnNum)}{Math.Max(1, lastRowWritten)}" };
+
+
 
 #if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
                 Task.WaitAll(SheetTasks.ToArray());
@@ -509,12 +516,14 @@ namespace BigExcelCreator
         public void Comment(string text, string reference, string author = "BigExcelCreator")
         {
             if (string.IsNullOrEmpty(author)) { throw new ArgumentOutOfRangeException(nameof(author)); }
+            CellRange cellRange = new(reference);
+            if (!cellRange.IsSingleCellRange) { throw new ArgumentOutOfRangeException(nameof(reference), $"{nameof(reference)} must be a single cell range"); }
             if (sheetOpen)
             {
                 commentManager ??= new();
                 commentManager.Add(new CommentReference()
                 {
-                    Cell = reference,
+                    Cell = cellRange.RangeStringNoSheetName,
                     Text = text,
                     Author = author,
                 });
@@ -524,6 +533,35 @@ namespace BigExcelCreator
             {
                 throw new InvalidOperationException("There is no open sheet");
             }
+        }
+
+        public void AddConditionalFormattingFormula(string reference, string formula, int format)
+        {
+            CellRange cellRange = new(reference);
+            if (formula.IsNullOrWhiteSpace()) { throw new ArgumentNullException(nameof(formula)); }
+            if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
+
+            if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
+
+            ConditionalFormatting conditionalFormatting = new ()
+            {
+                SequenceOfReferences = new(new List<StringValue> { cellRange.RangeStringNoSheetName }),
+            };
+
+            ConditionalFormattingRule conditionalFormattingRule = new()
+            {
+                Type = ConditionalFormatValues.Expression,
+                FormatId = (uint)format,
+                Priority = conditionalFormattingList.Count+1,
+            };
+
+            conditionalFormattingRule.Append(new[] { new Formula { Text = formula } });
+
+            conditionalFormatting.Append(new[] { conditionalFormattingRule });
+
+
+            conditionalFormattingList.Add(conditionalFormatting);
+
         }
 
         public void CloseDocument()
@@ -602,15 +640,35 @@ namespace BigExcelCreator
             if (sheetDataValidations == null) { return; }
 
             workSheetPartWriter.WriteStartElement(sheetDataValidations);
-            foreach (DataValidation item in sheetDataValidations.ChildElements.Cast<DataValidation>())
+            foreach (DataValidation dataValidation in sheetDataValidations.ChildElements.Cast<DataValidation>())
             {
-                workSheetPartWriter.WriteStartElement(item);
-                workSheetPartWriter.WriteElement(item.Formula1);
+                workSheetPartWriter.WriteStartElement(dataValidation);
+                workSheetPartWriter.WriteElement(dataValidation.Formula1);
                 workSheetPartWriter.WriteEndElement();
             }
             workSheetPartWriter.WriteEndElement();
 
             sheetDataValidations = null;
+        }
+
+        private void WriteConditionalFormatting()
+        {
+            if(conditionalFormattingList==null || conditionalFormattingList.Count==0) { return; }
+
+            foreach (ConditionalFormatting  conditionalFormatting in conditionalFormattingList)
+            {
+                workSheetPartWriter.WriteStartElement(conditionalFormatting);
+                foreach (ConditionalFormattingRule conditionalFormattingRule in conditionalFormatting.ChildElements.OfType<ConditionalFormattingRule>())
+                {
+                    workSheetPartWriter.WriteStartElement(conditionalFormattingRule);
+                    foreach (var item in conditionalFormattingRule.ChildElements)
+                    {
+                        workSheetPartWriter.WriteElement(item);
+                    }
+                    workSheetPartWriter.WriteEndElement();
+                }
+                workSheetPartWriter.WriteEndElement();
+            }
         }
 
         private int AddTextToSharedStringsTable(string text)

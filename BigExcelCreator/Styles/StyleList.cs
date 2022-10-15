@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Federico Seckel.
 // Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
 
+using BigExcelCreator.Extensions;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
@@ -21,6 +22,8 @@ namespace BigExcelCreator.Styles
         private List<NumberingFormat> NumberingFormats { get; } = new List<NumberingFormat>();
 
         public IList<StyleElement> Styles { get; } = new List<StyleElement>();
+
+        public IList<DifferentialStyleElement> DifferentialFormats { get; } = new List<DifferentialStyleElement>();
 
         private const uint STARTINGNUMBERFORMAT = 164;
         #endregion
@@ -64,6 +67,7 @@ namespace BigExcelCreator.Styles
                 Borders = new Borders(Borders.Select(x => (OpenXmlElement)x.Clone())),
                 NumberingFormats = new NumberingFormats(NumberingFormats.Select(x => (OpenXmlElement)x.Clone())),
                 CellFormats = new CellFormats(Styles.Select(x => (OpenXmlElement)x.Style.Clone())),
+                DifferentialFormats = new DifferentialFormats(DifferentialFormats.Select(x => (OpenXmlElement)x.DifferentialFormat)),
             };
 #else
             return new Stylesheet
@@ -73,6 +77,7 @@ namespace BigExcelCreator.Styles
                 Borders = new Borders(Borders.Select(x => (Border)x.Clone())),
                 NumberingFormats = new NumberingFormats(NumberingFormats.Select(x => (NumberingFormat)x.Clone())),
                 CellFormats = new CellFormats(Styles.Select(x => (CellFormat)x.Style.Clone())),
+                DifferentialFormats = new DifferentialFormats(DifferentialFormats.Select(x => x.DifferentialFormat)),
             };
 #endif
         }
@@ -86,6 +91,17 @@ namespace BigExcelCreator.Styles
         {
             styleElement = Styles.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
             return Styles.IndexOf(styleElement);
+        }
+
+        public int GetIndexDifferentialByName(string name)
+        {
+            return GetIndexDifferentialByName(name, out _);
+        }
+
+        public int GetIndexDifferentialByName(string name, out DifferentialStyleElement differentialStyleElement)
+        {
+            differentialStyleElement = DifferentialFormats.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            return DifferentialFormats.IndexOf(differentialStyleElement);
         }
 
         public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, string name)
@@ -123,6 +139,53 @@ namespace BigExcelCreator.Styles
             Styles.Add(styleElement);
 
             return styleElement;
+        }
+
+        public DifferentialStyleElement NewDifferentialStyle(string name ,Font font = null, Fill fill = null, Border border = null, NumberingFormat numberingFormat = null, Alignment alignment = null)
+        {
+            if (GetIndexDifferentialByName(name, out DifferentialStyleElement style) >= 0)
+            {
+                return style;
+            }
+
+            DifferentialStyleElement differentialFormat = null;
+            if (font != null)
+            {
+                // if this is not the first block, uncomment this and remove the next line => differentialFormat ??= new()
+                differentialFormat = new() { Font = font };
+            }
+
+            if (fill != null)
+            {
+                differentialFormat ??= new() { Fill = fill };
+            }
+
+            if (border != null)
+            {
+                differentialFormat ??= new() { Border = border };
+            }
+
+            if (numberingFormat != null)
+            {
+                differentialFormat ??= new() { NumberingFormat = numberingFormat };
+            }
+
+            if (alignment != null)
+            {
+                differentialFormat ??= new() { Alignment = alignment };
+            }
+
+            if (differentialFormat != null)
+            {
+                differentialFormat.Name = !name.IsNullOrWhiteSpace() ? name : throw new ArgumentNullException(nameof(name));
+                DifferentialFormats.Add(differentialFormat);
+                return differentialFormat;
+            }
+            else
+            {
+                throw new ArgumentNullException("At least one argument should be not null", (Exception)null);
+            }
+
         }
 
 

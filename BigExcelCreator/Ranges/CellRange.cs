@@ -46,7 +46,7 @@ namespace BigExcelCreator.Ranges
             if (StartingRowIsFixed) { sb.Append('$'); }
             if (StartingRow != null) { sb.Append(StartingRow); }
 
-            if (!SingleCellRange)
+            if (!IsSingleCellRange)
             {
                 sb.Append(':');
 
@@ -92,7 +92,7 @@ namespace BigExcelCreator.Ranges
 
         public int Height { get => Math.Abs((EndingRow ?? 0) - (StartingRow ?? 0)) + 1; }
 
-        private bool SingleCellRange => StartingRow == EndingRow && StartingColumn == EndingColumn;
+        public bool IsSingleCellRange => StartingRow == EndingRow && StartingColumn == EndingColumn;
 
         private readonly char[] invalidSheetCharacters = @"\/*[]:?".ToCharArray();
 

@@ -2,6 +2,7 @@
 
 using BigExcelCreator;
 using BigExcelCreator.Styles;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 
 int attemps = 0;
@@ -40,6 +41,8 @@ Alignment center = new() { Horizontal = HorizontalAlignmentValues.Center };
 styleList.NewStyle(italic, null, null, null, center, "italic center");
 styleList.NewStyle(bold, null, null, null, center, "bold center");
 styleList.NewStyle(boldItalic, null, null, null, center, "bold italic center");
+
+styleList.NewDifferentialStyle("RED", font: new Font(new Color { Rgb = new HexBinaryValue { Value = "FF0000" } }));
 
 using BigExcelwriter excel = new(fullpath, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook, styleList.GetStylesheet());
 
@@ -109,4 +112,14 @@ excel.WriteTextCell("this is in italic (centered)", styleList.GetIndexByName("it
 excel.WriteTextCell("this is bold (centered)", styleList.GetIndexByName("bold center"));
 excel.WriteTextCell("this is bold and italic (centered)", styleList.GetIndexByName("bold italic center"));
 excel.EndRow();
+excel.CloseSheet();
+
+excel.CreateAndOpenSheet("conditional");
+for (int i = 0; i < 10; i++)
+{
+    excel.WriteNumberRow(new List<float> { i });
+}
+
+excel.AddConditionalFormattingFormula("A1:A10", "A1<=5", styleList.GetIndexDifferentialByName("RED"));
+
 excel.CloseSheet();
