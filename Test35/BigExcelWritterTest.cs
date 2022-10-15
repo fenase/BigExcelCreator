@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Test35
 {
-    internal class BigExcelWritterTest
+    internal class BigExcelwriterTest
     {
         string DirectoryPath { get; set; }
 
@@ -35,7 +35,7 @@ namespace Test35
         public void FileExistsAfterCreation()
         {
             string path = Path.Combine(DirectoryPath, "creationTest.xlsx");
-            using (BigExcelWritter writter = new BigExcelWritter(path, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+            using (BigExcelwriter writer = new BigExcelwriter(path, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
             {
                 // do nothing
             }
@@ -47,10 +47,10 @@ namespace Test35
         public void ValidFile()
         {
             string path = Path.Combine(DirectoryPath, "ValidFile.xlsx");
-            using (BigExcelWritter writter = new BigExcelWritter(path, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+            using (BigExcelwriter writer = new BigExcelwriter(path, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
             {
-                writter.CreateAndOpenSheet("first");
-                writter.CloseSheet();
+                writer.CreateAndOpenSheet("first");
+                writer.CloseSheet();
             }
             FileAssert.Exists(path);
 
@@ -81,10 +81,10 @@ namespace Test35
         public void ValidStream()
         {
             MemoryStream stream = new MemoryStream();
-            using (BigExcelWritter writter = new BigExcelWritter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+            using (BigExcelwriter writer = new BigExcelwriter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
             {
-                writter.CreateAndOpenSheet("first");
-                writter.CloseSheet();
+                writer.CreateAndOpenSheet("first");
+                writer.CloseSheet();
             }
             Assert.Multiple(() =>
             {
@@ -120,13 +120,13 @@ namespace Test35
         public void ValidContent()
         {
             MemoryStream stream = new MemoryStream();
-            using (BigExcelWritter writter = new BigExcelWritter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+            using (BigExcelwriter writer = new BigExcelwriter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
             {
-                writter.CreateAndOpenSheet("first");
-                writter.WriteTextRow(new[] { "a", "b", "c" });
-                writter.WriteNumberRow(new[] { 1f, 2f, 30f, 40f });
-                writter.WriteFormulaRow(new[] { "SUM(A2:D2)" });
-                writter.CloseSheet();
+                writer.CreateAndOpenSheet("first");
+                writer.WriteTextRow(new[] { "a", "b", "c" });
+                writer.WriteNumberRow(new[] { 1f, 2f, 30f, 40f });
+                writer.WriteFormulaRow(new[] { "SUM(A2:D2)" });
+                writer.CloseSheet();
             }
 
             Assert.Multiple(() =>
@@ -200,47 +200,47 @@ namespace Test35
         [Test]
         public void InvalidStateRowOrSheet()
         {
-            using (BigExcelWritter writter = GetWritterStream(out _))
+            using (BigExcelwriter writer = GetwriterStream(out _))
             {
                 Assert.Multiple(() =>
                 {
-                    Assert.Throws<InvalidOperationException>(() => writter.BeginRow());
-                    Assert.Throws<InvalidOperationException>(() => writter.BeginRow(1));
-                    Assert.Throws<InvalidOperationException>(() => writter.EndRow());
-                    Assert.Throws<InvalidOperationException>(() => writter.CloseSheet());
+                    Assert.Throws<InvalidOperationException>(() => writer.BeginRow());
+                    Assert.Throws<InvalidOperationException>(() => writer.BeginRow(1));
+                    Assert.Throws<InvalidOperationException>(() => writer.EndRow());
+                    Assert.Throws<InvalidOperationException>(() => writer.CloseSheet());
                 });
             }
 
-            using (BigExcelWritter writter = GetWritterStream(out _))
+            using (BigExcelwriter writer = GetwriterStream(out _))
             {
-                writter.CreateAndOpenSheet("abc");
-                writter.BeginRow(2);
-                writter.EndRow();
-                Assert.Throws<InvalidOperationException>(() => writter.BeginRow(1));
+                writer.CreateAndOpenSheet("abc");
+                writer.BeginRow(2);
+                writer.EndRow();
+                Assert.Throws<InvalidOperationException>(() => writer.BeginRow(1));
             }
 
-            using (BigExcelWritter writter = GetWritterStream(out _))
+            using (BigExcelwriter writer = GetwriterStream(out _))
             {
-                writter.CreateAndOpenSheet("abc");
-                Assert.Throws<InvalidOperationException>(() => writter.CreateAndOpenSheet("opq"));
+                writer.CreateAndOpenSheet("abc");
+                Assert.Throws<InvalidOperationException>(() => writer.CreateAndOpenSheet("opq"));
             }
         }
 
         [Test]
         public void InvalidStateCell()
         {
-            using (BigExcelWritter writter = GetWritterStream(out _))
+            using (BigExcelwriter writer = GetwriterStream(out _))
             {
-                Assert.Throws<InvalidOperationException>(() => writter.WriteTextCell("a"));
+                Assert.Throws<InvalidOperationException>(() => writer.WriteTextCell("a"));
             }
-            using (BigExcelWritter writter = GetWritterStream(out _))
+            using (BigExcelwriter writer = GetwriterStream(out _))
             {
-                writter.CreateAndOpenSheet("name");
+                writer.CreateAndOpenSheet("name");
                 Assert.Multiple(() =>
                 {
-                    Assert.Throws<InvalidOperationException>(() => writter.WriteTextCell("a"));
-                    Assert.Throws<InvalidOperationException>(() => writter.WriteNumberCell(1f));
-                    Assert.Throws<InvalidOperationException>(() => writter.WriteFormulaCell("SUM(A1:A2)"));
+                    Assert.Throws<InvalidOperationException>(() => writer.WriteTextCell("a"));
+                    Assert.Throws<InvalidOperationException>(() => writer.WriteNumberCell(1f));
+                    Assert.Throws<InvalidOperationException>(() => writer.WriteFormulaCell("SUM(A1:A2)"));
                 });
             }
         }
@@ -258,24 +258,24 @@ namespace Test35
                 new List<string>{ "fermentum molestie", "parturient montes", "Lorem ipsum", "dolor sit amet" ,"eleifend", "urna", "laoreet libero", "id metus placerat" ,"justo convallis in"},
             };
 
-            using (BigExcelWritter writter1 = GetWritterStream(out m1))
+            using (BigExcelwriter writer1 = GetwriterStream(out m1))
             {
-                writter1.CreateAndOpenSheet("s1");
+                writer1.CreateAndOpenSheet("s1");
                 foreach (List<string> row in strings)
                 {
-                    writter1.WriteTextRow(row, useSharedStrings: true);
+                    writer1.WriteTextRow(row, useSharedStrings: true);
                 }
-                writter1.CloseSheet();
+                writer1.CloseSheet();
             }
 
-            using (BigExcelWritter writter2 = GetWritterStream(out m2))
+            using (BigExcelwriter writer2 = GetwriterStream(out m2))
             {
-                writter2.CreateAndOpenSheet("s1");
+                writer2.CreateAndOpenSheet("s1");
                 foreach (List<string> row in strings)
                 {
-                    writter2.WriteTextRow(row, useSharedStrings: false);
+                    writer2.WriteTextRow(row, useSharedStrings: false);
                 }
-                writter2.CloseSheet();
+                writer2.CloseSheet();
             }
 
 
@@ -327,40 +327,40 @@ namespace Test35
         [TestCase("formula", "cell")]
         public void InvalidFormat(string @type, string rowOrCell)
         {
-            using (BigExcelWritter writter = GetWritterStream(out _))
+            using (BigExcelwriter writer = GetwriterStream(out _))
             {
-                writter.CreateAndOpenSheet("a");
+                writer.CreateAndOpenSheet("a");
                 switch (rowOrCell)
                 {
                     case "row":
                         switch (type)
                         {
                             case "text":
-                                Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteTextRow(new[] { "a" }, -1));
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteTextRow(new[] { "a" }, -1));
                                 break;
                             case "number":
-                                Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteNumberRow(new[] { 3f }, -1));
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteNumberRow(new[] { 3f }, -1));
                                 break;
                             case "formula":
-                                Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteFormulaRow(new[] { "a" }, -1));
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteFormulaRow(new[] { "a" }, -1));
                                 break;
                         }
                         break;
                     case "cell":
-                        writter.BeginRow();
+                        writer.BeginRow();
                         switch (type)
                         {
                             case "text":
-                                Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteTextCell("a", -1));
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteTextCell("a", -1));
                                 break;
                             case "number":
-                                Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteNumberCell(3f, -1));
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteNumberCell(3f, -1));
                                 break;
                             case "formula":
-                                Assert.Throws<ArgumentOutOfRangeException>(() => writter.WriteFormulaCell("a", -1));
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteFormulaCell("a", -1));
                                 break;
                         }
-                        writter.EndRow();
+                        writer.EndRow();
                         break;
                 }
             }
@@ -397,10 +397,10 @@ namespace Test35
             }
         }
 
-        private static BigExcelWritter GetWritterStream(out MemoryStream stream)
+        private static BigExcelwriter GetwriterStream(out MemoryStream stream)
         {
             stream = new MemoryStream();
-            return new BigExcelWritter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook);
+            return new BigExcelwriter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook);
         }
         #endregion
     }

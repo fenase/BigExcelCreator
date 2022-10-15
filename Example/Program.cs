@@ -41,7 +41,7 @@ styleList.NewStyle(italic, null, null, null, center, "italic center");
 styleList.NewStyle(bold, null, null, null, center, "bold center");
 styleList.NewStyle(boldItalic, null, null, null, center, "bold italic center");
 
-using BigExcelWritter excel = new(fullpath, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook, styleList.GetStylesheet());
+using BigExcelwriter excel = new(fullpath, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook, styleList.GetStylesheet());
 
 excel.CreateAndOpenSheet("S1", columns: columns, sheetState: SheetStateValues.Visible);
 

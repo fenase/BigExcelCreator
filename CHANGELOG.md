@@ -1,5 +1,10 @@
 ﻿# Changelog
 
+## 1.2
+- Renamed class BigExcelwritter to BigExcelwriter.
+  Sorry for the typo.
+  BigExcelwritter will be available for compatibility reasons for a while
+
 ## 1.1
 ### Added
 - Text cells can now be written as shared strings instead of as value. This should reduce the final file's size when the same text is repeated across sheets
