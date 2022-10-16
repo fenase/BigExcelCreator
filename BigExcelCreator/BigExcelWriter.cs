@@ -179,7 +179,7 @@ namespace BigExcelCreator
             {
                 // write the end SheetData element
                 workSheetPartWriter.WriteEndElement();
-                
+
                 WriteValidations();
 
                 WriteFilters();
@@ -543,7 +543,7 @@ namespace BigExcelCreator
 
             if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
 
-            ConditionalFormatting conditionalFormatting = new ()
+            ConditionalFormatting conditionalFormatting = new()
             {
                 SequenceOfReferences = new(new List<StringValue> { cellRange.RangeStringNoSheetName }),
             };
@@ -552,10 +552,67 @@ namespace BigExcelCreator
             {
                 Type = ConditionalFormatValues.Expression,
                 FormatId = (uint)format,
-                Priority = conditionalFormattingList.Count+1,
+                Priority = conditionalFormattingList.Count + 1,
             };
 
             conditionalFormattingRule.Append(new[] { new Formula { Text = formula } });
+
+            conditionalFormatting.Append(new[] { conditionalFormattingRule });
+
+
+            conditionalFormattingList.Add(conditionalFormatting);
+
+        }
+
+        public void AddConditionalFormattingCellIs(string reference, ConditionalFormattingOperatorValues @operator, string value, int format, string value2 = null)
+        {
+            CellRange cellRange = new(reference);
+
+            if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
+            if (value.IsNullOrWhiteSpace()) { throw new ArgumentNullException(nameof(value)); }
+            if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
+
+            ConditionalFormatting conditionalFormatting = new()
+            {
+                SequenceOfReferences = new(new List<StringValue> { cellRange.RangeStringNoSheetName }),
+            };
+
+            ConditionalFormattingRule conditionalFormattingRule = new()
+            {
+                Type= ConditionalFormatValues.CellIs,
+                @Operator = @operator,
+                FormatId = (uint)format,
+                Priority = conditionalFormattingList.Count + 1,
+            };
+
+            conditionalFormattingRule.Append(new[] { new Formula { Text = value } });
+            if (!value2.IsNullOrWhiteSpace()) { conditionalFormattingRule.Append(new[] { new Formula { Text = value2 } }); }
+
+            conditionalFormatting.Append(new[] { conditionalFormattingRule });
+
+
+            conditionalFormattingList.Add(conditionalFormatting);
+
+        }
+
+        public void AddConditionalFormattingDuplicatedValues(string reference, int format)
+        {
+            CellRange cellRange = new(reference);
+
+            if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
+            if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
+
+            ConditionalFormatting conditionalFormatting = new()
+            {
+                SequenceOfReferences = new(new List<StringValue> { cellRange.RangeStringNoSheetName }),
+            };
+
+            ConditionalFormattingRule conditionalFormattingRule = new()
+            {
+                Type= ConditionalFormatValues.DuplicateValues,
+                FormatId = (uint)format,
+                Priority = conditionalFormattingList.Count + 1,
+            };
 
             conditionalFormatting.Append(new[] { conditionalFormattingRule });
 
@@ -653,9 +710,9 @@ namespace BigExcelCreator
 
         private void WriteConditionalFormatting()
         {
-            if(conditionalFormattingList==null || conditionalFormattingList.Count==0) { return; }
+            if (conditionalFormattingList == null || conditionalFormattingList.Count == 0) { return; }
 
-            foreach (ConditionalFormatting  conditionalFormatting in conditionalFormattingList)
+            foreach (ConditionalFormatting conditionalFormatting in conditionalFormattingList)
             {
                 workSheetPartWriter.WriteStartElement(conditionalFormatting);
                 foreach (ConditionalFormattingRule conditionalFormattingRule in conditionalFormatting.ChildElements.OfType<ConditionalFormattingRule>())

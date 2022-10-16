@@ -133,9 +133,13 @@ excel.CreateAndOpenSheet("conditional");
 for (int i = 0; i < 10; i++)
 {
     excel.WriteNumberRow(new List<float> { i }, styleList.GetIndexByName("YELLOW"));
+    excel.WriteNumberRow(new List<float> { i }, styleList.GetIndexByName("YELLOW"));
 }
 
-excel.AddConditionalFormattingFormula("A1:A10", "A1<5", styleList.GetIndexDifferentialByName("RED"));
-excel.AddConditionalFormattingFormula("A1:A10", "A1>5", styleList.GetIndexDifferentialByName("GREENBKG"));
+excel.AddConditionalFormattingFormula("A1:A20", "A1<5", styleList.GetIndexDifferentialByName("RED"));
+excel.AddConditionalFormattingFormula("A1:A20", "A1>5", styleList.GetIndexDifferentialByName("GREENBKG"));
+excel.AddConditionalFormattingDuplicatedValues("A1:A20", styleList.GetIndexDifferentialByName("RED"));
+excel.AddConditionalFormattingCellIs("A1:A20", ConditionalFormattingOperatorValues.LessThan, "5", styleList.GetIndexDifferentialByName("RED"));
+excel.AddConditionalFormattingCellIs("A1:A20", ConditionalFormattingOperatorValues.Between, "3", styleList.GetIndexDifferentialByName("RED"), "7");
 
 excel.CloseSheet();

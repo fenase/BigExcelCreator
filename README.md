@@ -22,6 +22,9 @@ This is specially useful when trying to output thousands of rows
     - [Comments](#comments)
     - [Autofilter](#autofilter)
     - [Conditional Formatting](#conditional-formatting)
+        - [Formula](#formula)
+        - [Cell Is](#cell-is)
+        - [Duplicated Values](#duplicatedv-alues)
 
 
 # Usage
@@ -256,4 +259,9 @@ To define a conditional style by formula, use `AddConditionalFormattingFormula(s
 ```c#
 excel.AddConditionalFormattingFormula("A1:A10", "A1<5", styleList.GetIndexDifferentialByName("RED"));
 ```
+
+### Cell Is
+
+
+### Duplicated Values
 
