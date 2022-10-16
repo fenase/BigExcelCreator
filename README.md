@@ -29,7 +29,7 @@ This is specially useful when trying to output thousands of rows
 
 # Usage
 
-1. Instantiate class `BigExcelwriter` using either a file path or a stream (`MemoryStream` is recommended).
+1. Instantiate class `BigExcelWriter` using either a file path or a stream (`MemoryStream` is recommended).
 2. Open a new Sheet using `CreateAndOpenSheet`
 3. For every row, use `BeginRow` and `EndRow`
     * If you want to hide a row, pass `true` when calling `BeginRow`
@@ -57,7 +57,7 @@ using BigExcelCreator;
 ....
 
 MemoryStream stream = new MemoryStream();
-using (BigExcelwriter excel = new(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+using (BigExcelWriter excel = new(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
 {
     excel.CreateAndOpenSheet("Sheet Name");
     excel.BeginRow();
@@ -178,12 +178,12 @@ list.NewStyle(font1, fill1, border1, numberingFormat1, name1);
 list.NewStyle(font1, fill2, border1, numberingFormat1, name2);
 ```
 
-When instantiating `BigExcelwriter`, use the result of calling `GetStylesheet` as the `stylesheet` parameter.
+When instantiating `BigExcelWriter`, use the result of calling `GetStylesheet` as the `stylesheet` parameter.
 Then, when writing a cell, you can use the name given earlier to format it.
 
 ```c#
 MemoryStream stream = new MemoryStream();
-using (BigExcelwriter excel = new(stream,
+using (BigExcelWriter excel = new(stream,
                                     DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook
                                     stylesheet: list.GetStylesheet()))
 {
@@ -205,7 +205,7 @@ using (BigExcelwriter excel = new(stream,
 > All parameters of `NewDifferentialStyle` are optional, except `name`. Of the optional parameters, at least one must be present.
 
 ```c#
-// place this before calling list.GetStylesheet() and new BigExcelwriter()
+// place this before calling list.GetStylesheet() and new BigExcelWriter()
 list.NewDifferentialStyle("RED", font: new Font(new Color { Rgb = new HexBinaryValue { Value = "FF0000" } }));
 ```
 

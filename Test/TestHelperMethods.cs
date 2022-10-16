@@ -35,10 +35,10 @@ namespace Test
             }
         }
 
-        internal static BigExcelwriter GetwriterStream(out MemoryStream stream)
+        internal static BigExcelWriter GetwriterStream(out MemoryStream stream)
         {
             stream = new MemoryStream();
-            return new BigExcelwriter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook);
+            return new BigExcelWriter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook);
         }
     }
 }

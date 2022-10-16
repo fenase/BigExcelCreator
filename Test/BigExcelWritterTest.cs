@@ -5,7 +5,7 @@ using static Test.TestHelperMethods;
 
 namespace Test
 {
-    internal class BigExcelwriterTest
+    internal class BigExcelWriterTest
     {
         string DirectoryPath { get; set; }
 
@@ -31,7 +31,7 @@ namespace Test
         public void FileExistsAfterCreation()
         {
             string path = Path.Combine(DirectoryPath, "creationTest.xlsx");
-            using (BigExcelwriter writer = new BigExcelwriter(path, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+            using (BigExcelWriter writer = new BigExcelWriter(path, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
             {
                 // do nothing
             }
@@ -43,7 +43,7 @@ namespace Test
         public void ValidFile()
         {
             string path = Path.Combine(DirectoryPath, "ValidFile.xlsx");
-            using (BigExcelwriter writer = new BigExcelwriter(path, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+            using (BigExcelWriter writer = new BigExcelWriter(path, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
             {
                 writer.CreateAndOpenSheet("first");
                 writer.CloseSheet();
@@ -77,7 +77,7 @@ namespace Test
         public void ValidStream()
         {
             MemoryStream stream = new MemoryStream();
-            using (BigExcelwriter writer = new BigExcelwriter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+            using (BigExcelWriter writer = new BigExcelWriter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
             {
                 writer.CreateAndOpenSheet("first");
                 writer.CloseSheet();
@@ -116,7 +116,7 @@ namespace Test
         public void ValidContent()
         {
             MemoryStream stream = new MemoryStream();
-            using (BigExcelwriter writer = new BigExcelwriter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+            using (BigExcelWriter writer = new BigExcelWriter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
             {
                 writer.CreateAndOpenSheet("first");
                 writer.WriteTextRow(new[] { "a", "b", "c" });
@@ -196,7 +196,7 @@ namespace Test
         [Test]
         public void InvalidStateRowOrSheet()
         {
-            using (BigExcelwriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetwriterStream(out _))
             {
                 Assert.Multiple(() =>
                 {
@@ -207,7 +207,7 @@ namespace Test
                 });
             }
 
-            using (BigExcelwriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetwriterStream(out _))
             {
                 writer.CreateAndOpenSheet("abc");
                 writer.BeginRow(2);
@@ -215,7 +215,7 @@ namespace Test
                 Assert.Throws<InvalidOperationException>(() => writer.BeginRow(1));
             }
 
-            using (BigExcelwriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetwriterStream(out _))
             {
                 writer.CreateAndOpenSheet("abc");
                 Assert.Throws<InvalidOperationException>(() => writer.CreateAndOpenSheet("opq"));
@@ -225,11 +225,11 @@ namespace Test
         [Test]
         public void InvalidStateCell()
         {
-            using (BigExcelwriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetwriterStream(out _))
             {
                 Assert.Throws<InvalidOperationException>(() => writer.WriteTextCell("a"));
             }
-            using (BigExcelwriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetwriterStream(out _))
             {
                 writer.CreateAndOpenSheet("name");
                 Assert.Multiple(() =>
@@ -254,7 +254,7 @@ namespace Test
                 new List<string>{ "fermentum molestie", "parturient montes", "Lorem ipsum", "dolor sit amet" ,"eleifend", "urna", "laoreet libero", "id metus placerat" ,"justo convallis in"},
             };
 
-            using (BigExcelwriter writer1 = GetwriterStream(out m1))
+            using (BigExcelWriter writer1 = GetwriterStream(out m1))
             {
                 writer1.CreateAndOpenSheet("s1");
                 foreach (List<string> row in strings)
@@ -264,7 +264,7 @@ namespace Test
                 writer1.CloseSheet();
             }
 
-            using (BigExcelwriter writer2 = GetwriterStream(out m2))
+            using (BigExcelWriter writer2 = GetwriterStream(out m2))
             {
                 writer2.CreateAndOpenSheet("s1");
                 foreach (List<string> row in strings)
@@ -321,7 +321,7 @@ namespace Test
         [TestCase("formula", "cell")]
         public void InvalidFormat(string @type, string rowOrCell)
         {
-            using BigExcelwriter writer = GetwriterStream(out _);
+            using BigExcelWriter writer = GetwriterStream(out _);
             writer.CreateAndOpenSheet("a");
             switch (rowOrCell)
             {
@@ -363,7 +363,7 @@ namespace Test
         public void ConditionalFormattingFormula()
         {
             MemoryStream memoryStream;
-            using (BigExcelwriter writer = GetwriterStream(out memoryStream))
+            using (BigExcelWriter writer = GetwriterStream(out memoryStream))
             {
                 writer.CreateAndOpenSheet("a");
                 for (int i = 0; i < 10; i++)
@@ -402,7 +402,7 @@ namespace Test
         public void ConditionalFormattingDuplicatedValues()
         {
             MemoryStream memoryStream;
-            using (BigExcelwriter writer = GetwriterStream(out memoryStream))
+            using (BigExcelWriter writer = GetwriterStream(out memoryStream))
             {
                 writer.CreateAndOpenSheet("a");
                 for (int i = 0; i < 10; i++)

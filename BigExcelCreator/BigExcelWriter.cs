@@ -29,7 +29,7 @@ namespace BigExcelCreator
     /// <see cref="https://www.nuget.org/packages/BigExcelCreator/#readme-body-tab">NuGet</see>
     /// <seealso cref="https://github.com/fenase/BigExcelCreator">Source</seealso>
     /// </summary>
-    public class BigExcelwriter : IDisposable
+    public class BigExcelWriter : IDisposable
     {
         #region props
         public string Path { get; }
@@ -77,25 +77,25 @@ namespace BigExcelCreator
         #endregion
 
         #region ctor
-        public BigExcelwriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType)
+        public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType)
         : this(stream, spreadsheetDocumentType, false) { }
 
-        public BigExcelwriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, Stylesheet stylesheet)
+        public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, Stylesheet stylesheet)
         : this(stream, spreadsheetDocumentType, false, stylesheet) { }
 
-        public BigExcelwriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty)
+        public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty)
             : this(stream, spreadsheetDocumentType, skipCellWhenEmpty, new Stylesheet()) { }
 
-        public BigExcelwriter(string path, SpreadsheetDocumentType spreadsheetDocumentType)
+        public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType)
         : this(path, spreadsheetDocumentType, false) { }
 
-        public BigExcelwriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, Stylesheet stylesheet)
+        public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, Stylesheet stylesheet)
         : this(path, spreadsheetDocumentType, false, stylesheet) { }
 
-        public BigExcelwriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty)
+        public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty)
             : this(path, spreadsheetDocumentType, skipCellWhenEmpty, new Stylesheet()) { }
 
-        public BigExcelwriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
+        public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
             Path = path;
             SavingTo = SavingTo.file;
@@ -103,7 +103,7 @@ namespace BigExcelCreator
             CtorHelper(spreadsheetDocumentType, skipCellWhenEmpty, stylesheet);
         }
 
-        public BigExcelwriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
+        public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
             Stream = stream;
             SavingTo = SavingTo.stream;
@@ -679,7 +679,7 @@ namespace BigExcelCreator
             GC.SuppressFinalize(this);
         }
 
-        ~BigExcelwriter() // the finalizer
+        ~BigExcelWriter() // the finalizer
         {
             Dispose(false);
         }

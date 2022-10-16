@@ -28,7 +28,7 @@ namespace Test
         public void Comments()
         {
             MemoryStream memoryStream;
-            using (BigExcelwriter writer = GetwriterStream(out memoryStream))
+            using (BigExcelWriter writer = GetwriterStream(out memoryStream))
             {
                 writer.CreateAndOpenSheet("name");
                 writer.WriteTextRow(new[] { hasComment, hasNoComment, hasComment });
