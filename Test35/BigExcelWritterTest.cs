@@ -366,5 +366,44 @@ namespace Test35
                 }
             }
         }
+
+
+        [Test]
+        public void ConditionalFormattingFormula()
+        {
+            MemoryStream memoryStream;
+            using (BigExcelwriter writer = GetwriterStream(out memoryStream))
+            {
+                writer.CreateAndOpenSheet("a");
+                for (int i = 0; i < 10; i++)
+                {
+                    writer.WriteNumberRow(new List<float> { i });
+                }
+
+                writer.AddConditionalFormattingFormula("A1:A20", "A1<5", 1);
+            }
+
+            using (SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false))
+            {
+                WorkbookPart workbookPart = reader.WorkbookPart;
+                Assert.That(workbookPart, Is.Not.Null);
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>, Is.Not.Empty);
+                    IEnumerable<ConditionalFormatting> conditionalFormattings = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>();
+                    Assert.That(conditionalFormattings.Count(), Is.EqualTo(1));
+                    Assert.That(conditionalFormattings.First().SequenceOfReferences, Is.Not.Null);
+                    Assert.That(conditionalFormattings.First().SequenceOfReferences.Items, Has.Count.EqualTo(1));
+                    Assert.That(conditionalFormattings.First().SequenceOfReferences.Items.First().Value, Is.EqualTo("A1:A20"));
+                    Assert.That(conditionalFormattings.First().ChildElements.OfType<ConditionalFormattingRule>().Count(), Is.EqualTo(1));
+
+                    var rule = conditionalFormattings.First().ChildElements.OfType<ConditionalFormattingRule>().First();
+                    Assert.That(rule.ChildElements, Has.Count.EqualTo(1));
+                    Assert.That(rule.ChildElements.OfType<Formula>().Count(), Is.EqualTo(1));
+                    Assert.That(rule.ChildElements.OfType<Formula>().First().Text, Is.EqualTo("A1<5"));
+                });
+            }
+        }
     }
 }

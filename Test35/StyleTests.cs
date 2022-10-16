@@ -32,6 +32,11 @@ namespace Test35
             fill[1] = new Fill(new[]{
                         new PatternFill { PatternType = PatternValues.DarkDown } });
 
+            fill[2] = new Fill(new[]{
+                        new PatternFill(new[]{
+                            new BackgroundColor { Rgb = new HexBinaryValue { Value = "00FF00" } } })
+                        { PatternType = PatternValues.Solid } });
+
             border[0] = new Border(
                             new LeftBorder(new[]{
                                 new Color { Rgb = new HexBinaryValue { Value = "FFD3D3D3" } } }
@@ -80,18 +85,29 @@ namespace Test35
 
             const string name = "nombre";
             const string name2 = "nombre2";
+            const string name3 = "nombre3";
 
             var style1 = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], alignment[0], name);
             var style2 = list.NewStyle(font[0], fill[0], border[0], numberingFormat[0], alignment[0], name2);
 
-
-
-            Assert.That(list.Styles, Has.Count.EqualTo(4));
+            var diffstyle = list.NewDifferentialStyle(name3, fill: fill[2]);
 
             Assert.Multiple(() =>
             {
+            Assert.That(list.Styles, Has.Count.EqualTo(4));
+                Assert.That(list.differentialStyleElements, Has.Count.EqualTo(1));
+
                 Assert.That(list.Styles[2], Is.EqualTo(style1));
                 Assert.That(list.Styles[3], Is.EqualTo(style2));
+
+                Assert.That(list.differentialStyleElements[0].Fill, Is.EqualTo(fill[2]));
+                Assert.That(list.differentialStyleElements[0].Font, Is.Null);
+                Assert.That(list.differentialStyleElements[0].Name, Is.EqualTo(name3));
+                Assert.That(list.differentialStyleElements[0].Alignment, Is.Null);
+                Assert.That(list.differentialStyleElements[0].NumberingFormat, Is.Null);
+                Assert.That(list.differentialStyleElements[0].Border, Is.Null);
+
+                Assert.That(list.differentialStyleElements[0], Is.EqualTo(diffstyle));
             });
 
 
