@@ -4,6 +4,11 @@
 ### Changed
 - Renamed class BigExcelwritter to BigExcelwriter.
   Sorry for the typo.
+### Added
+- Conditional formatting
+    - By formula
+    - By value (Cell Is)
+    - Duplicated values
 
 ## 1.1
 ### Added
