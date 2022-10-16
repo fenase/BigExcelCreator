@@ -19,11 +19,11 @@ namespace BigExcelCreator.Styles
 
         public DifferentialFormat DifferentialFormat => new()
         {
-            Font = Font,
-            Fill = Fill,
-            Border = Border,
-            NumberingFormat = NumberingFormat,
-            Alignment = Alignment,
+            Font = (Font)(Font?.Clone()),
+            Fill = (Fill)Fill?.Clone(),
+            Border = (Border)Border?.Clone(),
+            NumberingFormat = (NumberingFormat)NumberingFormat?.Clone(),
+            Alignment = (Alignment)Alignment?.Clone(),
         };
     }
 }

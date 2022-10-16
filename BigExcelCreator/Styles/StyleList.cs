@@ -67,7 +67,7 @@ namespace BigExcelCreator.Styles
                 Borders = new Borders(Borders.Select(x => (OpenXmlElement)x.Clone())),
                 NumberingFormats = new NumberingFormats(NumberingFormats.Select(x => (OpenXmlElement)x.Clone())),
                 CellFormats = new CellFormats(Styles.Select(x => (OpenXmlElement)x.Style.Clone())),
-                DifferentialFormats = new DifferentialFormats(differentialStyleElements.Select(x => (OpenXmlElement)x.DifferentialFormat)),
+                DifferentialFormats = new DifferentialFormats(differentialStyleElements.Select(x => (OpenXmlElement)x.DifferentialFormat.Clone())),
             };
 #else
             return new Stylesheet
@@ -77,7 +77,7 @@ namespace BigExcelCreator.Styles
                 Borders = new Borders(Borders.Select(x => (Border)x.Clone())),
                 NumberingFormats = new NumberingFormats(NumberingFormats.Select(x => (NumberingFormat)x.Clone())),
                 CellFormats = new CellFormats(Styles.Select(x => (CellFormat)x.Style.Clone())),
-                DifferentialFormats = new DifferentialFormats(differentialStyleElements.Select(x => x.DifferentialFormat)),
+                DifferentialFormats = new DifferentialFormats(differentialStyleElements.Select(x => (DifferentialFormat)x.DifferentialFormat.Clone())),
             };
 #endif
         }

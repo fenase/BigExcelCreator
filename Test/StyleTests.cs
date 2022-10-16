@@ -113,6 +113,8 @@ namespace Test
             var index2 = list.GetIndexByName(name2, out StyleElement styleElement2);
             var index1b = list.GetIndexByName(name);
             var index2b = list.GetIndexByName(name2);
+            var indexDiff = list.GetIndexDifferentialByName(name3, out DifferentialStyleElement differentialStyleElement);
+            var indexDiffb = list.GetIndexDifferentialByName(name3);
 
             Assert.Multiple(() =>
             {
@@ -120,10 +122,13 @@ namespace Test
                 Assert.That(index2, Is.EqualTo(3));
                 Assert.That(index1b, Is.EqualTo(index1));
                 Assert.That(index2b, Is.EqualTo(index2));
+                Assert.That(indexDiffb, Is.EqualTo(indexDiff));
                 Assert.That(styleElement1, Is.EqualTo(style1));
                 Assert.That(styleElement1.Style, Is.EqualTo(style1.Style));
                 Assert.That(styleElement2, Is.EqualTo(style2));
                 Assert.That(styleElement2.Style, Is.EqualTo(style2.Style));
+                Assert.That(differentialStyleElement, Is.EqualTo(diffstyle));
+                Assert.That(differentialStyleElement.DifferentialFormat, Is.EqualTo(diffstyle.DifferentialFormat));
                 Assert.That(style1, Is.Not.EqualTo(style2));
                 Assert.That(style1.Style, Is.EqualTo(style2.Style));
             });
@@ -182,6 +187,8 @@ namespace Test
             list1.NewStyle(font[0], fill[1], border[0], numberingFormat[0], alignment[0], name2);
             list2.NewStyle(font[0], fill[0], border[0], numberingFormat[0], alignment[0], name2);
             list2.NewStyle(font[0], fill[1], border[0], numberingFormat[0], alignment[0], name); //names should not influence the final style sheet
+            list1.NewDifferentialStyle("q", fill: fill[2]);
+            list2.NewDifferentialStyle("w", fill: fill[2]);
 
             Assert.That(list1.GetStylesheet(), Is.EqualTo(list2.GetStylesheet()));
         }

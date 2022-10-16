@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using static Test35.TestHelperMethods;
 
-namespace Test
+namespace Test35
 {
     internal class CommentManagerTest
     {
