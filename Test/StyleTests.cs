@@ -94,7 +94,7 @@ namespace Test
             {
                 Assert.That(list.Styles, Has.Count.EqualTo(4));
                 Assert.That(list.differentialStyleElements, Has.Count.EqualTo(1));
-                
+
                 Assert.That(list.Styles[2], Is.EqualTo(style1));
                 Assert.That(list.Styles[3], Is.EqualTo(style2));
 

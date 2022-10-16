@@ -2,9 +2,9 @@
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Vml;
 using DocumentFormat.OpenXml.Vml.Office;
 using DocumentFormat.OpenXml.Vml.Spreadsheet;
-using DocumentFormat.OpenXml.Vml;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;

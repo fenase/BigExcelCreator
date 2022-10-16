@@ -13,7 +13,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 #if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
 using System.Threading.Tasks;
 #endif
@@ -571,6 +570,11 @@ namespace BigExcelCreator
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
             if (value.IsNullOrWhiteSpace()) { throw new ArgumentNullException(nameof(value)); }
             if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
+            if (new[] { ConditionalFormattingOperatorValues.Between, ConditionalFormattingOperatorValues.NotBetween }.Contains(@operator)
+                && value2.IsNullOrWhiteSpace())
+            {
+                throw new ArgumentNullException(nameof(value2));
+            }
 
             ConditionalFormatting conditionalFormatting = new()
             {
@@ -579,7 +583,7 @@ namespace BigExcelCreator
 
             ConditionalFormattingRule conditionalFormattingRule = new()
             {
-                Type= ConditionalFormatValues.CellIs,
+                Type = ConditionalFormatValues.CellIs,
                 @Operator = @operator,
                 FormatId = (uint)format,
                 Priority = conditionalFormattingList.Count + 1,
@@ -609,7 +613,7 @@ namespace BigExcelCreator
 
             ConditionalFormattingRule conditionalFormattingRule = new()
             {
-                Type= ConditionalFormatValues.DuplicateValues,
+                Type = ConditionalFormatValues.DuplicateValues,
                 FormatId = (uint)format,
                 Priority = conditionalFormattingList.Count + 1,
             };

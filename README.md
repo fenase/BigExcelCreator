@@ -24,7 +24,7 @@ This is specially useful when trying to output thousands of rows
     - [Conditional Formatting](#conditional-formatting)
         - [Formula](#formula)
         - [Cell Is](#cell-is)
-        - [Duplicated Values](#duplicatedv-alues)
+        - [Duplicated Values](#duplicated-values)
 
 
 # Usage
@@ -245,12 +245,15 @@ excel.EndRow();
 
 In order to use conditional formatting, you should define Differential styles (see [Styling](#styling))
 
+> On every case below:
+> - `reference` => A range of cells to apply the conditional formatting to
+> - `format` => The id of the Differential style. Obtain it using `GetIndexDifferentialByName` after creating it with `NewDifferentialStyle`
+
 
 ### Formula
 
 To define a conditional style by formula, use `AddConditionalFormattingFormula(string reference, string formula, int format)`.
 
-- `reference` defines the range to apply the formatting to
 - `formula` defines the expression to use.
     Use a fixed range using `$` to anchor the reference to a cell.
     Avoid using `$` to make the reference "walk" with the range.
@@ -262,6 +265,21 @@ excel.AddConditionalFormattingFormula("A1:A10", "A1<5", styleList.GetIndexDiffer
 
 ### Cell Is
 
+Format cells based on their contents using `AddConditionalFormattingCellIs`
+
+- `Operator` defines how to compare values.
+- `value` defines the value to compare the cell to.
+- `value2` If the operator requires 2 numbers (eg: `Between` and `NotBetween`), the second value goes here.
+
+```c#
+excel.AddConditionalFormattingCellIs("A1:A20", ConditionalFormattingOperatorValues.LessThan, "5", styleList.GetIndexDifferentialByName("RED"));
+excel.AddConditionalFormattingCellIs("A1:A20", ConditionalFormattingOperatorValues.Between, "3", styleList.GetIndexDifferentialByName("RED"), "7");
+```
 
 ### Duplicated Values
 
+Format duplicated values using `AddConditionalFormattingDuplicatedValues`
+
+```c#
+excel.AddConditionalFormattingDuplicatedValues("A1:A10", styleList.GetIndexDifferentialByName("RED"));
+```

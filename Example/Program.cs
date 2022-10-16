@@ -1,4 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿// Copyright (c) Federico Seckel.
+// Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
+
+// See https://aka.ms/new-console-template for more information
 
 using BigExcelCreator;
 using BigExcelCreator.Styles;

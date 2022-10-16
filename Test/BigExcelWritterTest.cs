@@ -1,7 +1,6 @@
 ﻿using BigExcelCreator;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
 using static Test.TestHelperMethods;
 
 namespace Test

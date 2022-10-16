@@ -141,7 +141,7 @@ namespace BigExcelCreator.Styles
             return styleElement;
         }
 
-        public DifferentialStyleElement NewDifferentialStyle(string name ,Font font = null, Fill fill = null, Border border = null, NumberingFormat numberingFormat = null, Alignment alignment = null)
+        public DifferentialStyleElement NewDifferentialStyle(string name, Font font = null, Fill fill = null, Border border = null, NumberingFormat numberingFormat = null, Alignment alignment = null)
         {
             if (GetIndexDifferentialByName(name, out DifferentialStyleElement style) >= 0)
             {
