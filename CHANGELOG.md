@@ -2,7 +2,7 @@
 
 ## 2.0
 ### Changed
-- Renamed class BigExcelwritter to BigExcelWriter.
+- Renamed class BigExcelWritter to BigExcelWriter.
   Sorry for the typo.
 ### Added
 - Conditional formatting
