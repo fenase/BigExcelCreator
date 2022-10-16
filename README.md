@@ -21,6 +21,7 @@ This is specially useful when trying to output thousands of rows
     - [Styling](#styling)
     - [Comments](#comments)
     - [Autofilter](#autofilter)
+    - [Conditional Formatting](#conditional-formatting)
 
 
 # Usage
@@ -195,6 +196,17 @@ using (BigExcelwriter excel = new(stream,
 ```
 
 
+> If you're planning to use [Conditional Formatting](#conditional-formatting), you must also create differential styles here.
+> To do so, follow the same instructions as above, replacing `NewStyle` with `NewDifferentialStyle`.
+> 
+> All parameters of `NewDifferentialStyle` are optional, except `name`. Of the optional parameters, at least one must be present.
+
+```c#
+// place this before calling list.GetStylesheet() and new BigExcelwriter()
+list.NewDifferentialStyle("RED", font: new Font(new Color { Rgb = new HexBinaryValue { Value = "FF0000" } }));
+```
+
+
 ## Comments
 
 In order to add a note (formerly known as comment) to a cell, while a sheet is open, call the `Comment` method.
@@ -224,5 +236,24 @@ excel.BeginRow();
 excel.AddAutofilter(range); // Range's height must be 1. Example: A1:J1
 // ...
 excel.EndRow();
+```
+
+## Conditional Formatting
+
+In order to use conditional formatting, you should define Differential styles (see [Styling](#styling))
+
+
+### Formula
+
+To define a conditional style by formula, use `AddConditionalFormattingFormula(string reference, string formula, int format)`.
+
+- `reference` defines the range to apply the formatting to
+- `formula` defines the expression to use.
+    Use a fixed range using `$` to anchor the reference to a cell.
+    Avoid using `$` to make the reference "walk" with the range.
+    This is useful when referencing the current cell.
+
+```c#
+excel.AddConditionalFormattingFormula("A1:A10", "A1<5", styleList.GetIndexDifferentialByName("RED"));
 ```
 

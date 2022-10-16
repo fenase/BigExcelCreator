@@ -41,10 +41,25 @@ Alignment center = new() { Horizontal = HorizontalAlignmentValues.Center };
 styleList.NewStyle(italic, null, null, null, center, "italic center");
 styleList.NewStyle(bold, null, null, null, center, "bold center");
 styleList.NewStyle(boldItalic, null, null, null, center, "bold italic center");
+Fill yellowFill = new Fill(new[]{
+                        new PatternFill(new[]{
+                            new ForegroundColor { Rgb = new HexBinaryValue { Value = "FFFF00" } } }
+                        )
+                        { PatternType = PatternValues.Solid } });
+styleList.NewStyle(null, yellowFill, null, null, "YELLOW");
 
-styleList.NewDifferentialStyle("RED", font: new Font(new Color { Rgb = new HexBinaryValue { Value = "FF0000" } }));
 
-using BigExcelwriter excel = new(fullpath, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook, styleList.GetStylesheet());
+styleList.NewDifferentialStyle("RED", font: new Font(new[] { new Color { Rgb = new HexBinaryValue { Value = "FF0000" } } }));
+
+Fill greenFill = new Fill(new[]{
+                        new PatternFill(new[]{
+                            new BackgroundColor { Rgb = new HexBinaryValue { Value = "00FF00" } } })
+                        { PatternType = PatternValues.Solid } });
+
+
+styleList.NewDifferentialStyle("GREENBKG", fill: greenFill);
+
+using BigExcelwriter excel = new(fullpath, SpreadsheetDocumentType.Workbook, styleList.GetStylesheet());
 
 excel.CreateAndOpenSheet("S1", columns: columns, sheetState: SheetStateValues.Visible);
 
@@ -117,9 +132,10 @@ excel.CloseSheet();
 excel.CreateAndOpenSheet("conditional");
 for (int i = 0; i < 10; i++)
 {
-    excel.WriteNumberRow(new List<float> { i });
+    excel.WriteNumberRow(new List<float> { i }, styleList.GetIndexByName("YELLOW"));
 }
 
-excel.AddConditionalFormattingFormula("A1:A10", "A1<=5", styleList.GetIndexDifferentialByName("RED"));
+excel.AddConditionalFormattingFormula("A1:A10", "A1<5", styleList.GetIndexDifferentialByName("RED"));
+excel.AddConditionalFormattingFormula("A1:A10", "A1>5", styleList.GetIndexDifferentialByName("GREENBKG"));
 
 excel.CloseSheet();

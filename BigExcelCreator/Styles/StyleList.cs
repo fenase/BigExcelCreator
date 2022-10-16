@@ -23,7 +23,7 @@ namespace BigExcelCreator.Styles
 
         public IList<StyleElement> Styles { get; } = new List<StyleElement>();
 
-        public IList<DifferentialStyleElement> DifferentialFormats { get; } = new List<DifferentialStyleElement>();
+        public IList<DifferentialStyleElement> differentialStyleElements { get; } = new List<DifferentialStyleElement>();
 
         private const uint STARTINGNUMBERFORMAT = 164;
         #endregion
@@ -67,7 +67,7 @@ namespace BigExcelCreator.Styles
                 Borders = new Borders(Borders.Select(x => (OpenXmlElement)x.Clone())),
                 NumberingFormats = new NumberingFormats(NumberingFormats.Select(x => (OpenXmlElement)x.Clone())),
                 CellFormats = new CellFormats(Styles.Select(x => (OpenXmlElement)x.Style.Clone())),
-                DifferentialFormats = new DifferentialFormats(DifferentialFormats.Select(x => (OpenXmlElement)x.DifferentialFormat)),
+                DifferentialFormats = new DifferentialFormats(differentialStyleElements.Select(x => (OpenXmlElement)x.DifferentialFormat)),
             };
 #else
             return new Stylesheet
@@ -77,7 +77,7 @@ namespace BigExcelCreator.Styles
                 Borders = new Borders(Borders.Select(x => (Border)x.Clone())),
                 NumberingFormats = new NumberingFormats(NumberingFormats.Select(x => (NumberingFormat)x.Clone())),
                 CellFormats = new CellFormats(Styles.Select(x => (CellFormat)x.Style.Clone())),
-                DifferentialFormats = new DifferentialFormats(DifferentialFormats.Select(x => x.DifferentialFormat)),
+                DifferentialFormats = new DifferentialFormats(differentialStyleElements.Select(x => x.DifferentialFormat)),
             };
 #endif
         }
@@ -100,8 +100,8 @@ namespace BigExcelCreator.Styles
 
         public int GetIndexDifferentialByName(string name, out DifferentialStyleElement differentialStyleElement)
         {
-            differentialStyleElement = DifferentialFormats.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-            return DifferentialFormats.IndexOf(differentialStyleElement);
+            differentialStyleElement = differentialStyleElements.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            return differentialStyleElements.IndexOf(differentialStyleElement);
         }
 
         public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, string name)
@@ -178,7 +178,7 @@ namespace BigExcelCreator.Styles
             if (differentialFormat != null)
             {
                 differentialFormat.Name = !name.IsNullOrWhiteSpace() ? name : throw new ArgumentNullException(nameof(name));
-                DifferentialFormats.Add(differentialFormat);
+                differentialStyleElements.Add(differentialFormat);
                 return differentialFormat;
             }
             else
