@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 [assembly: CLSCompliant(true)]
 [assembly: InternalsVisibleTo("Test")]
 [assembly: InternalsVisibleTo("Test35")]
+[assembly: InternalsVisibleTo("Test48")]
 
 namespace BigExcelCreator
 {
@@ -302,7 +303,7 @@ namespace BigExcelCreator
                     List<OpenXmlAttribute> attributes;
                     if (useSharedStrings)
                     {
-                        int ssPos = AddTextToSharedStringsTable(text);
+                        string ssPos = AddTextToSharedStringsTable(text).ToString(CultureInfo.InvariantCulture);
                         attributes = new()
                         {
                             new OpenXmlAttribute("t", null, "s"),
@@ -366,7 +367,7 @@ namespace BigExcelCreator
                 //write the cell start element with the type and reference attributes
                 workSheetPartWriter.WriteStartElement(new Cell(), attributes);
                 //write the cell value
-                workSheetPartWriter.WriteElement(new CellValue(number));
+                workSheetPartWriter.WriteElement(new CellValue(number.ToString(CultureInfo.InvariantCulture)));
 
                 // write the end cell element
                 workSheetPartWriter.WriteEndElement();
