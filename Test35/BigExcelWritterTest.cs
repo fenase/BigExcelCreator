@@ -1,4 +1,5 @@
 ﻿using BigExcelCreator;
+using BigExcelCreator.Ranges;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using NUnit.Framework;
@@ -35,7 +36,7 @@ namespace Test35
         [Test]
         public void FileExistsAfterCreation()
         {
-            string path = Path.Combine(DirectoryPath, "creationTest.xlsx");
+            string path = Path.Combine(DirectoryPath, $"{Guid.NewGuid()}.xlsx");
             using (BigExcelWriter writer = new BigExcelWriter(path, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
             {
                 // do nothing
@@ -47,7 +48,7 @@ namespace Test35
         [Test]
         public void ValidFile()
         {
-            string path = Path.Combine(DirectoryPath, "ValidFile.xlsx");
+            string path = Path.Combine(DirectoryPath, $"{Guid.NewGuid()}.xlsx");
             using (BigExcelWriter writer = new BigExcelWriter(path, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
             {
                 writer.CreateAndOpenSheet("first");
@@ -482,6 +483,26 @@ namespace Test35
                         Assert.That(mergedCellElements, Has.Exactly(1).Matches<MergeCell>(mce => mce.Reference.Value.Equals("B2:D7", StringComparison.InvariantCultureIgnoreCase)));
                     });
                 });
+            }
+        }
+
+        [Test]
+        public void MergedCellsOverlappingRanges()
+        {
+            using (BigExcelWriter writer = GetwriterStream(out MemoryStream memoryStream))
+            {
+                writer.CreateAndOpenSheet("a");
+                writer.MergeCells("a1:c7");
+                Assert.Throws<OverlappingRangesException>(() => writer.MergeCells("b2:b3"));
+            }
+        }
+
+        [Test]
+        public void MergedCellsNoSheet()
+        {
+            using (BigExcelWriter writer = GetwriterStream(out MemoryStream memoryStream))
+            {
+                Assert.Throws<InvalidOperationException>(() => writer.MergeCells("b2:b3"));
             }
         }
     }
