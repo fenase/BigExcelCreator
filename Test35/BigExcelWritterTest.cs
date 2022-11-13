@@ -446,5 +446,43 @@ namespace Test35
                 });
             }
         }
+
+        [Test]
+        public void MergedCells()
+        {
+            MemoryStream memoryStream;
+            using (BigExcelWriter writer = GetwriterStream(out memoryStream))
+            {
+                writer.CreateAndOpenSheet("a");
+                writer.MergeCells("a");
+                writer.MergeCells("b2:d7");
+            }
+
+            using (SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false))
+            {
+                WorkbookPart workbookPart = reader.WorkbookPart;
+                Assert.That(workbookPart, Is.Not.Null);
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<MergeCells>, Is.Not.Empty);
+                    IEnumerable<MergeCells> mergedCellsElement = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<MergeCells>();
+                    Assert.Multiple(() =>
+                    {
+                        Assert.That(mergedCellsElement, Is.Not.Null);
+                        Assert.That(mergedCellsElement.Count, Is.EqualTo(1));
+                    });
+
+                    IEnumerable<MergeCell> mergedCellElements = mergedCellsElement.First().ChildElements.OfType<MergeCell>();
+                    Assert.Multiple(() =>
+                    {
+                        Assert.That(mergedCellElements, Is.Not.Null);
+                        Assert.That(mergedCellElements.Count, Is.EqualTo(2));
+                        Assert.That(mergedCellElements, Has.Exactly(1).Matches<MergeCell>(mce => mce.Reference.Value.Equals("A:A", StringComparison.InvariantCultureIgnoreCase)));
+                        Assert.That(mergedCellElements, Has.Exactly(1).Matches<MergeCell>(mce => mce.Reference.Value.Equals("B2:D7", StringComparison.InvariantCultureIgnoreCase)));
+                    });
+                });
+            }
+        }
     }
 }
