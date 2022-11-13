@@ -2,9 +2,14 @@
 using BigExcelCreator.Ranges;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using static Test.TestHelperMethods;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using static Test48.TestHelperMethods;
 
-namespace Test
+namespace Test48
 {
     internal class BigExcelWriterTest
     {
@@ -53,22 +58,22 @@ namespace Test
 
             using (SpreadsheetDocument reader = SpreadsheetDocument.Open(path, false))
             {
-                WorkbookPart? workbookPart = reader.WorkbookPart;
+                WorkbookPart workbookPart = reader.WorkbookPart;
                 Assert.That(workbookPart, Is.Not.Null);
 
                 Workbook workbook = workbookPart.Workbook;
 
-                Sheets? sheets = workbook.Sheets;
+                Sheets sheets = workbook.Sheets;
                 Assert.Multiple(() =>
                 {
                     Assert.That(sheets, Is.Not.Null);
-                    Assert.That(sheets!.Count(), Is.EqualTo(1));
+                    Assert.That(sheets.Count(), Is.EqualTo(1));
                 });
-                Sheet sheet = (Sheet)sheets!.ChildElements.First();
+                Sheet sheet = (Sheet)sheets.ChildElements.First();
                 Assert.Multiple(() =>
                 {
                     Assert.That(sheet, Is.Not.Null);
-                    Assert.That(sheet.Name!.ToString(), Is.EqualTo("first"));
+                    Assert.That(sheet.Name.ToString(), Is.EqualTo("first"));
                 });
             }
         }
@@ -92,22 +97,22 @@ namespace Test
 
             using (SpreadsheetDocument reader = SpreadsheetDocument.Open(stream, false))
             {
-                WorkbookPart? workbookPart = reader.WorkbookPart;
+                WorkbookPart workbookPart = reader.WorkbookPart;
                 Assert.That(workbookPart, Is.Not.Null);
 
                 Workbook workbook = workbookPart.Workbook;
 
-                Sheets? sheets = workbook.Sheets;
+                Sheets sheets = workbook.Sheets;
                 Assert.Multiple(() =>
                 {
                     Assert.That(sheets, Is.Not.Null);
-                    Assert.That(sheets!.Count(), Is.EqualTo(1));
+                    Assert.That(sheets.Count(), Is.EqualTo(1));
                 });
-                Sheet sheet = (Sheet)sheets!.ChildElements.First();
+                Sheet sheet = (Sheet)sheets.ChildElements.First();
                 Assert.Multiple(() =>
                 {
                     Assert.That(sheet, Is.Not.Null);
-                    Assert.That(sheet.Name!.ToString(), Is.EqualTo("first"));
+                    Assert.That(sheet.Name.ToString(), Is.EqualTo("first"));
                 });
             }
         }
@@ -134,22 +139,22 @@ namespace Test
 
             using (SpreadsheetDocument reader = SpreadsheetDocument.Open(stream, false))
             {
-                WorkbookPart? workbookPart = reader.WorkbookPart;
+                WorkbookPart workbookPart = reader.WorkbookPart;
                 Assert.That(workbookPart, Is.Not.Null);
 
                 Workbook workbook = workbookPart.Workbook;
 
-                Sheets? sheets = workbook.Sheets;
+                Sheets sheets = workbook.Sheets;
                 Assert.Multiple(() =>
                 {
                     Assert.That(sheets, Is.Not.Null);
-                    Assert.That(sheets!.Count(), Is.EqualTo(1));
+                    Assert.That(sheets.Count(), Is.EqualTo(1));
                 });
-                Sheet sheet = (Sheet)sheets!.ChildElements.First();
+                Sheet sheet = (Sheet)sheets.ChildElements.First();
                 Assert.Multiple(() =>
                 {
                     Assert.That(sheet, Is.Not.Null);
-                    Assert.That(sheet.Name!.ToString(), Is.EqualTo("first"));
+                    Assert.That(sheet.Name.ToString(), Is.EqualTo("first"));
                 });
 
                 IEnumerable<Row> rows = GetRows(workbookPart.WorksheetParts.First().Worksheet);
@@ -188,7 +193,7 @@ namespace Test
                 {
                     Assert.That(cells, Is.Not.Null);
                     Assert.That(cells.Count(), Is.EqualTo(1));
-                    Assert.That(cells.Skip(0).Take(1).First().CellFormula!.Text, Is.EqualTo("SUM(A2:D2)"));
+                    Assert.That(cells.Skip(0).Take(1).First().CellFormula.Text, Is.EqualTo("SUM(A2:D2)"));
                 });
             }
         }
@@ -276,42 +281,44 @@ namespace Test
             }
 
 
-            using SpreadsheetDocument reader1 = SpreadsheetDocument.Open(m1, false);
-            using SpreadsheetDocument reader2 = SpreadsheetDocument.Open(m2, false);
-
-            WorkbookPart? workbookPart1 = reader1.WorkbookPart;
-            Assert.That(workbookPart1, Is.Not.Null);
-            IEnumerable<Row> rows1 = GetRows(workbookPart1.WorksheetParts.First().Worksheet);
-            WorkbookPart? workbookPart2 = reader2.WorkbookPart;
-            Assert.That(workbookPart2, Is.Not.Null);
-            IEnumerable<Row> rows2 = GetRows(workbookPart2.WorksheetParts.First().Worksheet);
-
-            Assert.Multiple(() =>
+            using (SpreadsheetDocument reader1 = SpreadsheetDocument.Open(m1, false))
+            using (SpreadsheetDocument reader2 = SpreadsheetDocument.Open(m2, false))
             {
-                Assert.That(rows1, Is.Not.Null);
-                Assert.That(rows1.Count(), Is.EqualTo(strings.Count));
-                Assert.That(rows2, Is.Not.Null);
-                Assert.That(rows2.Count(), Is.EqualTo(strings.Count));
 
-                for (int i = 0; i < strings.Count; i++)
+                WorkbookPart workbookPart1 = reader1.WorkbookPart;
+                Assert.That(workbookPart1, Is.Not.Null);
+                IEnumerable<Row> rows1 = GetRows(workbookPart1.WorksheetParts.First().Worksheet);
+                WorkbookPart workbookPart2 = reader2.WorkbookPart;
+                Assert.That(workbookPart2, Is.Not.Null);
+                IEnumerable<Row> rows2 = GetRows(workbookPart2.WorksheetParts.First().Worksheet);
+
+                Assert.Multiple(() =>
                 {
-                    IEnumerable<Cell> cells1 = GetCells(rows1.ElementAt(i));
-                    IEnumerable<Cell> cells2 = GetCells(rows2.ElementAt(i));
+                    Assert.That(rows1, Is.Not.Null);
+                    Assert.That(rows1.Count(), Is.EqualTo(strings.Count));
+                    Assert.That(rows2, Is.Not.Null);
+                    Assert.That(rows2.Count(), Is.EqualTo(strings.Count));
 
-                    Assert.That(cells1, Is.Not.Null);
-                    Assert.That(cells2, Is.Not.Null);
-
-                    Assert.That(cells1.Count(), Is.EqualTo(strings[i].Count));
-                    Assert.That(cells2.Count(), Is.EqualTo(strings[i].Count));
-
-                    for (int j = 0; j < strings[i].Count; j++)
+                    for (int i = 0; i < strings.Count; i++)
                     {
-                        Assert.That(GetCellRealValue(cells1.ElementAt(j), workbookPart1), Is.EqualTo(strings[i][j]));
-                        Assert.That(GetCellRealValue(cells2.ElementAt(j), workbookPart2), Is.EqualTo(strings[i][j]));
-                    }
-                }
+                        IEnumerable<Cell> cells1 = GetCells(rows1.ElementAt(i));
+                        IEnumerable<Cell> cells2 = GetCells(rows2.ElementAt(i));
 
-            });
+                        Assert.That(cells1, Is.Not.Null);
+                        Assert.That(cells2, Is.Not.Null);
+
+                        Assert.That(cells1.Count(), Is.EqualTo(strings[i].Count));
+                        Assert.That(cells2.Count(), Is.EqualTo(strings[i].Count));
+
+                        for (int j = 0; j < strings[i].Count; j++)
+                        {
+                            Assert.That(GetCellRealValue(cells1.ElementAt(j), workbookPart1), Is.EqualTo(strings[i][j]));
+                            Assert.That(GetCellRealValue(cells2.ElementAt(j), workbookPart2), Is.EqualTo(strings[i][j]));
+                        }
+                    }
+
+                });
+            }
         }
 
         [TestCase("text", "row")]
@@ -322,40 +329,42 @@ namespace Test
         [TestCase("formula", "cell")]
         public void InvalidFormat(string @type, string rowOrCell)
         {
-            using BigExcelWriter writer = GetwriterStream(out _);
-            writer.CreateAndOpenSheet("a");
-            switch (rowOrCell)
+            using (BigExcelWriter writer = GetwriterStream(out _))
             {
-                case "row":
-                    switch (type)
-                    {
-                        case "text":
-                            Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteTextRow(new[] { "a" }, -1));
-                            break;
-                        case "number":
-                            Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteNumberRow(new[] { 3f }, -1));
-                            break;
-                        case "formula":
-                            Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteFormulaRow(new[] { "a" }, -1));
-                            break;
-                    }
-                    break;
-                case "cell":
-                    writer.BeginRow();
-                    switch (type)
-                    {
-                        case "text":
-                            Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteTextCell("a", -1));
-                            break;
-                        case "number":
-                            Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteNumberCell(3f, -1));
-                            break;
-                        case "formula":
-                            Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteFormulaCell("a", -1));
-                            break;
-                    }
-                    writer.EndRow();
-                    break;
+                writer.CreateAndOpenSheet("a");
+                switch (rowOrCell)
+                {
+                    case "row":
+                        switch (type)
+                        {
+                            case "text":
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteTextRow(new[] { "a" }, -1));
+                                break;
+                            case "number":
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteNumberRow(new[] { 3f }, -1));
+                                break;
+                            case "formula":
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteFormulaRow(new[] { "a" }, -1));
+                                break;
+                        }
+                        break;
+                    case "cell":
+                        writer.BeginRow();
+                        switch (type)
+                        {
+                            case "text":
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteTextCell("a", -1));
+                                break;
+                            case "number":
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteNumberCell(3f, -1));
+                                break;
+                            case "formula":
+                                Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteFormulaCell("a", -1));
+                                break;
+                        }
+                        writer.EndRow();
+                        break;
+                }
             }
         }
 
@@ -375,27 +384,29 @@ namespace Test
                 writer.AddConditionalFormattingFormula("A1:A20", "A1<5", 1);
             }
 
-            using SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false);
-            WorkbookPart? workbookPart = reader.WorkbookPart;
-            Assert.That(workbookPart, Is.Not.Null);
-
-            Assert.Multiple(() =>
+            using (SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false))
             {
-                Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>, Is.Not.Empty);
-                IEnumerable<ConditionalFormatting> conditionalFormattings = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>();
-                Assert.That(conditionalFormattings.Count(), Is.EqualTo(1));
-                Assert.That(conditionalFormattings.First().SequenceOfReferences, Is.Not.Null);
-                Assert.That(conditionalFormattings.First().SequenceOfReferences!.Items, Has.Count.EqualTo(1));
-                Assert.That(conditionalFormattings.First().SequenceOfReferences!.Items.First().Value, Is.EqualTo("A1:A20"));
-                Assert.That(conditionalFormattings.First().ChildElements.OfType<ConditionalFormattingRule>().Count(), Is.EqualTo(1));
+                WorkbookPart workbookPart = reader.WorkbookPart;
+                Assert.That(workbookPart, Is.Not.Null);
 
-                var rule = conditionalFormattings.First().ChildElements.OfType<ConditionalFormattingRule>().First();
-                Assert.That(rule.Type, Is.Not.Null);
-                Assert.That(rule.Type!.Value, Is.EqualTo(ConditionalFormatValues.Expression));
-                Assert.That(rule.ChildElements, Has.Count.EqualTo(1));
-                Assert.That(rule.ChildElements.OfType<Formula>().Count(), Is.EqualTo(1));
-                Assert.That(rule.ChildElements.OfType<Formula>().First().Text, Is.EqualTo("A1<5"));
-            });
+                Assert.Multiple(() =>
+                {
+                    Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>, Is.Not.Empty);
+                    IEnumerable<ConditionalFormatting> conditionalFormattings = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>();
+                    Assert.That(conditionalFormattings.Count(), Is.EqualTo(1));
+                    Assert.That(conditionalFormattings.First().SequenceOfReferences, Is.Not.Null);
+                    Assert.That(conditionalFormattings.First().SequenceOfReferences.Items, Has.Count.EqualTo(1));
+                    Assert.That(conditionalFormattings.First().SequenceOfReferences.Items.First().Value, Is.EqualTo("A1:A20"));
+                    Assert.That(conditionalFormattings.First().ChildElements.OfType<ConditionalFormattingRule>().Count(), Is.EqualTo(1));
+
+                    var rule = conditionalFormattings.First().ChildElements.OfType<ConditionalFormattingRule>().First();
+                    Assert.That(rule.Type, Is.Not.Null);
+                    Assert.That(rule.Type.Value, Is.EqualTo(ConditionalFormatValues.Expression));
+                    Assert.That(rule.ChildElements, Has.Count.EqualTo(1));
+                    Assert.That(rule.ChildElements.OfType<Formula>().Count(), Is.EqualTo(1));
+                    Assert.That(rule.ChildElements.OfType<Formula>().First().Text, Is.EqualTo("A1<5"));
+                });
+            }
         }
 
 
@@ -414,25 +425,27 @@ namespace Test
                 writer.AddConditionalFormattingDuplicatedValues("A1:A20", 1);
             }
 
-            using SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false);
-            WorkbookPart? workbookPart = reader.WorkbookPart;
-            Assert.That(workbookPart, Is.Not.Null);
-
-            Assert.Multiple(() =>
+            using (SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false))
             {
-                Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>, Is.Not.Empty);
-                IEnumerable<ConditionalFormatting> conditionalFormattings = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>();
-                Assert.That(conditionalFormattings.Count(), Is.EqualTo(1));
-                Assert.That(conditionalFormattings.First().SequenceOfReferences, Is.Not.Null);
-                Assert.That(conditionalFormattings.First().SequenceOfReferences!.Items, Has.Count.EqualTo(1));
-                Assert.That(conditionalFormattings.First().SequenceOfReferences!.Items.First().Value, Is.EqualTo("A1:A20"));
-                Assert.That(conditionalFormattings.First().ChildElements.OfType<ConditionalFormattingRule>().Count(), Is.EqualTo(1));
+                WorkbookPart workbookPart = reader.WorkbookPart;
+                Assert.That(workbookPart, Is.Not.Null);
 
-                var rule = conditionalFormattings.First().ChildElements.OfType<ConditionalFormattingRule>().First();
-                Assert.That(rule.Type, Is.Not.Null);
-                Assert.That(rule.Type!.Value, Is.EqualTo(ConditionalFormatValues.DuplicateValues));
-                Assert.That(rule.ChildElements, Is.Empty);
-            });
+                Assert.Multiple(() =>
+                {
+                    Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>, Is.Not.Empty);
+                    IEnumerable<ConditionalFormatting> conditionalFormattings = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>();
+                    Assert.That(conditionalFormattings.Count(), Is.EqualTo(1));
+                    Assert.That(conditionalFormattings.First().SequenceOfReferences, Is.Not.Null);
+                    Assert.That(conditionalFormattings.First().SequenceOfReferences.Items, Has.Count.EqualTo(1));
+                    Assert.That(conditionalFormattings.First().SequenceOfReferences.Items.First().Value, Is.EqualTo("A1:A20"));
+                    Assert.That(conditionalFormattings.First().ChildElements.OfType<ConditionalFormattingRule>().Count(), Is.EqualTo(1));
+
+                    var rule = conditionalFormattings.First().ChildElements.OfType<ConditionalFormattingRule>().First();
+                    Assert.That(rule.Type, Is.Not.Null);
+                    Assert.That(rule.Type.Value, Is.EqualTo(ConditionalFormatValues.DuplicateValues));
+                    Assert.That(rule.ChildElements, Is.Empty);
+                });
+            }
         }
 
         [Test]
@@ -446,45 +459,51 @@ namespace Test
                 writer.MergeCells("b2:d7");
             }
 
-            using SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false);
-            WorkbookPart? workbookPart = reader.WorkbookPart;
-            Assert.That(workbookPart, Is.Not.Null);
-
-            Assert.Multiple(() =>
+            using (SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false))
             {
-                Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<MergeCells>, Is.Not.Empty);
-                IEnumerable<MergeCells> mergedCellsElement = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<MergeCells>();
-                Assert.Multiple(() =>
-                {
-                    Assert.That(mergedCellsElement, Is.Not.Null);
-                    Assert.That(mergedCellsElement.Count, Is.EqualTo(1));
-                });
+                WorkbookPart workbookPart = reader.WorkbookPart;
+                Assert.That(workbookPart, Is.Not.Null);
 
-                IEnumerable<MergeCell> mergedCellElements = mergedCellsElement.First().ChildElements.OfType<MergeCell>();
                 Assert.Multiple(() =>
                 {
-                    Assert.That(mergedCellElements, Is.Not.Null);
-                    Assert.That(mergedCellElements.Count, Is.EqualTo(2));
-                    Assert.That(mergedCellElements, Has.Exactly(1).Matches<MergeCell>(mce => mce.Reference.Value.Equals("A:A", StringComparison.InvariantCultureIgnoreCase)));
-                    Assert.That(mergedCellElements, Has.Exactly(1).Matches<MergeCell>(mce => mce.Reference.Value.Equals("B2:D7", StringComparison.InvariantCultureIgnoreCase)));
+                    Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<MergeCells>, Is.Not.Empty);
+                    IEnumerable<MergeCells> mergedCellsElement = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<MergeCells>();
+                    Assert.Multiple(() =>
+                    {
+                        Assert.That(mergedCellsElement, Is.Not.Null);
+                        Assert.That(mergedCellsElement.Count, Is.EqualTo(1));
+                    });
+
+                    IEnumerable<MergeCell> mergedCellElements = mergedCellsElement.First().ChildElements.OfType<MergeCell>();
+                    Assert.Multiple(() =>
+                    {
+                        Assert.That(mergedCellElements, Is.Not.Null);
+                        Assert.That(mergedCellElements.Count, Is.EqualTo(2));
+                        Assert.That(mergedCellElements, Has.Exactly(1).Matches<MergeCell>(mce => mce.Reference.Value.Equals("A:A", StringComparison.InvariantCultureIgnoreCase)));
+                        Assert.That(mergedCellElements, Has.Exactly(1).Matches<MergeCell>(mce => mce.Reference.Value.Equals("B2:D7", StringComparison.InvariantCultureIgnoreCase)));
+                    });
                 });
-            });
+            }
         }
 
         [Test]
         public void MergedCellsOverlappingRanges()
         {
-            using BigExcelWriter writer = GetwriterStream(out MemoryStream memoryStream);
-            writer.CreateAndOpenSheet("a");
-            writer.MergeCells("a1:c7");
-            Assert.Throws<OverlappingRangesException>(() => writer.MergeCells("b2:b3"));
+            using (BigExcelWriter writer = GetwriterStream(out MemoryStream memoryStream))
+            {
+                writer.CreateAndOpenSheet("a");
+                writer.MergeCells("a1:c7");
+                Assert.Throws<OverlappingRangesException>(() => writer.MergeCells("b2:b3"));
+            }
         }
 
         [Test]
         public void MergedCellsNoSheet()
         {
-            using BigExcelWriter writer = GetwriterStream(out MemoryStream memoryStream);
-            Assert.Throws<InvalidOperationException>(() => writer.MergeCells("b2:b3"));
+            using (BigExcelWriter writer = GetwriterStream(out MemoryStream memoryStream))
+            {
+                Assert.Throws<InvalidOperationException>(() => writer.MergeCells("b2:b3"));
+            }
         }
     }
 }

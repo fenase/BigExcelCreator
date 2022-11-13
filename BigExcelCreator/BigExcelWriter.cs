@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 [assembly: CLSCompliant(true)]
 [assembly: InternalsVisibleTo("Test")]
 [assembly: InternalsVisibleTo("Test35")]
+[assembly: InternalsVisibleTo("Test48")]
 
 namespace BigExcelCreator
 {
@@ -69,6 +70,8 @@ namespace BigExcelCreator
         private SharedStringTablePart SharedStringTablePart;
 
         private readonly List<ConditionalFormatting> conditionalFormattingList = new();
+
+        private readonly List<CellRange> SheetMergedCells = new();
 
 #if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
         private readonly List<Task> DocumentTasks = new();
@@ -184,6 +187,8 @@ namespace BigExcelCreator
                 WriteFilters();
 
                 WriteConditionalFormatting();
+
+                WriteMergedCells();
 
                 // write the end Worksheet element
                 workSheetPartWriter.WriteEndElement();
@@ -302,7 +307,7 @@ namespace BigExcelCreator
                     List<OpenXmlAttribute> attributes;
                     if (useSharedStrings)
                     {
-                        int ssPos = AddTextToSharedStringsTable(text);
+                        string ssPos = AddTextToSharedStringsTable(text).ToString(CultureInfo.InvariantCulture);
                         attributes = new()
                         {
                             new OpenXmlAttribute("t", null, "s"),
@@ -366,7 +371,7 @@ namespace BigExcelCreator
                 //write the cell start element with the type and reference attributes
                 workSheetPartWriter.WriteStartElement(new Cell(), attributes);
                 //write the cell value
-                workSheetPartWriter.WriteElement(new CellValue(number));
+                workSheetPartWriter.WriteElement(new CellValue(number.ToString(CultureInfo.InvariantCulture)));
 
                 // write the end cell element
                 workSheetPartWriter.WriteEndElement();
@@ -558,9 +563,7 @@ namespace BigExcelCreator
 
             conditionalFormatting.Append(new[] { conditionalFormattingRule });
 
-
             conditionalFormattingList.Add(conditionalFormatting);
-
         }
 
         public void AddConditionalFormattingCellIs(string reference, ConditionalFormattingOperatorValues @operator, string value, int format, string value2 = null)
@@ -594,9 +597,7 @@ namespace BigExcelCreator
 
             conditionalFormatting.Append(new[] { conditionalFormattingRule });
 
-
             conditionalFormattingList.Add(conditionalFormatting);
-
         }
 
         public void AddConditionalFormattingDuplicatedValues(string reference, int format)
@@ -620,9 +621,27 @@ namespace BigExcelCreator
 
             conditionalFormatting.Append(new[] { conditionalFormattingRule });
 
-
             conditionalFormattingList.Add(conditionalFormatting);
+        }
 
+        public void MergeCells(CellRange range)
+        {
+            if (range == null) { throw new ArgumentNullException(nameof(range)); }
+            if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
+
+            if (SheetMergedCells.Any(range.RangeOverlaps))
+            {
+                throw new OverlappingRangesException();
+            }
+            else
+            {
+                SheetMergedCells.Add(range);
+            }
+        }
+
+        public void MergeCells(string range)
+        {
+            MergeCells(new CellRange(range));
         }
 
         public void CloseDocument()
@@ -685,6 +704,7 @@ namespace BigExcelCreator
         }
         #endregion
 
+        #region private methods
         private void WriteFilters()
         {
             if (SheetAutofilter == null) { return; }
@@ -730,6 +750,24 @@ namespace BigExcelCreator
                 }
                 workSheetPartWriter.WriteEndElement();
             }
+
+            conditionalFormattingList.Clear();
+        }
+
+        private void WriteMergedCells()
+        {
+            if (SheetMergedCells == null || SheetMergedCells.Count == 0) { return; }
+
+            workSheetPartWriter.WriteStartElement(new MergeCells());
+
+            foreach (CellRange range in SheetMergedCells)
+            {
+                workSheetPartWriter.WriteElement(new MergeCell { Reference = range.RangeStringNoSheetName });
+            }
+
+            workSheetPartWriter.WriteEndElement();
+
+            SheetMergedCells.Clear();
         }
 
         private int AddTextToSharedStringsTable(string text)
@@ -792,6 +830,7 @@ namespace BigExcelCreator
             DocumentTasks.Add(task);
 #endif
         }
+        #endregion
     }
 
     internal enum SavingTo

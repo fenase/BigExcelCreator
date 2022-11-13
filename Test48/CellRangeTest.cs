@@ -1,6 +1,8 @@
 ﻿using BigExcelCreator.Ranges;
+using NUnit.Framework;
+using System;
 
-namespace Test
+namespace Test48
 {
     internal class CellRangeTest
     {
@@ -33,7 +35,7 @@ namespace Test
         [TestCase("vals!$A$1:$A$6")]
         public void Parse(string rangeStr)
         {
-            CellRange r = new(rangeStr);
+            CellRange r = new CellRange(rangeStr);
             Assert.That(r.RangeString, Is.EqualTo(rangeStr).IgnoreCase);
         }
 
@@ -62,13 +64,13 @@ namespace Test
         [TestCase("vals!$A$1:$A$6")]
         public void Equivalence(string rangeStr)
         {
-            CellRange parsedRange = new(rangeStr);
+            CellRange parsedRange = new CellRange(rangeStr);
 
-            CellRange createdRange = new(parsedRange.StartingColumn, parsedRange.StartingColumnIsFixed,
-                                         parsedRange.StartingRow, parsedRange.StartingRowIsFixed,
-                                         parsedRange.EndingColumn, parsedRange.EndingColumnIsFixed,
-                                         parsedRange.EndingRow, parsedRange.EndingRowIsFixed,
-                                         parsedRange.Sheetname);
+            CellRange createdRange = new CellRange(parsedRange.StartingColumn, parsedRange.StartingColumnIsFixed,
+                                                   parsedRange.StartingRow, parsedRange.StartingRowIsFixed,
+                                                   parsedRange.EndingColumn, parsedRange.EndingColumnIsFixed,
+                                                   parsedRange.EndingRow, parsedRange.EndingRowIsFixed,
+                                                   parsedRange.Sheetname);
 
             Assert.Multiple(() =>
             {
@@ -98,8 +100,8 @@ namespace Test
         [TestCase("qw123", "qw123")]
         public void SingleRangeString(string rangeStr, string expectedRange)
         {
-            CellRange cellRange = new(rangeStr);
-            CellRange cellRangeExpected = new(expectedRange);
+            CellRange cellRange = new CellRange(rangeStr);
+            CellRange cellRangeExpected = new CellRange(expectedRange);
             Assert.Multiple(() =>
             {
                 Assert.That(cellRange.RangeString, Is.EqualTo(expectedRange).IgnoreCase);
@@ -140,7 +142,7 @@ namespace Test
         [TestCase("Aa1:ZZ5", 676, 5)]
         public void Size(string rangeStr, int expectedWidth, int expectedHeight)
         {
-            CellRange range = new(rangeStr);
+            CellRange range = new CellRange(rangeStr);
             Assert.Multiple(() =>
             {
                 Assert.That(range.Width, Is.EqualTo(expectedWidth));
@@ -188,8 +190,8 @@ namespace Test
         [TestCase("a2:d2", "a1:a3")]
         public void OverlappingRanges(string r1, string r2)
         {
-            CellRange r1r = new(r1);
-            CellRange r2r = new(r2);
+            CellRange r1r = new CellRange(r1);
+            CellRange r2r = new CellRange(r2);
             Assert.Multiple(() =>
             {
                 Assert.That(r1r.RangeOverlaps(r2r), Is.True);
@@ -202,8 +204,8 @@ namespace Test
         [TestCase("A1:D5", "B10:D70")]
         public void NonOverlappingRanges(string r1, string r2)
         {
-            CellRange r1r = new(r1);
-            CellRange r2r = new(r2);
+            CellRange r1r = new CellRange(r1);
+            CellRange r2r = new CellRange(r2);
             Assert.Multiple(() =>
             {
                 Assert.That(r1r.RangeOverlaps(r2r), Is.False);

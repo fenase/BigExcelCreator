@@ -180,5 +180,37 @@ namespace Test35
         {
             Assert.DoesNotThrow(() => new CellRange(1, 1, 1, 1, ""));
         }
+
+
+        [TestCase("a:a", "a:a")]
+        [TestCase("a:a", "1:1")]
+        [TestCase("a2:a5", "a1:a3")]
+        [TestCase("a2:a5", "a1:a13")]
+        [TestCase("a2:a5", "a3:a4")]
+        [TestCase("a2:d2", "a1:a3")]
+        public void OverlappingRanges(string r1, string r2)
+        {
+            CellRange r1r = new CellRange(r1);
+            CellRange r2r = new CellRange(r2);
+            Assert.Multiple(() =>
+            {
+                Assert.That(r1r.RangeOverlaps(r2r), Is.True);
+                Assert.That(r2r.RangeOverlaps(r1r), Is.True);
+            });
+        }
+
+        [TestCase("A:A", "B:B")]
+        [TestCase("A:A", "B1:D7")]
+        [TestCase("A1:D5", "B10:D70")]
+        public void NonOverlappingRanges(string r1, string r2)
+        {
+            CellRange r1r = new CellRange(r1);
+            CellRange r2r = new CellRange(r2);
+            Assert.Multiple(() =>
+            {
+                Assert.That(r1r.RangeOverlaps(r2r), Is.False);
+                Assert.That(r2r.RangeOverlaps(r1r), Is.False);
+            });
+        }
     }
 }
