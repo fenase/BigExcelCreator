@@ -146,3 +146,14 @@ excel.AddConditionalFormattingCellIs("A1:A20", ConditionalFormattingOperatorValu
 excel.AddConditionalFormattingCellIs("A1:A20", ConditionalFormattingOperatorValues.Between, "3", styleList.GetIndexDifferentialByName("RED"), "7");
 
 excel.CloseSheet();
+
+
+excel.CreateAndOpenSheet("merged cells");
+
+excel.MergeCells("1");
+excel.MergeCells("a2:c2");
+excel.MergeCells("a3:a5");
+excel.MergeCells("c3:d5");
+
+excel.CloseSheet();
+
