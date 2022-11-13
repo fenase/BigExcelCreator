@@ -293,6 +293,7 @@ namespace BigExcelCreator.Ranges
 
         public bool RangeOverlaps(CellRange other)
         {
+            if (other == null) { throw new ArgumentNullException(nameof(other)); }
             if (this == other) { return true; }
             if (ColumnOverlaps(other) && RowOverlaps(other)) { return true; }
 

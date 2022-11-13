@@ -626,6 +626,7 @@ namespace BigExcelCreator
 
         public void MergeCells(CellRange range)
         {
+            if (range == null) { throw new ArgumentNullException(nameof(range)); }
             if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
 
             if (SheetMergedCells.Any(range.RangeOverlaps))
