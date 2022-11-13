@@ -1,4 +1,5 @@
 ﻿using BigExcelCreator;
+using BigExcelCreator.Ranges;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using NUnit.Framework;
@@ -35,7 +36,7 @@ namespace Test48
         [Test]
         public void FileExistsAfterCreation()
         {
-            string path = Path.Combine(DirectoryPath, "creationTest.xlsx");
+            string path = Path.Combine(DirectoryPath, $"{Guid.NewGuid()}.xlsx");
             using (BigExcelWriter writer = new BigExcelWriter(path, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
             {
                 // do nothing
@@ -47,7 +48,7 @@ namespace Test48
         [Test]
         public void ValidFile()
         {
-            string path = Path.Combine(DirectoryPath, "ValidFile.xlsx");
+            string path = Path.Combine(DirectoryPath, $"{Guid.NewGuid()}.xlsx");
             using (BigExcelWriter writer = new BigExcelWriter(path, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
             {
                 writer.CreateAndOpenSheet("first");
@@ -444,6 +445,64 @@ namespace Test48
                     Assert.That(rule.Type.Value, Is.EqualTo(ConditionalFormatValues.DuplicateValues));
                     Assert.That(rule.ChildElements, Is.Empty);
                 });
+            }
+        }
+
+        [Test]
+        public void MergedCells()
+        {
+            MemoryStream memoryStream;
+            using (BigExcelWriter writer = GetwriterStream(out memoryStream))
+            {
+                writer.CreateAndOpenSheet("a");
+                writer.MergeCells("a");
+                writer.MergeCells("b2:d7");
+            }
+
+            using (SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false))
+            {
+                WorkbookPart workbookPart = reader.WorkbookPart;
+                Assert.That(workbookPart, Is.Not.Null);
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<MergeCells>, Is.Not.Empty);
+                    IEnumerable<MergeCells> mergedCellsElement = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<MergeCells>();
+                    Assert.Multiple(() =>
+                    {
+                        Assert.That(mergedCellsElement, Is.Not.Null);
+                        Assert.That(mergedCellsElement.Count, Is.EqualTo(1));
+                    });
+
+                    IEnumerable<MergeCell> mergedCellElements = mergedCellsElement.First().ChildElements.OfType<MergeCell>();
+                    Assert.Multiple(() =>
+                    {
+                        Assert.That(mergedCellElements, Is.Not.Null);
+                        Assert.That(mergedCellElements.Count, Is.EqualTo(2));
+                        Assert.That(mergedCellElements, Has.Exactly(1).Matches<MergeCell>(mce => mce.Reference.Value.Equals("A:A", StringComparison.InvariantCultureIgnoreCase)));
+                        Assert.That(mergedCellElements, Has.Exactly(1).Matches<MergeCell>(mce => mce.Reference.Value.Equals("B2:D7", StringComparison.InvariantCultureIgnoreCase)));
+                    });
+                });
+            }
+        }
+
+        [Test]
+        public void MergedCellsOverlappingRanges()
+        {
+            using (BigExcelWriter writer = GetwriterStream(out MemoryStream memoryStream))
+            {
+                writer.CreateAndOpenSheet("a");
+                writer.MergeCells("a1:c7");
+                Assert.Throws<OverlappingRangesException>(() => writer.MergeCells("b2:b3"));
+            }
+        }
+
+        [Test]
+        public void MergedCellsNoSheet()
+        {
+            using (BigExcelWriter writer = GetwriterStream(out MemoryStream memoryStream))
+            {
+                Assert.Throws<InvalidOperationException>(() => writer.MergeCells("b2:b3"));
             }
         }
     }

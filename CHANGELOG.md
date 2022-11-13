@@ -3,6 +3,8 @@
 ## 2.1
 ### Changed
 - Lowered minimum required version of DocumentFormat.OpenXml. It is still recommended to use the latest version when possible.
+### Added
+- Ability to merge cells
 
 ## 2.0
 ### Changed

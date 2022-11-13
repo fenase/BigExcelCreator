@@ -71,6 +71,8 @@ namespace BigExcelCreator
 
         private readonly List<ConditionalFormatting> conditionalFormattingList = new();
 
+        private readonly List<CellRange> SheetMergedCells = new();
+
 #if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
         private readonly List<Task> DocumentTasks = new();
         private readonly List<Task> SheetTasks = new();
@@ -185,6 +187,8 @@ namespace BigExcelCreator
                 WriteFilters();
 
                 WriteConditionalFormatting();
+
+                WriteMergedCells();
 
                 // write the end Worksheet element
                 workSheetPartWriter.WriteEndElement();
@@ -620,6 +624,26 @@ namespace BigExcelCreator
             conditionalFormattingList.Add(conditionalFormatting);
         }
 
+        public void MergeCells(CellRange range)
+        {
+            if (range == null) { throw new ArgumentNullException(nameof(range)); }
+            if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
+
+            if (SheetMergedCells.Any(range.RangeOverlaps))
+            {
+                throw new OverlappingRangesException();
+            }
+            else
+            {
+                SheetMergedCells.Add(range);
+            }
+        }
+
+        public void MergeCells(string range)
+        {
+            MergeCells(new CellRange(range));
+        }
+
         public void CloseDocument()
         {
             if (open)
@@ -726,6 +750,24 @@ namespace BigExcelCreator
                 }
                 workSheetPartWriter.WriteEndElement();
             }
+
+            conditionalFormattingList.Clear();
+        }
+
+        private void WriteMergedCells()
+        {
+            if (SheetMergedCells == null || SheetMergedCells.Count == 0) { return; }
+
+            workSheetPartWriter.WriteStartElement(new MergeCells());
+
+            foreach (CellRange range in SheetMergedCells)
+            {
+                workSheetPartWriter.WriteElement(new MergeCell { Reference = range.RangeStringNoSheetName });
+            }
+
+            workSheetPartWriter.WriteEndElement();
+
+            SheetMergedCells.Clear();
         }
 
         private int AddTextToSharedStringsTable(string text)

@@ -18,6 +18,7 @@ This is specially useful when trying to output thousands of rows
 - [Styling and formatting](#styling-and-formatting)
     - [Column formatting](#column-formatting)
     - [Hide Sheet](#hide-sheet)
+    - [Merge Cells](#merge-cells)
     - [Styling](#styling)
     - [Comments](#comments)
     - [Autofilter](#autofilter)
@@ -127,6 +128,14 @@ excel.CreateAndOpenSheet("Sheet Name", cols);
 * `SheetStateValues.Visible` (default): Sheet is visible
 * `SheetStateValues.Hidden`: Sheet is hidden
 * `SheetStateValues.VeryHidden`: Sheet is hidden and cannot be unhidden from Excel's UI.
+
+
+## Merge Cells
+
+In order to merge a range of cells while a sheet is open, use `MergeCells` with a range.
+```c#
+excel.MergeCells("A1:A5");
+```
 
 
 ## Styling
