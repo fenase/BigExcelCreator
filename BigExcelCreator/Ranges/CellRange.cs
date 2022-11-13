@@ -99,7 +99,6 @@ namespace BigExcelCreator.Ranges
         public bool IsInfiniteCellRangeRow => ((StartRangeType & (RangeTypes.RowInfinite)) != 0) || ((StartRangeType & RangeTypes.RowInfinite) != 0);
 
         private readonly RangeTypes StartRangeType;
-        private readonly RangeTypes EndRangeType;
 
         private readonly char[] invalidSheetCharacters = @"\/*[]:?".ToCharArray();
 
@@ -175,24 +174,24 @@ namespace BigExcelCreator.Ranges
             AssertCompleteRange(letters2, numbers2, EndingRowIsFixed, EndingColumnIsFixed, rangearray[RANGE_END]);
 
             StartRangeType = SetRangeType(letters1, numbers1);
-            EndRangeType = SetRangeType(letters2, numbers2);
+            RangeTypes EndRangeType = SetRangeType(letters2, numbers2);
 
             AssertSameRangeType(StartRangeType, EndRangeType);
 
-            if ((StartRangeType & RangeTypes.RowInfinite) == 0)
+            if ((StartRangeType & RangeTypes.ColInfinite) == 0)
             {
                 StartingRow = int.Parse(rangearray[RANGE_START].Substring(letters1), CultureInfo.InvariantCulture);
             }
-            if ((EndRangeType & RangeTypes.RowInfinite) == 0)
+            if ((EndRangeType & RangeTypes.ColInfinite) == 0)
             {
                 EndingRow = int.Parse(rangearray[RANGE_END].Substring(letters2), CultureInfo.InvariantCulture);
             }
 
-            if ((StartRangeType & RangeTypes.ColInfinite) == 0)
+            if ((StartRangeType & RangeTypes.RowInfinite) == 0)
             {
                 StartingColumn = Helpers.GetColumnIndex(rangearray[RANGE_START].Substring(0, rangearray[RANGE_START].Length - numbers1));
             }
-            if ((EndRangeType & RangeTypes.ColInfinite) == 0)
+            if ((EndRangeType & RangeTypes.RowInfinite) == 0)
             {
                 EndingColumn = Helpers.GetColumnIndex(rangearray[RANGE_END].Substring(0, rangearray[RANGE_END].Length - numbers2));
             }
@@ -294,6 +293,7 @@ namespace BigExcelCreator.Ranges
 
         public bool RangeOverlaps(CellRange other)
         {
+            if (this == other) { return true; }
             if (ColumnOverlaps(other) && RowOverlaps(other)) { return true; }
 
             return false;
@@ -306,11 +306,13 @@ namespace BigExcelCreator.Ranges
             res |= this.IsInfiniteCellRangeCol && other.IsInfiniteCellRangeRow;
             res |= this.IsInfiniteCellRangeRow && other.IsInfiniteCellRangeCol;
 
-            res |= other.IsInfiniteCellRangeCol && other.StartingColumn < this.StartingColumn && other.EndingColumn > this.StartingColumn;
-            res |= this.IsInfiniteCellRangeCol && this.StartingColumn < other.StartingColumn && this.EndingColumn > other.StartingColumn;
+            res |= other.IsInfiniteCellRangeCol && other.StartingColumn <= this.StartingColumn && other.EndingColumn >= this.StartingColumn;
+            res |= this.IsInfiniteCellRangeCol && this.StartingColumn <= other.StartingColumn && this.EndingColumn >= other.StartingColumn;
 
-            res |= other.StartingColumn > this.StartingColumn && other.StartingColumn < this.EndingColumn;
-            res |= other.EndingColumn > this.StartingColumn && other.EndingColumn < this.EndingColumn;
+            res |= other.StartingColumn.IsBetweenInclusive(this.StartingColumn, this.EndingColumn);
+            res |= other.EndingColumn.IsBetweenInclusive(this.StartingColumn, this.EndingColumn);
+            res |= this.StartingColumn.IsBetweenInclusive(other.StartingColumn, other.EndingColumn);
+            res |= this.EndingColumn.IsBetweenInclusive(other.StartingColumn, other.EndingColumn);
 
             return res;
         }
@@ -322,11 +324,13 @@ namespace BigExcelCreator.Ranges
             res |= this.IsInfiniteCellRangeCol && other.IsInfiniteCellRangeRow;
             res |= this.IsInfiniteCellRangeRow && other.IsInfiniteCellRangeCol;
 
-            res |= other.IsInfiniteCellRangeRow && other.StartingRow < this.StartingRow && other.EndingRow > this.StartingRow;
-            res |= this.IsInfiniteCellRangeRow && this.StartingRow < other.StartingRow && this.EndingRow > other.StartingRow;
+            res |= other.IsInfiniteCellRangeRow && other.StartingRow <= this.StartingRow && other.EndingRow >= this.StartingRow;
+            res |= this.IsInfiniteCellRangeRow && this.StartingRow <= other.StartingRow && this.EndingRow >= other.StartingRow;
 
-            res |= other.StartingRow > this.StartingRow && other.StartingRow < this.EndingRow;
-            res |= other.EndingRow > this.StartingRow && other.EndingRow < this.EndingRow;
+            res |= other.StartingRow.IsBetweenInclusive(this.StartingRow, this.EndingRow);
+            res |= other.EndingRow.IsBetweenInclusive(this.StartingRow, this.EndingRow);
+            res |= this.StartingRow.IsBetweenInclusive(other.StartingRow, other.EndingRow);
+            res |= this.EndingRow.IsBetweenInclusive(other.StartingRow, other.EndingRow);
 
             return res;
         }
@@ -391,8 +395,8 @@ namespace BigExcelCreator.Ranges
         private static RangeTypes SetRangeType(int lettersCount, int numbersCount)
         {
             RangeTypes rangeType = 0;
-            if (lettersCount == 0) { rangeType |= RangeTypes.ColInfinite; }
-            if (numbersCount == 0) { rangeType |= RangeTypes.RowInfinite; }
+            if (lettersCount == 0) { rangeType |= RangeTypes.RowInfinite; }
+            if (numbersCount == 0) { rangeType |= RangeTypes.ColInfinite; }
 
             if (rangeType == (RangeTypes.ColInfinite | RangeTypes.RowInfinite)) { throw new InvalidRangeException(); }
 
