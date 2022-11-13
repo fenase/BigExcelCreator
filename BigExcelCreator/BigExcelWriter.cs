@@ -559,9 +559,7 @@ namespace BigExcelCreator
 
             conditionalFormatting.Append(new[] { conditionalFormattingRule });
 
-
             conditionalFormattingList.Add(conditionalFormatting);
-
         }
 
         public void AddConditionalFormattingCellIs(string reference, ConditionalFormattingOperatorValues @operator, string value, int format, string value2 = null)
@@ -595,9 +593,7 @@ namespace BigExcelCreator
 
             conditionalFormatting.Append(new[] { conditionalFormattingRule });
 
-
             conditionalFormattingList.Add(conditionalFormatting);
-
         }
 
         public void AddConditionalFormattingDuplicatedValues(string reference, int format)
@@ -621,9 +617,7 @@ namespace BigExcelCreator
 
             conditionalFormatting.Append(new[] { conditionalFormattingRule });
 
-
             conditionalFormattingList.Add(conditionalFormatting);
-
         }
 
         public void CloseDocument()
@@ -686,6 +680,7 @@ namespace BigExcelCreator
         }
         #endregion
 
+        #region private methods
         private void WriteFilters()
         {
             if (SheetAutofilter == null) { return; }
@@ -793,6 +788,7 @@ namespace BigExcelCreator
             DocumentTasks.Add(task);
 #endif
         }
+        #endregion
     }
 
     internal enum SavingTo
