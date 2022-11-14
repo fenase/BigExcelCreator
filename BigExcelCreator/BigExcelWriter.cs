@@ -33,14 +33,38 @@ namespace BigExcelCreator
     public class BigExcelWriter : IDisposable
     {
         #region props
+        /// <summary>
+        /// Created file will be saved to: ...
+        /// <para>(null when not saving to file)</para>
+        /// </summary>
         public string Path { get; }
+
+        /// <summary>
+        /// Created file will be saved to: ...
+        /// <para>(null when not saving to Stream)</para>
+        /// </summary>
         public Stream Stream { get; }
+
+        /// <summary>
+        /// Where am I saving the file to (file or stream)?
+        /// </summary>
         private SavingTo SavingTo { get; }
 
+        /// <summary>
+        /// Document type
+        /// <para>only <c>SpreadsheetDocumentType.Workbook</c> is tested</para>
+        /// </summary>
         public SpreadsheetDocumentType SpreadsheetDocumentType { get; private set; }
 
+        /// <summary>
+        /// The main document
+        /// </summary>
         public SpreadsheetDocument Document { get; }
 
+        /// <summary>
+        /// When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written.
+        /// When <see langword="false"/>, writing an empty value to a cell does nothing.
+        /// </summary>
         public bool SkipCellWhenEmpty { get; set; }
 
         private bool sheetOpen;
@@ -80,24 +104,65 @@ namespace BigExcelCreator
         #endregion
 
         #region ctor
+        /// <summary>
+        /// Creates a document into <paramref name="stream"/>
+        /// </summary>
+        /// <param name="stream">Where to store the document. <c>MemoryStream</c> is recommended</param>
+        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
         public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType)
         : this(stream, spreadsheetDocumentType, false) { }
 
+        /// <summary>
+        /// Creates a document into <paramref name="stream"/>
+        /// </summary>
+        /// <param name="stream">Where to store the document. <c>MemoryStream</c> is recommended</param>
+        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
+        /// <param name="stylesheet">A Stylesheet for the document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
         public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, Stylesheet stylesheet)
         : this(stream, spreadsheetDocumentType, false, stylesheet) { }
 
+        /// <summary>
+        /// Creates a document into <paramref name="stream"/>
+        /// </summary>
+        /// <param name="stream">Where to store the document. <c>MemoryStream</c> is recommended</param>
+        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
+        /// <param name="skipCellWhenEmpty">When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
         public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty)
             : this(stream, spreadsheetDocumentType, skipCellWhenEmpty, new Stylesheet()) { }
 
+        /// <summary>
+        /// Creates a document into a file located in <paramref name="path"/>
+        /// </summary>
+        /// <param name="path">Path where the document will be saved</param>
+        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
         public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType)
         : this(path, spreadsheetDocumentType, false) { }
 
+        /// <summary>
+        /// Creates a document into a file located in <paramref name="path"/>
+        /// </summary>
+        /// <param name="path">Path where the document will be saved</param>
+        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
+        /// <param name="stylesheet">A Stylesheet for the document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
         public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, Stylesheet stylesheet)
         : this(path, spreadsheetDocumentType, false, stylesheet) { }
 
+        /// <summary>
+        /// Creates a document into a file located in <paramref name="path"/>
+        /// </summary>
+        /// <param name="path">Path where the document will be saved</param>
+        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
+        /// <param name="skipCellWhenEmpty">When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
         public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty)
             : this(path, spreadsheetDocumentType, skipCellWhenEmpty, new Stylesheet()) { }
 
+        /// <summary>
+        /// Creates a document into a file located in <paramref name="path"/>
+        /// </summary>
+        /// <param name="path">Path where the document will be saved</param>
+        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
+        /// <param name="skipCellWhenEmpty">When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
+        /// <param name="stylesheet">A Stylesheet for the document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
         public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
             Path = path;
@@ -106,6 +171,13 @@ namespace BigExcelCreator
             CtorHelper(spreadsheetDocumentType, skipCellWhenEmpty, stylesheet);
         }
 
+        /// <summary>
+        /// Creates a document into <paramref name="stream"/>
+        /// </summary>
+        /// <param name="stream">Where to store the document. <c>MemoryStream</c> is recommended</param>
+        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
+        /// <param name="skipCellWhenEmpty">When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
+        /// <param name="stylesheet">A Stylesheet for the document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
         public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
             Stream = stream;
@@ -133,6 +205,13 @@ namespace BigExcelCreator
         }
         #endregion
 
+        /// <summary>
+        /// Creates a new sheet and prepares the writer to use it.
+        /// </summary>
+        /// <param name="name">Names the sheet</param>
+        /// <param name="columns">Use this to set the columns' width</param>
+        /// <param name="sheetState">Sets sheet visibility. <c>SheetStateValues.Visible</c> to list the sheet. <c>SheetStateValues.Hidden</c> to hide it. <c>SheetStateValues.VeryHidden</c> to hide it and prevent unhiding from the GUI.</param>
+        /// <exception cref="InvalidOperationException">When a sheet is already open</exception>
         public void CreateAndOpenSheet(string name, IList<Column> columns = null,
                                        SheetStateValues sheetState = SheetStateValues.Visible)
         {
@@ -175,6 +254,10 @@ namespace BigExcelCreator
             }
         }
 
+        /// <summary>
+        /// Closes a sheet
+        /// </summary>
+        /// <exception cref="InvalidOperationException">When there is no open sheet</exception>
         public void CloseSheet()
         {
             if (sheetOpen)
@@ -229,21 +312,31 @@ namespace BigExcelCreator
             }
         }
 
-
+        /// <summary>
+        /// Creates a new row
+        /// </summary>
+        /// <param name="rownum">Row index</param>
+        /// <exception cref="InvalidOperationException">If there is no open sheet OR already inside a row OR attempting to write rows out of order. See exception message for more details</exception>
         public void BeginRow(int rownum)
         {
             BeginRow(rownum, false);
         }
 
+        /// <summary>
+        /// Creates a new row
+        /// </summary>
+        /// <param name="rownum">Row index</param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="InvalidOperationException">If there is no open sheet OR already inside a row OR attempting to write rows out of order. See exception message for more details</exception>
         public void BeginRow(int rownum, bool hidden)
         {
-            if (sheetOpen && !rowOpen)
-            {
-                if (rownum > lastRowWritten)
-                {
-                    lastRowWritten = rownum;
-                    //create a new list of attributes
-                    List<OpenXmlAttribute> attributes = new()
+            if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
+            if (rowOpen) { throw new InvalidOperationException("A row is already open. Use EndRow to close it."); }
+            if (rownum <= lastRowWritten) { throw new InvalidOperationException("Out of order row writing is not allowed"); }
+
+            lastRowWritten = rownum;
+            //create a new list of attributes
+            List<OpenXmlAttribute> attributes = new()
                     {
                         // add the row index attribute to the list
                         new OpenXmlAttribute("r", null, lastRowWritten.ToString(CultureInfo.InvariantCulture)),
@@ -252,31 +345,34 @@ namespace BigExcelCreator
                         new OpenXmlAttribute("hidden", null, hidden ? "1" : "0"),
                     };
 
-                    //write the row start element with the row index attribute
-                    workSheetPartWriter.WriteStartElement(new Row(), attributes);
-                    rowOpen = true;
-                }
-                else
-                {
-                    throw new InvalidOperationException("Out of order row writing is not allowed");
-                }
-            }
-            else
-            {
-                throw new InvalidOperationException("A row is already open. Use EndRow to close it.");
-            }
+            //write the row start element with the row index attribute
+            workSheetPartWriter.WriteStartElement(new Row(), attributes);
+            rowOpen = true;
         }
 
+        /// <summary>
+        /// Creates a new row
+        /// </summary>
+        /// <exception cref="InvalidOperationException">If there is no open sheet OR already inside a row. See exception message for more details</exception>
         public void BeginRow()
         {
             BeginRow(false);
         }
 
+        /// <summary>
+        /// Creates a new row
+        /// </summary>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="InvalidOperationException">If there is no open sheet OR already inside a row. See exception message for more details</exception>
         public void BeginRow(bool hidden)
         {
             BeginRow(lastRowWritten + 1, hidden);
         }
 
+        /// <summary>
+        /// Closes a row
+        /// </summary>
+        /// <exception cref="InvalidOperationException">When there is no open row</exception>
         public void EndRow()
         {
             if (rowOpen)
@@ -289,10 +385,18 @@ namespace BigExcelCreator
             }
             else
             {
-                throw new InvalidOperationException("There is no row open");
+                throw new InvalidOperationException("There is no open row");
             }
         }
 
+        /// <summary>
+        /// Writes a string to a cell
+        /// </summary>
+        /// <param name="text">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="useSharedStrings">Write the value to the sharedstrings table. This might help reduce the output filesize when the same text is shared multiple times among sheets.</param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="InvalidOperationException">When there is no open row</exception>
         public void WriteTextCell(string text, int format = 0, bool useSharedStrings = false)
         {
             if (format < 0)
@@ -350,6 +454,13 @@ namespace BigExcelCreator
             }
         }
 
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="InvalidOperationException">When there is no open row</exception>
         public void WriteNumberCell(float number, int format = 0)
         {
             if (format < 0)
@@ -384,6 +495,13 @@ namespace BigExcelCreator
             }
         }
 
+        /// <summary>
+        /// Writes a formula to a cell
+        /// </summary>
+        /// <param name="formula">formula to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="InvalidOperationException">When there is no open row</exception>
         public void WriteFormulaCell(string formula, int format = 0)
         {
             if (format < 0)
@@ -420,7 +538,16 @@ namespace BigExcelCreator
             }
         }
 
-
+        /// <summary>
+        /// Writes an entire text row at once
+        /// </summary>
+        /// <param name="texts">List of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <param name="useSharedStrings">Write the value to the sharedstrings table. This might help reduce the output filesize when the same text is shared multiple times among sheets.</param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="InvalidOperationException">If there is no open sheet OR already inside a row OR there is no open row. See exception message for more details</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
         public void WriteTextRow(IEnumerable<string> texts, int format = 0, bool hidden = false, bool useSharedStrings = false)
         {
             BeginRow(hidden);
@@ -431,6 +558,15 @@ namespace BigExcelCreator
             EndRow();
         }
 
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="InvalidOperationException">If there is no open sheet OR already inside a row OR there is no open row. See exception message for more details</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
         public void WriteNumberRow(IEnumerable<float> numbers, int format = 0, bool hidden = false)
         {
             BeginRow(hidden);
@@ -441,6 +577,15 @@ namespace BigExcelCreator
             EndRow();
         }
 
+        /// <summary>
+        /// Writes an entire formula row at once
+        /// </summary>
+        /// <param name="formulas">List of formulas to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="InvalidOperationException">If there is no open sheet OR already inside a row OR there is no open row. See exception message for more details</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
         public void WriteFormulaRow(IEnumerable<string> formulas, int format = 0, bool hidden = false)
         {
             BeginRow(hidden);
@@ -451,14 +596,31 @@ namespace BigExcelCreator
             EndRow();
         }
 
-
+        /// <summary>
+        /// Adds autofilter. Only one filter per sheet is allowed.
+        /// </summary>
+        /// <param name="range">Where to add the filter (header cells)</param>
+        /// <param name="overwrite">Replace active filter</param>
+        /// <exception cref="ArgumentNullException">Null range</exception>
+        /// <exception cref="InvalidOperationException">When no open sheet OR there is already a filter an <paramref name="overwrite"/> is set to <see langword="false"/></exception>
+        /// <exception cref="ArgumentOutOfRangeException">When range height is not exactly one row</exception>
+        /// <exception cref="InvalidRangeException">When <paramref name="range"/> is not a valid range</exception>
         public void AddAutofilter(string range, bool overwrite = false)
         {
             AddAutofilter(new CellRange(range), overwrite);
         }
 
+        /// <summary>
+        /// Adds autofilter. Only one filter per sheet is allowed.
+        /// </summary>
+        /// <param name="range">Where to add the filter (header cells)</param>
+        /// <param name="overwrite">Replace active filter</param>
+        /// <exception cref="ArgumentNullException">Null range</exception>
+        /// <exception cref="InvalidOperationException">When no open sheet OR there is already a filter an <paramref name="overwrite"/> is set to <see langword="false"/></exception>
+        /// <exception cref="ArgumentOutOfRangeException">When range height is not exactly one row</exception>
         public void AddAutofilter(CellRange range, bool overwrite = false)
         {
+            if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
             if (range == null) { throw new ArgumentNullException(nameof(range)); }
             if ((!overwrite) && SheetAutofilter != null) { throw new InvalidOperationException("There is already a filter in use. Set owerwrite to true to replace it"); }
             if (range.Height != 1) { throw new ArgumentOutOfRangeException(nameof(range), "Range height must be 1"); }
@@ -472,6 +634,17 @@ namespace BigExcelCreator
             AddListValidator(range, formula);
         }
 
+        /// <summary>
+        /// Adds a list validator to a range based on a formula
+        /// </summary>
+        /// <param name="range">Cells to validate</param>
+        /// <param name="formula">Validation formula</param>
+        /// <param name="allowBlank"></param>
+        /// <param name="showInputMessage"></param>
+        /// <param name="showErrorMessage"></param>
+        /// <exception cref="ArgumentNullException">When <paramref name="range"/> is null</exception>
+        /// <exception cref="InvalidOperationException">When there is no open sheet</exception>
+        /// <exception cref="InvalidRangeException">When <paramref name="range"/> is not a valid range</exception>
         public void AddListValidator(string range,
                                  string formula,
                                  bool allowBlank = true,
@@ -485,6 +658,16 @@ namespace BigExcelCreator
                              showErrorMessage);
         }
 
+        /// <summary>
+        /// Adds a list validator to a range based on a formula
+        /// </summary>
+        /// <param name="range">Cells to validate</param>
+        /// <param name="formula">Validation formula</param>
+        /// <param name="allowBlank"></param>
+        /// <param name="showInputMessage"></param>
+        /// <param name="showErrorMessage"></param>
+        /// <exception cref="ArgumentNullException">When <paramref name="range"/> is null</exception>
+        /// <exception cref="InvalidOperationException">When there is no open sheet</exception>
         public void AddListValidator(CellRange range,
                              string formula,
                              bool allowBlank = true,
@@ -517,6 +700,15 @@ namespace BigExcelCreator
             }
         }
 
+        /// <summary>
+        /// Adds a comment to a cell
+        /// </summary>
+        /// <param name="text">Comment text</param>
+        /// <param name="reference">Commented cell</param>
+        /// <param name="author">Comment Author</param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="author"/> is null or an empty string OR <paramref name="reference"/> is not a single cell</exception>
+        /// <exception cref="InvalidOperationException">When there is no open sheet</exception>
+        /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
         public void Comment(string text, string reference, string author = "BigExcelCreator")
         {
             if (string.IsNullOrEmpty(author)) { throw new ArgumentOutOfRangeException(nameof(author)); }
@@ -539,14 +731,24 @@ namespace BigExcelCreator
             }
         }
 
+        /// <summary>
+        /// Adds conditional formatting based on a formula
+        /// </summary>
+        /// <param name="reference">Cell to apply format to</param>
+        /// <param name="formula">Formula. Format will be applied when this formula evaluates to true</param>
+        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <exception cref="ArgumentNullException">When formula is <see langword="null"/> or empty string</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
+        /// <exception cref="InvalidOperationException">When there is no open sheet</exception>
+        /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
         public void AddConditionalFormattingFormula(string reference, string formula, int format)
         {
+            if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
+
             CellRange cellRange = new(reference);
             if (formula.IsNullOrWhiteSpace()) { throw new ArgumentNullException(nameof(formula)); }
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
-
-            if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
-
+            
             ConditionalFormatting conditionalFormatting = new()
             {
                 SequenceOfReferences = new(new List<StringValue> { cellRange.RangeStringNoSheetName }),
@@ -566,6 +768,18 @@ namespace BigExcelCreator
             conditionalFormattingList.Add(conditionalFormatting);
         }
 
+        /// <summary>
+        /// Adds conditional formatting based on cell value
+        /// </summary>
+        /// <param name="reference">Cell to apply format to</param>
+        /// <param name="operator"></param>
+        /// <param name="value">Compare cell value to this</param>
+        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <param name="value2">When <paramref name="operator"/> requires 2 parameters, compare cell value to this as second parameter</param>
+        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
+        /// <exception cref="ArgumentNullException">When <paramref name="value"/> is <see langword="null"/> OR <paramref name="operator"/> requires 2 arguments and <paramref name="value2"/> is <see langword="null"/></exception>
+        /// <exception cref="InvalidOperationException">When there is no open sheet</exception>
+        /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
         public void AddConditionalFormattingCellIs(string reference, ConditionalFormattingOperatorValues @operator, string value, int format, string value2 = null)
         {
             CellRange cellRange = new(reference);
@@ -600,6 +814,14 @@ namespace BigExcelCreator
             conditionalFormattingList.Add(conditionalFormatting);
         }
 
+        /// <summary>
+        /// Adds conditional formatting to duplicated values
+        /// </summary>
+        /// <param name="reference">Cell to apply format to</param>
+        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
+        /// <exception cref="InvalidOperationException">When there is no open sheet</exception>
+        /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
         public void AddConditionalFormattingDuplicatedValues(string reference, int format)
         {
             CellRange cellRange = new(reference);
@@ -624,6 +846,13 @@ namespace BigExcelCreator
             conditionalFormattingList.Add(conditionalFormatting);
         }
 
+        /// <summary>
+        /// Merges cells
+        /// </summary>
+        /// <param name="range">Cells to merge</param>
+        /// <exception cref="ArgumentNullException">When <paramref name="range"/> is <see langword="null"/></exception>
+        /// <exception cref="InvalidOperationException">When there is no open sheet</exception>
+        /// <exception cref="OverlappingRangesException">When trying to merge already merged cells</exception>
         public void MergeCells(CellRange range)
         {
             if (range == null) { throw new ArgumentNullException(nameof(range)); }
@@ -639,11 +868,21 @@ namespace BigExcelCreator
             }
         }
 
+        /// <summary>
+        /// Merges cells
+        /// </summary>
+        /// <param name="range">Cells to merge</param>
+        /// <exception cref="InvalidRangeException">When <paramref name="range"/> is not a valid range</exception>
+        /// <exception cref="InvalidOperationException">When there is no open sheet</exception>
+        /// <exception cref="OverlappingRangesException">When trying to merge already merged cells</exception>
         public void MergeCells(string range)
         {
             MergeCells(new CellRange(range));
         }
 
+        /// <summary>
+        /// Closes the document
+        /// </summary>
         public void CloseDocument()
         {
             if (open)
