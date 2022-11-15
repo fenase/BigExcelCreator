@@ -183,7 +183,9 @@ namespace BigExcelCreator.Ranges
         /// Creates a fixed single cell range using coordinates indexes
         /// </summary>
         /// <param name="column"></param>
+        /// <param name="fixedColumn"></param>
         /// <param name="row"></param>
+        /// <param name="fixedRow"></param>
         /// <param name="sheetname"></param>
         /// <exception cref="ArgumentOutOfRangeException">If any index is less than 1</exception>
         /// <exception cref="InvalidRangeException">If a range makes no sense</exception>
