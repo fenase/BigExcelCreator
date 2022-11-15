@@ -8,8 +8,14 @@ using System.Text;
 
 namespace BigExcelCreator.Ranges
 {
+    /// <summary>
+    /// Range in Excel spreadsheets
+    /// </summary>
     public class CellRange : IEquatable<CellRange>, IComparable<CellRange>
     {
+        /// <summary>
+        /// A <see cref="string"/> representing a range with the sheet's name (if available)
+        /// </summary>
         public string RangeString
         {
             get
@@ -26,6 +32,9 @@ namespace BigExcelCreator.Ranges
             }
         }
 
+        /// <summary>
+        /// A <see cref="string"/> representing a range without the sheet's name
+        /// </summary>
         public string RangeStringNoSheetName
         {
             get
@@ -58,14 +67,29 @@ namespace BigExcelCreator.Ranges
             }
         }
 
+        /// <summary>
+        /// Index of the range's first row
+        /// </summary>
         public int? StartingRow { get; }
 
+        /// <summary>
+        /// Index of the range's first column
+        /// </summary>
         public int? StartingColumn { get; }
 
+        /// <summary>
+        /// Index of the range's last row
+        /// </summary>
         public int? EndingRow { get; }
 
+        /// <summary>
+        /// Index of the range's last column
+        /// </summary>
         public int? EndingColumn { get; }
 
+        /// <summary>
+        /// The name of the range's sheet (if available)
+        /// </summary>
         public string Sheetname
         {
             get => sheetname;
@@ -83,31 +107,86 @@ namespace BigExcelCreator.Ranges
         }
         private string sheetname;
 
+        /// <summary>
+        /// <see langword="true"/> if the starting row is fixed
+        /// <para>Represented by '$' in the string representation</para>
+        /// </summary>
         public bool StartingRowIsFixed { get; private set; }
+
+        /// <summary>
+        /// <see langword="true"/> if the starting column is fixed
+        /// <para>Represented by '$' in the string representation</para>
+        /// </summary>
         public bool StartingColumnIsFixed { get; private set; }
+        
+        /// <summary>
+        /// <see langword="true"/> if the ending row is fixed
+        /// <para>Represented by '$' in the string representation</para>
+        /// </summary>
         public bool EndingRowIsFixed { get; private set; }
+
+        /// <summary>
+        /// <see langword="true"/> if the ending column is fixed
+        /// <para>Represented by '$' in the string representation</para>
+        /// </summary>
         public bool EndingColumnIsFixed { get; private set; }
 
+        /// <summary>
+        /// Range's width
+        /// </summary>
         public int Width { get => Math.Abs((EndingColumn ?? 0) - (StartingColumn ?? 0)) + 1; }
 
+        /// <summary>
+        /// Range's height
+        /// </summary>
         public int Height { get => Math.Abs((EndingRow ?? 0) - (StartingRow ?? 0)) + 1; }
 
+        /// <summary>
+        /// <see langword="true"/> if the range represents a single column
+        /// </summary>
         public bool IsSingleCellRange => StartingRow == EndingRow && StartingColumn == EndingColumn;
 
+        /// <summary>
+        /// <see langword="true"/> if the range is infinite in any direction
+        /// </summary>
         public bool IsInfiniteCellRange => ((StartRangeType & (RangeTypes.AnyInfinite)) != 0) || ((StartRangeType & RangeTypes.AnyInfinite) != 0);
+
+        /// <summary>
+        /// <see langword="true"/> if the range is infinite in any column
+        /// </summary>
         public bool IsInfiniteCellRangeCol => ((StartRangeType & (RangeTypes.ColInfinite)) != 0) || ((StartRangeType & RangeTypes.ColInfinite) != 0);
+
+        /// <summary>
+        /// <see langword="true"/> if the range is infinite in any row
+        /// </summary>
         public bool IsInfiniteCellRangeRow => ((StartRangeType & (RangeTypes.RowInfinite)) != 0) || ((StartRangeType & RangeTypes.RowInfinite) != 0);
 
         private readonly RangeTypes StartRangeType;
 
         private readonly char[] invalidSheetCharacters = @"\/*[]:?".ToCharArray();
 
+        /// <summary>
+        /// Creates a single cell range using coordinates indexes
+        /// </summary>
+        /// <param name="column"></param>
+        /// <param name="row"></param>
+        /// <param name="sheetname"></param>
+        /// <exception cref="ArgumentOutOfRangeException">If any index is less than 1</exception>
+        /// <exception cref="InvalidRangeException">If a range makes no sense</exception>
         public CellRange(int? column,
                          int? row,
                          string sheetname)
             : this(column, row, column, row, sheetname)
         { }
 
+        /// <summary>
+        /// Creates a fixed single cell range using coordinates indexes
+        /// </summary>
+        /// <param name="column"></param>
+        /// <param name="row"></param>
+        /// <param name="sheetname"></param>
+        /// <exception cref="ArgumentOutOfRangeException">If any index is less than 1</exception>
+        /// <exception cref="InvalidRangeException">If a range makes no sense</exception>
         public CellRange(int? column,
                          bool fixedColumn,
                          int? row,
@@ -116,6 +195,16 @@ namespace BigExcelCreator.Ranges
             : this(column, fixedColumn, row, fixedRow, column, fixedColumn, row, fixedRow, sheetname)
         { }
 
+        /// <summary>
+        /// Creates a range using coordinates indexes
+        /// </summary>
+        /// <param name="startingColumn"></param>
+        /// <param name="startingRow"></param>
+        /// <param name="endingColumn"></param>
+        /// <param name="endingRow"></param>
+        /// <param name="sheetname"></param>
+        /// <exception cref="ArgumentOutOfRangeException">If any index is less than 1</exception>
+        /// <exception cref="InvalidRangeException">If a range makes no sense</exception>
         public CellRange(int? startingColumn,
                          int? startingRow,
                          int? endingColumn,
@@ -124,6 +213,20 @@ namespace BigExcelCreator.Ranges
             : this(startingColumn, false, startingRow, false, endingColumn, false, endingRow, false, sheetname)
         { }
 
+        /// <summary>
+        /// Creates a range using coordinates indexes
+        /// </summary>
+        /// <param name="startingColumn"></param>
+        /// <param name="fixedStartingColumn"></param>
+        /// <param name="startingRow"></param>
+        /// <param name="fixedStartingRow"></param>
+        /// <param name="endingColumn"></param>
+        /// <param name="fixedEndingColumn"></param>
+        /// <param name="endingRow"></param>
+        /// <param name="fixedEndingRow"></param>
+        /// <param name="sheetname"></param>
+        /// <exception cref="ArgumentOutOfRangeException">If any index is less than 1</exception>
+        /// <exception cref="InvalidRangeException">If a range makes no sense</exception>
         public CellRange(int? startingColumn,
                          bool fixedStartingColumn,
                          int? startingRow,
@@ -156,7 +259,13 @@ namespace BigExcelCreator.Ranges
             EndingRowIsFixed = fixedEndingRow;
         }
 
-
+        /// <summary>
+        /// Parses a <see cref="string"/> into a range
+        /// </summary>
+        /// <param name="range"></param>
+        /// <exception cref="ArgumentNullException">If <paramref name="range"/> is null</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If any index is less than 1</exception>
+        /// <exception cref="InvalidRangeException">If a range makes no sense</exception>
         public CellRange(string range)
         {
             range = PrepareRangeString(range);
@@ -198,12 +307,21 @@ namespace BigExcelCreator.Ranges
         }
 
 
-        // override object.Equals
+        /// <summary>
+        /// Range equals
+        /// </summary>
+        /// <param name="obj">Another range</param>
+        /// <returns><see langword="true"/> if ranges are equal. <see langword="false"/> otherwise.</returns>
         public override bool Equals(object obj)
         {
             return obj is CellRange other && Equals(other);
         }
 
+        /// <summary>
+        /// Range equals
+        /// </summary>
+        /// <param name="other">Another range</param>
+        /// <returns><see langword="true"/> if ranges are equal. <see langword="false"/> otherwise.</returns>
         public virtual bool Equals(CellRange other)
         {
             return other != null
@@ -219,7 +337,10 @@ namespace BigExcelCreator.Ranges
                 && EndingRowIsFixed == other.EndingRowIsFixed;
         }
 
-        // override object.GetHashCode
+        /// <summary>
+        /// Retirns the hash code for this range
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
@@ -238,7 +359,12 @@ namespace BigExcelCreator.Ranges
                 return hc;
             }
         }
-
+        
+        /// <summary>
+        /// Comparison method
+        /// </summary>
+        /// <param name="other">Another range</param>
+        /// <returns>See <see cref="IComparable.CompareTo(object)"/></returns>
         public int CompareTo(CellRange other)
         {
             if (other == null) return 1;
@@ -290,7 +416,12 @@ namespace BigExcelCreator.Ranges
             return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
         }
 
-
+        /// <summary>
+        /// Compares ranges and returns <see langword="true"/> if they share any cell
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public bool RangeOverlaps(CellRange other)
         {
             if (other == null) { throw new ArgumentNullException(nameof(other)); }

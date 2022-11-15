@@ -10,6 +10,9 @@ using System.Linq;
 
 namespace BigExcelCreator.Styles
 {
+    /// <summary>
+    /// Manages styles and generates stylesheets
+    /// </summary>
     public class StyleList
     {
         #region props
@@ -21,14 +24,24 @@ namespace BigExcelCreator.Styles
 
         private List<NumberingFormat> NumberingFormats { get; } = new List<NumberingFormat>();
 
+        /// <summary>
+        /// Main styles
+        /// </summary>
         public IList<StyleElement> Styles { get; } = new List<StyleElement>();
 
-        public IList<DifferentialStyleElement> differentialStyleElements { get; } = new List<DifferentialStyleElement>();
+        /// <summary>
+        /// Differential styles.
+        /// <para>Used in COnditional formatting</para>
+        /// </summary>
+        public IList<DifferentialStyleElement> DifferentialStyleElements { get; } = new List<DifferentialStyleElement>();
 
         private const uint STARTINGNUMBERFORMAT = 164;
         #endregion
 
         #region ctor
+        /// <summary>
+        /// Creates a style list and populates with default styles
+        /// </summary>
         public StyleList()
         {
             //Create default style
@@ -57,6 +70,10 @@ namespace BigExcelCreator.Styles
         }
         #endregion
 
+        /// <summary>
+        /// Generates a <see cref="Stylesheet"/> to include in an Excel document
+        /// </summary>
+        /// <returns><see cref="Stylesheet"/>: A stylesheet</returns>
         public Stylesheet GetStylesheet()
         {
 #if NET35
@@ -67,7 +84,7 @@ namespace BigExcelCreator.Styles
                 Borders = new Borders(Borders.Select(x => (OpenXmlElement)x.Clone())),
                 NumberingFormats = new NumberingFormats(NumberingFormats.Select(x => (OpenXmlElement)x.Clone())),
                 CellFormats = new CellFormats(Styles.Select(x => (OpenXmlElement)x.Style.Clone())),
-                DifferentialFormats = new DifferentialFormats(differentialStyleElements.Select(x => (OpenXmlElement)x.DifferentialFormat.Clone())),
+                DifferentialFormats = new DifferentialFormats(DifferentialStyleElements.Select(x => (OpenXmlElement)x.DifferentialFormat.Clone())),
             };
 #else
             return new Stylesheet
@@ -77,38 +94,79 @@ namespace BigExcelCreator.Styles
                 Borders = new Borders(Borders.Select(x => (Border)x.Clone())),
                 NumberingFormats = new NumberingFormats(NumberingFormats.Select(x => (NumberingFormat)x.Clone())),
                 CellFormats = new CellFormats(Styles.Select(x => (CellFormat)x.Style.Clone())),
-                DifferentialFormats = new DifferentialFormats(differentialStyleElements.Select(x => (DifferentialFormat)x.DifferentialFormat.Clone())),
+                DifferentialFormats = new DifferentialFormats(DifferentialStyleElements.Select(x => (DifferentialFormat)x.DifferentialFormat.Clone())),
             };
 #endif
         }
 
+        /// <summary>
+        /// Gets the index of a named style
+        /// </summary>
+        /// <param name="name">Style to look for</param>
+        /// <returns></returns>
         public int GetIndexByName(string name)
         {
             return GetIndexByName(name, out _);
         }
 
+        /// <summary>
+        /// Gets the index of a named style
+        /// </summary>
+        /// <param name="name">Style to look for</param>
+        /// <param name="styleElement">A copy of the found style</param>
+        /// <returns></returns>
         public int GetIndexByName(string name, out StyleElement styleElement)
         {
             styleElement = Styles.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
             return Styles.IndexOf(styleElement);
         }
 
+        /// <summary>
+        /// Gets the index of a named differential style
+        /// </summary>
+        /// <param name="name">Style to look for</param>
+        /// <returns></returns>
         public int GetIndexDifferentialByName(string name)
         {
             return GetIndexDifferentialByName(name, out _);
         }
 
+        /// <summary>
+        /// Gets the index of a named differential style
+        /// </summary>
+        /// <param name="name">Style to look for</param>
+        /// <param name="differentialStyleElement">A copy of the found style</param>
+        /// <returns></returns>
         public int GetIndexDifferentialByName(string name, out DifferentialStyleElement differentialStyleElement)
         {
-            differentialStyleElement = differentialStyleElements.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-            return differentialStyleElements.IndexOf(differentialStyleElement);
+            differentialStyleElement = DifferentialStyleElements.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            return DifferentialStyleElements.IndexOf(differentialStyleElement);
         }
 
+        /// <summary>
+        /// Generates, stores and returns a new style
+        /// </summary>
+        /// <param name="font"><see cref="Font"/></param>
+        /// <param name="fill"><see cref="Fill"/></param>
+        /// <param name="border"><see cref="Border"/></param>
+        /// <param name="numberingFormat"><see cref="NumberingFormat"/></param>
+        /// <param name="name">A unique name to find the inserted style later</param>
+        /// <returns>The <see cref="StyleElement"/> generated</returns>
         public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, string name)
         {
             return NewStyle(font, fill, border, numberingFormat, null, name);
         }
 
+        /// <summary>
+        /// Generates, stores and returns a new style
+        /// </summary>
+        /// <param name="font"><see cref="Font"/></param>
+        /// <param name="fill"><see cref="Fill"/></param>
+        /// <param name="border"><see cref="Border"/></param>
+        /// <param name="numberingFormat"><see cref="NumberingFormat"/></param>
+        /// <param name="alignment"><see cref="Alignment"/></param>
+        /// <param name="name">A unique name to find the inserted style later</param>
+        /// <returns>The <see cref="StyleElement"/> generated</returns>
         public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, Alignment alignment, string name)
         {
             if (GetIndexByName(name, out StyleElement style) >= 0)
@@ -127,6 +185,18 @@ namespace BigExcelCreator.Styles
             return NewStyle(fontId, fillId, borderId, numberingFormatId, alignment, name);
         }
 
+        /// <summary>
+        /// Generates, stores and returns a new style.
+        /// <para>If the inserted indexes don't exist when the stylesheet is generated, the file might fail to open</para>
+        /// <para>To avoid such problems, use <see cref="NewStyle(Font, Fill, Border, NumberingFormat, string)"/> or <see cref="NewStyle(Font, Fill, Border, NumberingFormat, Alignment, string)"/> instead</para>
+        /// </summary>
+        /// <param name="fontId">Index of already inserted font</param>
+        /// <param name="fillId">Index of already inserted fill</param>
+        /// <param name="borderId">Index of already inserted border</param>
+        /// <param name="numberingFormatId">Index of already inserted numbering format</param>
+        /// <param name="alignment"><see cref="Alignment"/></param>
+        /// <param name="name">A unique name to find the inserted style later</param>
+        /// <returns>The <see cref="StyleElement"/> generated</returns>
         public StyleElement NewStyle(int? fontId, int? fillId, int? borderId, int? numberingFormatId, Alignment alignment, string name)
         {
             if (fontId < 0) { throw new ArgumentOutOfRangeException(nameof(fontId), "must be greater than 0"); }
@@ -141,6 +211,16 @@ namespace BigExcelCreator.Styles
             return styleElement;
         }
 
+        /// <summary>
+        /// Generates, stores and returns a new differential style
+        /// </summary>
+        /// <param name="font"><see cref="Font"/></param>
+        /// <param name="fill"><see cref="Fill"/></param>
+        /// <param name="border"><see cref="Border"/></param>
+        /// <param name="numberingFormat"><see cref="NumberingFormat"/></param>
+        /// <param name="alignment"><see cref="Alignment"/></param>
+        /// <param name="name">A unique name to find the inserted style later</param>
+        /// <returns>The <see cref="DifferentialStyleElement"/> generated</returns>
         public DifferentialStyleElement NewDifferentialStyle(string name, Font font = null, Fill fill = null, Border border = null, NumberingFormat numberingFormat = null, Alignment alignment = null)
         {
             if (GetIndexDifferentialByName(name, out DifferentialStyleElement style) >= 0)
@@ -178,7 +258,7 @@ namespace BigExcelCreator.Styles
             if (differentialFormat != null)
             {
                 differentialFormat.Name = !name.IsNullOrWhiteSpace() ? name : throw new ArgumentNullException(nameof(name));
-                differentialStyleElements.Add(differentialFormat);
+                DifferentialStyleElements.Add(differentialFormat);
                 return differentialFormat;
             }
             else
