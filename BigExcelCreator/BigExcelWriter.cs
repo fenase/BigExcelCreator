@@ -67,6 +67,72 @@ namespace BigExcelCreator
         /// </summary>
         public bool SkipCellWhenEmpty { get; set; }
 
+        /// <summary>
+        /// When <see langword="true""/>, shows gridlines on screen.
+        /// When <see langword="false""/>, hides gridlines on screen.
+        /// </summary>
+        public bool ShowGridLines
+        {
+            get => _showGridLines;
+
+            set
+            {
+                if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
+                _showGridLines = value;
+            }
+        }
+        private bool _showGridLines = _showGridLinesDefault;
+        private const bool _showGridLinesDefault = true;
+
+        /// <summary>
+        /// When <see langword="true""/>, shows row and column headings.
+        /// When <see langword="false""/>, hides row and column headings.
+        /// </summary>
+        public bool ShowRowAndColumnHeadings
+        {
+            get => _showRowAndColumnHeadings;
+
+            set
+            {
+                if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
+                _showRowAndColumnHeadings = value;
+            }
+        }
+        private bool _showRowAndColumnHeadings = _showRowAndColumnHeadingsDefault;
+        private const bool _showRowAndColumnHeadingsDefault = true;
+
+        /// <summary>
+        /// When <see langword="true""/>, Prints gridlines.
+        /// When <see langword="false""/>, Doesn't print gridlines.
+        /// </summary>
+        public bool PrintGridLines
+        {
+            get => _printGridLines;
+            set
+            {
+                if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
+                _printGridLines = value;
+            }
+        }
+        private bool _printGridLines = _printGridLinesDefault;
+        private const bool _printGridLinesDefault = false;
+
+        /// <summary>
+        /// When <see langword="true""/>, Prints row and column headings.
+        /// When <see langword="false""/>, Doesn't print row and column headings.
+        /// </summary>
+        public bool PrintRowAndColumnHeadings
+        {
+            get => _printRowAndColumnHeadings;
+            set
+            {
+                if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
+                _printRowAndColumnHeadings = value;
+            }
+        }
+        private bool _printRowAndColumnHeadings = _printRowAndColumnHeadingsDefault;
+        private const bool _printRowAndColumnHeadingsDefault = false;
+
         private bool sheetOpen;
         private string currentSheetName = "";
         private uint currentSheetId = 1;
@@ -247,6 +313,8 @@ namespace BigExcelCreator
                 workSheetPartWriter.WriteStartElement(new SheetData());
                 sheetOpen = true;
                 currentSheetState = sheetState;
+
+                SetSheetDefault();
             }
             else
             {
@@ -273,6 +341,8 @@ namespace BigExcelCreator
 
                 WriteMergedCells();
 
+                WritePrintOptions();
+
                 // write the end Worksheet element
                 workSheetPartWriter.WriteEndElement();
 
@@ -294,6 +364,9 @@ namespace BigExcelCreator
 
                 currentSheetName = "";
                 workSheetPart.Worksheet.SheetDimension = new SheetDimension() { Reference = $"A1:{Helpers.GetColumnName(maxColumnNum)}{Math.Max(1, lastRowWritten)}" };
+
+
+                WritePageConfig(workSheetPart.Worksheet);
 
 
 
@@ -748,7 +821,7 @@ namespace BigExcelCreator
             CellRange cellRange = new(reference);
             if (formula.IsNullOrWhiteSpace()) { throw new ArgumentNullException(nameof(formula)); }
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
-            
+
             ConditionalFormatting conditionalFormatting = new()
             {
                 SequenceOfReferences = new(new List<StringValue> { cellRange.RangeStringNoSheetName }),
@@ -1068,6 +1141,39 @@ namespace BigExcelCreator
             task.Start();
             DocumentTasks.Add(task);
 #endif
+        }
+
+        private void SetSheetDefault()
+        {
+            _showGridLines = _showGridLinesDefault;
+            _showRowAndColumnHeadings = _showRowAndColumnHeadingsDefault;
+            _printRowAndColumnHeadings = _printRowAndColumnHeadingsDefault;
+            _printGridLines = _printGridLinesDefault;
+        }
+
+        private void WritePageConfig(Worksheet worksheet)
+        {
+            if (_showGridLines != _showGridLinesDefault || _showRowAndColumnHeadings != _showRowAndColumnHeadingsDefault)
+            {
+                SheetView sheetView = new();
+                if (_showGridLines != _showGridLinesDefault) { sheetView.ShowGridLines = _showGridLines; }
+                if (_showRowAndColumnHeadings != _showRowAndColumnHeadingsDefault) { sheetView.ShowRowColHeaders = _showRowAndColumnHeadings; }
+                sheetView.WorkbookViewId = 0;
+
+                worksheet.SheetViews = new SheetViews(new[] { sheetView });
+            }
+
+        }
+
+        private void WritePrintOptions()
+        {
+            if (_printGridLines != _printGridLinesDefault || _printRowAndColumnHeadings != _printRowAndColumnHeadingsDefault)
+            {
+                PrintOptions printOptions = new();
+                if (_printGridLines != _printGridLinesDefault) { printOptions.GridLines = _printGridLines; }
+                if (_printRowAndColumnHeadings != _printRowAndColumnHeadingsDefault) { printOptions.Headings = _printRowAndColumnHeadings; }
+                workSheetPartWriter.WriteElement(printOptions);
+            }
         }
         #endregion
     }
