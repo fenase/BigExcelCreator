@@ -68,69 +68,53 @@ namespace BigExcelCreator
         public bool SkipCellWhenEmpty { get; set; }
 
         /// <summary>
-        /// When <see langword="true""/>, shows gridlines on screen.
+        /// When <see langword="true""/>, shows gridlines on screen (default).
         /// When <see langword="false""/>, hides gridlines on screen.
         /// </summary>
-        public bool ShowGridLines
+        public bool ShowGridLinesInCurrentSheet
         {
-            get => _showGridLines;
+            get => sheetOpen ? _showGridLinesInCurrentSheet : throw new InvalidOperationException("There is no open sheet");
 
-            set
-            {
-                if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
-                _showGridLines = value;
-            }
+            set => _showGridLinesInCurrentSheet = sheetOpen ? value : throw new InvalidOperationException("There is no open sheet");
         }
-        private bool _showGridLines = _showGridLinesDefault;
+        private bool _showGridLinesInCurrentSheet = _showGridLinesDefault;
         private const bool _showGridLinesDefault = true;
 
         /// <summary>
-        /// When <see langword="true""/>, shows row and column headings.
+        /// When <see langword="true""/>, shows row and column headings (default).
         /// When <see langword="false""/>, hides row and column headings.
         /// </summary>
-        public bool ShowRowAndColumnHeadings
+        public bool ShowRowAndColumnHeadingsInCurrentSheet
         {
-            get => _showRowAndColumnHeadings;
+            get => sheetOpen ? _showRowAndColumnHeadingsInCurrentSheet : throw new InvalidOperationException("There is no open sheet");
 
-            set
-            {
-                if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
-                _showRowAndColumnHeadings = value;
-            }
+            set => _showRowAndColumnHeadingsInCurrentSheet = sheetOpen ? value : throw new InvalidOperationException("There is no open sheet");
         }
-        private bool _showRowAndColumnHeadings = _showRowAndColumnHeadingsDefault;
+        private bool _showRowAndColumnHeadingsInCurrentSheet = _showRowAndColumnHeadingsDefault;
         private const bool _showRowAndColumnHeadingsDefault = true;
 
         /// <summary>
         /// When <see langword="true""/>, Prints gridlines.
-        /// When <see langword="false""/>, Doesn't print gridlines.
+        /// When <see langword="false""/>, Doesn't print gridlines (default).
         /// </summary>
-        public bool PrintGridLines
+        public bool PrintGridLinesInCurrentSheet
         {
-            get => _printGridLines;
-            set
-            {
-                if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
-                _printGridLines = value;
-            }
+            get => sheetOpen ? _printGridLinesInCurrentSheet : throw new InvalidOperationException("There is no open sheet");
+            set => _printGridLinesInCurrentSheet = sheetOpen ? value : throw new InvalidOperationException("There is no open sheet");
         }
-        private bool _printGridLines = _printGridLinesDefault;
+        private bool _printGridLinesInCurrentSheet = _printGridLinesDefault;
         private const bool _printGridLinesDefault = false;
 
         /// <summary>
         /// When <see langword="true""/>, Prints row and column headings.
-        /// When <see langword="false""/>, Doesn't print row and column headings.
+        /// When <see langword="false""/>, Doesn't print row and column headings (default).
         /// </summary>
-        public bool PrintRowAndColumnHeadings
+        public bool PrintRowAndColumnHeadingsInCurrentSheet
         {
-            get => _printRowAndColumnHeadings;
-            set
-            {
-                if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
-                _printRowAndColumnHeadings = value;
-            }
+            get => sheetOpen ? _printRowAndColumnHeadingsInCurrentSheet : throw new InvalidOperationException("There is no open sheet");
+            set => _printRowAndColumnHeadingsInCurrentSheet = sheetOpen ? value : throw new InvalidOperationException("There is no open sheet");
         }
-        private bool _printRowAndColumnHeadings = _printRowAndColumnHeadingsDefault;
+        private bool _printRowAndColumnHeadingsInCurrentSheet = _printRowAndColumnHeadingsDefault;
         private const bool _printRowAndColumnHeadingsDefault = false;
 
         private bool sheetOpen;
@@ -1099,16 +1083,16 @@ namespace BigExcelCreator
             Task task = new Task(() =>
             {
 #endif
-                using OpenXmlWriter SharedStringsWriter = OpenXmlWriter.Create(SharedStringTablePart);
-                SharedStringsWriter.WriteStartElement(new SharedStringTable());
-                foreach (string item in SharedStringsList)
-                {
-                    SharedStringsWriter.WriteStartElement(new SharedStringItem());
-                    SharedStringsWriter.WriteElement(new Text(item));
-                    SharedStringsWriter.WriteEndElement();
-                }
+            using OpenXmlWriter SharedStringsWriter = OpenXmlWriter.Create(SharedStringTablePart);
+            SharedStringsWriter.WriteStartElement(new SharedStringTable());
+            foreach (string item in SharedStringsList)
+            {
+                SharedStringsWriter.WriteStartElement(new SharedStringItem());
+                SharedStringsWriter.WriteElement(new Text(item));
                 SharedStringsWriter.WriteEndElement();
-                SharedStringsWriter.Close();
+            }
+            SharedStringsWriter.WriteEndElement();
+            SharedStringsWriter.Close();
 #if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
             });
             task.Start();
@@ -1122,20 +1106,20 @@ namespace BigExcelCreator
             Task task = new Task(() =>
             {
 #endif
-                using OpenXmlWriter workbookPartWriter = OpenXmlWriter.Create(Document.WorkbookPart);
-                workbookPartWriter.WriteStartElement(new Workbook());
-                workbookPartWriter.WriteStartElement(new Sheets());
+            using OpenXmlWriter workbookPartWriter = OpenXmlWriter.Create(Document.WorkbookPart);
+            workbookPartWriter.WriteStartElement(new Workbook());
+            workbookPartWriter.WriteStartElement(new Sheets());
 
-                foreach (Sheet sheet in sheets)
-                {
-                    workbookPartWriter.WriteElement(sheet);
-                }
+            foreach (Sheet sheet in sheets)
+            {
+                workbookPartWriter.WriteElement(sheet);
+            }
 
-                // End Sheets
-                workbookPartWriter.WriteEndElement();
-                // End Workbook
-                workbookPartWriter.WriteEndElement();
-                workbookPartWriter.Close();
+            // End Sheets
+            workbookPartWriter.WriteEndElement();
+            // End Workbook
+            workbookPartWriter.WriteEndElement();
+            workbookPartWriter.Close();
 #if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
             });
             task.Start();
@@ -1145,19 +1129,19 @@ namespace BigExcelCreator
 
         private void SetSheetDefault()
         {
-            _showGridLines = _showGridLinesDefault;
-            _showRowAndColumnHeadings = _showRowAndColumnHeadingsDefault;
-            _printRowAndColumnHeadings = _printRowAndColumnHeadingsDefault;
-            _printGridLines = _printGridLinesDefault;
+            _showGridLinesInCurrentSheet = _showGridLinesDefault;
+            _showRowAndColumnHeadingsInCurrentSheet = _showRowAndColumnHeadingsDefault;
+            _printRowAndColumnHeadingsInCurrentSheet = _printRowAndColumnHeadingsDefault;
+            _printGridLinesInCurrentSheet = _printGridLinesDefault;
         }
 
         private void WritePageConfig(Worksheet worksheet)
         {
-            if (_showGridLines != _showGridLinesDefault || _showRowAndColumnHeadings != _showRowAndColumnHeadingsDefault)
+            if (_showGridLinesInCurrentSheet != _showGridLinesDefault || _showRowAndColumnHeadingsInCurrentSheet != _showRowAndColumnHeadingsDefault)
             {
                 SheetView sheetView = new();
-                if (_showGridLines != _showGridLinesDefault) { sheetView.ShowGridLines = _showGridLines; }
-                if (_showRowAndColumnHeadings != _showRowAndColumnHeadingsDefault) { sheetView.ShowRowColHeaders = _showRowAndColumnHeadings; }
+                if (_showGridLinesInCurrentSheet != _showGridLinesDefault) { sheetView.ShowGridLines = _showGridLinesInCurrentSheet; }
+                if (_showRowAndColumnHeadingsInCurrentSheet != _showRowAndColumnHeadingsDefault) { sheetView.ShowRowColHeaders = _showRowAndColumnHeadingsInCurrentSheet; }
                 sheetView.WorkbookViewId = 0;
 
                 worksheet.SheetViews = new SheetViews(new[] { sheetView });
@@ -1167,11 +1151,11 @@ namespace BigExcelCreator
 
         private void WritePrintOptions()
         {
-            if (_printGridLines != _printGridLinesDefault || _printRowAndColumnHeadings != _printRowAndColumnHeadingsDefault)
+            if (_printGridLinesInCurrentSheet != _printGridLinesDefault || _printRowAndColumnHeadingsInCurrentSheet != _printRowAndColumnHeadingsDefault)
             {
                 PrintOptions printOptions = new();
-                if (_printGridLines != _printGridLinesDefault) { printOptions.GridLines = _printGridLines; }
-                if (_printRowAndColumnHeadings != _printRowAndColumnHeadingsDefault) { printOptions.Headings = _printRowAndColumnHeadings; }
+                if (_printGridLinesInCurrentSheet != _printGridLinesDefault) { printOptions.GridLines = _printGridLinesInCurrentSheet; }
+                if (_printRowAndColumnHeadingsInCurrentSheet != _printRowAndColumnHeadingsDefault) { printOptions.Headings = _printRowAndColumnHeadingsInCurrentSheet; }
                 workSheetPartWriter.WriteElement(printOptions);
             }
         }

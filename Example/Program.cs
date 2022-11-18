@@ -101,9 +101,9 @@ excel.AddAutofilter("a1:e1");
 
 excel.EndRow();
 
-excel.PrintGridLines = true;
-excel.ShowRowAndColumnHeadings = false;
-excel.ShowGridLines = false;
+excel.PrintGridLinesInCurrentSheet = true;
+excel.PrintRowAndColumnHeadingsInCurrentSheet = true;
+excel.ShowGridLinesInCurrentSheet = false;
 
 excel.CloseSheet();
 

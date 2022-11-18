@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## 2.2
+### Added
+- Show or hide, print or not, Gridlines and headings
+
 ## 2.1
 ### Changed
 - Lowered minimum required version of DocumentFormat.OpenXml. It is still recommended to use the latest version when possible.
