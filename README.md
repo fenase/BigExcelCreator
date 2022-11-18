@@ -292,3 +292,24 @@ Format duplicated values using `AddConditionalFormattingDuplicatedValues`
 ```c#
 excel.AddConditionalFormattingDuplicatedValues("A1:A10", styleList.GetIndexDifferentialByName("RED"));
 ```
+
+
+# Page Layout
+
+## Sheet options
+
+### Gridlines
+
+While working on a sheet, the property `ShowGridLinesInCurrentSheet` controls whether the gridlines are shown.
+Enabled by default.
+
+While working on a sheet, the property `PrintGridLinesInCurrentSheet` controls whether the gridlines are printed.
+Disabled by default.
+
+### Headings
+
+While working on a sheet, the property `ShowRowAndColumnHeadingsInCurrentSheet` controls whether the headings (Column letters and row numbers) are shown.
+Enabled by default.
+
+While working on a sheet, the property `PrintRowAndColumnHeadingsInCurrentSheet` controls whether the headings (Column letters and row numbers) are printed.
+Disabled by default.
