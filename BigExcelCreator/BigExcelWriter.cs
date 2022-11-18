@@ -451,7 +451,7 @@ namespace BigExcelCreator
         /// </summary>
         /// <param name="text">value to be written</param>
         /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="useSharedStrings">Write the value to the sharedstrings table. This might help reduce the output filesize when the same text is shared multiple times among sheets.</param>
+        /// <param name="useSharedStrings">Write the value to the shared strings table. This might help reduce the output file size when the same text is shared multiple times among sheets.</param>
         /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
         /// <exception cref="InvalidOperationException">When there is no open row</exception>
         public void WriteTextCell(string text, int format = 0, bool useSharedStrings = false)
@@ -601,7 +601,7 @@ namespace BigExcelCreator
         /// <param name="texts">List of values to be written</param>
         /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
         /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <param name="useSharedStrings">Write the value to the sharedstrings table. This might help reduce the output filesize when the same text is shared multiple times among sheets.</param>
+        /// <param name="useSharedStrings">Write the value to the shared strings table. This might help reduce the output file size when the same text is shared multiple times among sheets.</param>
         /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
         /// <exception cref="InvalidOperationException">If there is no open sheet OR already inside a row OR there is no open row. See exception message for more details</exception>
         /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
@@ -679,7 +679,7 @@ namespace BigExcelCreator
         {
             if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
             if (range == null) { throw new ArgumentNullException(nameof(range)); }
-            if ((!overwrite) && SheetAutofilter != null) { throw new InvalidOperationException("There is already a filter in use. Set owerwrite to true to replace it"); }
+            if ((!overwrite) && SheetAutofilter != null) { throw new InvalidOperationException("There is already a filter in use. Set overwrite to true to replace it"); }
             if (range.Height != 1) { throw new ArgumentOutOfRangeException(nameof(range), "Range height must be 1"); }
             SheetAutofilter = new AutoFilter() { Reference = range.RangeStringNoSheetName };
         }
