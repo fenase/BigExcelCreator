@@ -486,5 +486,97 @@ namespace Test
             using BigExcelWriter writer = GetwriterStream(out MemoryStream memoryStream);
             Assert.Throws<InvalidOperationException>(() => writer.MergeCells("b2:b3"));
         }
+
+
+        [Test]
+        public void PageLayout()
+        {
+            MemoryStream memoryStream;
+            using (BigExcelWriter writer = GetwriterStream(out memoryStream))
+            {
+                writer.CreateAndOpenSheet("a");
+                writer.CloseSheet();
+
+                writer.CreateAndOpenSheet("hideGrid");
+                writer.ShowGridLinesInCurrentSheet = false;
+                writer.CloseSheet();
+
+                writer.CreateAndOpenSheet("hideAndPrintGrid");
+                writer.ShowGridLinesInCurrentSheet = false;
+                writer.PrintGridLinesInCurrentSheet = true;
+                writer.CloseSheet();
+
+                writer.CreateAndOpenSheet("hideAndPrintHead");
+                writer.ShowRowAndColumnHeadingsInCurrentSheet = false;
+                writer.PrintRowAndColumnHeadingsInCurrentSheet = true;
+            }
+
+
+            using SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false);
+            WorkbookPart? workbookPart = reader.WorkbookPart;
+            Assert.Multiple(() =>
+            {
+                Assert.That(workbookPart, Is.Not.Null);
+                Assert.That(workbookPart.WorksheetParts.Count, Is.EqualTo(4));
+            });
+
+            Assert.Multiple(() =>
+            {
+                Worksheet worksheet = workbookPart.WorksheetParts.ElementAt(0).Worksheet;
+                IEnumerable<SheetViews> sheetViewsParts = worksheet.ChildElements.OfType<SheetViews>();
+                Assert.That(sheetViewsParts, Is.Empty);
+
+                var printOptionsPart = worksheet.ChildElements.OfType<PrintOptions>();
+                Assert.That(printOptionsPart, Is.Empty);
+            });
+
+            Assert.Multiple(() =>
+            {
+                Worksheet worksheet = workbookPart.WorksheetParts.ElementAt(1).Worksheet;
+                IEnumerable<SheetViews> sheetViewsParts = worksheet.ChildElements.OfType<SheetViews>();
+                Assert.That(sheetViewsParts.Count, Is.EqualTo(1));
+                SheetViews sheetViews = sheetViewsParts.ElementAt(0);
+                Assert.That(sheetViews.ChildElements.OfType<SheetView>().Count, Is.EqualTo(1));
+                SheetView sheetView = (SheetView)sheetViews.First();
+                Assert.That(sheetView.ShowGridLines.Value, Is.False);
+                Assert.That(sheetView.ShowRowColHeaders, Is.Null);
+            });
+
+            Assert.Multiple(() =>
+            {
+                Worksheet worksheet = workbookPart.WorksheetParts.ElementAt(2).Worksheet;
+                IEnumerable<SheetViews> sheetViewsParts = worksheet.ChildElements.OfType<SheetViews>();
+                Assert.That(sheetViewsParts.Count, Is.EqualTo(1));
+                SheetViews sheetViews = sheetViewsParts.ElementAt(0);
+                Assert.That(sheetViews.ChildElements.OfType<SheetView>().Count, Is.EqualTo(1));
+                SheetView sheetView = (SheetView)sheetViews.First();
+                Assert.That(sheetView.ShowGridLines.Value, Is.False);
+                Assert.That(sheetView.ShowRowColHeaders, Is.Null);
+
+                var printOptionsPart = worksheet.ChildElements.OfType<PrintOptions>();
+                Assert.That(printOptionsPart.Count, Is.EqualTo(1));
+                var printOptions = printOptionsPart.First();
+                Assert.That(printOptions.GridLines.Value, Is.True);
+                Assert.That(printOptions.Headings, Is.Null);
+            });
+
+            Assert.Multiple(() =>
+            {
+                Worksheet worksheet = workbookPart.WorksheetParts.ElementAt(3).Worksheet;
+                IEnumerable<SheetViews> sheetViewsParts = worksheet.ChildElements.OfType<SheetViews>();
+                Assert.That(sheetViewsParts.Count, Is.EqualTo(1));
+                SheetViews sheetViews = sheetViewsParts.ElementAt(0);
+                Assert.That(sheetViews.ChildElements.OfType<SheetView>().Count, Is.EqualTo(1));
+                SheetView sheetView = (SheetView)sheetViews.First();
+                Assert.That(sheetView.ShowGridLines, Is.Null);
+                Assert.That(sheetView.ShowRowColHeaders.Value, Is.False);
+
+                var printOptionsPart = worksheet.ChildElements.OfType<PrintOptions>();
+                Assert.That(printOptionsPart.Count, Is.EqualTo(1));
+                var printOptions = printOptionsPart.First();
+                Assert.That(printOptions.GridLines, Is.Null);
+                Assert.That(printOptions.Headings.Value, Is.True);
+            });
+        }
     }
 }

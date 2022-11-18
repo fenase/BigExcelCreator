@@ -67,6 +67,56 @@ namespace BigExcelCreator
         /// </summary>
         public bool SkipCellWhenEmpty { get; set; }
 
+        /// <summary>
+        /// When <see langword="true""/>, shows gridlines on screen (default).
+        /// When <see langword="false""/>, hides gridlines on screen.
+        /// </summary>
+        public bool ShowGridLinesInCurrentSheet
+        {
+            get => sheetOpen ? _showGridLinesInCurrentSheet : throw new InvalidOperationException("There is no open sheet");
+
+            set => _showGridLinesInCurrentSheet = sheetOpen ? value : throw new InvalidOperationException("There is no open sheet");
+        }
+        private bool _showGridLinesInCurrentSheet = _showGridLinesDefault;
+        private const bool _showGridLinesDefault = true;
+
+        /// <summary>
+        /// When <see langword="true""/>, shows row and column headings (default).
+        /// When <see langword="false""/>, hides row and column headings.
+        /// </summary>
+        public bool ShowRowAndColumnHeadingsInCurrentSheet
+        {
+            get => sheetOpen ? _showRowAndColumnHeadingsInCurrentSheet : throw new InvalidOperationException("There is no open sheet");
+
+            set => _showRowAndColumnHeadingsInCurrentSheet = sheetOpen ? value : throw new InvalidOperationException("There is no open sheet");
+        }
+        private bool _showRowAndColumnHeadingsInCurrentSheet = _showRowAndColumnHeadingsDefault;
+        private const bool _showRowAndColumnHeadingsDefault = true;
+
+        /// <summary>
+        /// When <see langword="true""/>, Prints gridlines.
+        /// When <see langword="false""/>, Doesn't print gridlines (default).
+        /// </summary>
+        public bool PrintGridLinesInCurrentSheet
+        {
+            get => sheetOpen ? _printGridLinesInCurrentSheet : throw new InvalidOperationException("There is no open sheet");
+            set => _printGridLinesInCurrentSheet = sheetOpen ? value : throw new InvalidOperationException("There is no open sheet");
+        }
+        private bool _printGridLinesInCurrentSheet = _printGridLinesDefault;
+        private const bool _printGridLinesDefault = false;
+
+        /// <summary>
+        /// When <see langword="true""/>, Prints row and column headings.
+        /// When <see langword="false""/>, Doesn't print row and column headings (default).
+        /// </summary>
+        public bool PrintRowAndColumnHeadingsInCurrentSheet
+        {
+            get => sheetOpen ? _printRowAndColumnHeadingsInCurrentSheet : throw new InvalidOperationException("There is no open sheet");
+            set => _printRowAndColumnHeadingsInCurrentSheet = sheetOpen ? value : throw new InvalidOperationException("There is no open sheet");
+        }
+        private bool _printRowAndColumnHeadingsInCurrentSheet = _printRowAndColumnHeadingsDefault;
+        private const bool _printRowAndColumnHeadingsDefault = false;
+
         private bool sheetOpen;
         private string currentSheetName = "";
         private uint currentSheetId = 1;
@@ -247,6 +297,8 @@ namespace BigExcelCreator
                 workSheetPartWriter.WriteStartElement(new SheetData());
                 sheetOpen = true;
                 currentSheetState = sheetState;
+
+                SetSheetDefault();
             }
             else
             {
@@ -273,6 +325,8 @@ namespace BigExcelCreator
 
                 WriteMergedCells();
 
+                WritePrintOptions();
+
                 // write the end Worksheet element
                 workSheetPartWriter.WriteEndElement();
 
@@ -294,6 +348,9 @@ namespace BigExcelCreator
 
                 currentSheetName = "";
                 workSheetPart.Worksheet.SheetDimension = new SheetDimension() { Reference = $"A1:{Helpers.GetColumnName(maxColumnNum)}{Math.Max(1, lastRowWritten)}" };
+
+
+                WritePageConfig(workSheetPart.Worksheet);
 
 
 
@@ -394,7 +451,7 @@ namespace BigExcelCreator
         /// </summary>
         /// <param name="text">value to be written</param>
         /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="useSharedStrings">Write the value to the sharedstrings table. This might help reduce the output filesize when the same text is shared multiple times among sheets.</param>
+        /// <param name="useSharedStrings">Write the value to the shared strings table. This might help reduce the output file size when the same text is shared multiple times among sheets.</param>
         /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
         /// <exception cref="InvalidOperationException">When there is no open row</exception>
         public void WriteTextCell(string text, int format = 0, bool useSharedStrings = false)
@@ -544,7 +601,7 @@ namespace BigExcelCreator
         /// <param name="texts">List of values to be written</param>
         /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
         /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <param name="useSharedStrings">Write the value to the sharedstrings table. This might help reduce the output filesize when the same text is shared multiple times among sheets.</param>
+        /// <param name="useSharedStrings">Write the value to the shared strings table. This might help reduce the output file size when the same text is shared multiple times among sheets.</param>
         /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
         /// <exception cref="InvalidOperationException">If there is no open sheet OR already inside a row OR there is no open row. See exception message for more details</exception>
         /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
@@ -622,7 +679,7 @@ namespace BigExcelCreator
         {
             if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
             if (range == null) { throw new ArgumentNullException(nameof(range)); }
-            if ((!overwrite) && SheetAutofilter != null) { throw new InvalidOperationException("There is already a filter in use. Set owerwrite to true to replace it"); }
+            if ((!overwrite) && SheetAutofilter != null) { throw new InvalidOperationException("There is already a filter in use. Set overwrite to true to replace it"); }
             if (range.Height != 1) { throw new ArgumentOutOfRangeException(nameof(range), "Range height must be 1"); }
             SheetAutofilter = new AutoFilter() { Reference = range.RangeStringNoSheetName };
         }
@@ -748,7 +805,7 @@ namespace BigExcelCreator
             CellRange cellRange = new(reference);
             if (formula.IsNullOrWhiteSpace()) { throw new ArgumentNullException(nameof(formula)); }
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
-            
+
             ConditionalFormatting conditionalFormatting = new()
             {
                 SequenceOfReferences = new(new List<StringValue> { cellRange.RangeStringNoSheetName }),
@@ -1026,16 +1083,16 @@ namespace BigExcelCreator
             Task task = new Task(() =>
             {
 #endif
-                using OpenXmlWriter SharedStringsWriter = OpenXmlWriter.Create(SharedStringTablePart);
-                SharedStringsWriter.WriteStartElement(new SharedStringTable());
-                foreach (string item in SharedStringsList)
-                {
-                    SharedStringsWriter.WriteStartElement(new SharedStringItem());
-                    SharedStringsWriter.WriteElement(new Text(item));
-                    SharedStringsWriter.WriteEndElement();
-                }
+            using OpenXmlWriter SharedStringsWriter = OpenXmlWriter.Create(SharedStringTablePart);
+            SharedStringsWriter.WriteStartElement(new SharedStringTable());
+            foreach (string item in SharedStringsList)
+            {
+                SharedStringsWriter.WriteStartElement(new SharedStringItem());
+                SharedStringsWriter.WriteElement(new Text(item));
                 SharedStringsWriter.WriteEndElement();
-                SharedStringsWriter.Close();
+            }
+            SharedStringsWriter.WriteEndElement();
+            SharedStringsWriter.Close();
 #if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
             });
             task.Start();
@@ -1049,25 +1106,58 @@ namespace BigExcelCreator
             Task task = new Task(() =>
             {
 #endif
-                using OpenXmlWriter workbookPartWriter = OpenXmlWriter.Create(Document.WorkbookPart);
-                workbookPartWriter.WriteStartElement(new Workbook());
-                workbookPartWriter.WriteStartElement(new Sheets());
+            using OpenXmlWriter workbookPartWriter = OpenXmlWriter.Create(Document.WorkbookPart);
+            workbookPartWriter.WriteStartElement(new Workbook());
+            workbookPartWriter.WriteStartElement(new Sheets());
 
-                foreach (Sheet sheet in sheets)
-                {
-                    workbookPartWriter.WriteElement(sheet);
-                }
+            foreach (Sheet sheet in sheets)
+            {
+                workbookPartWriter.WriteElement(sheet);
+            }
 
-                // End Sheets
-                workbookPartWriter.WriteEndElement();
-                // End Workbook
-                workbookPartWriter.WriteEndElement();
-                workbookPartWriter.Close();
+            // End Sheets
+            workbookPartWriter.WriteEndElement();
+            // End Workbook
+            workbookPartWriter.WriteEndElement();
+            workbookPartWriter.Close();
 #if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
             });
             task.Start();
             DocumentTasks.Add(task);
 #endif
+        }
+
+        private void SetSheetDefault()
+        {
+            _showGridLinesInCurrentSheet = _showGridLinesDefault;
+            _showRowAndColumnHeadingsInCurrentSheet = _showRowAndColumnHeadingsDefault;
+            _printRowAndColumnHeadingsInCurrentSheet = _printRowAndColumnHeadingsDefault;
+            _printGridLinesInCurrentSheet = _printGridLinesDefault;
+        }
+
+        private void WritePageConfig(Worksheet worksheet)
+        {
+            if (_showGridLinesInCurrentSheet != _showGridLinesDefault || _showRowAndColumnHeadingsInCurrentSheet != _showRowAndColumnHeadingsDefault)
+            {
+                SheetView sheetView = new();
+                if (_showGridLinesInCurrentSheet != _showGridLinesDefault) { sheetView.ShowGridLines = _showGridLinesInCurrentSheet; }
+                if (_showRowAndColumnHeadingsInCurrentSheet != _showRowAndColumnHeadingsDefault) { sheetView.ShowRowColHeaders = _showRowAndColumnHeadingsInCurrentSheet; }
+                sheetView.WorkbookViewId = 0;
+
+                worksheet.SheetViews = new SheetViews(new[] { sheetView });
+            }
+
+        }
+
+        private void WritePrintOptions()
+        {
+            if (_printGridLinesInCurrentSheet != _printGridLinesDefault || _printRowAndColumnHeadingsInCurrentSheet != _printRowAndColumnHeadingsDefault)
+            {
+                PrintOptions printOptions = new();
+                if (_printGridLinesInCurrentSheet != _printGridLinesDefault) { printOptions.GridLines = _printGridLinesInCurrentSheet; }
+                if (_printRowAndColumnHeadingsInCurrentSheet != _printRowAndColumnHeadingsDefault) { printOptions.Headings = _printRowAndColumnHeadingsInCurrentSheet; }
+                workSheetPartWriter.WriteElement(printOptions);
+            }
         }
         #endregion
     }

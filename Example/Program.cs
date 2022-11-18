@@ -73,7 +73,6 @@ excel.WriteTextRow(new List<string> { "A3", "B3", "C3", "D3", "E3" });
 
 
 
-
 excel.Comment("test A1", "A1", "Me");
 excel.Comment("test A3", "A3", "you");
 excel.Comment("test B2", "B2");
@@ -102,6 +101,9 @@ excel.AddAutofilter("a1:e1");
 
 excel.EndRow();
 
+excel.PrintGridLinesInCurrentSheet = true;
+excel.PrintRowAndColumnHeadingsInCurrentSheet = true;
+excel.ShowGridLinesInCurrentSheet = false;
 
 excel.CloseSheet();
 
