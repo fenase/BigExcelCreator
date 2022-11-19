@@ -93,19 +93,19 @@ namespace Test
             Assert.Multiple(() =>
             {
                 Assert.That(list.Styles, Has.Count.EqualTo(4));
-                Assert.That(list.differentialStyleElements, Has.Count.EqualTo(1));
+                Assert.That(list.DifferentialStyleElements, Has.Count.EqualTo(1));
 
                 Assert.That(list.Styles[2], Is.EqualTo(style1));
                 Assert.That(list.Styles[3], Is.EqualTo(style2));
 
-                Assert.That(list.differentialStyleElements[0].Fill, Is.EqualTo(fill[2]));
-                Assert.That(list.differentialStyleElements[0].Font, Is.Null);
-                Assert.That(list.differentialStyleElements[0].Name, Is.EqualTo(name3));
-                Assert.That(list.differentialStyleElements[0].Alignment, Is.Null);
-                Assert.That(list.differentialStyleElements[0].NumberingFormat, Is.Null);
-                Assert.That(list.differentialStyleElements[0].Border, Is.Null);
+                Assert.That(list.DifferentialStyleElements[0].Fill, Is.EqualTo(fill[2]));
+                Assert.That(list.DifferentialStyleElements[0].Font, Is.Null);
+                Assert.That(list.DifferentialStyleElements[0].Name, Is.EqualTo(name3));
+                Assert.That(list.DifferentialStyleElements[0].Alignment, Is.Null);
+                Assert.That(list.DifferentialStyleElements[0].NumberingFormat, Is.Null);
+                Assert.That(list.DifferentialStyleElements[0].Border, Is.Null);
 
-                Assert.That(list.differentialStyleElements[0], Is.EqualTo(diffstyle));
+                Assert.That(list.DifferentialStyleElements[0], Is.EqualTo(diffstyle));
             });
 
 

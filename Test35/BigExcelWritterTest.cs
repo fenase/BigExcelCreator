@@ -5,6 +5,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using static Test35.TestHelperMethods;
@@ -115,6 +116,42 @@ namespace Test35
                     Assert.That(sheet.Name.ToString(), Is.EqualTo("first"));
                 });
             }
+        }
+
+        [Test]
+        public void LargeFile()
+        {
+            Assert.That(() =>
+            {
+                using (BigExcelWriter writer = GetwriterStream(out _))
+                {
+                    Random rng = new Random();
+
+                    writer.CreateAndOpenSheet("a");
+                    for (int i = 0; i < 10000; i++)
+                    {
+                        writer.BeginRow();
+                        for (int j = 0; j < 10; j++)
+                        {
+                            writer.WriteTextCell(rng.Next(0, 100).ToString(CultureInfo.InvariantCulture), useSharedStrings: true);
+                        }
+                        writer.EndRow();
+                    }
+                    writer.CloseSheet();
+                    writer.CreateAndOpenSheet("a");
+                    for (int i = 0; i < 10000; i++)
+                    {
+                        writer.BeginRow();
+                        for (int j = 0; j < 10; j++)
+                        {
+                            writer.WriteTextCell(rng.Next(0, 100).ToString(CultureInfo.InvariantCulture), useSharedStrings: true);
+                        }
+                        writer.EndRow();
+                    }
+                    writer.CloseSheet();
+                }
+            }
+            , Throws.Nothing);
         }
 
 
@@ -503,6 +540,172 @@ namespace Test35
             using (BigExcelWriter writer = GetwriterStream(out MemoryStream memoryStream))
             {
                 Assert.Throws<InvalidOperationException>(() => writer.MergeCells("b2:b3"));
+            }
+        }
+
+        [Test]
+        public void PageLayout()
+        {
+            MemoryStream memoryStream;
+            using (BigExcelWriter writer = GetwriterStream(out memoryStream))
+            {
+                writer.CreateAndOpenSheet("a");
+                writer.CloseSheet();
+
+                writer.CreateAndOpenSheet("hideGrid");
+                writer.ShowGridLinesInCurrentSheet = false;
+                writer.CloseSheet();
+
+                writer.CreateAndOpenSheet("hideAndPrintGrid");
+                writer.ShowGridLinesInCurrentSheet = false;
+                writer.PrintGridLinesInCurrentSheet = true;
+                writer.CloseSheet();
+
+                writer.CreateAndOpenSheet("hideAndPrintHead");
+                writer.ShowRowAndColumnHeadingsInCurrentSheet = false;
+                writer.PrintRowAndColumnHeadingsInCurrentSheet = true;
+            }
+
+
+            using (SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false))
+            {
+                WorkbookPart workbookPart = reader.WorkbookPart;
+                Assert.Multiple(() =>
+                {
+                    Assert.That(workbookPart, Is.Not.Null);
+                    Assert.That(workbookPart.WorksheetParts.Count, Is.EqualTo(4));
+                });
+
+                Assert.Multiple(() =>
+                {
+                    Worksheet worksheet = workbookPart.WorksheetParts.ElementAt(0).Worksheet;
+                    IEnumerable<SheetViews> sheetViewsParts = worksheet.ChildElements.OfType<SheetViews>();
+                    Assert.That(sheetViewsParts, Is.Empty);
+
+                    var printOptionsPart = worksheet.ChildElements.OfType<PrintOptions>();
+                    Assert.That(printOptionsPart, Is.Empty);
+                });
+
+                Assert.Multiple(() =>
+                {
+                    Worksheet worksheet = workbookPart.WorksheetParts.ElementAt(1).Worksheet;
+                    IEnumerable<SheetViews> sheetViewsParts = worksheet.ChildElements.OfType<SheetViews>();
+                    Assert.That(sheetViewsParts.Count, Is.EqualTo(1));
+                    SheetViews sheetViews = sheetViewsParts.ElementAt(0);
+                    Assert.That(sheetViews.ChildElements.OfType<SheetView>().Count, Is.EqualTo(1));
+                    SheetView sheetView = (SheetView)sheetViews.First();
+                    Assert.That(sheetView.ShowGridLines.Value, Is.False);
+                    Assert.That(sheetView.ShowRowColHeaders, Is.Null);
+                });
+
+                Assert.Multiple(() =>
+                {
+                    Worksheet worksheet = workbookPart.WorksheetParts.ElementAt(2).Worksheet;
+                    IEnumerable<SheetViews> sheetViewsParts = worksheet.ChildElements.OfType<SheetViews>();
+                    Assert.That(sheetViewsParts.Count, Is.EqualTo(1));
+                    SheetViews sheetViews = sheetViewsParts.ElementAt(0);
+                    Assert.That(sheetViews.ChildElements.OfType<SheetView>().Count, Is.EqualTo(1));
+                    SheetView sheetView = (SheetView)sheetViews.First();
+                    Assert.That(sheetView.ShowGridLines.Value, Is.False);
+                    Assert.That(sheetView.ShowRowColHeaders, Is.Null);
+
+                    var printOptionsPart = worksheet.ChildElements.OfType<PrintOptions>();
+                    Assert.That(printOptionsPart.Count, Is.EqualTo(1));
+                    var printOptions = printOptionsPart.First();
+                    Assert.That(printOptions.GridLines.Value, Is.True);
+                    Assert.That(printOptions.Headings, Is.Null);
+                });
+
+                Assert.Multiple(() =>
+                {
+                    Worksheet worksheet = workbookPart.WorksheetParts.ElementAt(3).Worksheet;
+                    IEnumerable<SheetViews> sheetViewsParts = worksheet.ChildElements.OfType<SheetViews>();
+                    Assert.That(sheetViewsParts.Count, Is.EqualTo(1));
+                    SheetViews sheetViews = sheetViewsParts.ElementAt(0);
+                    Assert.That(sheetViews.ChildElements.OfType<SheetView>().Count, Is.EqualTo(1));
+                    SheetView sheetView = (SheetView)sheetViews.First();
+                    Assert.That(sheetView.ShowGridLines, Is.Null);
+                    Assert.That(sheetView.ShowRowColHeaders.Value, Is.False);
+
+                    var printOptionsPart = worksheet.ChildElements.OfType<PrintOptions>();
+                    Assert.That(printOptionsPart.Count, Is.EqualTo(1));
+                    var printOptions = printOptionsPart.First();
+                    Assert.That(printOptions.GridLines, Is.Null);
+                    Assert.That(printOptions.Headings.Value, Is.True);
+                });
+            }
+        }
+
+        [Test]
+        public void PageLayoutReturnsToDefault()
+        {
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+
+                writer.CreateAndOpenSheet("a");
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(writer.ShowGridLinesInCurrentSheet, Is.True);
+                    Assert.That(writer.ShowRowAndColumnHeadingsInCurrentSheet, Is.True);
+                    Assert.That(writer.PrintGridLinesInCurrentSheet, Is.False);
+                    Assert.That(writer.PrintRowAndColumnHeadingsInCurrentSheet, Is.False);
+                });
+
+                Assert.That(() =>
+                {
+                    writer.ShowGridLinesInCurrentSheet = false;
+                    writer.ShowRowAndColumnHeadingsInCurrentSheet = false;
+                    writer.PrintGridLinesInCurrentSheet = true;
+                    writer.PrintRowAndColumnHeadingsInCurrentSheet = true;
+                }
+                , Throws.Nothing);
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(writer.ShowGridLinesInCurrentSheet, Is.False);
+                    Assert.That(writer.ShowRowAndColumnHeadingsInCurrentSheet, Is.False);
+                    Assert.That(writer.PrintGridLinesInCurrentSheet, Is.True);
+                    Assert.That(writer.PrintRowAndColumnHeadingsInCurrentSheet, Is.True);
+                });
+            }
+        }
+
+        [Test]
+        public void PageLayoutInvalidContext()
+        {
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                Assert.That(() => writer.ShowGridLinesInCurrentSheet = false, Throws.InvalidOperationException);
+            }
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                Assert.That(() => writer.ShowRowAndColumnHeadingsInCurrentSheet = false, Throws.InvalidOperationException);
+            }
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                Assert.That(() => writer.PrintGridLinesInCurrentSheet = true, Throws.InvalidOperationException);
+            }
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                Assert.That(() => writer.PrintRowAndColumnHeadingsInCurrentSheet = true, Throws.InvalidOperationException);
+            }
+
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                Assert.That(() => _ = writer.ShowGridLinesInCurrentSheet, Throws.InvalidOperationException);
+            }
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                Assert.That(() => _ = writer.ShowRowAndColumnHeadingsInCurrentSheet, Throws.InvalidOperationException);
+            }
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                Assert.That(() => _ = writer.PrintGridLinesInCurrentSheet, Throws.InvalidOperationException);
+            }
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                Assert.That(() => _ = writer.PrintRowAndColumnHeadingsInCurrentSheet, Throws.InvalidOperationException);
             }
         }
     }
