@@ -13,9 +13,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
-using System.Threading.Tasks;
-#endif
 
 [assembly: CLSCompliant(true)]
 [assembly: InternalsVisibleTo("Test")]
@@ -147,10 +144,6 @@ namespace BigExcelCreator
 
         private readonly List<CellRange> SheetMergedCells = new();
 
-#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
-        private readonly List<Task> DocumentTasks = new();
-        private readonly List<Task> SheetTasks = new();
-#endif
         #endregion
 
         #region ctor
@@ -333,10 +326,7 @@ namespace BigExcelCreator
                 workSheetPartWriter.Close();
                 workSheetPartWriter = null;
 
-                if (commentManager != null)
-                {
-                    commentManager.SaveComments(workSheetPart);
-                }
+                commentManager?.SaveComments(workSheetPart);
 
                 sheets.Add(new Sheet()
                 {
@@ -353,11 +343,6 @@ namespace BigExcelCreator
                 WritePageConfig(workSheetPart.Worksheet);
 
 
-
-#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
-                Task.WaitAll(SheetTasks.ToArray());
-                SheetTasks.Clear();
-#endif
                 sheetOpen = false;
                 workSheetPart = null;
                 commentManager = null;
@@ -950,13 +935,6 @@ namespace BigExcelCreator
                 WriteSharedStringsPart();
                 WriteSheetsAndClosePart();
 
-#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
-                Task.WaitAll(SheetTasks.ToArray());
-                SheetTasks.Clear();
-                Task.WaitAll(DocumentTasks.ToArray());
-                DocumentTasks.Clear();
-#endif
-
                 Document.Close();
 
                 if (SavingTo == SavingTo.stream)
@@ -1079,10 +1057,6 @@ namespace BigExcelCreator
 
         private void WriteSharedStringsPart()
         {
-#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
-            Task task = new Task(() =>
-            {
-#endif
             using OpenXmlWriter SharedStringsWriter = OpenXmlWriter.Create(SharedStringTablePart);
             SharedStringsWriter.WriteStartElement(new SharedStringTable());
             foreach (string item in SharedStringsList)
@@ -1093,19 +1067,10 @@ namespace BigExcelCreator
             }
             SharedStringsWriter.WriteEndElement();
             SharedStringsWriter.Close();
-#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
-            });
-            task.Start();
-            DocumentTasks.Add(task);
-#endif
         }
 
         private void WriteSheetsAndClosePart()
         {
-#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
-            Task task = new Task(() =>
-            {
-#endif
             using OpenXmlWriter workbookPartWriter = OpenXmlWriter.Create(Document.WorkbookPart);
             workbookPartWriter.WriteStartElement(new Workbook());
             workbookPartWriter.WriteStartElement(new Sheets());
@@ -1120,11 +1085,6 @@ namespace BigExcelCreator
             // End Workbook
             workbookPartWriter.WriteEndElement();
             workbookPartWriter.Close();
-#if NET40_OR_GREATER || NETSTANDARD1_3_OR_GREATER
-            });
-            task.Start();
-            DocumentTasks.Add(task);
-#endif
         }
 
         private void SetSheetDefault()
