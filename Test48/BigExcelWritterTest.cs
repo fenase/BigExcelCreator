@@ -5,6 +5,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using static Test48.TestHelperMethods;
@@ -115,6 +116,42 @@ namespace Test48
                     Assert.That(sheet.Name.ToString(), Is.EqualTo("first"));
                 });
             }
+        }
+
+        [Test]
+        public void LargeFile()
+        {
+            Assert.That(() =>
+            {
+                using (BigExcelWriter writer = GetwriterStream(out _))
+                {
+                    Random rng = new Random();
+
+                    writer.CreateAndOpenSheet("a");
+                    for (int i = 0; i < 10000; i++)
+                    {
+                        writer.BeginRow();
+                        for (int j = 0; j < 10; j++)
+                        {
+                            writer.WriteTextCell(rng.Next(0, 100).ToString(CultureInfo.InvariantCulture), useSharedStrings: true);
+                        }
+                        writer.EndRow();
+                    }
+                    writer.CloseSheet();
+                    writer.CreateAndOpenSheet("a");
+                    for (int i = 0; i < 10000; i++)
+                    {
+                        writer.BeginRow();
+                        for (int j = 0; j < 10; j++)
+                        {
+                            writer.WriteTextCell(rng.Next(0, 100).ToString(CultureInfo.InvariantCulture), useSharedStrings: true);
+                        }
+                        writer.EndRow();
+                    }
+                    writer.CloseSheet();
+                }
+            }
+            , Throws.Nothing);
         }
 
 
@@ -596,6 +633,78 @@ namespace Test48
                     Assert.That(printOptions.GridLines, Is.Null);
                     Assert.That(printOptions.Headings.Value, Is.True);
                 });
+            }
+        }
+
+        [Test]
+        public void PageLayoutReturnsToDefault()
+        {
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                writer.CreateAndOpenSheet("a");
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(writer.ShowGridLinesInCurrentSheet, Is.True);
+                    Assert.That(writer.ShowRowAndColumnHeadingsInCurrentSheet, Is.True);
+                    Assert.That(writer.PrintGridLinesInCurrentSheet, Is.False);
+                    Assert.That(writer.PrintRowAndColumnHeadingsInCurrentSheet, Is.False);
+                });
+
+                Assert.That(() =>
+                {
+                    writer.ShowGridLinesInCurrentSheet = false;
+                    writer.ShowRowAndColumnHeadingsInCurrentSheet = false;
+                    writer.PrintGridLinesInCurrentSheet = true;
+                    writer.PrintRowAndColumnHeadingsInCurrentSheet = true;
+                }
+                , Throws.Nothing);
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(writer.ShowGridLinesInCurrentSheet, Is.False);
+                    Assert.That(writer.ShowRowAndColumnHeadingsInCurrentSheet, Is.False);
+                    Assert.That(writer.PrintGridLinesInCurrentSheet, Is.True);
+                    Assert.That(writer.PrintRowAndColumnHeadingsInCurrentSheet, Is.True);
+                });
+            }
+        }
+
+        [Test]
+        public void PageLayoutInvalidContext()
+        {
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                Assert.That(() => writer.ShowGridLinesInCurrentSheet = false, Throws.InvalidOperationException);
+            }
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                Assert.That(() => writer.ShowRowAndColumnHeadingsInCurrentSheet = false, Throws.InvalidOperationException);
+            }
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                Assert.That(() => writer.PrintGridLinesInCurrentSheet = true, Throws.InvalidOperationException);
+            }
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                Assert.That(() => writer.PrintRowAndColumnHeadingsInCurrentSheet = true, Throws.InvalidOperationException);
+            }
+
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                Assert.That(() => _ = writer.ShowGridLinesInCurrentSheet, Throws.InvalidOperationException);
+            }
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                Assert.That(() => _ = writer.ShowRowAndColumnHeadingsInCurrentSheet, Throws.InvalidOperationException);
+            }
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                Assert.That(() => _ = writer.PrintGridLinesInCurrentSheet, Throws.InvalidOperationException);
+            }
+            using (BigExcelWriter writer = GetwriterStream(out _))
+            {
+                Assert.That(() => _ = writer.PrintRowAndColumnHeadingsInCurrentSheet, Throws.InvalidOperationException);
             }
         }
     }
