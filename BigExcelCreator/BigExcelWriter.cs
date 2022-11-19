@@ -65,8 +65,8 @@ namespace BigExcelCreator
         public bool SkipCellWhenEmpty { get; set; }
 
         /// <summary>
-        /// When <see langword="true""/>, shows gridlines on screen (default).
-        /// When <see langword="false""/>, hides gridlines on screen.
+        /// When <see langword="true"/>, shows gridlines on screen (default).
+        /// When <see langword="false"/>, hides gridlines on screen.
         /// </summary>
         public bool ShowGridLinesInCurrentSheet
         {
@@ -78,8 +78,8 @@ namespace BigExcelCreator
         private const bool _showGridLinesDefault = true;
 
         /// <summary>
-        /// When <see langword="true""/>, shows row and column headings (default).
-        /// When <see langword="false""/>, hides row and column headings.
+        /// When <see langword="true"/>, shows row and column headings (default).
+        /// When <see langword="false"/>, hides row and column headings.
         /// </summary>
         public bool ShowRowAndColumnHeadingsInCurrentSheet
         {
@@ -91,8 +91,8 @@ namespace BigExcelCreator
         private const bool _showRowAndColumnHeadingsDefault = true;
 
         /// <summary>
-        /// When <see langword="true""/>, Prints gridlines.
-        /// When <see langword="false""/>, Doesn't print gridlines (default).
+        /// When <see langword="true"/>, Prints gridlines.
+        /// When <see langword="false"/>, Doesn't print gridlines (default).
         /// </summary>
         public bool PrintGridLinesInCurrentSheet
         {
@@ -103,8 +103,8 @@ namespace BigExcelCreator
         private const bool _printGridLinesDefault = false;
 
         /// <summary>
-        /// When <see langword="true""/>, Prints row and column headings.
-        /// When <see langword="false""/>, Doesn't print row and column headings (default).
+        /// When <see langword="true"/>, Prints row and column headings.
+        /// When <see langword="false"/>, Doesn't print row and column headings (default).
         /// </summary>
         public bool PrintRowAndColumnHeadingsInCurrentSheet
         {
@@ -670,6 +670,11 @@ namespace BigExcelCreator
         }
 
 
+        /// <summary>
+        /// Adds a list validator to a range based on a formula
+        /// </summary>
+        /// <param name="range">Cells to validate</param>
+        /// <param name="formula">Validation formula</param>
         [Obsolete("\"Please use AddListValidator instead.\"", true)]
         public void AddValidator(string range, string formula)
         {
@@ -948,6 +953,10 @@ namespace BigExcelCreator
         #region IDisposable
         private bool disposed;
 
+        /// <summary>
+        /// Saves and closes the document.
+        /// </summary>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposed)
@@ -966,13 +975,19 @@ namespace BigExcelCreator
             }
         }
 
+        /// <summary>
+        /// Saves and closes the document.
+        /// </summary>
         public void Dispose() // Implement IDisposable
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        ~BigExcelWriter() // the finalizer
+        /// <summary>
+        /// The finalizer
+        /// </summary>
+        ~BigExcelWriter()
         {
             Dispose(false);
         }
