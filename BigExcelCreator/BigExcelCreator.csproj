@@ -127,26 +127,10 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
-
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3' OR '$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="DocumentFormat.OpenXml" Version="2.7.1" />
-  </ItemGroup>
-
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net35'">
-    <Reference Include="WindowsBase" />
-    <PackageReference Include="DocumentFormat.OpenXml" Version="2.7.2" />
-  </ItemGroup>
-
-
-  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard1.3' AND '$(TargetFramework)' != 'netstandard2.0' AND '$(TargetFramework)' != 'net35'">
-    <Reference Include="WindowsBase" />
-    <PackageReference Include="DocumentFormat.OpenXml" Version="2.5.0" />
-  </ItemGroup>
         
     
   <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.18.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
