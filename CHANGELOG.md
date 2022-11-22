@@ -3,6 +3,8 @@
 ## 2.2
 ### Added
 - Show or hide, print or not, Gridlines and headings
+### Changed
+- Bumped dependencies version to current latest since the reason to lower it no longer applies.
 
 ## 2.1
 ### Changed

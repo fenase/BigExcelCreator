@@ -340,7 +340,7 @@ namespace BigExcelCreator.Ranges
         }
 
         /// <summary>
-        /// Retirns the hash code for this range
+        /// Returns the hash code for this range
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
@@ -383,6 +383,12 @@ namespace BigExcelCreator.Ranges
             return 0;
         }
 
+        /// <summary>
+        /// The equality operator
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator ==(CellRange left, CellRange right)
         {
             if (ReferenceEquals(left, null))
@@ -393,26 +399,56 @@ namespace BigExcelCreator.Ranges
             return left.Equals(right);
         }
 
+        /// <summary>
+        /// The inequality operator
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator !=(CellRange left, CellRange right)
         {
             return !(left == right);
         }
 
+        /// <summary>
+        /// The less than operator
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator <(CellRange left, CellRange right)
         {
             return ReferenceEquals(left, null) ? !ReferenceEquals(right, null) : left.CompareTo(right) < 0;
         }
 
+        /// <summary>
+        /// The less or equal than operator
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator <=(CellRange left, CellRange right)
         {
             return ReferenceEquals(left, null) || left.CompareTo(right) <= 0;
         }
 
+        /// <summary>
+        /// The greater than operator
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator >(CellRange left, CellRange right)
         {
             return !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
         }
 
+        /// <summary>
+        /// The greater or equal than operator
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator >=(CellRange left, CellRange right)
         {
             return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
