@@ -41,7 +41,7 @@ namespace BigExcelCreator.CommentsManager
 
             LegacyDrawing legacyDrawing = new() { Id = worksheetPart.GetIdOfPart(vmlDrawingPart) };
 
-            worksheetPart.Worksheet.Append(new[] { legacyDrawing });
+            worksheetPart.Worksheet.Append(legacyDrawing);
 
 
             using (XmlWriter wrtiter = BuildVmlDrawingPartBegin(vmlDrawingPart))
@@ -56,7 +56,7 @@ namespace BigExcelCreator.CommentsManager
                     if (!AuthorsList.Contains(CommentToBeAdded.Author))
                     {
                         Author author = new() { Text = CommentToBeAdded.Author };
-                        authors.Append(new[] { author });
+                        authors.Append(author);
                         AuthorsList.Add(CommentToBeAdded.Author);
                     }
 
@@ -79,25 +79,25 @@ namespace BigExcelCreator.CommentsManager
                     FontFamily family = new() { Val = 2 };
                     RunFont runFont = new() { Val = "Tahoma" };
 
-                    runProperties.Append(new[] { fontSize });
-                    runProperties.Append(new[] { color });
-                    runProperties.Append(new[] { runFont });
-                    runProperties.Append(new[] { family });
+                    runProperties.Append(fontSize);
+                    runProperties.Append(color);
+                    runProperties.Append(runFont);
+                    runProperties.Append(family);
                     Text text = new() { Text = CommentToBeAdded.Text };
 
-                    run.Append(new[] { runProperties });
-                    run.Append(new[] { text });
+                    run.Append(runProperties);
+                    run.Append(text);
 
-                    commentTextElement.Append(new[] { run });
-                    comment.Append(new[] { commentTextElement });
-                    commentList.Append(new[] { comment });
+                    commentTextElement.Append(run);
+                    comment.Append(commentTextElement);
+                    commentList.Append(comment);
 
                     CellRange cell = CommentToBeAdded.CellRange;
                     BuildVmlDrawingPartAdd(wrtiter, cell.StartingRow.Value, cell.StartingColumn.Value);
                 }
 
-                comments.Append(new[] { authors });
-                comments.Append(new[] { commentList });
+                comments.Append(authors);
+                comments.Append(commentList);
                 worksheetCommentsPart.Comments = comments;
                 worksheetCommentsPart.Comments.Save();
 
@@ -142,24 +142,24 @@ namespace BigExcelCreator.CommentsManager
                 Type = "#_x0000_t202"
             };
 
-            shape.Append(new[] { new DocumentFormat.OpenXml.Vml.Fill() { Color2 = "infoBackground [80]" } });
-            shape.Append(new[] { new DocumentFormat.OpenXml.Vml.Shadow { Obscured = TrueFalseValue.FromBoolean(true), Color = "none [81]" } });
-            shape.Append(new[] { new DocumentFormat.OpenXml.Vml.Path() { ConnectionPointType = new EnumValue<ConnectValues>(ConnectValues.None) } });
+            shape.Append(new DocumentFormat.OpenXml.Vml.Fill() { Color2 = "infoBackground [80]" });
+            shape.Append(new DocumentFormat.OpenXml.Vml.Shadow { Obscured = TrueFalseValue.FromBoolean(true), Color = "none [81]" });
+            shape.Append(new DocumentFormat.OpenXml.Vml.Path() { ConnectionPointType = new EnumValue<ConnectValues>(ConnectValues.None) });
             TextBox textBox = new() { Style = "mso-direction-alt:auto" };
-            shape.Append(new[] { textBox });
+            shape.Append(textBox);
             ClientData clientData = new()
             {
                 //Set the Note Type
                 ObjectType = new EnumValue<ObjectValues>(ObjectValues.Note)
             };
-            clientData.Append(new[] { new MoveWithCells() });
-            clientData.Append(new[] { new ResizeWithCells() });
-            clientData.Append(new[] { new Anchor($"{colId}, 10, {rowId - 1}, 10, {colId + 2}, 0, {rowId + 3}, 0") });
-            clientData.Append(new[] { new AutoFill("False") });
-            clientData.Append(new[] { new CommentRowTarget((rowId - 1).ToString(CultureInfo.InvariantCulture)) });
-            clientData.Append(new[] { new CommentColumnTarget((colId - 1).ToString(CultureInfo.InvariantCulture)) });
+            clientData.Append(new MoveWithCells());
+            clientData.Append(new ResizeWithCells());
+            clientData.Append(new Anchor($"{colId}, 10, {rowId - 1}, 10, {colId + 2}, 0, {rowId + 3}, 0"));
+            clientData.Append(new AutoFill("False"));
+            clientData.Append(new CommentRowTarget((rowId - 1).ToString(CultureInfo.InvariantCulture)));
+            clientData.Append(new CommentColumnTarget((colId - 1).ToString(CultureInfo.InvariantCulture)));
 
-            shape.Append(new[] { clientData });
+            shape.Append(clientData);
 
             shape.WriteTo(writer);
         }

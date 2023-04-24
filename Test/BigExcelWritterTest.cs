@@ -500,8 +500,8 @@ namespace Test
                 {
                     Assert.That(mergedCellElements, Is.Not.Null);
                     Assert.That(mergedCellElements.Count, Is.EqualTo(2));
-                    Assert.That(mergedCellElements, Has.Exactly(1).Matches<MergeCell>(mce => mce.Reference.Value.Equals("A:A", StringComparison.InvariantCultureIgnoreCase)));
-                    Assert.That(mergedCellElements, Has.Exactly(1).Matches<MergeCell>(mce => mce.Reference.Value.Equals("B2:D7", StringComparison.InvariantCultureIgnoreCase)));
+                    Assert.That(mergedCellElements, Has.Exactly(1).Matches<MergeCell>(mce => mce.Reference!.Value!.Equals("A:A", StringComparison.InvariantCultureIgnoreCase)));
+                    Assert.That(mergedCellElements, Has.Exactly(1).Matches<MergeCell>(mce => mce.Reference!.Value!.Equals("B2:D7", StringComparison.InvariantCultureIgnoreCase)));
                 });
             });
         }
@@ -552,12 +552,12 @@ namespace Test
             Assert.Multiple(() =>
             {
                 Assert.That(workbookPart, Is.Not.Null);
-                Assert.That(workbookPart.WorksheetParts.Count, Is.EqualTo(4));
+                Assert.That(workbookPart!.WorksheetParts.Count, Is.EqualTo(4));
             });
 
             Assert.Multiple(() =>
             {
-                Worksheet worksheet = workbookPart.WorksheetParts.ElementAt(0).Worksheet;
+                Worksheet worksheet = workbookPart!.WorksheetParts.ElementAt(0).Worksheet;
                 IEnumerable<SheetViews> sheetViewsParts = worksheet.ChildElements.OfType<SheetViews>();
                 Assert.That(sheetViewsParts, Is.Empty);
 
@@ -567,50 +567,58 @@ namespace Test
 
             Assert.Multiple(() =>
             {
-                Worksheet worksheet = workbookPart.WorksheetParts.ElementAt(1).Worksheet;
+                Worksheet worksheet = workbookPart!.WorksheetParts.ElementAt(1).Worksheet;
                 IEnumerable<SheetViews> sheetViewsParts = worksheet.ChildElements.OfType<SheetViews>();
                 Assert.That(sheetViewsParts.Count, Is.EqualTo(1));
                 SheetViews sheetViews = sheetViewsParts.ElementAt(0);
                 Assert.That(sheetViews.ChildElements.OfType<SheetView>().Count, Is.EqualTo(1));
                 SheetView sheetView = (SheetView)sheetViews.First();
-                Assert.That(sheetView.ShowGridLines.Value, Is.False);
+                Assert.That(sheetView, Is.Not.Null);
+                Assert.That(sheetView.ShowGridLines, Is.Not.Null);
+                Assert.That(sheetView.ShowGridLines!.Value, Is.False);
                 Assert.That(sheetView.ShowRowColHeaders, Is.Null);
             });
 
             Assert.Multiple(() =>
             {
-                Worksheet worksheet = workbookPart.WorksheetParts.ElementAt(2).Worksheet;
+                Worksheet worksheet = workbookPart!.WorksheetParts.ElementAt(2).Worksheet;
                 IEnumerable<SheetViews> sheetViewsParts = worksheet.ChildElements.OfType<SheetViews>();
                 Assert.That(sheetViewsParts.Count, Is.EqualTo(1));
                 SheetViews sheetViews = sheetViewsParts.ElementAt(0);
                 Assert.That(sheetViews.ChildElements.OfType<SheetView>().Count, Is.EqualTo(1));
                 SheetView sheetView = (SheetView)sheetViews.First();
-                Assert.That(sheetView.ShowGridLines.Value, Is.False);
+                Assert.That(sheetView, Is.Not.Null);
+                Assert.That(sheetView.ShowGridLines, Is.Not.Null);
+                Assert.That(sheetView.ShowGridLines!.Value, Is.False);
                 Assert.That(sheetView.ShowRowColHeaders, Is.Null);
 
                 var printOptionsPart = worksheet.ChildElements.OfType<PrintOptions>();
                 Assert.That(printOptionsPart.Count, Is.EqualTo(1));
                 var printOptions = printOptionsPart.First();
-                Assert.That(printOptions.GridLines.Value, Is.True);
+                Assert.That(printOptions, Is.Not.Null);
+                Assert.That(printOptions.GridLines, Is.Not.Null);
+                Assert.That(printOptions.GridLines!.Value, Is.True);
                 Assert.That(printOptions.Headings, Is.Null);
             });
 
             Assert.Multiple(() =>
             {
-                Worksheet worksheet = workbookPart.WorksheetParts.ElementAt(3).Worksheet;
+                Worksheet worksheet = workbookPart!.WorksheetParts.ElementAt(3).Worksheet;
                 IEnumerable<SheetViews> sheetViewsParts = worksheet.ChildElements.OfType<SheetViews>();
                 Assert.That(sheetViewsParts.Count, Is.EqualTo(1));
                 SheetViews sheetViews = sheetViewsParts.ElementAt(0);
                 Assert.That(sheetViews.ChildElements.OfType<SheetView>().Count, Is.EqualTo(1));
                 SheetView sheetView = (SheetView)sheetViews.First();
                 Assert.That(sheetView.ShowGridLines, Is.Null);
-                Assert.That(sheetView.ShowRowColHeaders.Value, Is.False);
+                Assert.That(sheetView.ShowRowColHeaders, Is.Not.Null);
+                Assert.That(sheetView.ShowRowColHeaders!.Value, Is.False);
 
                 var printOptionsPart = worksheet.ChildElements.OfType<PrintOptions>();
                 Assert.That(printOptionsPart.Count, Is.EqualTo(1));
                 var printOptions = printOptionsPart.First();
                 Assert.That(printOptions.GridLines, Is.Null);
-                Assert.That(printOptions.Headings.Value, Is.True);
+                Assert.That(printOptions.Headings, Is.Not.Null);
+                Assert.That(printOptions.Headings!.Value, Is.True);
             });
         }
 

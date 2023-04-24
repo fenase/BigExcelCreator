@@ -5,7 +5,7 @@ namespace BigExcelCreator.Ranges
     /// <summary>
     /// When 2 or more ranges overlaps one another
     /// </summary>
-#if NET35_OR_GREATER || NETSTANDARD2_0_OR_GREATER
+#if NET35_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET5_0_OR_GREATER
     [Serializable]
 #endif
     public class OverlappingRangesException : Exception
@@ -37,7 +37,7 @@ namespace BigExcelCreator.Ranges
         {
         }
 
-#if NET35_OR_GREATER || NETSTANDARD2_0_OR_GREATER
+#if NET35_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET5_0_OR_GREATER
         /// <summary>
         /// The constructor for OverlappingRangesException
         /// </summary>

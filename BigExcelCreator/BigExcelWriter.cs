@@ -737,8 +737,8 @@ namespace BigExcelCreator
 
                 Formula1 formula1 = new() { Text = formula };
 
-                dataValidation.Append(new[] { formula1 });
-                sheetDataValidations.Append(new[] { dataValidation });
+                dataValidation.Append(formula1);
+                sheetDataValidations.Append(dataValidation);
                 sheetDataValidations.Count = (sheetDataValidations.Count ?? 0) + 1;
             }
             else
@@ -808,9 +808,9 @@ namespace BigExcelCreator
                 Priority = conditionalFormattingList.Count + 1,
             };
 
-            conditionalFormattingRule.Append(new[] { new Formula { Text = formula } });
+            conditionalFormattingRule.Append(new Formula { Text = formula });
 
-            conditionalFormatting.Append(new[] { conditionalFormattingRule });
+            conditionalFormatting.Append(conditionalFormattingRule);
 
             conditionalFormattingList.Add(conditionalFormatting);
         }
@@ -853,10 +853,10 @@ namespace BigExcelCreator
                 Priority = conditionalFormattingList.Count + 1,
             };
 
-            conditionalFormattingRule.Append(new[] { new Formula { Text = value } });
-            if (!value2.IsNullOrWhiteSpace()) { conditionalFormattingRule.Append(new[] { new Formula { Text = value2 } }); }
+            conditionalFormattingRule.Append(new Formula { Text = value });
+            if (!value2.IsNullOrWhiteSpace()) { conditionalFormattingRule.Append(new Formula { Text = value2 }); }
 
-            conditionalFormatting.Append(new[] { conditionalFormattingRule });
+            conditionalFormatting.Append(conditionalFormattingRule);
 
             conditionalFormattingList.Add(conditionalFormatting);
         }
@@ -888,7 +888,7 @@ namespace BigExcelCreator
                 Priority = conditionalFormattingList.Count + 1,
             };
 
-            conditionalFormatting.Append(new[] { conditionalFormattingRule });
+            conditionalFormatting.Append(conditionalFormattingRule);
 
             conditionalFormattingList.Add(conditionalFormatting);
         }
@@ -940,7 +940,9 @@ namespace BigExcelCreator
                 WriteSharedStringsPart();
                 WriteSheetsAndClosePart();
 
-                Document.Close();
+
+                workSheetPartWriter?.Dispose();
+                Document.Dispose();
 
                 if (SavingTo == SavingTo.stream)
                 {
@@ -966,8 +968,6 @@ namespace BigExcelCreator
                 {
                     // called via myClass.Dispose(). 
                     // OK to use any private object references
-                    workSheetPartWriter?.Dispose();
-                    Document.Dispose();
                 }
                 // Release unmanaged resources.
                 // Set large fields to null.                
@@ -1119,7 +1119,7 @@ namespace BigExcelCreator
                 if (_showRowAndColumnHeadingsInCurrentSheet != _showRowAndColumnHeadingsDefault) { sheetView.ShowRowColHeaders = _showRowAndColumnHeadingsInCurrentSheet; }
                 sheetView.WorkbookViewId = 0;
 
-                worksheet.SheetViews = new SheetViews(new[] { sheetView });
+                worksheet.SheetViews = new SheetViews(sheetView);
             }
 
         }

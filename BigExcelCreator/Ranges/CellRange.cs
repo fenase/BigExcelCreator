@@ -118,7 +118,7 @@ namespace BigExcelCreator.Ranges
         /// <para>Represented by '$' in the string representation</para>
         /// </summary>
         public bool StartingColumnIsFixed { get; private set; }
-        
+
         /// <summary>
         /// <see langword="true"/> if the ending row is fixed
         /// <para>Represented by '$' in the string representation</para>
@@ -278,8 +278,13 @@ namespace BigExcelCreator.Ranges
 
             CountLettersAndNumbers(rangearray[RANGE_START], rangearray[RANGE_END], out int letters1, out int numbers1, out int letters2, out int numbers2);
 
+#if NET6_0_OR_GREATER
+            rangearray[RANGE_START] = rangearray[RANGE_START].Replace("$", "", StringComparison.Ordinal);
+            rangearray[RANGE_END] = rangearray[RANGE_END].Replace("$", "", StringComparison.Ordinal);
+#else
             rangearray[RANGE_START] = rangearray[RANGE_START].Replace("$", "");
             rangearray[RANGE_END] = rangearray[RANGE_END].Replace("$", "");
+#endif
 
             AssertCompleteRange(letters1, numbers1, StartingRowIsFixed, StartingColumnIsFixed, rangearray[RANGE_START]);
             AssertCompleteRange(letters2, numbers2, EndingRowIsFixed, EndingColumnIsFixed, rangearray[RANGE_END]);
@@ -348,7 +353,11 @@ namespace BigExcelCreator.Ranges
             unchecked
             {
                 int hc = 3;
+#if NET6_0_OR_GREATER
+                hc += 5 * RangeString.GetHashCode(StringComparison.Ordinal);
+#else
                 hc += 5 * RangeString.GetHashCode();
+#endif
                 hc += 7 * StartingRow.GetHashCode();
                 hc += 5 * EndingRow.GetHashCode();
                 hc += 11 * StartingColumn.GetHashCode();
@@ -357,11 +366,15 @@ namespace BigExcelCreator.Ranges
                 hc += 23 * EndingColumnIsFixed.GetHashCode();
                 hc += 29 * StartingRowIsFixed.GetHashCode();
                 hc += 31 * EndingRowIsFixed.GetHashCode();
+#if NET6_0_OR_GREATER
+                hc += 17 * (Sheetname?.GetHashCode(StringComparison.Ordinal) ?? 0);
+#else
                 hc += 17 * (Sheetname?.GetHashCode() ?? 0);
+#endif
                 return hc;
             }
         }
-        
+
         /// <summary>
         /// Comparison method
         /// </summary>
