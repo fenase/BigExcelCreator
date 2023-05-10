@@ -136,7 +136,7 @@ namespace BigExcelCreator
 
         private CommentManager commentManager;
 
-        private AutoFilter SheetAutofilter;
+        private AutoFilter SheetAutoFilter;
 
         private SharedStringTablePart SharedStringTablePart;
 
@@ -236,10 +236,10 @@ namespace BigExcelCreator
 
             if (workbookPart.WorkbookStylesPart == null)
             {
-                WorkbookStylesPart wbsp = workbookPart.AddNewPart<WorkbookStylesPart>();
+                WorkbookStylesPart workbookStylesPart = workbookPart.AddNewPart<WorkbookStylesPart>();
                 // add styles to sheet
-                wbsp.Stylesheet = stylesheet;
-                wbsp.Stylesheet.Save();
+                workbookStylesPart.Stylesheet = stylesheet;
+                workbookStylesPart.Stylesheet.Save();
             }
 
             SharedStringTablePart = workbookPart.AddNewPart<SharedStringTablePart>();
@@ -268,21 +268,21 @@ namespace BigExcelCreator
                 if (columns?.Count > 0)
                 {
                     workSheetPartWriter.WriteStartElement(new Columns());
-                    int indiceColumna = 1;
+                    int columnIndex = 1;
                     foreach (Column column in columns)
                     {
-                        List<OpenXmlAttribute> atributosColumna = new()
+                        List<OpenXmlAttribute> columnAttributes = new()
                         {
-                            new OpenXmlAttribute("min", null, indiceColumna.ToString(CultureInfo.InvariantCulture)),
-                            new OpenXmlAttribute("max", null, indiceColumna.ToString(CultureInfo.InvariantCulture)),
+                            new OpenXmlAttribute("min", null, columnIndex.ToString(CultureInfo.InvariantCulture)),
+                            new OpenXmlAttribute("max", null, columnIndex.ToString(CultureInfo.InvariantCulture)),
                             new OpenXmlAttribute("width", null, (column.Width ?? 11).ToString()),
                             new OpenXmlAttribute("customWidth", null, (column.CustomWidth ?? true).ToString()),
                             new OpenXmlAttribute("hidden", null, (column.Hidden ?? false).ToString()),
                         };
 
-                        workSheetPartWriter.WriteStartElement(new Column(), atributosColumna);
+                        workSheetPartWriter.WriteStartElement(new Column(), columnAttributes);
                         workSheetPartWriter.WriteEndElement();
-                        ++indiceColumna;
+                        ++columnIndex;
                     }
                     workSheetPartWriter.WriteEndElement();
                 }
@@ -664,9 +664,9 @@ namespace BigExcelCreator
         {
             if (!sheetOpen) { throw new InvalidOperationException("There is no open sheet"); }
             if (range == null) { throw new ArgumentNullException(nameof(range)); }
-            if ((!overwrite) && SheetAutofilter != null) { throw new InvalidOperationException("There is already a filter in use. Set overwrite to true to replace it"); }
+            if ((!overwrite) && SheetAutoFilter != null) { throw new InvalidOperationException("There is already a filter in use. Set overwrite to true to replace it"); }
             if (range.Height != 1) { throw new ArgumentOutOfRangeException(nameof(range), "Range height must be 1"); }
-            SheetAutofilter = new AutoFilter() { Reference = range.RangeStringNoSheetName };
+            SheetAutoFilter = new AutoFilter() { Reference = range.RangeStringNoSheetName };
         }
 
 
@@ -996,11 +996,11 @@ namespace BigExcelCreator
         #region private methods
         private void WriteFilters()
         {
-            if (SheetAutofilter == null) { return; }
+            if (SheetAutoFilter == null) { return; }
 
-            workSheetPartWriter.WriteElement(SheetAutofilter);
+            workSheetPartWriter.WriteElement(SheetAutoFilter);
 
-            SheetAutofilter = null;
+            SheetAutoFilter = null;
         }
 
 

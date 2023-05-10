@@ -18,7 +18,7 @@ namespace Test35
         }
 
         [TearDown]
-        public void Teardown()
+        public void TearDown()
         {
             // Method intentionally left empty.
         }
@@ -32,7 +32,7 @@ namespace Test35
         public void Comments()
         {
             MemoryStream memoryStream;
-            using (BigExcelWriter writer = GetwriterStream(out memoryStream))
+            using (BigExcelWriter writer = GetWriterStream(out memoryStream))
             {
                 writer.CreateAndOpenSheet("name");
                 writer.WriteTextRow(new[] { hasComment, hasNoComment, hasComment });

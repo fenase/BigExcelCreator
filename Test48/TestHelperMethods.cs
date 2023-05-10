@@ -39,7 +39,7 @@ namespace Test48
             }
         }
 
-        internal static BigExcelWriter GetwriterStream(out MemoryStream stream)
+        internal static BigExcelWriter GetWriterStream(out MemoryStream stream)
         {
             stream = new MemoryStream();
             return new BigExcelWriter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook);

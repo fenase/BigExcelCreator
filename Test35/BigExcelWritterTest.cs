@@ -28,7 +28,7 @@ namespace Test35
 
 
         [TearDown]
-        public void Teardown()
+        public void TearDown()
         {
             new DirectoryInfo(DirectoryPath).Delete(true);
         }
@@ -123,7 +123,7 @@ namespace Test35
         {
             Assert.That(() =>
             {
-                using (BigExcelWriter writer = GetwriterStream(out _))
+                using (BigExcelWriter writer = GetWriterStream(out _))
                 {
                     Random rng = new Random();
 
@@ -239,7 +239,7 @@ namespace Test35
         [Test]
         public void InvalidStateRowOrSheet()
         {
-            using (BigExcelWriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetWriterStream(out _))
             {
                 Assert.Multiple(() =>
                 {
@@ -250,7 +250,7 @@ namespace Test35
                 });
             }
 
-            using (BigExcelWriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetWriterStream(out _))
             {
                 writer.CreateAndOpenSheet("abc");
                 writer.BeginRow(2);
@@ -258,7 +258,7 @@ namespace Test35
                 Assert.Throws<InvalidOperationException>(() => writer.BeginRow(1));
             }
 
-            using (BigExcelWriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetWriterStream(out _))
             {
                 writer.CreateAndOpenSheet("abc");
                 Assert.Throws<InvalidOperationException>(() => writer.CreateAndOpenSheet("opq"));
@@ -268,11 +268,11 @@ namespace Test35
         [Test]
         public void InvalidStateCell()
         {
-            using (BigExcelWriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetWriterStream(out _))
             {
                 Assert.Throws<InvalidOperationException>(() => writer.WriteTextCell("a"));
             }
-            using (BigExcelWriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetWriterStream(out _))
             {
                 writer.CreateAndOpenSheet("name");
                 Assert.Multiple(() =>
@@ -297,7 +297,7 @@ namespace Test35
                 new List<string>{ "fermentum molestie", "parturient montes", "Lorem ipsum", "dolor sit amet" ,"eleifend", "urna", "laoreet libero", "id metus placerat" ,"justo convallis in"},
             };
 
-            using (BigExcelWriter writer1 = GetwriterStream(out m1))
+            using (BigExcelWriter writer1 = GetWriterStream(out m1))
             {
                 writer1.CreateAndOpenSheet("s1");
                 foreach (List<string> row in strings)
@@ -307,7 +307,7 @@ namespace Test35
                 writer1.CloseSheet();
             }
 
-            using (BigExcelWriter writer2 = GetwriterStream(out m2))
+            using (BigExcelWriter writer2 = GetWriterStream(out m2))
             {
                 writer2.CreateAndOpenSheet("s1");
                 foreach (List<string> row in strings)
@@ -366,7 +366,7 @@ namespace Test35
         [TestCase("formula", "cell")]
         public void InvalidFormat(string @type, string rowOrCell)
         {
-            using (BigExcelWriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetWriterStream(out _))
             {
                 writer.CreateAndOpenSheet("a");
                 switch (rowOrCell)
@@ -410,7 +410,7 @@ namespace Test35
         public void ConditionalFormattingFormula()
         {
             MemoryStream memoryStream;
-            using (BigExcelWriter writer = GetwriterStream(out memoryStream))
+            using (BigExcelWriter writer = GetWriterStream(out memoryStream))
             {
                 writer.CreateAndOpenSheet("a");
                 for (int i = 0; i < 10; i++)
@@ -451,7 +451,7 @@ namespace Test35
         public void ConditionalFormattingDuplicatedValues()
         {
             MemoryStream memoryStream;
-            using (BigExcelWriter writer = GetwriterStream(out memoryStream))
+            using (BigExcelWriter writer = GetWriterStream(out memoryStream))
             {
                 writer.CreateAndOpenSheet("a");
                 for (int i = 0; i < 10; i++)
@@ -489,7 +489,7 @@ namespace Test35
         public void MergedCells()
         {
             MemoryStream memoryStream;
-            using (BigExcelWriter writer = GetwriterStream(out memoryStream))
+            using (BigExcelWriter writer = GetWriterStream(out memoryStream))
             {
                 writer.CreateAndOpenSheet("a");
                 writer.MergeCells("a");
@@ -526,7 +526,7 @@ namespace Test35
         [Test]
         public void MergedCellsOverlappingRanges()
         {
-            using (BigExcelWriter writer = GetwriterStream(out MemoryStream memoryStream))
+            using (BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream))
             {
                 writer.CreateAndOpenSheet("a");
                 writer.MergeCells("a1:c7");
@@ -537,7 +537,7 @@ namespace Test35
         [Test]
         public void MergedCellsNoSheet()
         {
-            using (BigExcelWriter writer = GetwriterStream(out MemoryStream memoryStream))
+            using (BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream))
             {
                 Assert.Throws<InvalidOperationException>(() => writer.MergeCells("b2:b3"));
             }
@@ -547,7 +547,7 @@ namespace Test35
         public void PageLayout()
         {
             MemoryStream memoryStream;
-            using (BigExcelWriter writer = GetwriterStream(out memoryStream))
+            using (BigExcelWriter writer = GetWriterStream(out memoryStream))
             {
                 writer.CreateAndOpenSheet("a");
                 writer.CloseSheet();
@@ -639,7 +639,7 @@ namespace Test35
         [Test]
         public void PageLayoutReturnsToDefault()
         {
-            using (BigExcelWriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetWriterStream(out _))
             {
 
                 writer.CreateAndOpenSheet("a");
@@ -674,36 +674,36 @@ namespace Test35
         [Test]
         public void PageLayoutInvalidContext()
         {
-            using (BigExcelWriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetWriterStream(out _))
             {
                 Assert.That(() => writer.ShowGridLinesInCurrentSheet = false, Throws.InvalidOperationException);
             }
-            using (BigExcelWriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetWriterStream(out _))
             {
                 Assert.That(() => writer.ShowRowAndColumnHeadingsInCurrentSheet = false, Throws.InvalidOperationException);
             }
-            using (BigExcelWriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetWriterStream(out _))
             {
                 Assert.That(() => writer.PrintGridLinesInCurrentSheet = true, Throws.InvalidOperationException);
             }
-            using (BigExcelWriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetWriterStream(out _))
             {
                 Assert.That(() => writer.PrintRowAndColumnHeadingsInCurrentSheet = true, Throws.InvalidOperationException);
             }
 
-            using (BigExcelWriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetWriterStream(out _))
             {
                 Assert.That(() => _ = writer.ShowGridLinesInCurrentSheet, Throws.InvalidOperationException);
             }
-            using (BigExcelWriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetWriterStream(out _))
             {
                 Assert.That(() => _ = writer.ShowRowAndColumnHeadingsInCurrentSheet, Throws.InvalidOperationException);
             }
-            using (BigExcelWriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetWriterStream(out _))
             {
                 Assert.That(() => _ = writer.PrintGridLinesInCurrentSheet, Throws.InvalidOperationException);
             }
-            using (BigExcelWriter writer = GetwriterStream(out _))
+            using (BigExcelWriter writer = GetWriterStream(out _))
             {
                 Assert.That(() => _ = writer.PrintRowAndColumnHeadingsInCurrentSheet, Throws.InvalidOperationException);
             }

@@ -25,7 +25,7 @@ namespace BigExcelCreator.Styles
         /// Font index in the font list of <see cref="StyleList"/>
         /// </summary>
         public int FontIndex { get; }
-        
+
         /// <summary>
         /// Fill index in the fill list of <see cref="StyleList"/>
         /// </summary>
