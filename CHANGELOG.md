@@ -1,5 +1,13 @@
 ﻿# Changelog
 
+## 2.3
+### Removed
+- Finally removed method AddValidator (marked as obsolete since before version 1)
+### Added
+- .Net6.0 build target
+### Changed
+- Dependency update: DocumentFormat.OpenXml 2.18.0 -> 2.20.0
+
 ## 2.2
 ### Added
 - Show or hide, print or not, Gridlines and headings
