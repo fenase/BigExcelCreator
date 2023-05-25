@@ -669,18 +669,6 @@ namespace BigExcelCreator
             SheetAutoFilter = new AutoFilter() { Reference = range.RangeStringNoSheetName };
         }
 
-
-        /// <summary>
-        /// Adds a list validator to a range based on a formula
-        /// </summary>
-        /// <param name="range">Cells to validate</param>
-        /// <param name="formula">Validation formula</param>
-        [Obsolete("\"Please use AddListValidator instead.\"", true)]
-        public void AddValidator(string range, string formula)
-        {
-            AddListValidator(range, formula);
-        }
-
         /// <summary>
         /// Adds a list validator to a range based on a formula
         /// </summary>
