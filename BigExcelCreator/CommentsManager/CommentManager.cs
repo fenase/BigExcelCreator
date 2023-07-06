@@ -1,4 +1,6 @@
-﻿using BigExcelCreator.Ranges;
+﻿// Ignore Spelling: xml Tahoma xe mso
+
+using BigExcelCreator.Ranges;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;

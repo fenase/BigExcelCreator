@@ -36,7 +36,7 @@
 
 ## 1.0
 - First version considered to be "stable".
-- Moved repository to GitHub (previously was on Azure DevOps)
+- Moved repository to GitHub (previously hosted on Azure DevOps)
 ### Changed
 - Renamed `WriteTextCell<int>` to `WriteNumberCell<int>`. `WriteTextCell<string>` is still in use.
 
