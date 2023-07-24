@@ -330,7 +330,7 @@ namespace BigExcelCreator.Styles
             int numberingFormatId;
             if (numberingFormat != null)
             {
-                NumberingFormat nf = NumberingFormats.FirstOrDefault(x => x.FormatCode == numberingFormat.FormatCode);
+                NumberingFormat nf = NumberingFormats.Find(x => x.FormatCode == numberingFormat.FormatCode);
                 if (nf != null)
                 {
                     numberingFormatId = (int)(uint)nf.NumberFormatId;
