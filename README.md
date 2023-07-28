@@ -1,7 +1,11 @@
 # Big Excel Creator
 
 Create Excel files using OpenXML SAX with styling.
-This is specially useful when trying to output thousands of rows
+This is specially useful when trying to output thousands of rows.
+
+The idea behind this package is to be a basic easy-to-use wrapper around
+[DocumentFormat.OpenXml](https://www.nuget.org/packages/DocumentFormat.OpenXml)
+aimed towards generating large excel files as fast as possible
 
 [![Nuget](https://img.shields.io/nuget/v/BigExcelCreator)](https://www.nuget.org/packages/BigExcelCreator)
 [![Build status](https://dev.azure.com/fenase/BigExcelCreator/_apis/build/status/BigExcelCreator-CI)](https://dev.azure.com/fenase/BigExcelCreator/_build/latest?definitionId=4)
@@ -13,19 +17,23 @@ This is specially useful when trying to output thousands of rows
 # Table of Contents
 
 - [Usage](#usage)
-- [Shared Strings](#shared-strings)
+  - [Shared Strings](#shared-strings)
 - [Data Validation](#data-validation)
 - [Styling and formatting](#styling-and-formatting)
-    - [Column formatting](#column-formatting)
-    - [Hide Sheet](#hide-sheet)
-    - [Merge Cells](#merge-cells)
-    - [Styling](#styling)
-    - [Comments](#comments)
-    - [Autofilter](#autofilter)
-    - [Conditional Formatting](#conditional-formatting)
-        - [Formula](#formula)
-        - [Cell Is](#cell-is)
-        - [Duplicated Values](#duplicated-values)
+  - [Column formatting](#column-formatting)
+  - [Hide Sheet](#hide-sheet)
+  - [Merge Cells](#merge-cells)
+  - [Styling](#styling)
+  - [Comments](#comments)
+  - [Autofilter](#autofilter)
+  - [Conditional Formatting](#conditional-formatting)
+    - [Formula](#formula)
+    - [Cell Is](#cell-is)
+    - [Duplicated Values](#duplicated-values)
+- [Page Layout](#page-layout)
+  - [Sheet options](#sheet-options)
+    - [Gridlines](#gridlines)
+    - [Headings](#headings)
 
 
 # Usage
@@ -37,7 +45,7 @@ This is specially useful when trying to output thousands of rows
 4. Between `BeginRow` and `EndRow`, use `WriteTextCell` to write a cell.
     > Alternatively, you can use `WriteTextRow` to write an entire row at once, using the same format.
     
-    > Starting on version 1.1, text cells can be written using the shared strings table, wich should reduce the generated file size.
+    > Starting on version 1.1, text cells can be written using the shared strings table, which should reduce the generated file size.
     > See [Shared Strings](#shared-strings) below
 5. Use `WriteFormulaCell` or `WriteFormulaRow` to insert formulas.
 6. Use `WriteNumberCell` or `WriteNumberRow` to insert numbers. This is useful if you need to do any calculation later on.
