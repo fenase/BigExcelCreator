@@ -1,6 +1,8 @@
 ﻿using BigExcelCreator;
 using BigExcelCreator.Exceptions;
 using BigExcelCreator.Ranges;
+using BigExcelCreator.Styles;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using NUnit.Framework;
@@ -160,6 +162,10 @@ namespace Test48
         public void ValidContent()
         {
             List<Column> creationColumns = new List<Column> { new Column { Width = 15 }, new Column { Width = 20 }, };
+            StyleList styleList = new StyleList();
+            styleList.NewDifferentialStyle("RED", font: new Font(new[] { new Color { Rgb = new HexBinaryValue { Value = "FF0000" } } }));
+            styleList.NewDifferentialStyle("GREEN", font: new Font(new[] { new Color { Rgb = new HexBinaryValue { Value = "00FF00" } } }));
+
             MemoryStream stream = new MemoryStream();
             using (BigExcelWriter writer = new BigExcelWriter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
             {
@@ -167,6 +173,10 @@ namespace Test48
                 writer.WriteTextRow(new[] { "a", "b", "c" });
                 writer.WriteNumberRow(new[] { 1f, 2f, 30f, 40f });
                 writer.WriteFormulaRow(new[] { "SUM(A2:D2)" });
+
+                writer.AddConditionalFormattingCellIs("B1:B4", ConditionalFormattingOperatorValues.LessThan, "5", styleList.GetIndexDifferentialByName("RED"));
+                writer.AddConditionalFormattingCellIs("B1:B4", ConditionalFormattingOperatorValues.Between, "3", styleList.GetIndexDifferentialByName("GREEN"), "7");
+
                 writer.CloseSheet();
             }
 
@@ -206,6 +216,20 @@ namespace Test48
                         Assert.That(columns.ElementAt(i).CustomWidth, Is.EqualTo(true));
                         Assert.That(columns.ElementAt(i).Width, Is.EqualTo(creationColumns[i].Width));
                     }
+                });
+
+                IEnumerable<ConditionalFormatting> conditionalFormattings = GetConditionalFormatting(workbookPart.WorksheetParts.First().Worksheet);
+                Assert.Multiple(() =>
+                {
+                    Assert.That(conditionalFormattings, Has.Exactly(2).Matches<ConditionalFormatting>(c => string.Equals(c.SequenceOfReferences, "B1:B4", StringComparison.InvariantCultureIgnoreCase)));
+                    Assert.That(conditionalFormattings, Has.Exactly(1).Matches<ConditionalFormatting>
+                        (c => c.ChildElements.First<ConditionalFormattingRule>().Operator == ConditionalFormattingOperatorValues.LessThan
+                            && c.ChildElements.First<ConditionalFormattingRule>().FirstChild.InnerText == "5"
+                            && c.ChildElements.First<ConditionalFormattingRule>().LastChild.InnerText == "5"));
+                    Assert.That(conditionalFormattings, Has.Exactly(1).Matches<ConditionalFormatting>
+                        (c => c.ChildElements.First<ConditionalFormattingRule>().Operator == ConditionalFormattingOperatorValues.Between
+                            && c.ChildElements.First<ConditionalFormattingRule>().FirstChild.InnerText == "3"
+                            && c.ChildElements.First<ConditionalFormattingRule>().LastChild.InnerText == "7"));
                 });
 
                 IEnumerable<Row> rows = GetRows(workbookPart.WorksheetParts.First().Worksheet);

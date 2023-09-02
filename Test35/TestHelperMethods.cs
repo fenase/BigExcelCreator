@@ -34,6 +34,16 @@ namespace Test35
             return columns.ChildElements.OfType<Column>();
         }
 
+        internal static IEnumerable<ConditionalFormatting> GetConditionalFormatting(Worksheet worksheet)
+        {
+            IEnumerable<ConditionalFormatting> conditionalFormattingData = worksheet.ChildElements.OfType<ConditionalFormatting>();
+            Assert.Multiple(() =>
+            {
+                Assert.That(conditionalFormattingData, Is.Not.Null);
+            });
+            return conditionalFormattingData;
+        }
+
         internal static IEnumerable<Cell> GetCells(Row row)
         {
             return row.ChildElements.OfType<Cell>();
