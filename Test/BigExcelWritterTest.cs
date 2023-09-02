@@ -1,4 +1,5 @@
 ﻿using BigExcelCreator;
+using BigExcelCreator.Exceptions;
 using BigExcelCreator.Ranges;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -236,10 +237,10 @@ namespace Test
             {
                 Assert.Multiple(() =>
                 {
-                    Assert.Throws<InvalidOperationException>(() => writer.BeginRow());
-                    Assert.Throws<InvalidOperationException>(() => writer.BeginRow(1));
-                    Assert.Throws<InvalidOperationException>(() => writer.EndRow());
-                    Assert.Throws<InvalidOperationException>(() => writer.CloseSheet());
+                    Assert.Throws<NoOpenSheetException>(() => writer.BeginRow());
+                    Assert.Throws<NoOpenSheetException>(() => writer.BeginRow(1));
+                    Assert.Throws<NoOpenRowException>(() => writer.EndRow());
+                    Assert.Throws<NoOpenSheetException>(() => writer.CloseSheet());
                 });
             }
 
@@ -248,13 +249,13 @@ namespace Test
                 writer.CreateAndOpenSheet("abc");
                 writer.BeginRow(2);
                 writer.EndRow();
-                Assert.Throws<InvalidOperationException>(() => writer.BeginRow(1));
+                Assert.Throws<OutOfOrderWritingException>(() => writer.BeginRow(1));
             }
 
             using (BigExcelWriter writer = GetWriterStream(out _))
             {
                 writer.CreateAndOpenSheet("abc");
-                Assert.Throws<InvalidOperationException>(() => writer.CreateAndOpenSheet("opq"));
+                Assert.Throws<SheetAlreadyOpenException>(() => writer.CreateAndOpenSheet("opq"));
             }
         }
 
@@ -263,16 +264,16 @@ namespace Test
         {
             using (BigExcelWriter writer = GetWriterStream(out _))
             {
-                Assert.Throws<InvalidOperationException>(() => writer.WriteTextCell("a"));
+                Assert.Throws<NoOpenRowException>(() => writer.WriteTextCell("a"));
             }
             using (BigExcelWriter writer = GetWriterStream(out _))
             {
                 writer.CreateAndOpenSheet("name");
                 Assert.Multiple(() =>
                 {
-                    Assert.Throws<InvalidOperationException>(() => writer.WriteTextCell("a"));
-                    Assert.Throws<InvalidOperationException>(() => writer.WriteNumberCell(1f));
-                    Assert.Throws<InvalidOperationException>(() => writer.WriteFormulaCell("SUM(A1:A2)"));
+                    Assert.Throws<NoOpenRowException>(() => writer.WriteTextCell("a"));
+                    Assert.Throws<NoOpenRowException>(() => writer.WriteNumberCell(1f));
+                    Assert.Throws<NoOpenRowException>(() => writer.WriteFormulaCell("SUM(A1:A2)"));
                 });
             }
         }
@@ -519,7 +520,7 @@ namespace Test
         public void MergedCellsNoSheet()
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
-            Assert.Throws<InvalidOperationException>(() => writer.MergeCells("b2:b3"));
+            Assert.Throws<NoOpenSheetException>(() => writer.MergeCells("b2:b3"));
         }
 
 
@@ -660,36 +661,36 @@ namespace Test
         {
             using (BigExcelWriter writer = GetWriterStream(out _))
             {
-                Assert.That(() => writer.ShowGridLinesInCurrentSheet = false, Throws.InvalidOperationException);
+                Assert.Throws<NoOpenSheetException>(() => { writer.ShowGridLinesInCurrentSheet = false; });
             }
             using (BigExcelWriter writer = GetWriterStream(out _))
             {
-                Assert.That(() => writer.ShowRowAndColumnHeadingsInCurrentSheet = false, Throws.InvalidOperationException);
+                Assert.Throws<NoOpenSheetException>(() => { writer.ShowRowAndColumnHeadingsInCurrentSheet = false; });
             }
             using (BigExcelWriter writer = GetWriterStream(out _))
             {
-                Assert.That(() => writer.PrintGridLinesInCurrentSheet = true, Throws.InvalidOperationException);
+                Assert.Throws<NoOpenSheetException>(() => { writer.PrintGridLinesInCurrentSheet = true; });
             }
             using (BigExcelWriter writer = GetWriterStream(out _))
             {
-                Assert.That(() => writer.PrintRowAndColumnHeadingsInCurrentSheet = true, Throws.InvalidOperationException);
+                Assert.Throws<NoOpenSheetException>(() => { writer.PrintRowAndColumnHeadingsInCurrentSheet = true; });
             }
 
             using (BigExcelWriter writer = GetWriterStream(out _))
             {
-                Assert.That(() => _ = writer.ShowGridLinesInCurrentSheet, Throws.InvalidOperationException);
+                Assert.Throws<NoOpenSheetException>(() => { _ = writer.ShowGridLinesInCurrentSheet; });
             }
             using (BigExcelWriter writer = GetWriterStream(out _))
             {
-                Assert.That(() => _ = writer.ShowRowAndColumnHeadingsInCurrentSheet, Throws.InvalidOperationException);
+                Assert.Throws<NoOpenSheetException>(() => { _ = writer.ShowRowAndColumnHeadingsInCurrentSheet; });
             }
             using (BigExcelWriter writer = GetWriterStream(out _))
             {
-                Assert.That(() => _ = writer.PrintGridLinesInCurrentSheet, Throws.InvalidOperationException);
+                Assert.Throws<NoOpenSheetException>(() => { _ = writer.PrintGridLinesInCurrentSheet; });
             }
             using (BigExcelWriter writer = GetWriterStream(out _))
             {
-                Assert.That(() => _ = writer.PrintRowAndColumnHeadingsInCurrentSheet, Throws.InvalidOperationException);
+                Assert.Throws<NoOpenSheetException>(() => { _ = writer.PrintRowAndColumnHeadingsInCurrentSheet; });
             }
         }
     }

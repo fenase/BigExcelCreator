@@ -6,6 +6,7 @@
 ### Added
 - .Net6.0 build target
 ### Changed
+- Throwing more specific exceptions instead of just throwing InvalidOperacionException for everything
 - Dependency update: DocumentFormat.OpenXml 2.18.0 -> 2.20.0
 
 ## 2.2
