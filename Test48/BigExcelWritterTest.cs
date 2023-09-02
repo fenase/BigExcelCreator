@@ -301,6 +301,13 @@ namespace Test48
                 writer.CreateAndOpenSheet("abc");
                 Assert.Throws<SheetAlreadyOpenException>(() => writer.CreateAndOpenSheet("opq"));
             }
+
+            using (BigExcelWriter writer = GetWriterStream(out _))
+            {
+                writer.CreateAndOpenSheet("abc");
+                writer.BeginRow();
+                Assert.Throws<RowAlreadyOpenException>(() => writer.BeginRow());
+            }
         }
 
         [Test]
@@ -440,6 +447,68 @@ namespace Test48
                         writer.EndRow();
                         break;
                 }
+            }
+        }
+
+        [Test]
+        public void AutoFilter()
+        {
+            MemoryStream m1;
+
+            List<List<string>> strings = new List<List<string>>
+            {
+                new List<string>{ "Lorem ipsum", "dolor sit amet" ,"consectetur", "adipiscing elit", "Praesent at sapien", "id metus placerat" ,"ultricies", "a sed risus","Fusce finibus"},
+                new List<string>{ "Lorem ipsum", "dolor sit amet", "Duis sodales finibus arcu", "porttitor", "accumsan", "finibus sapien", "ultricies", "a sed risus","Fusce finibus"},
+                new List<string>{ "fermentum molestie", "parturient montes", "Lorem ipsum", "dolor sit amet" ,"eleifend", "urna", "laoreet libero", "id metus placerat" ,"justo convallis in"},
+            };
+
+            using (BigExcelWriter writer1 = GetWriterStream(out m1))
+            {
+                writer1.CreateAndOpenSheet("s1");
+                foreach (List<string> row in strings)
+                {
+                    writer1.WriteTextRow(row, useSharedStrings: true);
+                }
+                writer1.AddAutofilter("A1:I1");
+                writer1.CloseSheet();
+            }
+
+            using (SpreadsheetDocument reader = SpreadsheetDocument.Open(m1, false))
+            {
+                WorkbookPart workbookPart = reader.WorkbookPart;
+                Assert.That(workbookPart, Is.Not.Null);
+
+                IEnumerable<AutoFilter> afs = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<AutoFilter>();
+                Assert.That(afs, Is.Not.Null);
+                Assert.Multiple(() =>
+                {
+                    Assert.That(afs.Count(), Is.EqualTo(1));
+                    Assert.That(afs.First().Reference.ToString(), Is.EqualTo("A1:I1"));
+                });
+            }
+        }
+
+        [Test]
+        public void AutoFilterError()
+        {
+
+            List<List<string>> strings = new List<List<string>>
+            {
+                new List<string>{ "Lorem ipsum", "dolor sit amet" ,"consectetur", "adipiscing elit", "Praesent at sapien", "id metus placerat" ,"ultricies", "a sed risus","Fusce finibus"},
+                new List<string>{ "Lorem ipsum", "dolor sit amet", "Duis sodales finibus arcu", "porttitor", "accumsan", "finibus sapien", "ultricies", "a sed risus","Fusce finibus"},
+                new List<string>{ "fermentum molestie", "parturient montes", "Lorem ipsum", "dolor sit amet" ,"eleifend", "urna", "laoreet libero", "id metus placerat" ,"justo convallis in"},
+            };
+
+            using (BigExcelWriter writer1 = GetWriterStream(out MemoryStream m1))
+            {
+                writer1.CreateAndOpenSheet("s1");
+                foreach (List<string> row in strings)
+                {
+                    writer1.WriteTextRow(row, useSharedStrings: true);
+                }
+                writer1.AddAutofilter("A1:I1");
+                Assert.Throws<SheetAlreadyHasFilterException>(() => writer1.AddAutofilter("A1:J1"));
+                writer1.CloseSheet();
             }
         }
 
