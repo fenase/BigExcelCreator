@@ -1,6 +1,7 @@
 ﻿using BigExcelCreator.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace BigExcelCreator
 {
@@ -11,17 +12,17 @@ namespace BigExcelCreator
         internal static string GetColumnName(int columnIndex)
         {
             int dividend = columnIndex;
-            string columnName = string.Empty;
+            StringBuilder columnName = new();
             int modifier;
 
             while (dividend > 0)
             {
                 modifier = (dividend - 1) % 26;
-                columnName = Convert.ToChar(65 + modifier).ToString() + columnName;
+                columnName.Insert(0, Convert.ToChar(65 + modifier));
                 dividend = (dividend - modifier) / 26;
             }
 
-            return columnName;
+            return columnName.ToString();
         }
         internal static string GetColumnName(int? columnIndex)
         {
