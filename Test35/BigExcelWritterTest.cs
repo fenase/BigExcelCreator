@@ -159,10 +159,11 @@ namespace Test35
         [Test]
         public void ValidContent()
         {
+            List<Column> creationColumns = new List<Column> { new Column { Width = 15 }, new Column { Width = 20 }, };
             MemoryStream stream = new MemoryStream();
             using (BigExcelWriter writer = new BigExcelWriter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
             {
-                writer.CreateAndOpenSheet("first");
+                writer.CreateAndOpenSheet("first", creationColumns);
                 writer.WriteTextRow(new[] { "a", "b", "c" });
                 writer.WriteNumberRow(new[] { 1f, 2f, 30f, 40f });
                 writer.WriteFormulaRow(new[] { "SUM(A2:D2)" });
@@ -193,6 +194,18 @@ namespace Test35
                 {
                     Assert.That(sheet, Is.Not.Null);
                     Assert.That(sheet.Name.ToString(), Is.EqualTo("first"));
+                });
+
+                IEnumerable<Column> columns = GetColumns(workbookPart.WorksheetParts.First().Worksheet);
+                Assert.Multiple(() =>
+                {
+                    Assert.That(columns, Is.Not.Null);
+                    Assert.That(columns.Count(), Is.EqualTo(creationColumns.Count));
+                    for (int i = 0; i < creationColumns.Count; i++)
+                    {
+                        Assert.That(columns.ElementAt(i).CustomWidth, Is.EqualTo(true));
+                        Assert.That(columns.ElementAt(i).Width, Is.EqualTo(creationColumns[i].Width));
+                    }
                 });
 
                 IEnumerable<Row> rows = GetRows(workbookPart.WorksheetParts.First().Worksheet);
