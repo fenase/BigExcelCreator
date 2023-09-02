@@ -16,7 +16,7 @@ do
     Directory.CreateDirectory(path);
     string name = DateTime.Now.ToString("yyyyMMddHHmmssff") + ".xlsx";
     fullPath = Path.Combine(path, name);
-} while (attempts < 10 && File.Exists(fullPath));
+} while (attempts++ < 10 && File.Exists(fullPath));
 
 Console.WriteLine(fullPath);
 
