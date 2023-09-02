@@ -5,7 +5,12 @@ This is specially useful when trying to output thousands of rows.
 
 The idea behind this package is to be a basic easy-to-use wrapper around
 [DocumentFormat.OpenXml](https://www.nuget.org/packages/DocumentFormat.OpenXml)
-aimed towards generating large excel files as fast as possible
+aimed towards generating large excel files as fast as possible using the SAX method for writing.
+
+At the same time, this writer should prevent you from creating an invalid file
+(i.e.: a file generated without any errors, but unable to be opened).
+Since the most common reason for a file to become corrupted when creating it using SAX is out-of-order instructions
+(i.e.: writing to a cell outside a sheet), this package should detect that, and throw an exception.
 
 [![Nuget](https://img.shields.io/nuget/v/BigExcelCreator)](https://www.nuget.org/packages/BigExcelCreator)
 [![Build status](https://dev.azure.com/fenase/BigExcelCreator/_apis/build/status/BigExcelCreator-CI)](https://dev.azure.com/fenase/BigExcelCreator/_build/latest?definitionId=4)
