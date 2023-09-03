@@ -721,6 +721,46 @@ namespace Test
         }
 
         [Test]
+        public void ListValidator()
+        {
+            MemoryStream memoryStream;
+            using (BigExcelWriter writer = GetWriterStream(out memoryStream))
+            {
+                writer.CreateAndOpenSheet("a");
+                for (int i = 0; i < 10; i++)
+                {
+                    writer.WriteNumberRow(new List<float> { i });
+                }
+
+                writer.AddListValidator("A1:A20", "B1:B4");
+            }
+            using SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false);
+            WorkbookPart? workbookPart = reader.WorkbookPart;
+            Assert.That(workbookPart, Is.Not.Null);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>, Is.Not.Empty);
+                IEnumerable<DataValidations> dataValidations = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>();
+                Assert.That(dataValidations.Count(), Is.EqualTo(1));
+
+                IEnumerable<DataValidation> dataValidationsE = dataValidations.First().ChildElements.OfType<DataValidation>();
+                Assert.That(dataValidationsE.Count(), Is.EqualTo(1));
+
+                DataValidation dataValidation = dataValidationsE.First();
+                Assert.Multiple(() =>
+                {
+                    Assert.That(dataValidation.Type!.Value, Is.EqualTo(DataValidationValues.List));
+                    Assert.That(dataValidation.Operator!.Value, Is.EqualTo(DataValidationOperatorValues.Equal));
+                    Assert.That(dataValidation.AllowBlank!.Value, Is.EqualTo(true));
+                    Assert.That(dataValidation.ShowErrorMessage!.Value, Is.EqualTo(true));
+                    Assert.That(dataValidation.ShowInputMessage!.Value, Is.EqualTo(true));
+                    Assert.That(dataValidation.Formula1!.Text, Is.EqualTo("B1:B4"));
+                });
+            });
+        }
+
+        [Test]
         public void MergedCells()
         {
             MemoryStream memoryStream;
