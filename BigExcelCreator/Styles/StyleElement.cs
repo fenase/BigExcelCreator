@@ -1,4 +1,4 @@
-﻿// Copyright (c) Federico Seckel.
+﻿// Copyright (c) 2022-2023, Federico Seckel.
 // Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
 
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -25,7 +25,7 @@ namespace BigExcelCreator.Styles
         /// Font index in the font list of <see cref="StyleList"/>
         /// </summary>
         public int FontIndex { get; }
-        
+
         /// <summary>
         /// Fill index in the fill list of <see cref="StyleList"/>
         /// </summary>

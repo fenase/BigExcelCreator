@@ -8,17 +8,17 @@ using BigExcelCreator.Styles;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 
-int attemps = 0;
-string fullpath;
+int attempts = 0;
+string fullPath;
 do
 {
     string path = Path.GetTempPath() + @"excelTest\";
     Directory.CreateDirectory(path);
     string name = DateTime.Now.ToString("yyyyMMddHHmmssff") + ".xlsx";
-    fullpath = Path.Combine(path, name);
-} while (attemps < 10 && File.Exists(fullpath));
+    fullPath = Path.Combine(path, name);
+} while (attempts++ < 10 && File.Exists(fullPath));
 
-Console.WriteLine(fullpath);
+Console.WriteLine(fullPath);
 
 var columns = new List<Column>
 {
@@ -62,7 +62,7 @@ Fill greenFill = new Fill(new[]{
 
 styleList.NewDifferentialStyle("GREENBKG", fill: greenFill);
 
-using BigExcelWriter excel = new(fullpath, SpreadsheetDocumentType.Workbook, styleList.GetStylesheet());
+using BigExcelWriter excel = new(fullPath, SpreadsheetDocumentType.Workbook, styleList.GetStylesheet());
 
 excel.CreateAndOpenSheet("S1", columns: columns, sheetState: SheetStateValues.Visible);
 
@@ -146,6 +146,9 @@ excel.AddConditionalFormattingFormula("A1:A20", "A1>5", styleList.GetIndexDiffer
 excel.AddConditionalFormattingDuplicatedValues("A1:A20", styleList.GetIndexDifferentialByName("RED"));
 excel.AddConditionalFormattingCellIs("A1:A20", ConditionalFormattingOperatorValues.LessThan, "5", styleList.GetIndexDifferentialByName("RED"));
 excel.AddConditionalFormattingCellIs("A1:A20", ConditionalFormattingOperatorValues.Between, "3", styleList.GetIndexDifferentialByName("RED"), "7");
+
+excel.AddIntegerValidator("B1:B10", 2, DataValidationOperatorValues.Between, secondOperand: 8);
+excel.AddDecimalValidator("C1:C10", 0, DataValidationOperatorValues.Between, secondOperand: 1);
 
 excel.CloseSheet();
 

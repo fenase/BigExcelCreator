@@ -5,7 +5,7 @@ namespace BigExcelCreator.Ranges
     /// <summary>
     /// When unable to parse a range from a string or a range is not valid
     /// </summary>
-#if NET35_OR_GREATER || NETSTANDARD2_0_OR_GREATER
+#if NET35_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET5_0_OR_GREATER
     [Serializable]
 #endif
     public class InvalidRangeException : Exception
@@ -37,7 +37,7 @@ namespace BigExcelCreator.Ranges
         {
         }
 
-#if NET35_OR_GREATER || NETSTANDARD2_0_OR_GREATER
+#if NET35_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET5_0_OR_GREATER
         /// <summary>
         /// Constructor for InvalidRangeException
         /// </summary>

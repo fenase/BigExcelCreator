@@ -177,7 +177,7 @@ namespace Test48
 
 
         [Test]
-        public void SameStylesheet()
+        public void SameStyleSheet()
         {
             var list1 = new StyleList();
             var list2 = new StyleList();
@@ -197,7 +197,7 @@ namespace Test48
 
 
         [Test]
-        public void SameEmptyStylesheet()
+        public void SameEmptyStyleSheet()
         {
             var list1 = new StyleList();
             var list2 = new StyleList();

@@ -1,5 +1,7 @@
-﻿// Copyright (c) Federico Seckel.
+﻿// Copyright (c) 2022-2023, Federico Seckel.
 // Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
+
+// Ignore Spelling: sheetname
 
 using BigExcelCreator.Extensions;
 using System;
@@ -92,7 +94,7 @@ namespace BigExcelCreator.Ranges
         /// </summary>
         public string Sheetname
         {
-            get => sheetname;
+            get => sheetName;
             set
             {
                 if (!value.IsNullOrWhiteSpace() && value.IndexOfAny(invalidSheetCharacters) >= 0)
@@ -101,11 +103,11 @@ namespace BigExcelCreator.Ranges
                 }
                 else
                 {
-                    sheetname = value?.Trim();
+                    sheetName = value?.Trim();
                 }
             }
         }
-        private string sheetname;
+        private string sheetName;
 
         /// <summary>
         /// <see langword="true"/> if the starting row is fixed
@@ -118,7 +120,7 @@ namespace BigExcelCreator.Ranges
         /// <para>Represented by '$' in the string representation</para>
         /// </summary>
         public bool StartingColumnIsFixed { get; private set; }
-        
+
         /// <summary>
         /// <see langword="true"/> if the ending row is fixed
         /// <para>Represented by '$' in the string representation</para>
@@ -274,15 +276,20 @@ namespace BigExcelCreator.Ranges
 
             string possibleRangeValue = SetSheetNameAndGetProbableRange(range);
 
-            string[] rangearray = SplitRangeComponents(possibleRangeValue, out int RANGE_START, out int RANGE_END);
+            string[] rangeArray = SplitRangeComponents(possibleRangeValue, out int RANGE_START, out int RANGE_END);
 
-            CountLettersAndNumbers(rangearray[RANGE_START], rangearray[RANGE_END], out int letters1, out int numbers1, out int letters2, out int numbers2);
+            CountLettersAndNumbers(rangeArray[RANGE_START], rangeArray[RANGE_END], out int letters1, out int numbers1, out int letters2, out int numbers2);
 
-            rangearray[RANGE_START] = rangearray[RANGE_START].Replace("$", "");
-            rangearray[RANGE_END] = rangearray[RANGE_END].Replace("$", "");
+#if NET6_0_OR_GREATER
+            rangeArray[RANGE_START] = rangeArray[RANGE_START].Replace("$", "", StringComparison.Ordinal);
+            rangeArray[RANGE_END] = rangeArray[RANGE_END].Replace("$", "", StringComparison.Ordinal);
+#else
+            rangeArray[RANGE_START] = rangeArray[RANGE_START].Replace("$", "");
+            rangeArray[RANGE_END] = rangeArray[RANGE_END].Replace("$", "");
+#endif
 
-            AssertCompleteRange(letters1, numbers1, StartingRowIsFixed, StartingColumnIsFixed, rangearray[RANGE_START]);
-            AssertCompleteRange(letters2, numbers2, EndingRowIsFixed, EndingColumnIsFixed, rangearray[RANGE_END]);
+            AssertCompleteRange(letters1, numbers1, StartingRowIsFixed, StartingColumnIsFixed, rangeArray[RANGE_START]);
+            AssertCompleteRange(letters2, numbers2, EndingRowIsFixed, EndingColumnIsFixed, rangeArray[RANGE_END]);
 
             StartRangeType = SetRangeType(letters1, numbers1);
             RangeTypes EndRangeType = SetRangeType(letters2, numbers2);
@@ -291,20 +298,20 @@ namespace BigExcelCreator.Ranges
 
             if ((StartRangeType & RangeTypes.ColInfinite) == 0)
             {
-                StartingRow = int.Parse(rangearray[RANGE_START].Substring(letters1), CultureInfo.InvariantCulture);
+                StartingRow = int.Parse(rangeArray[RANGE_START].Substring(letters1), CultureInfo.InvariantCulture);
             }
             if ((EndRangeType & RangeTypes.ColInfinite) == 0)
             {
-                EndingRow = int.Parse(rangearray[RANGE_END].Substring(letters2), CultureInfo.InvariantCulture);
+                EndingRow = int.Parse(rangeArray[RANGE_END].Substring(letters2), CultureInfo.InvariantCulture);
             }
 
             if ((StartRangeType & RangeTypes.RowInfinite) == 0)
             {
-                StartingColumn = Helpers.GetColumnIndex(rangearray[RANGE_START].Substring(0, rangearray[RANGE_START].Length - numbers1));
+                StartingColumn = Helpers.GetColumnIndex(rangeArray[RANGE_START].Substring(0, rangeArray[RANGE_START].Length - numbers1));
             }
             if ((EndRangeType & RangeTypes.RowInfinite) == 0)
             {
-                EndingColumn = Helpers.GetColumnIndex(rangearray[RANGE_END].Substring(0, rangearray[RANGE_END].Length - numbers2));
+                EndingColumn = Helpers.GetColumnIndex(rangeArray[RANGE_END].Substring(0, rangeArray[RANGE_END].Length - numbers2));
             }
         }
 
@@ -348,7 +355,11 @@ namespace BigExcelCreator.Ranges
             unchecked
             {
                 int hc = 3;
+#if NET6_0_OR_GREATER
+                hc += 5 * RangeString.GetHashCode(StringComparison.Ordinal);
+#else
                 hc += 5 * RangeString.GetHashCode();
+#endif
                 hc += 7 * StartingRow.GetHashCode();
                 hc += 5 * EndingRow.GetHashCode();
                 hc += 11 * StartingColumn.GetHashCode();
@@ -357,11 +368,15 @@ namespace BigExcelCreator.Ranges
                 hc += 23 * EndingColumnIsFixed.GetHashCode();
                 hc += 29 * StartingRowIsFixed.GetHashCode();
                 hc += 31 * EndingRowIsFixed.GetHashCode();
+#if NET6_0_OR_GREATER
+                hc += 17 * (Sheetname?.GetHashCode(StringComparison.Ordinal) ?? 0);
+#else
                 hc += 17 * (Sheetname?.GetHashCode() ?? 0);
+#endif
                 return hc;
             }
         }
-        
+
         /// <summary>
         /// Comparison method
         /// </summary>
@@ -538,8 +553,8 @@ namespace BigExcelCreator.Ranges
 
         private static string[] SplitRangeComponents(string possibleRangeValue, out int RANGE_START, out int RANGE_END)
         {
-            string[] rangearray = possibleRangeValue.Split(':');
-            switch (rangearray.Length)
+            string[] rangeArray = possibleRangeValue.Split(':');
+            switch (rangeArray.Length)
             {
                 case 2:
                     RANGE_START = 0;
@@ -552,8 +567,8 @@ namespace BigExcelCreator.Ranges
                 default:
                     throw new InvalidRangeException();
             }
-            if (rangearray[RANGE_START].Length == 0 || rangearray[RANGE_END].Length == 0) { throw new InvalidRangeException(); }
-            return rangearray;
+            if (rangeArray[RANGE_START].Length == 0 || rangeArray[RANGE_END].Length == 0) { throw new InvalidRangeException(); }
+            return rangeArray;
         }
 
         private static void AssertCompleteRange(int lettersCount, int NumbersCount, bool rowFixed, bool colFixed, string rangeComponent)

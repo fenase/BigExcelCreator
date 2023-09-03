@@ -18,6 +18,28 @@ namespace Test
             return sheetData.ChildElements.OfType<Row>();
         }
 
+        internal static IEnumerable<Column> GetColumns(Worksheet worksheet)
+        {
+            IEnumerable<Columns> columnsData = worksheet.ChildElements.OfType<Columns>();
+            Assert.Multiple(() =>
+            {
+                Assert.That(columnsData, Is.Not.Null);
+                Assert.That(columnsData.Count(), Is.EqualTo(1));
+            });
+            Columns columns = columnsData.First();
+            return columns.ChildElements.OfType<Column>();
+        }
+
+        internal static IEnumerable<ConditionalFormatting> GetConditionalFormatting(Worksheet worksheet)
+        {
+            IEnumerable<ConditionalFormatting> conditionalFormattingData = worksheet.ChildElements.OfType<ConditionalFormatting>();
+            Assert.Multiple(() =>
+            {
+                Assert.That(conditionalFormattingData, Is.Not.Null);
+            });
+            return conditionalFormattingData;
+        }
+
         internal static IEnumerable<Cell> GetCells(Row row)
         {
             return row.ChildElements.OfType<Cell>();
@@ -35,7 +57,7 @@ namespace Test
             }
         }
 
-        internal static BigExcelWriter GetwriterStream(out MemoryStream stream)
+        internal static BigExcelWriter GetWriterStream(out MemoryStream stream)
         {
             stream = new MemoryStream();
             return new BigExcelWriter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook);

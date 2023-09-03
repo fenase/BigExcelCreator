@@ -1,5 +1,7 @@
-﻿// Copyright (c) Federico Seckel.
+﻿// Copyright (c) 2022-2023, Federico Seckel.
 // Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
+
+// Ignore Spelling: stylesheet stylesheets Calibri
 
 using BigExcelCreator.Extensions;
 using DocumentFormat.OpenXml;
@@ -328,7 +330,7 @@ namespace BigExcelCreator.Styles
             int numberingFormatId;
             if (numberingFormat != null)
             {
-                NumberingFormat nf = NumberingFormats.FirstOrDefault(x => x.FormatCode == numberingFormat.FormatCode);
+                NumberingFormat nf = NumberingFormats.Find(x => x.FormatCode == numberingFormat.FormatCode);
                 if (nf != null)
                 {
                     numberingFormatId = (int)(uint)nf.NumberFormatId;

@@ -1,5 +1,15 @@
 ﻿# Changelog
 
+## 2.3
+### Removed
+- Finally removed method AddValidator (marked as obsolete since before version 1)
+### Added
+- Integer and decimal data validation
+- .Net6.0 build target
+### Changed
+- Throwing more specific exceptions instead of just throwing InvalidOperacionException for everything
+- Dependency update: DocumentFormat.OpenXml 2.18.0 -> 2.20.0
+
 ## 2.2
 ### Added
 - Show or hide, print or not, Gridlines and headings
@@ -28,7 +38,7 @@
 
 ## 1.0
 - First version considered to be "stable".
-- Moved repository to GitHub (previously was on Azure DevOps)
+- Moved repository to GitHub (previously hosted on Azure DevOps)
 ### Changed
 - Renamed `WriteTextCell<int>` to `WriteNumberCell<int>`. `WriteTextCell<string>` is still in use.
 
