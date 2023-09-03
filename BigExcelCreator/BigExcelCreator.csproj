@@ -13,7 +13,7 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 		<EnableNETAnalyzers>True</EnableNETAnalyzers>
 		<AnalysisLevel>latest-all</AnalysisLevel>
 		<VersionSuffix>2.3.$([System.DateTime]::UtcNow.ToString(yyyy)).$([System.DateTime]::UtcNow.DayOfYear.ToString())$([System.DateTime]::UtcNow.ToString(HH))</VersionSuffix>
-		<Version Condition=" '$(VersionSuffix)' == '' ">2.2.0.0</Version>
+		<Version Condition=" '$(VersionSuffix)' == '' ">2.3.0.0</Version>
 		<Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</Version>
 		<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 		<Deterministic>True</Deterministic>
