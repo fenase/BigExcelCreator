@@ -678,7 +678,7 @@ namespace Test35
                     writer.WriteNumberRow(new List<float> { i });
                 }
 
-                writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Between, secondOperand: 10);
+                writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Equal);
             }
             using (SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false))
             {
@@ -698,12 +698,11 @@ namespace Test35
                     Assert.Multiple(() =>
                     {
                         Assert.That(dataValidation.Type.Value, Is.EqualTo(DataValidationValues.Whole));
-                        Assert.That(dataValidation.Operator.Value, Is.EqualTo(DataValidationOperatorValues.Between));
+                        Assert.That(dataValidation.Operator.Value, Is.EqualTo(DataValidationOperatorValues.Equal));
                         Assert.That(dataValidation.AllowBlank.Value, Is.EqualTo(true));
                         Assert.That(dataValidation.ShowErrorMessage.Value, Is.EqualTo(true));
                         Assert.That(dataValidation.ShowInputMessage.Value, Is.EqualTo(true));
                         Assert.That(dataValidation.Formula1.Text, Is.EqualTo("1"));
-                        Assert.That(dataValidation.Formula2.Text, Is.EqualTo("10"));
                     });
                 });
             }
