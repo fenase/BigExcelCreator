@@ -685,14 +685,9 @@ namespace BigExcelCreator
                                      bool showInputMessage = true,
                                      bool showErrorMessage = true)
         {
-            sheetDataValidations ??= new DataValidations();
             DataValidation dataValidation = AddValidatorCommon(range, DataValidationValues.List, DataValidationOperatorValues.Equal, allowBlank, showInputMessage, showErrorMessage);
 
-            Formula1 formula1 = new() { Text = formula };
-
-            dataValidation.Append(formula1);
-            sheetDataValidations.Append(dataValidation);
-            sheetDataValidations.Count = (sheetDataValidations.Count ?? 0) + 1;
+            AppendNewDataValidation(dataValidation, formula);
         }
 
         /// <summary>
@@ -751,18 +746,7 @@ namespace BigExcelCreator
                 throw new ArgumentNullException(nameof(secondOperand), $"validation type {validationType} requires a second operand");
             }
 
-            sheetDataValidations ??= new DataValidations();
-
-            Formula1 formula1 = new() { Text = firstOperand.ToString(CultureInfo.InvariantCulture) };
-            dataValidation.Append(formula1);
-
-            if (validationType.RequiresSecondOperand())
-            {
-                Formula2 formula2 = new() { Text = secondOperand.Value.ToString(CultureInfo.InvariantCulture) };
-                dataValidation.Append(formula2);
-            }
-            sheetDataValidations.Append(dataValidation);
-            sheetDataValidations.Count = (sheetDataValidations.Count ?? 0) + 1;
+            AppendNewDataValidation(dataValidation, firstOperand.ToString(CultureInfo.InvariantCulture), secondOperand?.ToString(CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -821,18 +805,7 @@ namespace BigExcelCreator
                 throw new ArgumentNullException(nameof(secondOperand), $"validation type {validationType} requires a second operand");
             }
 
-            sheetDataValidations ??= new DataValidations();
-
-            Formula1 formula1 = new() { Text = firstOperand.ToString(CultureInfo.InvariantCulture) };
-            dataValidation.Append(formula1);
-
-            if (validationType.RequiresSecondOperand())
-            {
-                Formula2 formula2 = new() { Text = secondOperand.Value.ToString(CultureInfo.InvariantCulture) };
-                dataValidation.Append(formula2);
-            }
-            sheetDataValidations.Append(dataValidation);
-            sheetDataValidations.Count = (sheetDataValidations.Count ?? 0) + 1;
+            AppendNewDataValidation(dataValidation, firstOperand.ToString(CultureInfo.InvariantCulture), secondOperand?.ToString(CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -1098,6 +1071,22 @@ namespace BigExcelCreator
             };
 
             return dataValidation;
+        }
+
+        private void AppendNewDataValidation(DataValidation dataValidation, string firstOperand, string secondOperand = null)
+        {
+            sheetDataValidations ??= new DataValidations();
+
+            Formula1 formula1 = new() { Text = firstOperand };
+            dataValidation.Append(formula1);
+
+            if (dataValidation.Operator.Value.RequiresSecondOperand())
+            {
+                Formula2 formula2 = new() { Text = secondOperand };
+                dataValidation.Append(formula2);
+            }
+            sheetDataValidations.Append(dataValidation);
+            sheetDataValidations.Count = (sheetDataValidations.Count ?? 0) + 1;
         }
 
         private void WriteFilters()
