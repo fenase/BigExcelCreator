@@ -90,7 +90,12 @@ using (BigExcelWriter excel = new(stream, DocumentFormat.OpenXml.SpreadsheetDocu
 
 # Data Validation
 
-Use `AddListValidator` to restrict possible values to be written to a cell by an user.
+Use `AddListValidator` to restrict, to a list defined in a formula,
+possible values to be written to a cell by an user.
+
+Alternatively, use `AddIntegerValidator` or `AddDecimalValidator` to restrict / validate values
+as defined by `validationType` (equal, greater than, between, etc.)
+
 ```c#
     excel.CreateAndOpenSheet("Sheet Name");
     

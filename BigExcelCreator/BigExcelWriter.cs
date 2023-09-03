@@ -312,13 +312,13 @@ namespace BigExcelCreator
             // write the end SheetData element
             workSheetPartWriter.WriteEndElement();
 
-            WriteValidations();
-
             WriteFilters();
+
+            WriteMergedCells();
 
             WriteConditionalFormatting();
 
-            WriteMergedCells();
+            WriteValidations();
 
             WritePrintOptions();
 
@@ -657,10 +657,10 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
         /// <exception cref="InvalidRangeException">When <paramref name="range"/> is not a valid range</exception>
         public void AddListValidator(string range,
-                                 string formula,
-                                 bool allowBlank = true,
-                                 bool showInputMessage = true,
-                                 bool showErrorMessage = true)
+                                     string formula,
+                                     bool allowBlank = true,
+                                     bool showInputMessage = true,
+                                     bool showErrorMessage = true)
         {
             AddListValidator(new CellRange(range),
                              formula,
@@ -680,28 +680,157 @@ namespace BigExcelCreator
         /// <exception cref="ArgumentNullException">When <paramref name="range"/> is null</exception>
         /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
         public void AddListValidator(CellRange range,
-                             string formula,
-                             bool allowBlank = true,
-                             bool showInputMessage = true,
-                             bool showErrorMessage = true)
+                                     string formula,
+                                     bool allowBlank = true,
+                                     bool showInputMessage = true,
+                                     bool showErrorMessage = true)
         {
-            if (range == null) { throw new ArgumentNullException(nameof(range)); }
-            if (!sheetOpen) { throw new NoOpenSheetException("Validators need to be placed on a sheet"); }
-
             sheetDataValidations ??= new DataValidations();
-            DataValidation dataValidation = new()
-            {
-                Type = DataValidationValues.List,
-                AllowBlank = allowBlank,
-                Operator = DataValidationOperatorValues.Equal,
-                ShowInputMessage = showInputMessage,
-                ShowErrorMessage = showErrorMessage,
-                SequenceOfReferences = new ListValue<StringValue> { InnerText = range.RangeString },
-            };
+            DataValidation dataValidation = AddValidatorCommon(range, DataValidationValues.List, DataValidationOperatorValues.Equal, allowBlank, showInputMessage, showErrorMessage);
 
             Formula1 formula1 = new() { Text = formula };
 
             dataValidation.Append(formula1);
+            sheetDataValidations.Append(dataValidation);
+            sheetDataValidations.Count = (sheetDataValidations.Count ?? 0) + 1;
+        }
+
+        /// <summary>
+        /// Adds an integer (whole) number validator to a range
+        /// </summary>
+        /// <param name="range"></param>
+        /// <param name="firstOperand"></param>
+        /// <param name="validationType"></param>
+        /// <param name="allowBlank"></param>
+        /// <param name="showInputMessage"></param>
+        /// <param name="showErrorMessage"></param>
+        /// <param name="secondOperand"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="NoOpenSheetException"></exception>
+        public void AddIntegerValidator(string range,
+                                        int firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        int? secondOperand = null)
+        {
+            AddIntegerValidator(new CellRange(range),
+                                firstOperand,
+                                validationType,
+                                allowBlank,
+                                showInputMessage,
+                                showErrorMessage,
+                                secondOperand);
+        }
+
+        /// <summary>
+        /// Adds an integer (whole) number validator to a range
+        /// </summary>
+        /// <param name="range"></param>
+        /// <param name="firstOperand"></param>
+        /// <param name="validationType"></param>
+        /// <param name="allowBlank"></param>
+        /// <param name="showInputMessage"></param>
+        /// <param name="showErrorMessage"></param>
+        /// <param name="secondOperand"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="NoOpenSheetException"></exception>
+        public void AddIntegerValidator(CellRange range,
+                                        int firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        int? secondOperand = null)
+        {
+            DataValidation dataValidation = AddValidatorCommon(range, DataValidationValues.Whole, validationType, allowBlank, showInputMessage, showErrorMessage);
+
+            if (validationType.RequiresSecondOperand() && secondOperand == null)
+            {
+                throw new ArgumentNullException(nameof(secondOperand), $"validation type {validationType} requires a second operand");
+            }
+
+            sheetDataValidations ??= new DataValidations();
+
+            Formula1 formula1 = new() { Text = firstOperand.ToString(CultureInfo.InvariantCulture) };
+            dataValidation.Append(formula1);
+
+            if (validationType.RequiresSecondOperand())
+            {
+                Formula2 formula2 = new() { Text = secondOperand.Value.ToString(CultureInfo.InvariantCulture) };
+                dataValidation.Append(formula2);
+            }
+            sheetDataValidations.Append(dataValidation);
+            sheetDataValidations.Count = (sheetDataValidations.Count ?? 0) + 1;
+        }
+
+        /// <summary>
+        /// Adds a decimal number validator to a range
+        /// </summary>
+        /// <param name="range"></param>
+        /// <param name="firstOperand"></param>
+        /// <param name="validationType"></param>
+        /// <param name="allowBlank"></param>
+        /// <param name="showInputMessage"></param>
+        /// <param name="showErrorMessage"></param>
+        /// <param name="secondOperand"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="NoOpenSheetException"></exception>
+        public void AddDecimalValidator(string range,
+                                        decimal firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        decimal? secondOperand = null)
+        {
+            AddDecimalValidator(new CellRange(range),
+                                firstOperand,
+                                validationType,
+                                allowBlank,
+                                showInputMessage,
+                                showErrorMessage,
+                                secondOperand);
+        }
+
+        /// <summary>
+        /// Adds a decimal number validator to a range
+        /// </summary>
+        /// <param name="range"></param>
+        /// <param name="firstOperand"></param>
+        /// <param name="validationType"></param>
+        /// <param name="allowBlank"></param>
+        /// <param name="showInputMessage"></param>
+        /// <param name="showErrorMessage"></param>
+        /// <param name="secondOperand"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="NoOpenSheetException"></exception>
+        public void AddDecimalValidator(CellRange range,
+                                        decimal firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        decimal? secondOperand = null)
+        {
+            DataValidation dataValidation = AddValidatorCommon(range, DataValidationValues.Decimal, validationType, allowBlank, showInputMessage, showErrorMessage);
+
+            if (validationType.RequiresSecondOperand() && secondOperand == null)
+            {
+                throw new ArgumentNullException(nameof(secondOperand), $"validation type {validationType} requires a second operand");
+            }
+
+            sheetDataValidations ??= new DataValidations();
+
+            Formula1 formula1 = new() { Text = firstOperand.ToString(CultureInfo.InvariantCulture) };
+            dataValidation.Append(formula1);
+
+            if (validationType.RequiresSecondOperand())
+            {
+                Formula2 formula2 = new() { Text = secondOperand.Value.ToString(CultureInfo.InvariantCulture) };
+                dataValidation.Append(formula2);
+            }
             sheetDataValidations.Append(dataValidation);
             sheetDataValidations.Count = (sheetDataValidations.Count ?? 0) + 1;
         }
@@ -947,6 +1076,30 @@ namespace BigExcelCreator
         #endregion
 
         #region private methods
+        private DataValidation AddValidatorCommon(CellRange range,
+                                        DataValidationValues dataValidationValue,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true)
+        {
+            if (range == null) { throw new ArgumentNullException(nameof(range)); }
+            if (!sheetOpen) { throw new NoOpenSheetException("Validators need to be placed on a sheet"); }
+
+            sheetDataValidations ??= new DataValidations();
+            DataValidation dataValidation = new()
+            {
+                Type = dataValidationValue,
+                AllowBlank = allowBlank,
+                Operator = validationType,
+                ShowInputMessage = showInputMessage,
+                ShowErrorMessage = showErrorMessage,
+                SequenceOfReferences = new ListValue<StringValue> { InnerText = range.RangeString },
+            };
+
+            return dataValidation;
+        }
+
         private void WriteFilters()
         {
             if (SheetAutoFilter == null) { return; }
@@ -967,6 +1120,7 @@ namespace BigExcelCreator
             {
                 workSheetPartWriter.WriteStartElement(dataValidation);
                 workSheetPartWriter.WriteElement(dataValidation.Formula1);
+                if (dataValidation.Formula2 != null) { workSheetPartWriter.WriteElement(dataValidation.Formula2); }
                 workSheetPartWriter.WriteEndElement();
             }
             workSheetPartWriter.WriteEndElement();

@@ -4,6 +4,7 @@
 ### Removed
 - Finally removed method AddValidator (marked as obsolete since before version 1)
 ### Added
+- Integer and decimal data validation
 - .Net6.0 build target
 ### Changed
 - Throwing more specific exceptions instead of just throwing InvalidOperacionException for everything
