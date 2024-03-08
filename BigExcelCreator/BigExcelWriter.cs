@@ -131,13 +131,13 @@ namespace BigExcelCreator
         private int columnNum = 1;
         private int maxColumnNum = 1;
 
-        private readonly List<Sheet> sheets = new();
+        private readonly List<Sheet> sheets = [];
 
         private DataValidations sheetDataValidations;
 
         private OpenXmlWriter workSheetPartWriter;
 
-        private readonly List<string> SharedStringsList = new();
+        private readonly List<string> SharedStringsList = [];
 
         private WorksheetPart workSheetPart;
 
@@ -147,9 +147,9 @@ namespace BigExcelCreator
 
         private SharedStringTablePart SharedStringTablePart;
 
-        private readonly List<ConditionalFormatting> conditionalFormattingList = new();
+        private readonly List<ConditionalFormatting> conditionalFormattingList = [];
 
-        private readonly List<CellRange> SheetMergedCells = new();
+        private readonly List<CellRange> SheetMergedCells = [];
 
         #endregion
 
@@ -300,14 +300,14 @@ namespace BigExcelCreator
                 int columnIndex = 1;
                 foreach (Column column in columns)
                 {
-                    List<OpenXmlAttribute> columnAttributes = new()
-                    {
+                    List<OpenXmlAttribute> columnAttributes =
+                    [
                         new OpenXmlAttribute("min", null, columnIndex.ToString(CultureInfo.InvariantCulture)),
                         new OpenXmlAttribute("max", null, columnIndex.ToString(CultureInfo.InvariantCulture)),
                         new OpenXmlAttribute("width", null, (column.Width ?? 11).ToString()),
                         new OpenXmlAttribute("customWidth", null, (column.CustomWidth ?? true).ToString()),
                         new OpenXmlAttribute("hidden", null, (column.Hidden ?? false).ToString()),
-                    };
+                    ];
 
                     workSheetPartWriter.WriteStartElement(new Column(), columnAttributes);
                     workSheetPartWriter.WriteEndElement();
@@ -363,9 +363,7 @@ namespace BigExcelCreator
             currentSheetName = "";
             workSheetPart.Worksheet.SheetDimension = new SheetDimension() { Reference = $"A1:{Helpers.GetColumnName(maxColumnNum)}{Math.Max(1, lastRowWritten)}" };
 
-
             WritePageConfig(workSheetPart.Worksheet);
-
 
             sheetOpen = false;
             workSheetPart = null;
@@ -401,14 +399,14 @@ namespace BigExcelCreator
 
             lastRowWritten = rownum;
             //create a new list of attributes
-            List<OpenXmlAttribute> attributes = new()
-            {
+            List<OpenXmlAttribute> attributes =
+            [
                 // add the row index attribute to the list
                 new OpenXmlAttribute("r", null, lastRowWritten.ToString(CultureInfo.InvariantCulture)),
-                        
+
                 // Hide row if requested
                 new OpenXmlAttribute("hidden", null, hidden ? "1" : "0"),
-            };
+            ];
 
             //write the row start element with the row index attribute
             workSheetPartWriter.WriteStartElement(new Row(), attributes);
@@ -474,13 +472,13 @@ namespace BigExcelCreator
                 if (useSharedStrings)
                 {
                     string ssPos = AddTextToSharedStringsTable(text).ToString(CultureInfo.InvariantCulture);
-                    attributes = new()
-                    {
+                    attributes =
+                    [
                         new OpenXmlAttribute("t", null, "s"),
                         new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
                         //styles
                         new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
-                    };
+                    ];
                     //write the cell start element with the type and reference attributes
                     workSheetPartWriter.WriteStartElement(new Cell(), attributes);
                     //write the cell value
@@ -489,15 +487,15 @@ namespace BigExcelCreator
                 else
                 {
                     //reset the list of attributes
-                    attributes = new()
-                    {
+                    attributes =
+                    [
                         // add data type attribute - in this case inline string (you might want to look at the shared strings table)
                         new OpenXmlAttribute("t", null, "str"),
                         //add the cell reference attribute
                         new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
                         //styles
                         new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
-                    };
+                    ];
                     //write the cell start element with the type and reference attributes
                     workSheetPartWriter.WriteStartElement(new Cell(), attributes);
                     //write the cell value
@@ -506,7 +504,6 @@ namespace BigExcelCreator
 
                 // write the end cell element
                 workSheetPartWriter.WriteEndElement();
-
             }
             columnNum++;
         }
@@ -528,13 +525,13 @@ namespace BigExcelCreator
             if (!rowOpen) { throw new NoOpenRowException("There is no active row"); }
 
             //reset the list of attributes
-            List<OpenXmlAttribute> attributes = new()
-            {
+            List<OpenXmlAttribute> attributes =
+            [
                 //add the cell reference attribute
                 new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
                 //styles
                 new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
-            };
+            ];
 
             //write the cell start element with the type and reference attributes
             workSheetPartWriter.WriteStartElement(new Cell(), attributes);
@@ -566,13 +563,13 @@ namespace BigExcelCreator
             if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(formula)))
             {
                 //reset the list of attributes
-                List<OpenXmlAttribute> attributes = new()
-                {
+                List<OpenXmlAttribute> attributes =
+                [
                     //add the cell reference attribute
                     new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
                     //styles
                     new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
-                };
+                ];
 
                 //write the cell start element with the type and reference attributes
                 workSheetPartWriter.WriteStartElement(new Cell(), attributes);
@@ -1049,7 +1046,6 @@ namespace BigExcelCreator
                 WriteSharedStringsPart();
                 WriteSheetsAndClosePart();
 
-
                 workSheetPartWriter?.Dispose();
                 Document.Dispose();
 
@@ -1155,8 +1151,6 @@ namespace BigExcelCreator
 
             SheetAutoFilter = null;
         }
-
-
 
         private void WriteValidations()
         {
@@ -1275,7 +1269,6 @@ namespace BigExcelCreator
 
                 worksheet.SheetViews = new SheetViews(sheetView);
             }
-
         }
 
         private void WritePrintOptions()
