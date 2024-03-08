@@ -20,15 +20,14 @@ namespace BigExcelCreator.CommentsManager
     {
         // Inspired by (and mostly copied from): https://www.dritsoftware.com/docs/netspreadsheet/openxmlsdk/CommentsFormatting.html
 
-        private List<CommentReference> CommentsToBeAdded { get; set; }
+        private List<CommentReference> CommentsToBeAdded { get; }
 
-        private List<string> AuthorsList { get; set; }
-
+        private List<string> AuthorsList { get; }
 
         internal CommentManager()
         {
-            CommentsToBeAdded = new();
-            AuthorsList = new();
+            CommentsToBeAdded = [];
+            AuthorsList = [];
         }
 
         internal void Add(CommentReference commentReference)

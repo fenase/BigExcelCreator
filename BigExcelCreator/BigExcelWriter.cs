@@ -475,7 +475,7 @@ namespace BigExcelCreator
                     attributes =
                     [
                         new OpenXmlAttribute("t", null, "s"),
-                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
+                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
                         //styles
                         new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                     ];
@@ -492,7 +492,7 @@ namespace BigExcelCreator
                         // add data type attribute - in this case inline string (you might want to look at the shared strings table)
                         new OpenXmlAttribute("t", null, "str"),
                         //add the cell reference attribute
-                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
+                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
                         //styles
                         new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                     ];
@@ -528,7 +528,7 @@ namespace BigExcelCreator
             List<OpenXmlAttribute> attributes =
             [
                 //add the cell reference attribute
-                new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
+                new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
                 //styles
                 new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
             ];
@@ -566,7 +566,7 @@ namespace BigExcelCreator
                 List<OpenXmlAttribute> attributes =
                 [
                     //add the cell reference attribute
-                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
+                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
                     //styles
                     new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                 ];
@@ -880,7 +880,7 @@ namespace BigExcelCreator
         /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
         public void AddConditionalFormattingFormula(string reference, string formula, int format)
         {
-            if (!sheetOpen) { throw new NoOpenSheetException("Conditional formatting require to be on a sheet"); }
+            if (!sheetOpen) { throw new NoOpenSheetException(ConstantsAndTexts.ConditionalFormattingMustBeOnSheet); }
 
             CellRange cellRange = new(reference);
             if (formula.IsNullOrWhiteSpace()) { throw new ArgumentNullException(nameof(formula)); }
@@ -931,7 +931,7 @@ namespace BigExcelCreator
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
 #endif
             if (value.IsNullOrWhiteSpace()) { throw new ArgumentNullException(nameof(value)); }
-            if (!sheetOpen) { throw new NoOpenSheetException("Conditional formatting require to be on a sheet"); }
+            if (!sheetOpen) { throw new NoOpenSheetException(ConstantsAndTexts.ConditionalFormattingMustBeOnSheet); }
             if (new[] { ConditionalFormattingOperatorValues.Between, ConditionalFormattingOperatorValues.NotBetween }.Contains(@operator)
                 && value2.IsNullOrWhiteSpace())
             {
@@ -976,7 +976,7 @@ namespace BigExcelCreator
 #else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
 #endif
-            if (!sheetOpen) { throw new NoOpenSheetException("Conditional formatting require to be on a sheet"); }
+            if (!sheetOpen) { throw new NoOpenSheetException(ConstantsAndTexts.ConditionalFormattingMustBeOnSheet); }
 
             ConditionalFormatting conditionalFormatting = new()
             {
@@ -1009,7 +1009,7 @@ namespace BigExcelCreator
 #else
             if (range == null) { throw new ArgumentNullException(nameof(range)); }
 #endif
-            if (!sheetOpen) { throw new NoOpenSheetException("Conditional formatting require to be on a sheet"); }
+            if (!sheetOpen) { throw new NoOpenSheetException(ConstantsAndTexts.ConditionalFormattingMustBeOnSheet); }
 
             if (SheetMergedCells.Exists(range.RangeOverlaps))
             {

@@ -323,7 +323,7 @@ namespace BigExcelCreator.Ranges
 
             if ((StartRangeType & RangeTypes.RowInfinite) == 0)
             {
-#if NET8_0_OR_GREATER
+#if NET6_0_OR_GREATER
                 StartingColumn = Helpers.GetColumnIndex(rangeArray[RANGE_START][..^numbers1]);
 #else
                 StartingColumn = Helpers.GetColumnIndex(rangeArray[RANGE_START].Substring(0, rangeArray[RANGE_START].Length - numbers1));
@@ -331,14 +331,13 @@ namespace BigExcelCreator.Ranges
             }
             if ((EndRangeType & RangeTypes.RowInfinite) == 0)
             {
-#if NET8_0_OR_GREATER
+#if NET6_0_OR_GREATER
                 EndingColumn = Helpers.GetColumnIndex(rangeArray[RANGE_END][..^numbers2]);
 #else
                 EndingColumn = Helpers.GetColumnIndex(rangeArray[RANGE_END].Substring(0, rangeArray[RANGE_END].Length - numbers2));
 #endif
             }
         }
-
 
         /// <summary>
         /// Range equals
@@ -547,8 +546,6 @@ namespace BigExcelCreator.Ranges
 
             return res;
         }
-
-
 
         private static string PrepareRangeString(string range)
         {
