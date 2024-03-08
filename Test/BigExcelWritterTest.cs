@@ -20,7 +20,7 @@ namespace Test
         {
             DirectoryPath = TestContext.CurrentContext.WorkDirectory + @"\excelOut";
             Directory.CreateDirectory(DirectoryPath);
-            DirectoryAssert.Exists(DirectoryPath);
+            Assert.That(DirectoryPath, Does.Exist);
         }
 
 
@@ -36,11 +36,11 @@ namespace Test
         public void FileExistsAfterCreation()
         {
             string path = Path.Combine(DirectoryPath, $"{Guid.NewGuid()}.xlsx");
-            using (BigExcelWriter writer = new BigExcelWriter(path, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+            using (BigExcelWriter writer = new(path, SpreadsheetDocumentType.Workbook))
             {
                 // do nothing
             }
-            FileAssert.Exists(path);
+            Assert.That(path, Does.Exist);
         }
 
 
@@ -53,7 +53,7 @@ namespace Test
                 writer.CreateAndOpenSheet("first");
                 writer.CloseSheet();
             }
-            FileAssert.Exists(path);
+            Assert.That(path, Does.Exist);
 
             using (SpreadsheetDocument reader = SpreadsheetDocument.Open(path, false))
             {

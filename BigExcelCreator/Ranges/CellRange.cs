@@ -97,7 +97,11 @@ namespace BigExcelCreator.Ranges
             get => sheetName;
             set
             {
+#if NET8_0_OR_GREATER
+                if (!value.IsNullOrWhiteSpace() && value.AsSpan().IndexOfAny(invalidSheetCharacters) >= 0)
+#else
                 if (!value.IsNullOrWhiteSpace() && value.IndexOfAny(invalidSheetCharacters) >= 0)
+#endif
                 {
                     throw new InvalidRangeException();
                 }
@@ -165,7 +169,11 @@ namespace BigExcelCreator.Ranges
 
         private readonly RangeTypes StartRangeType;
 
+#if NET8_0_OR_GREATER
+        private static readonly System.Buffers.SearchValues<char> invalidSheetCharacters = System.Buffers.SearchValues.Create(@"\/*[]:?");
+#else
         private readonly char[] invalidSheetCharacters = @"\/*[]:?".ToCharArray();
+#endif
 
         /// <summary>
         /// Creates a single cell range using coordinates indexes
@@ -298,20 +306,36 @@ namespace BigExcelCreator.Ranges
 
             if ((StartRangeType & RangeTypes.ColInfinite) == 0)
             {
+#if NET6_0_OR_GREATER
+                StartingRow = int.Parse(rangeArray[RANGE_START].AsSpan(letters1), provider: CultureInfo.InvariantCulture);
+#else
                 StartingRow = int.Parse(rangeArray[RANGE_START].Substring(letters1), CultureInfo.InvariantCulture);
+#endif
             }
             if ((EndRangeType & RangeTypes.ColInfinite) == 0)
             {
+#if NET6_0_OR_GREATER
+                EndingRow = int.Parse(rangeArray[RANGE_END].AsSpan(letters2), provider: CultureInfo.InvariantCulture);
+#else
                 EndingRow = int.Parse(rangeArray[RANGE_END].Substring(letters2), CultureInfo.InvariantCulture);
+#endif
             }
 
             if ((StartRangeType & RangeTypes.RowInfinite) == 0)
             {
+#if NET8_0_OR_GREATER
+                StartingColumn = Helpers.GetColumnIndex(rangeArray[RANGE_START][..^numbers1]);
+#else
                 StartingColumn = Helpers.GetColumnIndex(rangeArray[RANGE_START].Substring(0, rangeArray[RANGE_START].Length - numbers1));
+#endif
             }
             if ((EndRangeType & RangeTypes.RowInfinite) == 0)
             {
+#if NET8_0_OR_GREATER
+                EndingColumn = Helpers.GetColumnIndex(rangeArray[RANGE_END][..^numbers2]);
+#else
                 EndingColumn = Helpers.GetColumnIndex(rangeArray[RANGE_END].Substring(0, rangeArray[RANGE_END].Length - numbers2));
+#endif
             }
         }
 
@@ -477,7 +501,11 @@ namespace BigExcelCreator.Ranges
         /// <exception cref="ArgumentNullException"></exception>
         public bool RangeOverlaps(CellRange other)
         {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(other);
+#else
             if (other == null) { throw new ArgumentNullException(nameof(other)); }
+#endif
             if (this == other) { return true; }
             if (ColumnOverlaps(other) && RowOverlaps(other)) { return true; }
 

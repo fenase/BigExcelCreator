@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;netstandard1.3;net40;net46;net48;net6.0;net35</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;net35;net40;net46;net48;net6.0;net8.0</TargetFrameworks>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<Title>Create large Excel files with stylesheet Quickly using SAX</Title>
 		<Description>Create Excel files using OpenXML SAX with styling.
@@ -12,8 +12,8 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 		<EnableNETAnalyzers>True</EnableNETAnalyzers>
 		<AnalysisLevel>latest-all</AnalysisLevel>
-		<VersionSuffix>2.3.$([System.DateTime]::UtcNow.ToString(yyyy)).$([System.DateTime]::UtcNow.DayOfYear.ToString())$([System.DateTime]::UtcNow.ToString(HH))</VersionSuffix>
-		<Version Condition=" '$(VersionSuffix)' == '' ">2.3.0.0</Version>
+		<VersionSuffix>3.0.$([System.DateTime]::UtcNow.ToString(yyyy)).$([System.DateTime]::UtcNow.DayOfYear.ToString())$([System.DateTime]::UtcNow.ToString(HH))</VersionSuffix>
+		<Version Condition=" '$(VersionSuffix)' == '' ">3.0.0.0</Version>
 		<Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</Version>
 		<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 		<Deterministic>True</Deterministic>
@@ -130,8 +130,8 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 
 
 	<ItemGroup>
-		<PackageReference Include="DocumentFormat.OpenXml" Version="[2.20.0,3)" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+		<PackageReference Include="DocumentFormat.OpenXml" Version="[3.0.1,4)" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

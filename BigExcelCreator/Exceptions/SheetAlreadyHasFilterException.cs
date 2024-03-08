@@ -5,7 +5,7 @@ namespace BigExcelCreator.Exceptions
     /// <summary>
     /// When attempting to create a filter to a sheet that already has one, without indicating to overwrite the old one
     /// </summary>
-#if NET35_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET5_0_OR_GREATER
+#if (NET20_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET5_0_OR_GREATER) && !NET8_0_OR_GREATER
     [Serializable]
 #endif
     public class SheetAlreadyHasFilterException : InvalidOperationException
@@ -34,7 +34,7 @@ namespace BigExcelCreator.Exceptions
         {
         }
 
-#if NET35_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET5_0_OR_GREATER
+#if (NET20_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET5_0_OR_GREATER) && !NET8_0_OR_GREATER
         /// <summary>
         /// The constructor for SheetAlreadyHasFilterException
         /// </summary>

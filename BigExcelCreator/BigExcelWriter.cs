@@ -259,11 +259,33 @@ namespace BigExcelCreator
         /// Creates a new sheet and prepares the writer to use it.
         /// </summary>
         /// <param name="name">Names the sheet</param>
+        /// <exception cref="SheetAlreadyOpenException">When a sheet is already open</exception>
+        public void CreateAndOpenSheet(string name) => CreateAndOpenSheet(name, null, SheetStateValues.Visible);
+
+        /// <summary>
+        /// Creates a new sheet and prepares the writer to use it.
+        /// </summary>
+        /// <param name="name">Names the sheet</param>
+        /// <param name="sheetState">Sets sheet visibility. <c>SheetStateValues.Visible</c> to list the sheet. <c>SheetStateValues.Hidden</c> to hide it. <c>SheetStateValues.VeryHidden</c> to hide it and prevent unhiding from the GUI.</param>
+        /// <exception cref="SheetAlreadyOpenException">When a sheet is already open</exception>
+        public void CreateAndOpenSheet(string name, SheetStateValues sheetState) => CreateAndOpenSheet(name, null, sheetState);
+
+        /// <summary>
+        /// Creates a new sheet and prepares the writer to use it.
+        /// </summary>
+        /// <param name="name">Names the sheet</param>
+        /// <param name="columns">Use this to set the columns' width</param>
+        /// <exception cref="SheetAlreadyOpenException">When a sheet is already open</exception>
+        public void CreateAndOpenSheet(string name, IList<Column> columns) => CreateAndOpenSheet(name, columns, SheetStateValues.Visible);
+
+        /// <summary>
+        /// Creates a new sheet and prepares the writer to use it.
+        /// </summary>
+        /// <param name="name">Names the sheet</param>
         /// <param name="columns">Use this to set the columns' width</param>
         /// <param name="sheetState">Sets sheet visibility. <c>SheetStateValues.Visible</c> to list the sheet. <c>SheetStateValues.Hidden</c> to hide it. <c>SheetStateValues.VeryHidden</c> to hide it and prevent unhiding from the GUI.</param>
         /// <exception cref="SheetAlreadyOpenException">When a sheet is already open</exception>
-        public void CreateAndOpenSheet(string name, IList<Column> columns = null,
-                                       SheetStateValues sheetState = SheetStateValues.Visible)
+        public void CreateAndOpenSheet(string name, IList<Column> columns, SheetStateValues sheetState)
         {
             if (sheetOpen) { throw new SheetAlreadyOpenException("Cannot open a new sheet. Please close current sheet before opening a new one"); }
 
@@ -439,7 +461,11 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenRowException">When there is no open row</exception>
         public void WriteTextCell(string text, int format = 0, bool useSharedStrings = false)
         {
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(format);
+#else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
+#endif
             if (!rowOpen) { throw new NoOpenRowException("There is no active row"); }
 
             if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(text)))
@@ -494,7 +520,11 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenRowException">When there is no open row</exception>
         public void WriteNumberCell(float number, int format = 0)
         {
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(format);
+#else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
+#endif
             if (!rowOpen) { throw new NoOpenRowException("There is no active row"); }
 
             //reset the list of attributes
@@ -526,7 +556,11 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenRowException">When there is no open row</exception>
         public void WriteFormulaCell(string formula, int format = 0)
         {
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(format);
+#else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
+#endif
             if (!rowOpen) { throw new NoOpenRowException("There is no active row"); }
 
             if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(formula)))
@@ -639,7 +673,11 @@ namespace BigExcelCreator
         public void AddAutofilter(CellRange range, bool overwrite = false)
         {
             if (!sheetOpen) { throw new NoOpenSheetException("Filters need to be assigned to a sheet"); }
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(range);
+#else
             if (range == null) { throw new ArgumentNullException(nameof(range)); }
+#endif
             if ((!overwrite) && SheetAutoFilter != null) { throw new SheetAlreadyHasFilterException("There is already a filter in use in current sheet. Set overwrite to true to replace it"); }
             if (range.Height != 1) { throw new ArgumentOutOfRangeException(nameof(range), "Range height must be 1"); }
             SheetAutoFilter = new AutoFilter() { Reference = range.RangeStringNoSheetName };
@@ -849,7 +887,11 @@ namespace BigExcelCreator
 
             CellRange cellRange = new(reference);
             if (formula.IsNullOrWhiteSpace()) { throw new ArgumentNullException(nameof(formula)); }
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(format);
+#else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
+#endif
 
             ConditionalFormatting conditionalFormatting = new()
             {
@@ -886,7 +928,11 @@ namespace BigExcelCreator
         {
             CellRange cellRange = new(reference);
 
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(format);
+#else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
+#endif
             if (value.IsNullOrWhiteSpace()) { throw new ArgumentNullException(nameof(value)); }
             if (!sheetOpen) { throw new NoOpenSheetException("Conditional formatting require to be on a sheet"); }
             if (new[] { ConditionalFormattingOperatorValues.Between, ConditionalFormattingOperatorValues.NotBetween }.Contains(@operator)
@@ -928,7 +974,11 @@ namespace BigExcelCreator
         {
             CellRange cellRange = new(reference);
 
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(format);
+#else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
+#endif
             if (!sheetOpen) { throw new NoOpenSheetException("Conditional formatting require to be on a sheet"); }
 
             ConditionalFormatting conditionalFormatting = new()
@@ -957,7 +1007,11 @@ namespace BigExcelCreator
         /// <exception cref="OverlappingRangesException">When trying to merge already merged cells</exception>
         public void MergeCells(CellRange range)
         {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(range);
+#else
             if (range == null) { throw new ArgumentNullException(nameof(range)); }
+#endif
             if (!sheetOpen) { throw new NoOpenSheetException("Conditional formatting require to be on a sheet"); }
 
             if (SheetMergedCells.Exists(range.RangeOverlaps))
@@ -1056,7 +1110,11 @@ namespace BigExcelCreator
                                         bool showInputMessage = true,
                                         bool showErrorMessage = true)
         {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(range);
+#else
             if (range == null) { throw new ArgumentNullException(nameof(range)); }
+#endif
             if (!sheetOpen) { throw new NoOpenSheetException("Validators need to be placed on a sheet"); }
 
             sheetDataValidations ??= new DataValidations();
