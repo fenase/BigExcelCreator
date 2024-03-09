@@ -25,7 +25,7 @@ namespace Test48
         {
             DirectoryPath = TestContext.CurrentContext.WorkDirectory + @"\excelOut";
             Directory.CreateDirectory(DirectoryPath);
-            DirectoryAssert.Exists(DirectoryPath);
+            Assert.That(DirectoryPath, Does.Exist);
         }
 
 
@@ -45,7 +45,7 @@ namespace Test48
             {
                 // do nothing
             }
-            FileAssert.Exists(path);
+            Assert.That(path, Does.Exist);
         }
 
 
@@ -58,7 +58,7 @@ namespace Test48
                 writer.CreateAndOpenSheet("first");
                 writer.CloseSheet();
             }
-            FileAssert.Exists(path);
+            Assert.That(path, Does.Exist);
 
             using (SpreadsheetDocument reader = SpreadsheetDocument.Open(path, false))
             {

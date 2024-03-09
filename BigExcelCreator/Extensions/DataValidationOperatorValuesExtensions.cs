@@ -9,12 +9,9 @@ namespace BigExcelCreator.Extensions
     {
         internal static bool RequiresSecondOperand(this DataValidationOperatorValues dataValidationOperator)
         {
-            return dataValidationOperator switch
-            {
-                DataValidationOperatorValues.Between => true,
-                DataValidationOperatorValues.NotBetween => true,
-                _ => false,
-            };
+            if (dataValidationOperator == DataValidationOperatorValues.Between) { return true; }
+            if (dataValidationOperator == DataValidationOperatorValues.NotBetween) { return true; }
+            return false;
         }
     }
 }

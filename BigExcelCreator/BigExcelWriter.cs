@@ -131,13 +131,13 @@ namespace BigExcelCreator
         private int columnNum = 1;
         private int maxColumnNum = 1;
 
-        private readonly List<Sheet> sheets = new();
+        private readonly List<Sheet> sheets = [];
 
         private DataValidations sheetDataValidations;
 
         private OpenXmlWriter workSheetPartWriter;
 
-        private readonly List<string> SharedStringsList = new();
+        private readonly List<string> SharedStringsList = [];
 
         private WorksheetPart workSheetPart;
 
@@ -147,9 +147,9 @@ namespace BigExcelCreator
 
         private SharedStringTablePart SharedStringTablePart;
 
-        private readonly List<ConditionalFormatting> conditionalFormattingList = new();
+        private readonly List<ConditionalFormatting> conditionalFormattingList = [];
 
-        private readonly List<CellRange> SheetMergedCells = new();
+        private readonly List<CellRange> SheetMergedCells = [];
 
         #endregion
 
@@ -259,11 +259,33 @@ namespace BigExcelCreator
         /// Creates a new sheet and prepares the writer to use it.
         /// </summary>
         /// <param name="name">Names the sheet</param>
+        /// <exception cref="SheetAlreadyOpenException">When a sheet is already open</exception>
+        public void CreateAndOpenSheet(string name) => CreateAndOpenSheet(name, null, SheetStateValues.Visible);
+
+        /// <summary>
+        /// Creates a new sheet and prepares the writer to use it.
+        /// </summary>
+        /// <param name="name">Names the sheet</param>
+        /// <param name="sheetState">Sets sheet visibility. <c>SheetStateValues.Visible</c> to list the sheet. <c>SheetStateValues.Hidden</c> to hide it. <c>SheetStateValues.VeryHidden</c> to hide it and prevent unhiding from the GUI.</param>
+        /// <exception cref="SheetAlreadyOpenException">When a sheet is already open</exception>
+        public void CreateAndOpenSheet(string name, SheetStateValues sheetState) => CreateAndOpenSheet(name, null, sheetState);
+
+        /// <summary>
+        /// Creates a new sheet and prepares the writer to use it.
+        /// </summary>
+        /// <param name="name">Names the sheet</param>
+        /// <param name="columns">Use this to set the columns' width</param>
+        /// <exception cref="SheetAlreadyOpenException">When a sheet is already open</exception>
+        public void CreateAndOpenSheet(string name, IList<Column> columns) => CreateAndOpenSheet(name, columns, SheetStateValues.Visible);
+
+        /// <summary>
+        /// Creates a new sheet and prepares the writer to use it.
+        /// </summary>
+        /// <param name="name">Names the sheet</param>
         /// <param name="columns">Use this to set the columns' width</param>
         /// <param name="sheetState">Sets sheet visibility. <c>SheetStateValues.Visible</c> to list the sheet. <c>SheetStateValues.Hidden</c> to hide it. <c>SheetStateValues.VeryHidden</c> to hide it and prevent unhiding from the GUI.</param>
         /// <exception cref="SheetAlreadyOpenException">When a sheet is already open</exception>
-        public void CreateAndOpenSheet(string name, IList<Column> columns = null,
-                                       SheetStateValues sheetState = SheetStateValues.Visible)
+        public void CreateAndOpenSheet(string name, IList<Column> columns, SheetStateValues sheetState)
         {
             if (sheetOpen) { throw new SheetAlreadyOpenException("Cannot open a new sheet. Please close current sheet before opening a new one"); }
 
@@ -278,14 +300,14 @@ namespace BigExcelCreator
                 int columnIndex = 1;
                 foreach (Column column in columns)
                 {
-                    List<OpenXmlAttribute> columnAttributes = new()
-                    {
+                    List<OpenXmlAttribute> columnAttributes =
+                    [
                         new OpenXmlAttribute("min", null, columnIndex.ToString(CultureInfo.InvariantCulture)),
                         new OpenXmlAttribute("max", null, columnIndex.ToString(CultureInfo.InvariantCulture)),
                         new OpenXmlAttribute("width", null, (column.Width ?? 11).ToString()),
                         new OpenXmlAttribute("customWidth", null, (column.CustomWidth ?? true).ToString()),
                         new OpenXmlAttribute("hidden", null, (column.Hidden ?? false).ToString()),
-                    };
+                    ];
 
                     workSheetPartWriter.WriteStartElement(new Column(), columnAttributes);
                     workSheetPartWriter.WriteEndElement();
@@ -341,9 +363,7 @@ namespace BigExcelCreator
             currentSheetName = "";
             workSheetPart.Worksheet.SheetDimension = new SheetDimension() { Reference = $"A1:{Helpers.GetColumnName(maxColumnNum)}{Math.Max(1, lastRowWritten)}" };
 
-
             WritePageConfig(workSheetPart.Worksheet);
-
 
             sheetOpen = false;
             workSheetPart = null;
@@ -379,14 +399,14 @@ namespace BigExcelCreator
 
             lastRowWritten = rownum;
             //create a new list of attributes
-            List<OpenXmlAttribute> attributes = new()
-            {
+            List<OpenXmlAttribute> attributes =
+            [
                 // add the row index attribute to the list
                 new OpenXmlAttribute("r", null, lastRowWritten.ToString(CultureInfo.InvariantCulture)),
-                        
+
                 // Hide row if requested
                 new OpenXmlAttribute("hidden", null, hidden ? "1" : "0"),
-            };
+            ];
 
             //write the row start element with the row index attribute
             workSheetPartWriter.WriteStartElement(new Row(), attributes);
@@ -439,7 +459,11 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenRowException">When there is no open row</exception>
         public void WriteTextCell(string text, int format = 0, bool useSharedStrings = false)
         {
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(format);
+#else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
+#endif
             if (!rowOpen) { throw new NoOpenRowException("There is no active row"); }
 
             if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(text)))
@@ -448,13 +472,13 @@ namespace BigExcelCreator
                 if (useSharedStrings)
                 {
                     string ssPos = AddTextToSharedStringsTable(text).ToString(CultureInfo.InvariantCulture);
-                    attributes = new()
-                    {
+                    attributes =
+                    [
                         new OpenXmlAttribute("t", null, "s"),
-                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
+                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
                         //styles
                         new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
-                    };
+                    ];
                     //write the cell start element with the type and reference attributes
                     workSheetPartWriter.WriteStartElement(new Cell(), attributes);
                     //write the cell value
@@ -463,15 +487,15 @@ namespace BigExcelCreator
                 else
                 {
                     //reset the list of attributes
-                    attributes = new()
-                    {
+                    attributes =
+                    [
                         // add data type attribute - in this case inline string (you might want to look at the shared strings table)
                         new OpenXmlAttribute("t", null, "str"),
                         //add the cell reference attribute
-                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
+                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
                         //styles
                         new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
-                    };
+                    ];
                     //write the cell start element with the type and reference attributes
                     workSheetPartWriter.WriteStartElement(new Cell(), attributes);
                     //write the cell value
@@ -480,7 +504,6 @@ namespace BigExcelCreator
 
                 // write the end cell element
                 workSheetPartWriter.WriteEndElement();
-
             }
             columnNum++;
         }
@@ -494,17 +517,21 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenRowException">When there is no open row</exception>
         public void WriteNumberCell(float number, int format = 0)
         {
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(format);
+#else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
+#endif
             if (!rowOpen) { throw new NoOpenRowException("There is no active row"); }
 
             //reset the list of attributes
-            List<OpenXmlAttribute> attributes = new()
-            {
+            List<OpenXmlAttribute> attributes =
+            [
                 //add the cell reference attribute
-                new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
+                new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
                 //styles
                 new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
-            };
+            ];
 
             //write the cell start element with the type and reference attributes
             workSheetPartWriter.WriteStartElement(new Cell(), attributes);
@@ -526,19 +553,23 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenRowException">When there is no open row</exception>
         public void WriteFormulaCell(string formula, int format = 0)
         {
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(format);
+#else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
+#endif
             if (!rowOpen) { throw new NoOpenRowException("There is no active row"); }
 
             if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(formula)))
             {
                 //reset the list of attributes
-                List<OpenXmlAttribute> attributes = new()
-                {
+                List<OpenXmlAttribute> attributes =
+                [
                     //add the cell reference attribute
-                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture,"{0}{1}", Helpers.GetColumnName(columnNum), lastRowWritten)),
+                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
                     //styles
                     new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
-                };
+                ];
 
                 //write the cell start element with the type and reference attributes
                 workSheetPartWriter.WriteStartElement(new Cell(), attributes);
@@ -639,7 +670,11 @@ namespace BigExcelCreator
         public void AddAutofilter(CellRange range, bool overwrite = false)
         {
             if (!sheetOpen) { throw new NoOpenSheetException("Filters need to be assigned to a sheet"); }
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(range);
+#else
             if (range == null) { throw new ArgumentNullException(nameof(range)); }
+#endif
             if ((!overwrite) && SheetAutoFilter != null) { throw new SheetAlreadyHasFilterException("There is already a filter in use in current sheet. Set overwrite to true to replace it"); }
             if (range.Height != 1) { throw new ArgumentOutOfRangeException(nameof(range), "Range height must be 1"); }
             SheetAutoFilter = new AutoFilter() { Reference = range.RangeStringNoSheetName };
@@ -845,11 +880,15 @@ namespace BigExcelCreator
         /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
         public void AddConditionalFormattingFormula(string reference, string formula, int format)
         {
-            if (!sheetOpen) { throw new NoOpenSheetException("Conditional formatting require to be on a sheet"); }
+            if (!sheetOpen) { throw new NoOpenSheetException(ConstantsAndTexts.ConditionalFormattingMustBeOnSheet); }
 
             CellRange cellRange = new(reference);
             if (formula.IsNullOrWhiteSpace()) { throw new ArgumentNullException(nameof(formula)); }
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(format);
+#else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
+#endif
 
             ConditionalFormatting conditionalFormatting = new()
             {
@@ -886,9 +925,13 @@ namespace BigExcelCreator
         {
             CellRange cellRange = new(reference);
 
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(format);
+#else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
+#endif
             if (value.IsNullOrWhiteSpace()) { throw new ArgumentNullException(nameof(value)); }
-            if (!sheetOpen) { throw new NoOpenSheetException("Conditional formatting require to be on a sheet"); }
+            if (!sheetOpen) { throw new NoOpenSheetException(ConstantsAndTexts.ConditionalFormattingMustBeOnSheet); }
             if (new[] { ConditionalFormattingOperatorValues.Between, ConditionalFormattingOperatorValues.NotBetween }.Contains(@operator)
                 && value2.IsNullOrWhiteSpace())
             {
@@ -928,8 +971,12 @@ namespace BigExcelCreator
         {
             CellRange cellRange = new(reference);
 
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(format);
+#else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
-            if (!sheetOpen) { throw new NoOpenSheetException("Conditional formatting require to be on a sheet"); }
+#endif
+            if (!sheetOpen) { throw new NoOpenSheetException(ConstantsAndTexts.ConditionalFormattingMustBeOnSheet); }
 
             ConditionalFormatting conditionalFormatting = new()
             {
@@ -957,8 +1004,12 @@ namespace BigExcelCreator
         /// <exception cref="OverlappingRangesException">When trying to merge already merged cells</exception>
         public void MergeCells(CellRange range)
         {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(range);
+#else
             if (range == null) { throw new ArgumentNullException(nameof(range)); }
-            if (!sheetOpen) { throw new NoOpenSheetException("Conditional formatting require to be on a sheet"); }
+#endif
+            if (!sheetOpen) { throw new NoOpenSheetException(ConstantsAndTexts.ConditionalFormattingMustBeOnSheet); }
 
             if (SheetMergedCells.Exists(range.RangeOverlaps))
             {
@@ -994,7 +1045,6 @@ namespace BigExcelCreator
 
                 WriteSharedStringsPart();
                 WriteSheetsAndClosePart();
-
 
                 workSheetPartWriter?.Dispose();
                 Document.Dispose();
@@ -1056,7 +1106,11 @@ namespace BigExcelCreator
                                         bool showInputMessage = true,
                                         bool showErrorMessage = true)
         {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(range);
+#else
             if (range == null) { throw new ArgumentNullException(nameof(range)); }
+#endif
             if (!sheetOpen) { throw new NoOpenSheetException("Validators need to be placed on a sheet"); }
 
             sheetDataValidations ??= new DataValidations();
@@ -1097,8 +1151,6 @@ namespace BigExcelCreator
 
             SheetAutoFilter = null;
         }
-
-
 
         private void WriteValidations()
         {
@@ -1217,7 +1269,6 @@ namespace BigExcelCreator
 
                 worksheet.SheetViews = new SheetViews(sheetView);
             }
-
         }
 
         private void WritePrintOptions()
