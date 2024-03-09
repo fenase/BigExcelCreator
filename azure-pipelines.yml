@@ -1,4 +1,4 @@
-name: 'Sonar new'
+name: 'BigExcelCreator-sonar-new'
 
 trigger:
 - '*'
@@ -12,6 +12,13 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- checkout: self
+  clean: true
+  fetchTags: true
+  displayName: 'git checkout'
+  enabled: true
+  retryCountOnTaskFailure: 2
+
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'sonar bigexcel'
@@ -19,6 +26,7 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'fenase_BigExcelCreator'
     projectVersion: '3.0'
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
@@ -36,8 +44,8 @@ steps:
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
-      **\bin\**\*test.dll
-      **\bin\**\*tests.dll
+      **\bin\**\*test*.dll
+      **\bin\**\*tests*.dll
     searchFolder: '$(System.DefaultWorkingDirectory)'
     codeCoverageEnabled: true
     platform: '$(buildPlatform)'
