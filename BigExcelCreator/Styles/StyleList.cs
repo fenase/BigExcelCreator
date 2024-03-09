@@ -18,24 +18,24 @@ namespace BigExcelCreator.Styles
     public class StyleList
     {
         #region props
-        private List<Font> Fonts { get; } = new List<Font>();
+        private List<Font> Fonts { get; } = [];
 
-        private List<Fill> Fills { get; } = new List<Fill>();
+        private List<Fill> Fills { get; } = [];
 
-        private List<Border> Borders { get; } = new List<Border>();
+        private List<Border> Borders { get; } = [];
 
-        private List<NumberingFormat> NumberingFormats { get; } = new List<NumberingFormat>();
+        private List<NumberingFormat> NumberingFormats { get; } = [];
 
         /// <summary>
         /// Main styles
         /// </summary>
-        public IList<StyleElement> Styles { get; } = new List<StyleElement>();
+        public IList<StyleElement> Styles { get; } = [];
 
         /// <summary>
         /// Differential styles.
         /// <para>Used in COnditional formatting</para>
         /// </summary>
-        public IList<DifferentialStyleElement> DifferentialStyleElements { get; } = new List<DifferentialStyleElement>();
+        public IList<DifferentialStyleElement> DifferentialStyleElements { get; } = [];
 
         private const uint STARTINGNUMBERFORMAT = 164;
         #endregion
@@ -201,10 +201,10 @@ namespace BigExcelCreator.Styles
         /// <returns>The <see cref="StyleElement"/> generated</returns>
         public StyleElement NewStyle(int? fontId, int? fillId, int? borderId, int? numberingFormatId, Alignment alignment, string name)
         {
-            if (fontId < 0) { throw new ArgumentOutOfRangeException(nameof(fontId), "must be greater than 0"); }
-            if (fillId < 0) { throw new ArgumentOutOfRangeException(nameof(fillId), "must be greater than 0"); }
-            if (borderId < 0) { throw new ArgumentOutOfRangeException(nameof(borderId), "must be greater than 0"); }
-            if (numberingFormatId < 0) { throw new ArgumentOutOfRangeException(nameof(numberingFormatId), "must be greater than 0"); }
+            if (fontId < 0) { throw new ArgumentOutOfRangeException(nameof(fontId), ConstantsAndTexts.MusBeGreaterThan0); }
+            if (fillId < 0) { throw new ArgumentOutOfRangeException(nameof(fillId), ConstantsAndTexts.MusBeGreaterThan0); }
+            if (borderId < 0) { throw new ArgumentOutOfRangeException(nameof(borderId), ConstantsAndTexts.MusBeGreaterThan0); }
+            if (numberingFormatId < 0) { throw new ArgumentOutOfRangeException(nameof(numberingFormatId), ConstantsAndTexts.MusBeGreaterThan0); }
 
             StyleElement styleElement = new(name, fontId, fillId, borderId, numberingFormatId, alignment);
 
@@ -216,12 +216,12 @@ namespace BigExcelCreator.Styles
         /// <summary>
         /// Generates, stores and returns a new differential style
         /// </summary>
+        /// <param name="name">A unique name to find the inserted style later</param>
         /// <param name="font"><see cref="Font"/></param>
         /// <param name="fill"><see cref="Fill"/></param>
         /// <param name="border"><see cref="Border"/></param>
         /// <param name="numberingFormat"><see cref="NumberingFormat"/></param>
         /// <param name="alignment"><see cref="Alignment"/></param>
-        /// <param name="name">A unique name to find the inserted style later</param>
         /// <returns>The <see cref="DifferentialStyleElement"/> generated</returns>
         public DifferentialStyleElement NewDifferentialStyle(string name, Font font = null, Fill fill = null, Border border = null, NumberingFormat numberingFormat = null, Alignment alignment = null)
         {
@@ -267,9 +267,7 @@ namespace BigExcelCreator.Styles
             {
                 throw new ArgumentNullException("At least one argument should be not null", (Exception)null);
             }
-
         }
-
 
         private int GetFontId(Font font)
         {

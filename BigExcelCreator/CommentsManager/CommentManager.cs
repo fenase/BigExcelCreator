@@ -44,13 +44,11 @@ namespace BigExcelCreator.CommentsManager
 
             worksheetPart.Worksheet.Append(legacyDrawing);
 
-
             using (XmlWriter writer = BuildVmlDrawingPartBegin(vmlDrawingPart))
             {
                 Authors authors = new();
                 Comments comments = new();
                 CommentList commentList = new();
-
 
                 foreach (CommentReference CommentToBeAdded in CommentsToBeAdded.OrderBy(x => x.CellRange))
                 {
@@ -60,7 +58,6 @@ namespace BigExcelCreator.CommentsManager
                         authors.Append(author);
                         AuthorsList.Add(CommentToBeAdded.Author);
                     }
-
 
                     Comment comment;
                     if (!string.IsNullOrEmpty(CommentToBeAdded.Author))
@@ -104,12 +101,8 @@ namespace BigExcelCreator.CommentsManager
 
                 BuildVmlDrawingPartEnd(writer);
             }
-
-
             worksheetPart.Worksheet.Save();
         }
-
-
 
         private static XmlWriter BuildVmlDrawingPartBegin(VmlDrawingPart vmlDrawingPart)
         {
