@@ -40,7 +40,6 @@ styleList.NewStyle(boldItalic, null, null, null, "bold italic default");
 
 Alignment center = new() { Horizontal = HorizontalAlignmentValues.Center };
 
-
 styleList.NewStyle(italic, null, null, null, center, "italic center");
 styleList.NewStyle(bold, null, null, null, center, "bold center");
 styleList.NewStyle(boldItalic, null, null, null, center, "bold italic center");
@@ -51,7 +50,6 @@ Fill yellowFill = new Fill(new[]{
                         { PatternType = PatternValues.Solid } });
 styleList.NewStyle(null, yellowFill, null, null, "YELLOW");
 
-
 styleList.NewDifferentialStyle("RED", font: new Font(new[] { new Color { Rgb = new HexBinaryValue { Value = "FF0000" } } }));
 
 Fill greenFill = new Fill(new[]{
@@ -59,19 +57,15 @@ Fill greenFill = new Fill(new[]{
                             new BackgroundColor { Rgb = new HexBinaryValue { Value = "00FF00" } } })
                         { PatternType = PatternValues.Solid } });
 
-
 styleList.NewDifferentialStyle("GREENBKG", fill: greenFill);
 
 using BigExcelWriter excel = new(fullPath, SpreadsheetDocumentType.Workbook, styleList.GetStylesheet());
 
 excel.CreateAndOpenSheet("S1", columns: columns, sheetState: SheetStateValues.Visible);
 
-
 excel.WriteTextRow(new List<string> { "A1", "B1", "C1", "D1", "E1" });
 excel.WriteTextRow(new List<string> { "A2", "B2", "C2", "D2", "E2" });
 excel.WriteTextRow(new List<string> { "A3", "B3", "C3", "D3", "E3" });
-
-
 
 excel.Comment("test A1", "A1", "Me");
 excel.Comment("test A3", "A3", "you");
@@ -107,8 +101,7 @@ excel.ShowGridLinesInCurrentSheet = false;
 
 excel.CloseSheet();
 
-
-excel.CreateAndOpenSheet("Readme example");
+excel.CreateAndOpenSheet("ReadMe example");
 excel.BeginRow();
 excel.WriteTextCell("Cell content");
 excel.WriteNumberCell(123); // write as number. This allows to use formulas.
@@ -119,7 +112,6 @@ excel.BeginRow(true);
 excel.WriteTextCell("This row id hidden");
 excel.EndRow();
 excel.CloseSheet();
-
 
 excel.CreateAndOpenSheet("format");
 excel.BeginRow();
@@ -141,17 +133,18 @@ for (int i = 0; i < 10; i++)
     excel.WriteNumberRow(new List<float> { i }, styleList.GetIndexByName("YELLOW"));
 }
 
-excel.AddConditionalFormattingFormula("A1:A20", "A1<5", styleList.GetIndexDifferentialByName("RED"));
-excel.AddConditionalFormattingFormula("A1:A20", "A1>5", styleList.GetIndexDifferentialByName("GREENBKG"));
-excel.AddConditionalFormattingDuplicatedValues("A1:A20", styleList.GetIndexDifferentialByName("RED"));
-excel.AddConditionalFormattingCellIs("A1:A20", ConditionalFormattingOperatorValues.LessThan, "5", styleList.GetIndexDifferentialByName("RED"));
-excel.AddConditionalFormattingCellIs("A1:A20", ConditionalFormattingOperatorValues.Between, "3", styleList.GetIndexDifferentialByName("RED"), "7");
+const string conditionalFormattingRange = "A1:A20";
+
+excel.AddConditionalFormattingFormula(conditionalFormattingRange, "A1<5", styleList.GetIndexDifferentialByName("RED"));
+excel.AddConditionalFormattingFormula(conditionalFormattingRange, "A1>5", styleList.GetIndexDifferentialByName("GREENBKG"));
+excel.AddConditionalFormattingDuplicatedValues(conditionalFormattingRange, styleList.GetIndexDifferentialByName("RED"));
+excel.AddConditionalFormattingCellIs(conditionalFormattingRange, ConditionalFormattingOperatorValues.LessThan, "5", styleList.GetIndexDifferentialByName("RED"));
+excel.AddConditionalFormattingCellIs(conditionalFormattingRange, ConditionalFormattingOperatorValues.Between, "3", styleList.GetIndexDifferentialByName("RED"), "7");
 
 excel.AddIntegerValidator("B1:B10", 2, DataValidationOperatorValues.Between, secondOperand: 8);
 excel.AddDecimalValidator("C1:C10", 0, DataValidationOperatorValues.Between, secondOperand: 1);
 
 excel.CloseSheet();
-
 
 excel.CreateAndOpenSheet("merged cells");
 
@@ -161,4 +154,3 @@ excel.MergeCells("a3:a5");
 excel.MergeCells("c3:d5");
 
 excel.CloseSheet();
-
