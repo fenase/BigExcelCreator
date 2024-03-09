@@ -1,4 +1,7 @@
-﻿#if NET8_0_OR_GREATER
+﻿// Copyright (c) 2022-2023, Federico Seckel.
+// Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
+
+#if NET8_0_OR_GREATER
 using System.Text;
 #endif
 
@@ -7,6 +10,8 @@ namespace BigExcelCreator.Extensions
     internal static class ConstantsAndTexts
     {
         internal const string ConditionalFormattingMustBeOnSheet = "Conditional formatting must be on a sheet";
+
+        internal const string MusBeGreaterThan0 = "must be greater than 0";
 
 #if NET8_0_OR_GREATER
         internal static readonly CompositeFormat twoParameterConcatenation = CompositeFormat.Parse("{0}{1}");
