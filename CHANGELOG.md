@@ -1,5 +1,14 @@
 ﻿# Changelog
 
+## 3.0
+This version uses the new 3.* version of DocumentFormat.OpenXml and it's not compatible with 2.*
+If you're using another package that require DocumentFormat.OpenXml 2.*, consider using version 2.3 of this package.
+
+### Added
+- .Net8.0 build target
+### Removed
+- .NetStandard1.3 build target
+
 ## 2.3
 ### Removed
 - Finally removed method AddValidator (marked as obsolete since before version 1)
