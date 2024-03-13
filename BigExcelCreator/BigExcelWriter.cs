@@ -15,12 +15,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-
-[assembly: CLSCompliant(true)]
-[assembly: InternalsVisibleTo("Test")]
-[assembly: InternalsVisibleTo("Test35")]
-[assembly: InternalsVisibleTo("Test48")]
 
 namespace BigExcelCreator
 {
