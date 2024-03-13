@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BigExcelCreator", "BigExcelCreator\BigExcelCreator.csproj", "{D53B8997-B701-4887-9829-76D87A9586BB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{1965CC75-D412-48F2-AA97-A136C8D56112}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BigExcelCreator.Test", "BigExcelCreator.Test\BigExcelCreator.Test.csproj", "{1965CC75-D412-48F2-AA97-A136C8D56112}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D53B8997-B701-4887-9829-76D87A9586BB} = {D53B8997-B701-4887-9829-76D87A9586BB}
 	EndProjectSection
