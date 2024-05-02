@@ -14,7 +14,7 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 		<AnalysisLevel>latest-all</AnalysisLevel>
 		<VersionPrefix>3.0</VersionPrefix>
 		<VersionSuffix>$([System.DateTime]::UtcNow.ToString(yyyy)).$([System.DateTime]::UtcNow.DayOfYear.ToString())$([System.DateTime]::UtcNow.ToString(HH))</VersionSuffix>
-		<Version>$(VersionPrefix).$(VersionSuffix)-prerelease1</Version>
+		<Version>$(VersionPrefix).$(VersionSuffix)</Version>
 		<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 		<Deterministic>True</Deterministic>
 		<LangVersion>latest</LangVersion>
