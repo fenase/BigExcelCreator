@@ -3,7 +3,7 @@
 Create Excel files using OpenXML SAX with styling.
 This is specially useful when trying to output thousands of rows.
 
-The idea behind this package is to be a basic easy-to-use wrapper around a subset of functions of 
+The idea behind this package is to be a basic easy-to-use wrapper around a reduced subset of functions of 
 [DocumentFormat.OpenXml](https://www.nuget.org/packages/DocumentFormat.OpenXml)
 aimed towards generating large excel files as fast as possible using the SAX method for writing.
 
@@ -20,7 +20,7 @@ Since the most common reason for a file to become corrupted when creating it usi
 > version [3 of DocumentFormat.OpenXml](https://www.nuget.org/packages/DocumentFormat.OpenXml).
 > 
 > If you're already using DocumentFormat.OpenXml v2, either directly or as transitive reference,
-> and you can't upgrade for some reason (i.e.: dependency on another package), 
+> and you can't upgrade for some reason (e.g. dependency on another package), 
 > use [BigExcelCreator v2](https://www.nuget.org/packages/BigExcelCreator/2.2.2022.32620)
 > 
 > Otherwise, I recommend using the latest version available.
@@ -56,6 +56,9 @@ Since the most common reason for a file to become corrupted when creating it usi
 
 
 # Usage
+
+> To see a working example, see the [example code](https://github.com/fenase/BigExcelCreator/blob/main/Example/Program.cs) 
+> on gitHub, part of the vs solution.
 
 1. Instantiate class `BigExcelWriter` using either a file path or a stream (`MemoryStream` is recommended).
 2. Open a new Sheet using `CreateAndOpenSheet`
