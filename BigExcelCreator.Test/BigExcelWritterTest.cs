@@ -154,7 +154,7 @@ namespace Test
             {
                 writer.CreateAndOpenSheet("first", creationColumns);
                 writer.WriteTextRow(["a", "b", "c"]);
-                writer.WriteNumberRow([1f, 2f, 30f, 40f]);
+                writer.WriteNumberRow(new List<float> { 1f, 2f, 30f, 40f });
                 writer.WriteFormulaRow(["SUM(A2:D2)"]);
 
                 writer.AddConditionalFormattingCellIs("B1:B4", ConditionalFormattingOperatorValues.LessThan, "5", styleList.GetIndexDifferentialByName("RED"));
@@ -398,7 +398,7 @@ namespace Test
                             Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteTextRow(["a"], -1));
                             break;
                         case "number":
-                            Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteNumberRow([3f], -1));
+                            Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteNumberRow(new List<decimal> { 3m }, -1));
                             break;
                         case "formula":
                             Assert.Throws<ArgumentOutOfRangeException>(() => writer.WriteFormulaRow(["a"], -1));
@@ -490,7 +490,7 @@ namespace Test
                 writer.CreateAndOpenSheet("a");
                 for (int i = 0; i < 10; i++)
                 {
-                    writer.WriteNumberRow([i]);
+                    writer.WriteNumberRow(new List<int> { i });
                 }
 
                 writer.AddConditionalFormattingFormula("A1:A20", "A1<5", 1);
@@ -526,9 +526,9 @@ namespace Test
             using (BigExcelWriter writer = GetWriterStream(out memoryStream))
             {
                 writer.CreateAndOpenSheet("a");
-                for (int i = 0; i < 10; i++)
+                for (long i = 0; i < 10; i++)
                 {
-                    writer.WriteNumberRow([i]);
+                    writer.WriteNumberRow(new List<long> { i });
                 }
 
                 writer.AddConditionalFormattingDuplicatedValues("A1:A20", 1);
@@ -562,9 +562,9 @@ namespace Test
             using (BigExcelWriter writer = GetWriterStream(out memoryStream))
             {
                 writer.CreateAndOpenSheet("a");
-                for (int i = 0; i < 10; i++)
+                for (double i = 0; i < 10; i++)
                 {
-                    writer.WriteNumberRow([i]);
+                    writer.WriteNumberRow(new List<double> { i });
                 }
 
                 writer.AddDecimalValidator("A1:A20", 1, DataValidationOperatorValues.Between, secondOperand: 10);
@@ -584,15 +584,15 @@ namespace Test
 
                 DataValidation dataValidation = dataValidationsE.First();
                 Assert.Multiple(() =>
-                {
-                    Assert.That(dataValidation.Type!.Value, Is.EqualTo(DataValidationValues.Decimal));
-                    Assert.That(dataValidation.Operator!.Value, Is.EqualTo(DataValidationOperatorValues.Between));
-                    Assert.That(dataValidation.AllowBlank!.Value, Is.EqualTo(true));
-                    Assert.That(dataValidation.ShowErrorMessage!.Value, Is.EqualTo(true));
-                    Assert.That(dataValidation.ShowInputMessage!.Value, Is.EqualTo(true));
-                    Assert.That(dataValidation.Formula1!.Text, Is.EqualTo("1"));
-                    Assert.That(dataValidation.Formula2!.Text, Is.EqualTo("10"));
-                });
+                            {
+                                Assert.That(dataValidation.Type!.Value, Is.EqualTo(DataValidationValues.Decimal));
+                                Assert.That(dataValidation.Operator!.Value, Is.EqualTo(DataValidationOperatorValues.Between));
+                                Assert.That(dataValidation.AllowBlank!.Value, Is.EqualTo(true));
+                                Assert.That(dataValidation.ShowErrorMessage!.Value, Is.EqualTo(true));
+                                Assert.That(dataValidation.ShowInputMessage!.Value, Is.EqualTo(true));
+                                Assert.That(dataValidation.Formula1!.Text, Is.EqualTo("1"));
+                                Assert.That(dataValidation.Formula2!.Text, Is.EqualTo("10"));
+                            });
             });
         }
 
@@ -601,9 +601,9 @@ namespace Test
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
-            for (int i = 0; i < 10; i++)
+            for (double i = 0; i < 10; i++)
             {
-                writer.WriteNumberRow([i]);
+                writer.WriteNumberRow(new List<double> { i });
             }
 
             Assert.Throws<ArgumentNullException>(() => writer.AddDecimalValidator("A1:A20", 1, DataValidationOperatorValues.Between));
@@ -614,9 +614,9 @@ namespace Test
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
-            for (int i = 0; i < 10; i++)
+            for (long i = 0; i < 10; i++)
             {
-                writer.WriteNumberRow([i]);
+                writer.WriteNumberRow(new List<long> { i });
             }
             writer.CloseSheet();
 
@@ -630,9 +630,9 @@ namespace Test
             using (BigExcelWriter writer = GetWriterStream(out memoryStream))
             {
                 writer.CreateAndOpenSheet("a");
-                for (int i = 0; i < 10; i++)
+                for (ulong i = 0; i < 10; i++)
                 {
-                    writer.WriteNumberRow([i]);
+                    writer.WriteNumberRow(new List<ulong> { i });
                 }
 
                 writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Equal);
@@ -668,9 +668,9 @@ namespace Test
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
-            for (int i = 0; i < 10; i++)
+            for (byte i = 0; i < 10; i++)
             {
-                writer.WriteNumberRow([i]);
+                writer.WriteNumberRow(new List<byte> { i });
             }
 
             Assert.Throws<ArgumentNullException>(() => writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Between));
@@ -681,9 +681,9 @@ namespace Test
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
-            for (int i = 0; i < 10; i++)
+            for (sbyte i = 0; i < 10; i++)
             {
-                writer.WriteNumberRow([i]);
+                writer.WriteNumberRow(new List<sbyte> { i });
             }
             writer.CloseSheet();
 
@@ -697,9 +697,9 @@ namespace Test
             using (BigExcelWriter writer = GetWriterStream(out memoryStream))
             {
                 writer.CreateAndOpenSheet("a");
-                for (int i = 0; i < 10; i++)
+                for (short i = 0; i < 10; i++)
                 {
-                    writer.WriteNumberRow([i]);
+                    writer.WriteNumberRow(new List<short> { i });
                 }
 
                 writer.AddListValidator("A1:A20", "B1:B4");
