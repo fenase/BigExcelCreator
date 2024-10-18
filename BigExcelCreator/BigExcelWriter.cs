@@ -4,6 +4,7 @@
 // Ignore Spelling: rownum Validator Autofilter stylesheet finalizer inline unhiding gridlines
 
 using BigExcelCreator.CommentsManager;
+using BigExcelCreator.Enum;
 using BigExcelCreator.Exceptions;
 using BigExcelCreator.Extensions;
 using BigExcelCreator.Ranges;
@@ -1152,9 +1153,28 @@ namespace BigExcelCreator
         /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
         public void Comment(string text, string reference, string author = "BigExcelCreator")
         {
-            if (string.IsNullOrEmpty(author)) { throw new ArgumentOutOfRangeException(nameof(author)); }
             CellRange cellRange = new(reference);
-            if (!cellRange.IsSingleCellRange) { throw new ArgumentOutOfRangeException(nameof(reference), $"{nameof(reference)} must be a single cell range"); }
+            Comment(text, cellRange, author);
+        }
+
+        /// <summary>
+        /// Adds a comment to a cell
+        /// </summary>
+        /// <param name="text">Comment text</param>
+        /// <param name="cellRange">Commented cell</param>
+        /// <param name="author">Comment Author</param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="author"/> is null or an empty string OR <paramref name="cellRange"/> is not a single cell</exception>
+        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="cellRange"/> is <c>null</c>.</exception>
+        public void Comment(string text, CellRange cellRange, string author = "BigExcelCreator")
+        {
+            if (string.IsNullOrEmpty(author)) { throw new ArgumentOutOfRangeException(nameof(author)); }
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(cellRange);
+#else
+            if (cellRange == null) { throw new ArgumentNullException(nameof(cellRange)); }
+#endif
+            if (!cellRange.IsSingleCellRange) { throw new ArgumentOutOfRangeException(nameof(cellRange), $"{nameof(cellRange)} must be a single cell range"); }
             if (!sheetOpen) { throw new NoOpenSheetException("Comments need to be placed on a sheet"); }
 
             commentManager ??= new();
@@ -1178,9 +1198,30 @@ namespace BigExcelCreator
         /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
         public void AddConditionalFormattingFormula(string reference, string formula, int format)
         {
+            CellRange cellRange = new(reference);
+            AddConditionalFormattingFormula(cellRange, formula, format);
+        }
+
+        /// <summary>
+        /// Adds conditional formatting based on a formula
+        /// </summary>
+        /// <param name="cellRange">Cell to apply format to</param>
+        /// <param name="formula">Formula. Format will be applied when this formula evaluates to true</param>
+        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <exception cref="ArgumentNullException">When formula is <see langword="null"/> or empty string</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="cellRange"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
+        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        public void AddConditionalFormattingFormula(CellRange cellRange, string formula, int format)
+        {
             if (!sheetOpen) { throw new NoOpenSheetException(ConstantsAndTexts.ConditionalFormattingMustBeOnSheet); }
 
-            CellRange cellRange = new(reference);
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(cellRange);
+#else
+            if (cellRange == null) { throw new ArgumentNullException(nameof(cellRange)); }
+#endif
+
             if (formula.IsNullOrWhiteSpace()) { throw new ArgumentNullException(nameof(formula)); }
 #if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(format);
@@ -1222,6 +1263,28 @@ namespace BigExcelCreator
         public void AddConditionalFormattingCellIs(string reference, ConditionalFormattingOperatorValues @operator, string value, int format, string value2 = null)
         {
             CellRange cellRange = new(reference);
+            AddConditionalFormattingCellIs(cellRange, @operator, value, format, value2);
+        }
+
+
+        /// <summary>
+        /// Adds conditional formatting based on cell value
+        /// </summary>
+        /// <param name="cellRange">Cell to apply format to</param>
+        /// <param name="operator"></param>
+        /// <param name="value">Compare cell value to this</param>
+        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <param name="value2">When <paramref name="operator"/> requires 2 parameters, compare cell value to this as second parameter</param>
+        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
+        /// <exception cref="ArgumentNullException">When <paramref name="value"/> is <see langword="null"/> OR <paramref name="operator"/> requires 2 arguments and <paramref name="value2"/> is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        public void AddConditionalFormattingCellIs(CellRange cellRange, ConditionalFormattingOperatorValues @operator, string value, int format, string value2 = null)
+        {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(cellRange);
+#else
+            if (cellRange == null) { throw new ArgumentNullException(nameof(cellRange)); }
+#endif
 
 #if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(format);
@@ -1268,6 +1331,23 @@ namespace BigExcelCreator
         public void AddConditionalFormattingDuplicatedValues(string reference, int format)
         {
             CellRange cellRange = new(reference);
+            AddConditionalFormattingDuplicatedValues(cellRange, format);
+        }
+
+        /// <summary>
+        /// Adds conditional formatting to duplicated values
+        /// </summary>
+        /// <param name="cellRange">Cell to apply format to</param>
+        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
+        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        public void AddConditionalFormattingDuplicatedValues(CellRange cellRange, int format)
+        {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(cellRange);
+#else
+            if (cellRange == null) { throw new ArgumentNullException(nameof(cellRange)); }
+#endif
 
 #if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(format);
@@ -1609,11 +1689,5 @@ namespace BigExcelCreator
             }
         }
         #endregion
-    }
-
-    internal enum SavingTo
-    {
-        file,
-        stream,
     }
 }
