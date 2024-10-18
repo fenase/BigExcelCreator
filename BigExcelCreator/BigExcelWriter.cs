@@ -638,35 +638,6 @@ namespace BigExcelCreator
             WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
         }
 
-        private void WriteNumberCellInternal(string number, int format = 0)
-        {
-#if NET8_0_OR_GREATER
-            ArgumentOutOfRangeException.ThrowIfNegative(format);
-#else
-            if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
-#endif
-            if (!rowOpen) { throw new NoOpenRowException("There is no active row"); }
-
-            //reset the list of attributes
-            List<OpenXmlAttribute> attributes =
-            [
-                //add the cell reference attribute
-                new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
-                //styles
-                new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
-            ];
-
-            //write the cell start element with the type and reference attributes
-            workSheetPartWriter.WriteStartElement(new Cell(), attributes);
-            //write the cell value
-            workSheetPartWriter.WriteElement(new CellValue(number.ToString(CultureInfo.InvariantCulture)));
-
-            // write the end cell element
-            workSheetPartWriter.WriteEndElement();
-
-            columnNum++;
-        }
-
         /// <summary>
         /// Writes a formula to a cell
         /// </summary>
@@ -1477,6 +1448,35 @@ namespace BigExcelCreator
             workSheetPartWriter.WriteElement(SheetAutoFilter);
 
             SheetAutoFilter = null;
+        }
+
+        private void WriteNumberCellInternal(string number, int format = 0)
+        {
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(format);
+#else
+            if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
+#endif
+            if (!rowOpen) { throw new NoOpenRowException("There is no active row"); }
+
+            //reset the list of attributes
+            List<OpenXmlAttribute> attributes =
+            [
+                //add the cell reference attribute
+                new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
+                //styles
+                new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
+            ];
+
+            //write the cell start element with the type and reference attributes
+            workSheetPartWriter.WriteStartElement(new Cell(), attributes);
+            //write the cell value
+            workSheetPartWriter.WriteElement(new CellValue(number.ToString(CultureInfo.InvariantCulture)));
+
+            // write the end cell element
+            workSheetPartWriter.WriteEndElement();
+
+            columnNum++;
         }
 
         private void WriteValidations()
