@@ -1551,7 +1551,7 @@ namespace BigExcelCreator
             //write the cell start element with the type and reference attributes
             workSheetPartWriter.WriteStartElement(new Cell(), attributes);
             //write the cell value
-            workSheetPartWriter.WriteElement(new CellValue(number.ToString(CultureInfo.InvariantCulture)));
+            workSheetPartWriter.WriteElement(new CellValue(number));
 
             // write the end cell element
             workSheetPartWriter.WriteEndElement();
