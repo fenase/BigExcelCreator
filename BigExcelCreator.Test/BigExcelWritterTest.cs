@@ -601,9 +601,9 @@ namespace Test
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
-            for (double i = 0; i < 10; i++)
+            for (uint i = 0; i < 10; i++)
             {
-                writer.WriteNumberRow(new List<double> { i });
+                writer.WriteNumberRow(new List<uint> { i });
             }
 
             Assert.Throws<ArgumentNullException>(() => writer.AddDecimalValidator("A1:A20", 1, DataValidationOperatorValues.Between));
@@ -614,9 +614,9 @@ namespace Test
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
-            for (long i = 0; i < 10; i++)
+            for (decimal i = 0; i < 10; i++)
             {
-                writer.WriteNumberRow(new List<long> { i });
+                writer.WriteNumberRow(new List<decimal> { i });
             }
             writer.CloseSheet();
 
