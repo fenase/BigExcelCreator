@@ -736,10 +736,214 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
         /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
         /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        [CLSCompliant(false)]
+        public void WriteNumberRow(IEnumerable<sbyte> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (sbyte number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        public void WriteNumberRow(IEnumerable<byte> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (byte number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        public void WriteNumberRow(IEnumerable<short> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (short number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        [CLSCompliant(false)]
+        public void WriteNumberRow(IEnumerable<ushort> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (ushort number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        public void WriteNumberRow(IEnumerable<int> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (int number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        [CLSCompliant(false)]
+        public void WriteNumberRow(IEnumerable<uint> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (uint number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        public void WriteNumberRow(IEnumerable<long> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (long number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        [CLSCompliant(false)]
+        public void WriteNumberRow(IEnumerable<ulong> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (ulong number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
         public void WriteNumberRow(IEnumerable<float> numbers, int format = 0, bool hidden = false)
         {
             BeginRow(hidden);
             foreach (float number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        public void WriteNumberRow(IEnumerable<double> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (double number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        public void WriteNumberRow(IEnumerable<decimal> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (decimal number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
             {
                 WriteNumberCell(number, format);
             }
