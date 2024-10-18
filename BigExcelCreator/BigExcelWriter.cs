@@ -509,7 +509,136 @@ namespace BigExcelCreator
         /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
         /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
         /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        [CLSCompliant(false)]
+        public void WriteNumberCell(sbyte number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        public void WriteNumberCell(byte number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        public void WriteNumberCell(short number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        [CLSCompliant(false)]
+        public void WriteNumberCell(ushort number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        public void WriteNumberCell(int number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        [CLSCompliant(false)]
+        public void WriteNumberCell(uint number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        public void WriteNumberCell(long number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        [CLSCompliant(false)]
+        public void WriteNumberCell(ulong number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
         public void WriteNumberCell(float number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        public void WriteNumberCell(double number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        public void WriteNumberCell(decimal number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        private void WriteNumberCellInternal(string number, int format = 0)
         {
 #if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(format);
