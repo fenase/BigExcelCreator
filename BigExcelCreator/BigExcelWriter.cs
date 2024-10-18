@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2022-2024, Federico Seckel.
 // Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
 
-// Ignore Spelling: rownum Validator Autofilter stylesheet finalizer inline unhiding gridlines
+// Ignore Spelling: rownum Validator Validators Autofilter stylesheet finalizer inline unhiding gridlines
 
 using BigExcelCreator.CommentsManager;
 using BigExcelCreator.Enum;
@@ -459,7 +459,7 @@ namespace BigExcelCreator
 #else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
 #endif
-            if (!rowOpen) { throw new NoOpenRowException("There is no active row"); }
+            if (!rowOpen) { throw new NoOpenRowException(ConstantsAndTexts.NoActiveRow); }
 
             if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(text)))
             {
@@ -470,7 +470,7 @@ namespace BigExcelCreator
                     attributes =
                     [
                         new OpenXmlAttribute("t", null, "s"),
-                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
+                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
                         //styles
                         new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                     ];
@@ -487,7 +487,7 @@ namespace BigExcelCreator
                         // add data type attribute - in this case inline string (you might want to look at the shared strings table)
                         new OpenXmlAttribute("t", null, "str"),
                         //add the cell reference attribute
-                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
+                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
                         //styles
                         new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                     ];
@@ -653,7 +653,7 @@ namespace BigExcelCreator
 #else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
 #endif
-            if (!rowOpen) { throw new NoOpenRowException("There is no active row"); }
+            if (!rowOpen) { throw new NoOpenRowException(ConstantsAndTexts.NoActiveRow); }
 
             if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(formula)))
             {
@@ -661,7 +661,7 @@ namespace BigExcelCreator
                 List<OpenXmlAttribute> attributes =
                 [
                     //add the cell reference attribute
-                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
+                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
                     //styles
                     new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                 ];
@@ -1174,8 +1174,8 @@ namespace BigExcelCreator
 #else
             if (cellRange == null) { throw new ArgumentNullException(nameof(cellRange)); }
 #endif
-            if (!cellRange.IsSingleCellRange) { throw new ArgumentOutOfRangeException(nameof(cellRange), $"{nameof(cellRange)} must be a single cell range"); }
-            if (!sheetOpen) { throw new NoOpenSheetException("Comments need to be placed on a sheet"); }
+            if (!cellRange.IsSingleCellRange) { throw new ArgumentOutOfRangeException(nameof(cellRange), string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoWordsConcatenation, nameof(cellRange), ConstantsAndTexts.MustBeASingleCellRange)); }
+            if (!sheetOpen) { throw new NoOpenSheetException(string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoWordsConcatenation, "Comments", ConstantsAndTexts.NeedToBePlacedOnSSheet)); }
 
             commentManager ??= new();
             commentManager.Add(new CommentReference()
@@ -1489,7 +1489,7 @@ namespace BigExcelCreator
 #else
             if (range == null) { throw new ArgumentNullException(nameof(range)); }
 #endif
-            if (!sheetOpen) { throw new NoOpenSheetException("Validators need to be placed on a sheet"); }
+            if (!sheetOpen) { throw new NoOpenSheetException(string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoWordsConcatenation, "Validators", ConstantsAndTexts.NeedToBePlacedOnSSheet)); }
 
             sheetDataValidations ??= new DataValidations();
             DataValidation dataValidation = new()
@@ -1537,13 +1537,13 @@ namespace BigExcelCreator
 #else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
 #endif
-            if (!rowOpen) { throw new NoOpenRowException("There is no active row"); }
+            if (!rowOpen) { throw new NoOpenRowException(ConstantsAndTexts.NoActiveRow); }
 
             //reset the list of attributes
             List<OpenXmlAttribute> attributes =
             [
                 //add the cell reference attribute
-                new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
+                new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
                 //styles
                 new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
             ];
