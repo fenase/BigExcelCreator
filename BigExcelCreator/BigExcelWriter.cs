@@ -1,9 +1,10 @@
 ﻿// Copyright (c) 2022-2024, Federico Seckel.
 // Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
 
-// Ignore Spelling: rownum Validator Autofilter stylesheet finalizer inline unhiding gridlines
+// Ignore Spelling: rownum Validator Validators Autofilter stylesheet finalizer inline unhiding gridlines
 
 using BigExcelCreator.CommentsManager;
+using BigExcelCreator.Enum;
 using BigExcelCreator.Exceptions;
 using BigExcelCreator.Extensions;
 using BigExcelCreator.Ranges;
@@ -458,7 +459,7 @@ namespace BigExcelCreator
 #else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
 #endif
-            if (!rowOpen) { throw new NoOpenRowException("There is no active row"); }
+            if (!rowOpen) { throw new NoOpenRowException(ConstantsAndTexts.NoActiveRow); }
 
             if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(text)))
             {
@@ -469,7 +470,7 @@ namespace BigExcelCreator
                     attributes =
                     [
                         new OpenXmlAttribute("t", null, "s"),
-                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
+                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
                         //styles
                         new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                     ];
@@ -486,7 +487,7 @@ namespace BigExcelCreator
                         // add data type attribute - in this case inline string (you might want to look at the shared strings table)
                         new OpenXmlAttribute("t", null, "str"),
                         //add the cell reference attribute
-                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
+                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
                         //styles
                         new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                     ];
@@ -509,33 +510,133 @@ namespace BigExcelCreator
         /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
         /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
         /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        [CLSCompliant(false)]
+        public void WriteNumberCell(sbyte number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        public void WriteNumberCell(byte number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        public void WriteNumberCell(short number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        [CLSCompliant(false)]
+        public void WriteNumberCell(ushort number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        public void WriteNumberCell(int number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        [CLSCompliant(false)]
+        public void WriteNumberCell(uint number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        public void WriteNumberCell(long number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        [CLSCompliant(false)]
+        public void WriteNumberCell(ulong number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
+
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
         public void WriteNumberCell(float number, int format = 0)
         {
-#if NET8_0_OR_GREATER
-            ArgumentOutOfRangeException.ThrowIfNegative(format);
-#else
-            if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
-#endif
-            if (!rowOpen) { throw new NoOpenRowException("There is no active row"); }
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
 
-            //reset the list of attributes
-            List<OpenXmlAttribute> attributes =
-            [
-                //add the cell reference attribute
-                new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
-                //styles
-                new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
-            ];
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        public void WriteNumberCell(double number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+        }
 
-            //write the cell start element with the type and reference attributes
-            workSheetPartWriter.WriteStartElement(new Cell(), attributes);
-            //write the cell value
-            workSheetPartWriter.WriteElement(new CellValue(number.ToString(CultureInfo.InvariantCulture)));
-
-            // write the end cell element
-            workSheetPartWriter.WriteEndElement();
-
-            columnNum++;
+        /// <summary>
+        /// Writes a numerical value to a cell
+        /// </summary>
+        /// <param name="number">value to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        public void WriteNumberCell(decimal number, int format = 0)
+        {
+            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
         }
 
         /// <summary>
@@ -552,7 +653,7 @@ namespace BigExcelCreator
 #else
             if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
 #endif
-            if (!rowOpen) { throw new NoOpenRowException("There is no active row"); }
+            if (!rowOpen) { throw new NoOpenRowException(ConstantsAndTexts.NoActiveRow); }
 
             if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(formula)))
             {
@@ -560,7 +661,7 @@ namespace BigExcelCreator
                 List<OpenXmlAttribute> attributes =
                 [
                     //add the cell reference attribute
-                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.twoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
+                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
                     //styles
                     new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                 ];
@@ -607,10 +708,214 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
         /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
         /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        [CLSCompliant(false)]
+        public void WriteNumberRow(IEnumerable<sbyte> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (sbyte number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        public void WriteNumberRow(IEnumerable<byte> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (byte number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        public void WriteNumberRow(IEnumerable<short> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (short number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        [CLSCompliant(false)]
+        public void WriteNumberRow(IEnumerable<ushort> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (ushort number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        public void WriteNumberRow(IEnumerable<int> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (int number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        [CLSCompliant(false)]
+        public void WriteNumberRow(IEnumerable<uint> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (uint number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        public void WriteNumberRow(IEnumerable<long> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (long number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        [CLSCompliant(false)]
+        public void WriteNumberRow(IEnumerable<ulong> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (ulong number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
         public void WriteNumberRow(IEnumerable<float> numbers, int format = 0, bool hidden = false)
         {
             BeginRow(hidden);
             foreach (float number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        public void WriteNumberRow(IEnumerable<double> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (double number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
+            {
+                WriteNumberCell(number, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes an entire numerical row at once
+        /// </summary>
+        /// <param name="numbers">Lists of values to be written</param>
+        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Hides the row when <see langword="true"/></param>
+        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
+        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        public void WriteNumberRow(IEnumerable<decimal> numbers, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (decimal number in numbers ?? throw new ArgumentNullException(nameof(numbers)))
             {
                 WriteNumberCell(number, format);
             }
@@ -848,10 +1153,29 @@ namespace BigExcelCreator
         /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
         public void Comment(string text, string reference, string author = "BigExcelCreator")
         {
-            if (string.IsNullOrEmpty(author)) { throw new ArgumentOutOfRangeException(nameof(author)); }
             CellRange cellRange = new(reference);
-            if (!cellRange.IsSingleCellRange) { throw new ArgumentOutOfRangeException(nameof(reference), $"{nameof(reference)} must be a single cell range"); }
-            if (!sheetOpen) { throw new NoOpenSheetException("Comments need to be placed on a sheet"); }
+            Comment(text, cellRange, author);
+        }
+
+        /// <summary>
+        /// Adds a comment to a cell
+        /// </summary>
+        /// <param name="text">Comment text</param>
+        /// <param name="cellRange">Commented cell</param>
+        /// <param name="author">Comment Author</param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="author"/> is null or an empty string OR <paramref name="cellRange"/> is not a single cell</exception>
+        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="cellRange"/> is <c>null</c>.</exception>
+        public void Comment(string text, CellRange cellRange, string author = "BigExcelCreator")
+        {
+            if (string.IsNullOrEmpty(author)) { throw new ArgumentOutOfRangeException(nameof(author)); }
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(cellRange);
+#else
+            if (cellRange == null) { throw new ArgumentNullException(nameof(cellRange)); }
+#endif
+            if (!cellRange.IsSingleCellRange) { throw new ArgumentOutOfRangeException(nameof(cellRange), string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoWordsConcatenation, nameof(cellRange), ConstantsAndTexts.MustBeASingleCellRange)); }
+            if (!sheetOpen) { throw new NoOpenSheetException(string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoWordsConcatenation, "Comments", ConstantsAndTexts.NeedToBePlacedOnSSheet)); }
 
             commentManager ??= new();
             commentManager.Add(new CommentReference()
@@ -874,9 +1198,30 @@ namespace BigExcelCreator
         /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
         public void AddConditionalFormattingFormula(string reference, string formula, int format)
         {
+            CellRange cellRange = new(reference);
+            AddConditionalFormattingFormula(cellRange, formula, format);
+        }
+
+        /// <summary>
+        /// Adds conditional formatting based on a formula
+        /// </summary>
+        /// <param name="cellRange">Cell to apply format to</param>
+        /// <param name="formula">Formula. Format will be applied when this formula evaluates to true</param>
+        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <exception cref="ArgumentNullException">When formula is <see langword="null"/> or empty string</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="cellRange"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
+        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        public void AddConditionalFormattingFormula(CellRange cellRange, string formula, int format)
+        {
             if (!sheetOpen) { throw new NoOpenSheetException(ConstantsAndTexts.ConditionalFormattingMustBeOnSheet); }
 
-            CellRange cellRange = new(reference);
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(cellRange);
+#else
+            if (cellRange == null) { throw new ArgumentNullException(nameof(cellRange)); }
+#endif
+
             if (formula.IsNullOrWhiteSpace()) { throw new ArgumentNullException(nameof(formula)); }
 #if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(format);
@@ -918,6 +1263,28 @@ namespace BigExcelCreator
         public void AddConditionalFormattingCellIs(string reference, ConditionalFormattingOperatorValues @operator, string value, int format, string value2 = null)
         {
             CellRange cellRange = new(reference);
+            AddConditionalFormattingCellIs(cellRange, @operator, value, format, value2);
+        }
+
+
+        /// <summary>
+        /// Adds conditional formatting based on cell value
+        /// </summary>
+        /// <param name="cellRange">Cell to apply format to</param>
+        /// <param name="operator"></param>
+        /// <param name="value">Compare cell value to this</param>
+        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <param name="value2">When <paramref name="operator"/> requires 2 parameters, compare cell value to this as second parameter</param>
+        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
+        /// <exception cref="ArgumentNullException">When <paramref name="value"/> is <see langword="null"/> OR <paramref name="operator"/> requires 2 arguments and <paramref name="value2"/> is <see langword="null"/></exception>
+        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        public void AddConditionalFormattingCellIs(CellRange cellRange, ConditionalFormattingOperatorValues @operator, string value, int format, string value2 = null)
+        {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(cellRange);
+#else
+            if (cellRange == null) { throw new ArgumentNullException(nameof(cellRange)); }
+#endif
 
 #if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(format);
@@ -964,6 +1331,23 @@ namespace BigExcelCreator
         public void AddConditionalFormattingDuplicatedValues(string reference, int format)
         {
             CellRange cellRange = new(reference);
+            AddConditionalFormattingDuplicatedValues(cellRange, format);
+        }
+
+        /// <summary>
+        /// Adds conditional formatting to duplicated values
+        /// </summary>
+        /// <param name="cellRange">Cell to apply format to</param>
+        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
+        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        public void AddConditionalFormattingDuplicatedValues(CellRange cellRange, int format)
+        {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(cellRange);
+#else
+            if (cellRange == null) { throw new ArgumentNullException(nameof(cellRange)); }
+#endif
 
 #if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(format);
@@ -1105,7 +1489,7 @@ namespace BigExcelCreator
 #else
             if (range == null) { throw new ArgumentNullException(nameof(range)); }
 #endif
-            if (!sheetOpen) { throw new NoOpenSheetException("Validators need to be placed on a sheet"); }
+            if (!sheetOpen) { throw new NoOpenSheetException(string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoWordsConcatenation, "Validators", ConstantsAndTexts.NeedToBePlacedOnSSheet)); }
 
             sheetDataValidations ??= new DataValidations();
             DataValidation dataValidation = new()
@@ -1144,6 +1528,35 @@ namespace BigExcelCreator
             workSheetPartWriter.WriteElement(SheetAutoFilter);
 
             SheetAutoFilter = null;
+        }
+
+        private void WriteNumberCellInternal(string number, int format = 0)
+        {
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(format);
+#else
+            if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
+#endif
+            if (!rowOpen) { throw new NoOpenRowException(ConstantsAndTexts.NoActiveRow); }
+
+            //reset the list of attributes
+            List<OpenXmlAttribute> attributes =
+            [
+                //add the cell reference attribute
+                new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
+                //styles
+                new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
+            ];
+
+            //write the cell start element with the type and reference attributes
+            workSheetPartWriter.WriteStartElement(new Cell(), attributes);
+            //write the cell value
+            workSheetPartWriter.WriteElement(new CellValue(number));
+
+            // write the end cell element
+            workSheetPartWriter.WriteEndElement();
+
+            columnNum++;
         }
 
         private void WriteValidations()
@@ -1276,11 +1689,5 @@ namespace BigExcelCreator
             }
         }
         #endregion
-    }
-
-    internal enum SavingTo
-    {
-        file,
-        stream,
     }
 }

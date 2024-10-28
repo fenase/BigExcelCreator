@@ -13,10 +13,18 @@ namespace BigExcelCreator.Extensions
 
         internal const string MusBeGreaterThan0 = "must be greater than 0";
 
+        internal const string NoActiveRow = "There is no active row";
+
+        internal const string NeedToBePlacedOnSSheet = "need to be placed on a sheet";
+
+        internal const string MustBeASingleCellRange = "must be a single cell range";
+
 #if NET8_0_OR_GREATER
-        internal static readonly CompositeFormat twoParameterConcatenation = CompositeFormat.Parse("{0}{1}");
+        internal static readonly CompositeFormat TwoParameterConcatenation = CompositeFormat.Parse("{0}{1}");
+        internal static readonly CompositeFormat TwoWordsConcatenation = CompositeFormat.Parse("{0} {1}");
 #else
-        internal const string twoParameterConcatenation = "{0}{1}";
+        internal const string TwoParameterConcatenation = "{0}{1}";
+        internal const string TwoWordsConcatenation = "{0} {1}";
 #endif
     }
 }
