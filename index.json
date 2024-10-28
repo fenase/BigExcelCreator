@@ -94,16 +94,6 @@
     "title": "Namespace BigExcelCreator | BigExcelCreator",
     "keywords": "Namespace BigExcelCreator Classes BigExcelWriter This class writes Excel files directly using OpenXML SAX. Useful when trying to write tens of thousands of rows. NuGetSource"
   },
-  "docs/getting-started.html": {
-    "href": "docs/getting-started.html",
-    "title": "Getting Started | BigExcelCreator",
-    "keywords": "Getting Started"
-  },
-  "docs/introduction.html": {
-    "href": "docs/introduction.html",
-    "title": "Introduction | BigExcelCreator",
-    "keywords": "Introduction"
-  },
   "index.html": {
     "href": "index.html",
     "title": "BigExcelCreator | BigExcelCreator",
