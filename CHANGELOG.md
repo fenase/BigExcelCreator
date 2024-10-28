@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## 3.1 (and 2.3.x)
+### Added
+Overloads for WriteNumberCell and WriteNumberRow to accept different numeric types in addition to float.
+
 ## 3.0
 This version uses the new 3.* version of DocumentFormat.OpenXml and it's not compatible with 2.*
 If you're using another package that require DocumentFormat.OpenXml 2.*, consider using version 2.3 of this package.
