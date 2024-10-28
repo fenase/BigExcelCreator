@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Changelog | BigExcelCreator </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Changelog | BigExcelCreator ">
+      
+      
+      <link rel="icon" href="favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/fenase/BigExcelCreator/blob/main/CHANGELOG.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="logo.svg" alt="BigExcelCreator">
+            BigExcelCreator
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="changelog">Changelog</h1>
+
+<h2 id="30">3.0</h2>
+<p>This version uses the new 3.* version of DocumentFormat.OpenXml and it's not compatible with 2.*
+If you're using another package that require DocumentFormat.OpenXml 2.*, consider using version 2.3 of this package.</p>
+<h3 id="added">Added</h3>
+<ul>
+<li>.Net8.0 build target</li>
+</ul>
+<h3 id="removed">Removed</h3>
+<ul>
+<li>.NetStandard1.3 build target</li>
+</ul>
+<h2 id="23">2.3</h2>
+<h3 id="removed-1">Removed</h3>
+<ul>
+<li>Finally removed method AddValidator (marked as obsolete since before version 1)</li>
+</ul>
+<h3 id="added-1">Added</h3>
+<ul>
+<li>Integer and decimal data validation</li>
+<li>.Net6.0 build target</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Throwing more specific exceptions instead of just throwing InvalidOperacionException for everything</li>
+<li>Dependency update: DocumentFormat.OpenXml 2.18.0 -&gt; 2.20.0</li>
+</ul>
+<h2 id="22">2.2</h2>
+<h3 id="added-2">Added</h3>
+<ul>
+<li>Show or hide, print or not, Gridlines and headings</li>
+</ul>
+<h3 id="changed-1">Changed</h3>
+<ul>
+<li>Bumped dependencies version to current latest since the reason to lower it no longer applies.</li>
+</ul>
+<h2 id="21">2.1</h2>
+<h3 id="changed-2">Changed</h3>
+<ul>
+<li>Lowered minimum required version of DocumentFormat.OpenXml. It is still recommended to use the latest version when possible.</li>
+</ul>
+<h3 id="added-3">Added</h3>
+<ul>
+<li>Ability to merge cells</li>
+</ul>
+<h2 id="20">2.0</h2>
+<h3 id="changed-3">Changed</h3>
+<ul>
+<li>Renamed class BigExcelWritter to BigExcelWriter.
+Sorry for the typo.</li>
+</ul>
+<h3 id="added-4">Added</h3>
+<ul>
+<li>Conditional formatting
+<ul>
+<li>By formula</li>
+<li>By value (Cell Is)</li>
+<li>Duplicated values</li>
+</ul>
+</li>
+</ul>
+<h2 id="11">1.1</h2>
+<h3 id="added-5">Added</h3>
+<ul>
+<li>Text cells can now be written as shared strings instead of as value. This should reduce the final file's size when the same text is repeated across sheets</li>
+</ul>
+<h2 id="10">1.0</h2>
+<ul>
+<li>First version considered to be &quot;stable&quot;.</li>
+<li>Moved repository to GitHub (previously hosted on Azure DevOps)</li>
+</ul>
+<h3 id="changed-4">Changed</h3>
+<ul>
+<li>Renamed <code>WriteTextCell&lt;int&gt;</code> to <code>WriteNumberCell&lt;int&gt;</code>. <code>WriteTextCell&lt;string&gt;</code> is still in use.</li>
+</ul>
+<h2 id="10265">1.0.265</h2>
+<h3 id="added-6">Added</h3>
+<ul>
+<li>Hide rows and columns</li>
+<li>Write formula to cell</li>
+</ul>
+<h2 id="02022262">0.2022.262</h2>
+<h3 id="added-7">Added</h3>
+<ul>
+<li>Create autofilter</li>
+<li>Ranges are now validated</li>
+</ul>
+<h2 id="02022261">0.2022.261</h2>
+<h3 id="added-8">Added</h3>
+<ul>
+<li>Add comments to cells</li>
+</ul>
+<h2 id="02022256">0.2022.256</h2>
+<h3 id="added-9">Added</h3>
+<ul>
+<li>Styling and formatting</li>
+</ul>
+<h2 id="02022253">0.2022.253</h2>
+<ul>
+<li>Initial version</li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/fenase/BigExcelCreator/blob/main/CHANGELOG.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
