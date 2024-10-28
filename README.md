@@ -12,6 +12,10 @@ At the same time, this writer should prevent you from creating an invalid file
 Since the most common reason for a file to become corrupted when creating it using SAX is out-of-order instructions
 (i.e.: writing to a cell outside a sheet), this package should detect that, and throw an exception.
 
+
+| [More info](https://fenase.github.io/projects/BigExcelCreator) | [API](https://fenase.github.io/BigExcelCreator/api/BigExcelCreator.html) |
+|---|---|
+
 > ### NOTE
 >  
 > Version 2.x of this package is linked to 
@@ -32,10 +36,6 @@ Since the most common reason for a file to become corrupted when creating it usi
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=fenase_BigExcelCreator&metric=ncloc)](https://sonarcloud.io/summary/overall?id=fenase_BigExcelCreator)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fenase_BigExcelCreator&metric=coverage)](https://sonarcloud.io/summary/overall?id=fenase_BigExcelCreator)
 
-
-[More info](https://fenase.github.io/projects/BigExcelCreator)
-
-[API](https://fenase.github.io/BigExcelCreator/api/BigExcelCreator.html)
 
 # Table of Contents
 
