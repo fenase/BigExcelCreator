@@ -11,7 +11,7 @@ This is specially useful when trying to output thousands of rows.
 
 [Get on NuGet](https://www.nuget.org/packages/BigExcelCreator/)
 
-[API](/api/BigExcelCreator.html)
+[API](/BigExcelCreator/api/BigExcelCreator.html)
 
 
 The idea behind this package is to be a basic easy-to-use wrapper around a reduced subset of functions of 
