@@ -31,6 +31,189 @@
       "version": ""
     },
     {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.BigExcelWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.BigExcelWriter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Exceptions.NoOpenRowException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Exceptions.NoOpenRowException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Exceptions.NoOpenSheetException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Exceptions.NoOpenSheetException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Exceptions.OutOfOrderWritingException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Exceptions.OutOfOrderWritingException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Exceptions.RowAlreadyOpenException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Exceptions.RowAlreadyOpenException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Exceptions.SheetAlreadyHasFilterException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Exceptions.SheetAlreadyHasFilterException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Exceptions.SheetAlreadyOpenException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Exceptions.SheetAlreadyOpenException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Exceptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Exceptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Ranges.CellRange.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Ranges.CellRange.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Ranges.InvalidRangeException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Ranges.InvalidRangeException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Ranges.OverlappingRangesException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Ranges.OverlappingRangesException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Ranges.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Ranges.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Styles.DifferentialStyleElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Styles.DifferentialStyleElement.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Styles.StyleElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Styles.StyleElement.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Styles.StyleList.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Styles.StyleList.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Styles.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Styles.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".json": {
+          "relative_path": "api/toc.json"
+        },
+        ".html": {
+          "relative_path": "api/toc.html"
+        }
+      },
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "docs/getting-started.md",
       "output": {
