@@ -33,6 +33,10 @@ Since the most common reason for a file to become corrupted when creating it usi
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=fenase_BigExcelCreator&metric=coverage)](https://sonarcloud.io/summary/overall?id=fenase_BigExcelCreator)
 
 
+[More info](https://fenase.github.io/projects/BigExcelCreator)
+
+[API](https://fenase.github.io/BigExcelCreator/api/BigExcelCreator.html)
+
 # Table of Contents
 
 - [Usage](#usage)
