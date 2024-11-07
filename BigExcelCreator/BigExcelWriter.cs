@@ -214,7 +214,7 @@ namespace BigExcelCreator
         /// </summary>
         /// <param name="path">The file path to write the Excel document to.</param>
         /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
-        /// <param name="skipCellWhenEmpty">A flag indicating whether to skip cells when they are empty. When<see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
+        /// <param name="skipCellWhenEmpty">A flag indicating whether to skip cells when they are empty. When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
         public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty)
             : this(path, spreadsheetDocumentType, skipCellWhenEmpty, new Stylesheet()) { }
 
