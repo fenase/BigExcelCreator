@@ -161,6 +161,8 @@ namespace BigExcelCreator
 
         private readonly List<CellRange> SheetMergedCells = [];
 
+        private readonly HashSet<string> SheetNames = [];
+
         #endregion
 
         #region ctor
@@ -266,38 +268,50 @@ namespace BigExcelCreator
         #endregion
 
         /// <summary>
-        /// Creates a new sheet and prepares the writer to use it.
+        /// Creates and opens a new sheet with the specified name, and prepares the writer to use it.
         /// </summary>
-        /// <param name="name">Names the sheet</param>
-        /// <exception cref="SheetAlreadyOpenException">When a sheet is already open</exception>
+        /// <param name="name">The name of the sheet to create and open.</param>
+        /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
+        /// <exception cref="SheetNameCannotBeNullException">Thrown when the sheet name is null or empty.</exception>
+        /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
         public void CreateAndOpenSheet(string name) => CreateAndOpenSheet(name, null, SheetStateValues.Visible);
 
         /// <summary>
-        /// Creates a new sheet and prepares the writer to use it.
+        /// Creates and opens a new sheet with the specified name, and sheet state, and prepares the writer to use it.
         /// </summary>
-        /// <param name="name">Names the sheet</param>
+        /// <param name="name">The name of the sheet to create and open.</param>
         /// <param name="sheetState">Sets sheet visibility. <c>SheetStateValues.Visible</c> to list the sheet. <c>SheetStateValues.Hidden</c> to hide it. <c>SheetStateValues.VeryHidden</c> to hide it and prevent unhiding from the GUI.</param>
-        /// <exception cref="SheetAlreadyOpenException">When a sheet is already open</exception>
+        /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
+        /// <exception cref="SheetNameCannotBeNullException">Thrown when the sheet name is null or empty.</exception>
+        /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
         public void CreateAndOpenSheet(string name, SheetStateValues sheetState) => CreateAndOpenSheet(name, null, sheetState);
 
         /// <summary>
-        /// Creates a new sheet and prepares the writer to use it.
+        /// Creates and opens a new sheet with the specified name and columns, and prepares the writer to use it.
         /// </summary>
-        /// <param name="name">Names the sheet</param>
-        /// <param name="columns">Use this to set the columns' width</param>
-        /// <exception cref="SheetAlreadyOpenException">When a sheet is already open</exception>
+        /// <param name="name">The name of the sheet to create and open.</param>
+        /// <param name="columns">The columns to add to the sheet. Can be null. Use this to set the columns' width.</param>
+        /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
+        /// <exception cref="SheetNameCannotBeNullException">Thrown when the sheet name is null or empty.</exception>
+        /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
         public void CreateAndOpenSheet(string name, IList<Column> columns) => CreateAndOpenSheet(name, columns, SheetStateValues.Visible);
 
         /// <summary>
-        /// Creates a new sheet and prepares the writer to use it.
+        /// Creates and opens a new sheet with the specified name, columns, and sheet state, and prepares the writer to use it.
         /// </summary>
-        /// <param name="name">Names the sheet</param>
-        /// <param name="columns">Use this to set the columns' width</param>
+        /// <param name="name">The name of the sheet to create and open.</param>
+        /// <param name="columns">The columns to add to the sheet. Can be null. Use this to set the columns' width.</param>
         /// <param name="sheetState">Sets sheet visibility. <c>SheetStateValues.Visible</c> to list the sheet. <c>SheetStateValues.Hidden</c> to hide it. <c>SheetStateValues.VeryHidden</c> to hide it and prevent unhiding from the GUI.</param>
-        /// <exception cref="SheetAlreadyOpenException">When a sheet is already open</exception>
+        /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
+        /// <exception cref="SheetNameCannotBeNullException">Thrown when the sheet name is null or empty.</exception>
+        /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
         public void CreateAndOpenSheet(string name, IList<Column> columns, SheetStateValues sheetState)
         {
             if (sheetOpen) { throw new SheetAlreadyOpenException("Cannot open a new sheet. Please close current sheet before opening a new one"); }
+
+            if (string.IsNullOrEmpty(name)) { throw new SheetNameCannotBeNullException("Sheet name cannot be null or empty"); }
+            if (SheetNames.Contains(name)) { throw new SheetWithSameNameAlreadyExistsException("A sheet with the same name already exists"); }
+            SheetNames.Add(name);
 
             workSheetPart = Document.WorkbookPart.AddNewPart<WorksheetPart>();
             workSheetPartWriter = OpenXmlWriter.Create(workSheetPart);
