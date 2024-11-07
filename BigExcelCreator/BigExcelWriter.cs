@@ -272,7 +272,7 @@ namespace BigExcelCreator
         /// </summary>
         /// <param name="name">The name of the sheet to create and open.</param>
         /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
-        /// <exception cref="SheetNameCannotBeNullException">Thrown when the sheet name is null or empty.</exception>
+        /// <exception cref="SheetNameCannotBeEmptyException">Thrown when the sheet name is null or empty.</exception>
         /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
         public void CreateAndOpenSheet(string name) => CreateAndOpenSheet(name, null, SheetStateValues.Visible);
 
@@ -282,7 +282,7 @@ namespace BigExcelCreator
         /// <param name="name">The name of the sheet to create and open.</param>
         /// <param name="sheetState">Sets sheet visibility. <c>SheetStateValues.Visible</c> to list the sheet. <c>SheetStateValues.Hidden</c> to hide it. <c>SheetStateValues.VeryHidden</c> to hide it and prevent unhiding from the GUI.</param>
         /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
-        /// <exception cref="SheetNameCannotBeNullException">Thrown when the sheet name is null or empty.</exception>
+        /// <exception cref="SheetNameCannotBeEmptyException">Thrown when the sheet name is null or empty.</exception>
         /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
         public void CreateAndOpenSheet(string name, SheetStateValues sheetState) => CreateAndOpenSheet(name, null, sheetState);
 
@@ -292,7 +292,7 @@ namespace BigExcelCreator
         /// <param name="name">The name of the sheet to create and open.</param>
         /// <param name="columns">The columns to add to the sheet. Can be null. Use this to set the columns' width.</param>
         /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
-        /// <exception cref="SheetNameCannotBeNullException">Thrown when the sheet name is null or empty.</exception>
+        /// <exception cref="SheetNameCannotBeEmptyException">Thrown when the sheet name is null or empty.</exception>
         /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
         public void CreateAndOpenSheet(string name, IList<Column> columns) => CreateAndOpenSheet(name, columns, SheetStateValues.Visible);
 
@@ -303,13 +303,13 @@ namespace BigExcelCreator
         /// <param name="columns">The columns to add to the sheet. Can be null. Use this to set the columns' width.</param>
         /// <param name="sheetState">Sets sheet visibility. <c>SheetStateValues.Visible</c> to list the sheet. <c>SheetStateValues.Hidden</c> to hide it. <c>SheetStateValues.VeryHidden</c> to hide it and prevent unhiding from the GUI.</param>
         /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
-        /// <exception cref="SheetNameCannotBeNullException">Thrown when the sheet name is null or empty.</exception>
+        /// <exception cref="SheetNameCannotBeEmptyException">Thrown when the sheet name is null or empty.</exception>
         /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
         public void CreateAndOpenSheet(string name, IList<Column> columns, SheetStateValues sheetState)
         {
             if (sheetOpen) { throw new SheetAlreadyOpenException("Cannot open a new sheet. Please close current sheet before opening a new one"); }
 
-            if (string.IsNullOrEmpty(name)) { throw new SheetNameCannotBeNullException("Sheet name cannot be null or empty"); }
+            if (string.IsNullOrEmpty(name)) { throw new SheetNameCannotBeEmptyException("Sheet name cannot be null or empty"); }
             if (SheetNames.Contains(name)) { throw new SheetWithSameNameAlreadyExistsException("A sheet with the same name already exists"); }
             SheetNames.Add(name);
 
