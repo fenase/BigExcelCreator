@@ -29,13 +29,13 @@ namespace BigExcelCreator
     {
         #region props
         /// <summary>
-        /// Created file will be saved to: ...
+        /// Gets the file path where the Excel document is being saved.
         /// <para>(null when not saving to file)</para>
         /// </summary>
         public string Path { get; }
 
         /// <summary>
-        /// Created file will be saved to: ...
+        /// Gets the Stream where the Excel document is being saved.
         /// <para>(null when not saving to Stream)</para>
         /// </summary>
         public Stream Stream { get; }
@@ -46,26 +46,32 @@ namespace BigExcelCreator
         private SavingTo SavingTo { get; }
 
         /// <summary>
-        /// Document type
+        /// Gets the type of the spreadsheet document (e.g., Workbook, Template).
         /// <para>only <c>SpreadsheetDocumentType.Workbook</c> is tested</para>
         /// </summary>
         public SpreadsheetDocumentType SpreadsheetDocumentType { get; private set; }
 
         /// <summary>
-        /// The main document
+        /// Gets the SpreadsheetDocument object representing the Excel document.
         /// </summary>
         public SpreadsheetDocument Document { get; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to skip cells when they are empty.
+        /// </summary>
+        /// <remarks>
         /// When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written.
         /// When <see langword="false"/>, writing an empty value to a cell does nothing.
-        /// </summary>
+        /// </remarks>
         public bool SkipCellWhenEmpty { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to show grid lines in the current sheet.
+        /// </summary>
+        /// <remarks>
         /// When <see langword="true"/>, shows gridlines on screen (default).
         /// When <see langword="false"/>, hides gridlines on screen.
-        /// </summary>
+        /// </remarks>
         /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
         public bool ShowGridLinesInCurrentSheet
         {
@@ -77,9 +83,12 @@ namespace BigExcelCreator
         private const bool _showGridLinesDefault = true;
 
         /// <summary>
+        /// Gets or sets a value indicating whether to show row and column headings in the current sheet.
+        /// </summary>
+        /// <remarks>
         /// When <see langword="true"/>, shows row and column headings (default).
         /// When <see langword="false"/>, hides row and column headings.
-        /// </summary>
+        /// </remarks>
         /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
         public bool ShowRowAndColumnHeadingsInCurrentSheet
         {
@@ -91,9 +100,12 @@ namespace BigExcelCreator
         private const bool _showRowAndColumnHeadingsDefault = true;
 
         /// <summary>
+        /// Gets or sets a value indicating whether to print grid lines in the current sheet.
+        /// </summary>
+        /// <remarks>
         /// When <see langword="true"/>, Prints gridlines.
         /// When <see langword="false"/>, Doesn't print gridlines (default).
-        /// </summary>
+        /// </remarks>
         /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
         public bool PrintGridLinesInCurrentSheet
         {
@@ -104,9 +116,12 @@ namespace BigExcelCreator
         private const bool _printGridLinesDefault = false;
 
         /// <summary>
+        /// Gets or sets a value indicating whether to print row and column headings in the current sheet.
+        /// </summary>
+        /// <remarks>
         /// When <see langword="true"/>, Prints row and column headings.
         /// When <see langword="false"/>, Doesn't print row and column headings (default).
-        /// </summary>
+        /// </remarks>
         /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
         public bool PrintRowAndColumnHeadingsInCurrentSheet
         {
@@ -150,64 +165,64 @@ namespace BigExcelCreator
 
         #region ctor
         /// <summary>
-        /// Creates a document into <paramref name="stream"/>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream and spreadsheet document type.
         /// </summary>
-        /// <param name="stream">Where to store the document. <c>MemoryStream</c> is recommended</param>
-        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
+        /// <param name="stream">The stream to write the Excel document to.</param>
+        /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
         public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType)
         : this(stream, spreadsheetDocumentType, false) { }
 
         /// <summary>
-        /// Creates a document into <paramref name="stream"/>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream, spreadsheet document type, and stylesheet.
         /// </summary>
-        /// <param name="stream">Where to store the document. <c>MemoryStream</c> is recommended</param>
-        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
-        /// <param name="stylesheet">A Stylesheet for the document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
+        /// <param name="stream">The stream to write the Excel document to.</param>
+        /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
+        /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/>.</param>
         public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, Stylesheet stylesheet)
-        : this(stream, spreadsheetDocumentType, false, stylesheet) { }
+                : this(stream, spreadsheetDocumentType, false, stylesheet) { }
 
         /// <summary>
-        /// Creates a document into <paramref name="stream"/>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream, spreadsheet document type, and a flag indicating whether to skip cells when they are empty.
         /// </summary>
-        /// <param name="stream">Where to store the document. <c>MemoryStream</c> is recommended</param>
-        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
-        /// <param name="skipCellWhenEmpty">When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
+        /// <param name="stream">The stream to write the Excel document to.</param>
+        /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
+        /// <param name="skipCellWhenEmpty">A flag indicating whether to skip cells when they are empty. When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
         public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty)
             : this(stream, spreadsheetDocumentType, skipCellWhenEmpty, new Stylesheet()) { }
 
         /// <summary>
-        /// Creates a document into a file located in <paramref name="path"/>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path and spreadsheet document type.
         /// </summary>
-        /// <param name="path">Path where the document will be saved</param>
-        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
+        /// <param name="path">The file path to write the Excel document to.</param>
+        /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
         public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType)
         : this(path, spreadsheetDocumentType, false) { }
 
         /// <summary>
-        /// Creates a document into a file located in <paramref name="path"/>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path, spreadsheet document type, and stylesheet.
         /// </summary>
-        /// <param name="path">Path where the document will be saved</param>
-        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
-        /// <param name="stylesheet">A Stylesheet for the document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
+        /// <param name="path">The file path to write the Excel document to.</param>
+        /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
+        /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
         public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, Stylesheet stylesheet)
         : this(path, spreadsheetDocumentType, false, stylesheet) { }
 
         /// <summary>
-        /// Creates a document into a file located in <paramref name="path"/>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path, spreadsheet document type, and a flag indicating whether to skip cells when they are empty.
         /// </summary>
-        /// <param name="path">Path where the document will be saved</param>
-        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
-        /// <param name="skipCellWhenEmpty">When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
+        /// <param name="path">The file path to write the Excel document to.</param>
+        /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
+        /// <param name="skipCellWhenEmpty">A flag indicating whether to skip cells when they are empty. When<see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
         public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty)
             : this(path, spreadsheetDocumentType, skipCellWhenEmpty, new Stylesheet()) { }
 
         /// <summary>
-        /// Creates a document into a file located in <paramref name="path"/>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path, spreadsheet document type, a flag indicating whether to skip cells when they are empty, and a stylesheet.
         /// </summary>
-        /// <param name="path">Path where the document will be saved</param>
-        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
-        /// <param name="skipCellWhenEmpty">When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
-        /// <param name="stylesheet">A Stylesheet for the document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
+        /// <param name="path">The file path to write the Excel document to.</param>
+        /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
+        /// <param name="skipCellWhenEmpty">A flag indicating whether to skip cells when they are empty. When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
+        /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/>.</param>
         public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
             Path = path;
@@ -217,12 +232,12 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Creates a document into <paramref name="stream"/>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream, spreadsheet document type, a flag indicating whether to skip cells when they are empty, and a stylesheet.
         /// </summary>
-        /// <param name="stream">Where to store the document. <c>MemoryStream</c> is recommended</param>
-        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
-        /// <param name="skipCellWhenEmpty">When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
-        /// <param name="stylesheet">A Stylesheet for the document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
+        /// <param name="stream">The stream to write the Excel document to.</param>
+        /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
+        /// <param name="skipCellWhenEmpty">A flag indicating whether to skip cells when they are empty. When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
+        /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/>.</param>
         public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
             Stream = stream;
