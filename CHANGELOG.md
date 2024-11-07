@@ -1,8 +1,13 @@
 ﻿# Changelog
 
+## 3.2 (and 2.3.x)
+### Added
+- Throw exceptions when attempting to create a sheet with an invalid name.
+- Throw exceptions when attempting to create a sheet with the same name as an existing sheet.
+
 ## 3.1 (and 2.3.x)
 ### Added
-Overloads for WriteNumberCell and WriteNumberRow to accept different numeric types in addition to float.
+- Overloads for WriteNumberCell and WriteNumberRow to accept different numeric types in addition to float.
 
 ## 3.0
 This version uses the new 3.* version of DocumentFormat.OpenXml and it's not compatible with 2.*
