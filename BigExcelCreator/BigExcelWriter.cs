@@ -348,9 +348,9 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Closes a sheet
+        /// Closes the currently open sheet.
         /// </summary>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to close.</exception>
         public void CloseSheet()
         {
             if (!sheetOpen) { throw new NoOpenSheetException("There is no sheet to close"); }
@@ -396,25 +396,25 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Creates a new row
+        /// Begins a new row in the currently open sheet.
         /// </summary>
-        /// <param name="rownum">Row index</param>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="OutOfOrderWritingException">If attempting to write rows out of order</exception>
+        /// <param name="rownum">The row number to begin.</param>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="OutOfOrderWritingException">Thrown when writing rows out of order is attempted.</exception>
         public void BeginRow(int rownum)
         {
             BeginRow(rownum, false);
         }
 
         /// <summary>
-        /// Creates a new row
+        /// Begins a new row in the currently open sheet.
         /// </summary>
-        /// <param name="rownum">Row index</param>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="OutOfOrderWritingException">If attempting to write rows out of order</exception>
+        /// <param name="rownum">The row number to begin.</param>
+        /// <param name="hidden">Indicates whether the row should be hidden.</param>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="OutOfOrderWritingException">Thrown when writing rows out of order is attempted.</exception>
         public void BeginRow(int rownum, bool hidden)
         {
             if (!sheetOpen) { throw new NoOpenSheetException("There is no open sheet to write a row to"); }
@@ -438,30 +438,32 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Creates a new row
+        /// Begins a new row in the currently open sheet.
         /// </summary>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="OutOfOrderWritingException">Thrown when writing rows out of order is attempted.</exception>
         public void BeginRow()
         {
             BeginRow(false);
         }
 
         /// <summary>
-        /// Creates a new row
+        /// Begins a new row in the currently open sheet.
         /// </summary>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
+        /// <param name="hidden">Indicates whether the row should be hidden.</param>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="OutOfOrderWritingException">Thrown when writing rows out of order is attempted.</exception>
         public void BeginRow(bool hidden)
         {
             BeginRow(lastRowWritten + 1, hidden);
         }
 
         /// <summary>
-        /// Closes a row
+        /// Ends the currently open row in the sheet.
         /// </summary>
-        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        /// <exception cref="NoOpenRowException">Thrown when there is no open row to end.</exception>
         public void EndRow()
         {
             if (!rowOpen) { throw new NoOpenRowException("There is no row to close"); }
