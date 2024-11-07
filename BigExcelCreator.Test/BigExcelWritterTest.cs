@@ -126,7 +126,7 @@ namespace Test
                     writer.EndRow();
                 }
                 writer.CloseSheet();
-                writer.CreateAndOpenSheet("a");
+                writer.CreateAndOpenSheet("b");
                 for (int i = 0; i < 10000; i++)
                 {
                     writer.BeginRow();
@@ -949,6 +949,35 @@ namespace Test
             {
                 Assert.Throws<NoOpenSheetException>(() => _ = writer.PrintRowAndColumnHeadingsInCurrentSheet);
             }
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        public void SheetNameEmpty(string? sheetName)
+        {
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
+            Assert.Throws<SheetNameCannotBeEmptyException>(() => writer.CreateAndOpenSheet(sheetName));
+        }
+
+        [TestCase("a", "a")]
+        [TestCase("a", "A")]
+        [TestCase("A", "a")]
+        [TestCase("A", "A")]
+        [TestCase("b", "B")]
+        [TestCase("AB", "ab")]
+        [TestCase("aB", "Ab")]
+        [TestCase("Ab", "aB")]
+        public void SheetNameRepeated(string a, string b)
+        {
+            if (string.Compare(a, b, true) != 0)
+            {
+                Assert.Fail("Precondition failed. a and b must be equal except for case.");
+            }
+
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
+            writer.CreateAndOpenSheet("a");
+            writer.CloseSheet();
+            Assert.Throws<SheetWithSameNameAlreadyExistsException>(() => writer.CreateAndOpenSheet("a"));
         }
     }
 }
