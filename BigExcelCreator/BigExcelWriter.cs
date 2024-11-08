@@ -22,9 +22,13 @@ namespace BigExcelCreator
     /// <summary>
     /// This class writes Excel files directly using OpenXML SAX.
     /// Useful when trying to write tens of thousands of rows.
-    /// <see href="https://www.nuget.org/packages/BigExcelCreator/#readme-body-tab">NuGet</see>
-    /// <seealso href="https://github.com/fenase/BigExcelCreator">Source</seealso>
     /// </summary>
+    /// <remarks>
+    /// <para><see href="https://www.nuget.org/packages/BigExcelCreator">NuGet</see></para>
+    /// <para><seealso href="https://github.com/fenase/BigExcelCreator">Source</seealso></para>
+    /// <para><seealso href="https://fenase.github.io/BigExcelCreator/api/BigExcelCreator.BigExcelWriter.html">API</seealso></para>
+    /// <para><seealso href="https://fenase.github.io/projects/BigExcelCreator">Site</seealso></para>
+    /// </remarks>
     public class BigExcelWriter : IDisposable
     {
         #region props
@@ -974,29 +978,37 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds autofilter. Only one filter per sheet is allowed.
+        /// Adds an autofilter to the specified range in the current sheet.
         /// </summary>
-        /// <param name="range">Where to add the filter (header cells)</param>
-        /// <param name="overwrite">Replace active filter</param>
-        /// <exception cref="ArgumentNullException">Null range</exception>
-        /// <exception cref="NoOpenSheetException">When no open sheet </exception>
-        /// <exception cref="SheetAlreadyHasFilterException">When there is already a filter an <paramref name="overwrite"/> is set to <see langword="false"/></exception>
-        /// <exception cref="ArgumentOutOfRangeException">When range height is not exactly one row</exception>
-        /// <exception cref="InvalidRangeException">When <paramref name="range"/> is not a valid range</exception>
+        /// <remarks>
+        /// <para>The range height must be 1.</para>
+        /// <para>Only one filter per sheet is allowed.</para>
+        /// </remarks>
+        /// <param name="range">The range where the autofilter should be applied.</param>
+        /// <param name="overwrite">If set to <c>true</c>, any existing autofilter will be replaced.</param>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the autofilter to.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="SheetAlreadyHasFilterException">Thrown when there is already an autofilter in the current sheet and <paramref name="overwrite"/> is <c>false</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when the height of the <paramref name="range"/> is not 1.</exception>
         public void AddAutofilter(string range, bool overwrite = false)
         {
             AddAutofilter(new CellRange(range), overwrite);
         }
 
         /// <summary>
-        /// Adds autofilter. Only one filter per sheet is allowed.
+        /// Adds an autofilter to the specified range in the current sheet.
         /// </summary>
-        /// <param name="range">Where to add the filter (header cells)</param>
-        /// <param name="overwrite">Replace active filter</param>
-        /// <exception cref="ArgumentNullException">Null range</exception>
-        /// <exception cref="NoOpenSheetException">When no open sheet </exception>
-        /// <exception cref="SheetAlreadyHasFilterException">When there is already a filter an <paramref name="overwrite"/> is set to <see langword="false"/></exception>
-        /// <exception cref="ArgumentOutOfRangeException">When range height is not exactly one row</exception>
+        /// <remarks>
+        /// <para>The range height must be 1.</para>
+        /// <para>Only one filter per sheet is allowed.</para>
+        /// </remarks>
+        /// <param name="range">The range where the autofilter should be applied.</param>
+        /// <param name="overwrite">If set to <c>true</c>, any existing autofilter will be replaced.</param>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the autofilter to.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="SheetAlreadyHasFilterException">Thrown when there is already an autofilter in the current sheet and <paramref name="overwrite"/> is <c>false</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when the height of the <paramref name="range"/> is not 1.</exception>
         public void AddAutofilter(CellRange range, bool overwrite = false)
         {
             if (!sheetOpen) { throw new NoOpenSheetException("Filters need to be assigned to a sheet"); }
@@ -1011,16 +1023,16 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds a list validator to a range based on a formula
+        /// Adds a list data validation to the specified cell range.
         /// </summary>
-        /// <param name="range">Cells to validate</param>
-        /// <param name="formula">Validation formula</param>
-        /// <param name="allowBlank"></param>
-        /// <param name="showInputMessage"></param>
-        /// <param name="showErrorMessage"></param>
-        /// <exception cref="ArgumentNullException">When <paramref name="range"/> is null</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
-        /// <exception cref="InvalidRangeException">When <paramref name="range"/> is not a valid range</exception>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="formula">The formula defining the list of valid values.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are considered valid.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the autofilter to.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
         public void AddListValidator(string range,
                                      string formula,
                                      bool allowBlank = true,
@@ -1035,15 +1047,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds a list validator to a range based on a formula
+        /// Adds a list data validation to the specified cell range.
         /// </summary>
-        /// <param name="range">Cells to validate</param>
-        /// <param name="formula">Validation formula</param>
-        /// <param name="allowBlank"></param>
-        /// <param name="showInputMessage"></param>
-        /// <param name="showErrorMessage"></param>
-        /// <exception cref="ArgumentNullException">When <paramref name="range"/> is null</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="formula">The formula defining the list of valid values.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are considered valid.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the autofilter to.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
         public void AddListValidator(CellRange range,
                                      string formula,
                                      bool allowBlank = true,
@@ -1056,17 +1068,19 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds an integer (whole) number validator to a range
+        /// Adds an integer data validation to the specified cell range.
         /// </summary>
-        /// <param name="range"></param>
-        /// <param name="firstOperand"></param>
-        /// <param name="validationType"></param>
-        /// <param name="allowBlank"></param>
-        /// <param name="showInputMessage"></param>
-        /// <param name="showErrorMessage"></param>
-        /// <param name="secondOperand"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="NoOpenSheetException"></exception>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
         public void AddIntegerValidator(string range,
                                         int firstOperand,
                                         DataValidationOperatorValues validationType,
@@ -1085,17 +1099,18 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds an integer (whole) number validator to a range
+        /// Adds an integer data validation to the specified cell range.
         /// </summary>
-        /// <param name="range"></param>
-        /// <param name="firstOperand"></param>
-        /// <param name="validationType"></param>
-        /// <param name="allowBlank"></param>
-        /// <param name="showInputMessage"></param>
-        /// <param name="showErrorMessage"></param>
-        /// <param name="secondOperand"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="NoOpenSheetException"></exception>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
         public void AddIntegerValidator(CellRange range,
                                         int firstOperand,
                                         DataValidationOperatorValues validationType,
@@ -1115,17 +1130,19 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds a decimal number validator to a range
+        /// Adds a decimal data validation to the specified cell range.
         /// </summary>
-        /// <param name="range"></param>
-        /// <param name="firstOperand"></param>
-        /// <param name="validationType"></param>
-        /// <param name="allowBlank"></param>
-        /// <param name="showInputMessage"></param>
-        /// <param name="showErrorMessage"></param>
-        /// <param name="secondOperand"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="NoOpenSheetException"></exception>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
         public void AddDecimalValidator(string range,
                                         decimal firstOperand,
                                         DataValidationOperatorValues validationType,
@@ -1144,17 +1161,18 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds a decimal number validator to a range
+        /// Adds a decimal data validation to the specified cell range.
         /// </summary>
-        /// <param name="range"></param>
-        /// <param name="firstOperand"></param>
-        /// <param name="validationType"></param>
-        /// <param name="allowBlank"></param>
-        /// <param name="showInputMessage"></param>
-        /// <param name="showErrorMessage"></param>
-        /// <param name="secondOperand"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="NoOpenSheetException"></exception>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
         public void AddDecimalValidator(CellRange range,
                                         decimal firstOperand,
                                         DataValidationOperatorValues validationType,
@@ -1174,14 +1192,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds a comment to a cell
+        /// Adds a comment to a specified cell range.
         /// </summary>
-        /// <param name="text">Comment text</param>
-        /// <param name="reference">Commented cell</param>
-        /// <param name="author">Comment Author</param>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="author"/> is null or an empty string OR <paramref name="reference"/> is not a single cell</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
-        /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
+        /// <param name="text">The text of the comment.</param>
+        /// <param name="reference">The cell range where the comment will be added. Must be a single cell range.</param>
+        /// <param name="author">The author of the comment. Default is "BigExcelCreator".</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="author"/> is null or empty, or when <paramref name="reference"/> is not a single cell range.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="reference"/> is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the comment to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="reference"/> does not represent a valid range.</exception>
         public void Comment(string text, string reference, string author = "BigExcelCreator")
         {
             CellRange cellRange = new(reference);
@@ -1189,14 +1208,14 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds a comment to a cell
+        /// Adds a comment to a specified cell range.
         /// </summary>
-        /// <param name="text">Comment text</param>
-        /// <param name="cellRange">Commented cell</param>
-        /// <param name="author">Comment Author</param>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="author"/> is null or an empty string OR <paramref name="cellRange"/> is not a single cell</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="cellRange"/> is <c>null</c>.</exception>
+        /// <param name="text">The text of the comment.</param>
+        /// <param name="cellRange">The cell range where the comment will be added. Must be a single cell range.</param>
+        /// <param name="author">The author of the comment. Default is "BigExcelCreator".</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="author"/> is null or empty, or when <paramref name="cellRange"/> is not a single cell range.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="cellRange"/> is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the comment to.</exception>
         public void Comment(string text, CellRange cellRange, string author = "BigExcelCreator")
         {
             if (string.IsNullOrEmpty(author)) { throw new ArgumentOutOfRangeException(nameof(author)); }
@@ -1218,15 +1237,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds conditional formatting based on a formula
+        /// Adds a conditional formatting rule based on a formula to the specified cell range.
         /// </summary>
-        /// <param name="reference">Cell to apply format to</param>
-        /// <param name="formula">Formula. Format will be applied when this formula evaluates to true</param>
-        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
-        /// <exception cref="ArgumentNullException">When formula is <see langword="null"/> or empty string</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
-        /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
+        /// <param name="reference">The cell range to apply the conditional formatting to.</param>
+        /// <param name="formula">The formula that determines the conditional formatting rule.</param>
+        /// <param name="format">The format ID of the differential format in stylesheet to apply when the condition is met. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the conditional formatting to.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="reference"/> or <paramref name="formula"/> is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is negative.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="reference"/> does not represent a valid range.</exception>
         public void AddConditionalFormattingFormula(string reference, string formula, int format)
         {
             CellRange cellRange = new(reference);
@@ -1234,15 +1253,14 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds conditional formatting based on a formula
+        /// Adds a conditional formatting rule based on a formula to the specified cell range.
         /// </summary>
-        /// <param name="cellRange">Cell to apply format to</param>
-        /// <param name="formula">Formula. Format will be applied when this formula evaluates to true</param>
-        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
-        /// <exception cref="ArgumentNullException">When formula is <see langword="null"/> or empty string</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="cellRange"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        /// <param name="cellRange">The cell range to apply the conditional formatting to.</param>
+        /// <param name="formula">The formula that determines the conditional formatting rule.</param>
+        /// <param name="format">The format ID of the differential format in stylesheet to apply when the condition is met. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the conditional formatting to.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="cellRange"/> or <paramref name="formula"/> is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is negative.</exception>
         public void AddConditionalFormattingFormula(CellRange cellRange, string formula, int format)
         {
             if (!sheetOpen) { throw new NoOpenSheetException(ConstantsAndTexts.ConditionalFormattingMustBeOnSheet); }
@@ -1280,35 +1298,34 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds conditional formatting based on cell value
+        /// Adds a conditional formatting rule based on a cell value to the specified cell range.
         /// </summary>
-        /// <param name="reference">Cell to apply format to</param>
-        /// <param name="operator"></param>
-        /// <param name="value">Compare cell value to this</param>
-        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
-        /// <param name="value2">When <paramref name="operator"/> requires 2 parameters, compare cell value to this as second parameter</param>
-        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
-        /// <exception cref="ArgumentNullException">When <paramref name="value"/> is <see langword="null"/> OR <paramref name="operator"/> requires 2 arguments and <paramref name="value2"/> is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
-        /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
+        /// <param name="reference">The cell range to apply the conditional formatting to.</param>
+        /// <param name="operator">The operator to use for the conditional formatting rule.</param>
+        /// <param name="value">The value to compare the cell value against.</param>
+        /// <param name="format">The format ID of the differential format in stylesheet to apply when the condition is met. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <param name="value2">The second value to compare the cell value against, used for "Between" and "NotBetween" operators.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="reference"/>, <paramref name="value"/>, or <paramref name="value2"/> (if required) is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is negative.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the conditional formatting to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="reference"/> does not represent a valid range.</exception>
         public void AddConditionalFormattingCellIs(string reference, ConditionalFormattingOperatorValues @operator, string value, int format, string value2 = null)
         {
             CellRange cellRange = new(reference);
             AddConditionalFormattingCellIs(cellRange, @operator, value, format, value2);
         }
 
-
         /// <summary>
-        /// Adds conditional formatting based on cell value
+        /// Adds a conditional formatting rule based on a cell value to the specified cell range.
         /// </summary>
-        /// <param name="cellRange">Cell to apply format to</param>
-        /// <param name="operator"></param>
-        /// <param name="value">Compare cell value to this</param>
-        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
-        /// <param name="value2">When <paramref name="operator"/> requires 2 parameters, compare cell value to this as second parameter</param>
-        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
-        /// <exception cref="ArgumentNullException">When <paramref name="value"/> is <see langword="null"/> OR <paramref name="operator"/> requires 2 arguments and <paramref name="value2"/> is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        /// <param name="cellRange">The cell range to apply the conditional formatting to.</param>
+        /// <param name="operator">The operator to use for the conditional formatting rule.</param>
+        /// <param name="value">The value to compare the cell value against.</param>
+        /// <param name="format">The format ID of the differential format in stylesheet to apply when the condition is met. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <param name="value2">The second value to compare the cell value against, used for "Between" and "NotBetween" operators.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="cellRange"/>, <paramref name="value"/>, or <paramref name="value2"/> (if required) is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is negative.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the conditional formatting to.</exception>
         public void AddConditionalFormattingCellIs(CellRange cellRange, ConditionalFormattingOperatorValues @operator, string value, int format, string value2 = null)
         {
 #if NET6_0_OR_GREATER
@@ -1352,13 +1369,14 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds conditional formatting to duplicated values
+        /// Adds a conditional formatting rule to highlight duplicated values in the specified cell range.
         /// </summary>
-        /// <param name="reference">Cell to apply format to</param>
-        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
-        /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
+        /// <param name="reference">The cell range to apply the conditional formatting to.</param>
+        /// <param name="format">The format ID of the differential format in stylesheet to apply when the condition is met. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="reference"/> is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is negative.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the conditional formatting to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="reference"/> does not represent a valid range.</exception>
         public void AddConditionalFormattingDuplicatedValues(string reference, int format)
         {
             CellRange cellRange = new(reference);
@@ -1366,12 +1384,13 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds conditional formatting to duplicated values
+        /// Adds a conditional formatting rule to highlight duplicated values in the specified cell range.
         /// </summary>
-        /// <param name="cellRange">Cell to apply format to</param>
-        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        /// <param name="cellRange">The cell range to apply the conditional formatting to.</param>
+        /// <param name="format">The format ID of the differential format in stylesheet to apply when the condition is met. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="cellRange"/> is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is negative.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the conditional formatting to.</exception>
         public void AddConditionalFormattingDuplicatedValues(CellRange cellRange, int format)
         {
 #if NET6_0_OR_GREATER
@@ -1405,12 +1424,12 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Merges cells
+        /// Merges the specified cell range in the current sheet.
         /// </summary>
-        /// <param name="range">Cells to merge</param>
-        /// <exception cref="ArgumentNullException">When <paramref name="range"/> is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
-        /// <exception cref="OverlappingRangesException">When trying to merge already merged cells</exception>
+        /// <param name="range">The cell range to merge.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="range"/> is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to merge the cells into.</exception>
+        /// <exception cref="OverlappingRangesException">Thrown when the specified range overlaps with an existing merged range.</exception>
         public void MergeCells(CellRange range)
         {
 #if NET6_0_OR_GREATER
@@ -1431,20 +1450,25 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Merges cells
+        /// Merges the specified cell range in the current sheet.
         /// </summary>
-        /// <param name="range">Cells to merge</param>
-        /// <exception cref="InvalidRangeException">When <paramref name="range"/> is not a valid range</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
-        /// <exception cref="OverlappingRangesException">When trying to merge already merged cells</exception>
+        /// <param name="range">The cell range to merge.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="range"/> is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to merge the cells into.</exception>
+        /// <exception cref="OverlappingRangesException">Thrown when the specified range overlaps with an existing merged range.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
         public void MergeCells(string range)
         {
             MergeCells(new CellRange(range));
         }
 
         /// <summary>
-        /// Closes the document
+        /// Closes the current document, ensuring all data is written and resources are released.
         /// </summary>
+        /// <remarks>
+        /// This method will end any open rows and sheets, write shared strings and sheets, and save the document and worksheet part writer.
+        /// If saving to a stream, it will reset the stream position to the beginning.
+        /// </remarks>
         public void CloseDocument()
         {
             if (open)
@@ -1470,13 +1494,18 @@ namespace BigExcelCreator
         private bool disposed;
 
         /// <summary>
-        /// Saves and closes the document.
+        /// Closes the current document, ensuring all data is written and resources are released.
         /// </summary>
+        /// <remarks>
+        /// This method will end any open rows and sheets, write shared strings and sheets, and save the document and worksheet part writer.
+        /// If saving to a stream, it will reset the stream position to the beginning.
+        /// </remarks>
         /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposed)
             {
+                // Ensure the document is properly closed.
                 CloseDocument();
                 if (disposing)
                 {
@@ -1490,8 +1519,12 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Saves and closes the document.
+        /// Closes the current document, ensuring all data is written and resources are released.
         /// </summary>
+        /// <remarks>
+        /// This method will end any open rows and sheets, write shared strings and sheets, and save the document and worksheet part writer.
+        /// If saving to a stream, it will reset the stream position to the beginning.
+        /// </remarks>
         public void Dispose() // Implement IDisposable
         {
             Dispose(true);
@@ -1499,7 +1532,7 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// The finalizer
+        /// Finalizes an instance of the <see cref="BigExcelWriter"/> class.
         /// </summary>
         ~BigExcelWriter()
         {
