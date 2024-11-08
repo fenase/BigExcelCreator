@@ -126,7 +126,7 @@ namespace Test
                     writer.EndRow();
                 }
                 writer.CloseSheet();
-                writer.CreateAndOpenSheet("a");
+                writer.CreateAndOpenSheet("b");
                 for (int i = 0; i < 10000; i++)
                 {
                     writer.BeginRow();
@@ -288,10 +288,44 @@ namespace Test
                 writer.BeginRow();
                 Assert.Throws<RowAlreadyOpenException>(() => writer.BeginRow());
             }
+
+            // -- //
+
+            using (BigExcelWriter writer = GetWriterStream(out _))
+            {
+                Assert.Multiple(() =>
+                {
+                    Assert.Catch<InvalidOperationException>(() => writer.BeginRow());
+                    Assert.Catch<InvalidOperationException>(() => writer.BeginRow(1));
+                    Assert.Catch<InvalidOperationException>(() => writer.EndRow());
+                    Assert.Catch<InvalidOperationException>(() => writer.CloseSheet());
+                });
+            }
+
+            using (BigExcelWriter writer = GetWriterStream(out _))
+            {
+                writer.CreateAndOpenSheet("abc");
+                writer.BeginRow(2);
+                writer.EndRow();
+                Assert.Catch<InvalidOperationException>(() => writer.BeginRow(1));
+            }
+
+            using (BigExcelWriter writer = GetWriterStream(out _))
+            {
+                writer.CreateAndOpenSheet("abc");
+                Assert.Catch<InvalidOperationException>(() => writer.CreateAndOpenSheet("opq"));
+            }
+
+            using (BigExcelWriter writer = GetWriterStream(out _))
+            {
+                writer.CreateAndOpenSheet("abc");
+                writer.BeginRow();
+                Assert.Catch<InvalidOperationException>(() => writer.BeginRow());
+            }
         }
 
         [Test]
-        public void InvalidStateCell()
+        public void InvalidStateCellThrowsNoOpenRowException()
         {
             using (BigExcelWriter writer = GetWriterStream(out _))
             {
@@ -305,6 +339,25 @@ namespace Test
                     Assert.Throws<NoOpenRowException>(() => writer.WriteTextCell("a"));
                     Assert.Throws<NoOpenRowException>(() => writer.WriteNumberCell(1f));
                     Assert.Throws<NoOpenRowException>(() => writer.WriteFormulaCell("SUM(A1:A2)"));
+                });
+            }
+        }
+
+        [Test]
+        public void InvalidStateCellThrowsInvalidOperationException()
+        {
+            using (BigExcelWriter writer = GetWriterStream(out _))
+            {
+                Assert.Catch<InvalidOperationException>(() => writer.WriteTextCell("a"));
+            }
+            using (BigExcelWriter writer = GetWriterStream(out _))
+            {
+                writer.CreateAndOpenSheet("name");
+                Assert.Multiple(() =>
+                {
+                    Assert.Catch<InvalidOperationException>(() => writer.WriteTextCell("a"));
+                    Assert.Catch<InvalidOperationException>(() => writer.WriteNumberCell(1f));
+                    Assert.Catch<InvalidOperationException>(() => writer.WriteFormulaCell("SUM(A1:A2)"));
                 });
             }
         }
@@ -461,7 +514,7 @@ namespace Test
         }
 
         [Test]
-        public void AutoFilterError()
+        public void AutoFilterErrorThrowsSheetAlreadyHasFilterException()
         {
             List<List<string>> strings =
             [
@@ -478,6 +531,27 @@ namespace Test
             }
             writer1.AddAutofilter("A1:I1");
             Assert.Throws<SheetAlreadyHasFilterException>(() => writer1.AddAutofilter("A1:J1"));
+            writer1.CloseSheet();
+        }
+
+        [Test]
+        public void AutoFilterErrorThrowsInvalidOperationException()
+        {
+            List<List<string>> strings =
+            [
+                ["Lorem ipsum", "dolor sit amet" ,"consectetur", "adipiscing elit", "Praesent at sapien", "id metus placerat" ,"ultricies", "a sed risus","Fusce finibus"],
+                ["Lorem ipsum", "dolor sit amet", "Duis sodales finibus arcu", "porttitor", "accumsan", "finibus sapien", "ultricies", "a sed risus","Fusce finibus"],
+                ["fermentum molestie", "parturient montes", "Lorem ipsum", "dolor sit amet" ,"eleifend", "urna", "laoreet libero", "id metus placerat" ,"justo convallis in"],
+            ];
+
+            using BigExcelWriter writer1 = GetWriterStream(out MemoryStream m1);
+            writer1.CreateAndOpenSheet("s1");
+            foreach (List<string> row in strings)
+            {
+                writer1.WriteTextRow(row, useSharedStrings: true);
+            }
+            writer1.AddAutofilter("A1:I1");
+            Assert.Catch<InvalidOperationException>(() => writer1.AddAutofilter("A1:J1"));
             writer1.CloseSheet();
         }
 
@@ -610,7 +684,7 @@ namespace Test
         }
 
         [Test]
-        public void DecimalValidationNoSheet()
+        public void DecimalValidationNoSheetThrowsNoOpenSheetException()
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
@@ -621,6 +695,20 @@ namespace Test
             writer.CloseSheet();
 
             Assert.Throws<NoOpenSheetException>(() => writer.AddDecimalValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
+        }
+
+        [Test]
+        public void DecimalValidationNoSheetThrowsInvalidOperationException()
+        {
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
+            writer.CreateAndOpenSheet("a");
+            for (decimal i = 0; i < 10; i++)
+            {
+                writer.WriteNumberRow(new List<decimal> { i });
+            }
+            writer.CloseSheet();
+
+            Assert.Catch<InvalidOperationException>(() => writer.AddDecimalValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
         }
 
         [Test]
@@ -677,7 +765,7 @@ namespace Test
         }
 
         [Test]
-        public void IntegerValidationNoSheet()
+        public void IntegerValidationNoSheetThrowsNoOpenSheetException()
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
@@ -688,6 +776,20 @@ namespace Test
             writer.CloseSheet();
 
             Assert.Throws<NoOpenSheetException>(() => writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
+        }
+
+        [Test]
+        public void IntegerValidationNoSheetThrowsInvalidOperationException()
+        {
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
+            writer.CreateAndOpenSheet("a");
+            for (sbyte i = 0; i < 10; i++)
+            {
+                writer.WriteNumberRow(new List<sbyte> { i });
+            }
+            writer.CloseSheet();
+
+            Assert.Catch<InvalidOperationException>(() => writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
         }
 
         [Test]
@@ -767,7 +869,7 @@ namespace Test
         }
 
         [Test]
-        public void MergedCellsOverlappingRanges()
+        public void MergedCellsOverlappingRangesThrowsOverlappingRangesException()
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
@@ -776,10 +878,26 @@ namespace Test
         }
 
         [Test]
-        public void MergedCellsNoSheet()
+        public void MergedCellsOverlappingRangesThrowsInvalidOperationException()
+        {
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
+            writer.CreateAndOpenSheet("a");
+            writer.MergeCells("a1:c7");
+            Assert.Catch<InvalidOperationException>(() => writer.MergeCells("b2:b3"));
+        }
+
+        [Test]
+        public void MergedCellsNoSheetThrowsNoOpenSheetException()
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             Assert.Throws<NoOpenSheetException>(() => writer.MergeCells("b2:b3"));
+        }
+
+        [Test]
+        public void MergedCellsNoSheetThrowsInvalidOperationException()
+        {
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
+            Assert.Catch<InvalidOperationException>(() => writer.MergeCells("b2:b3"));
         }
 
         [Test]
@@ -914,7 +1032,7 @@ namespace Test
         }
 
         [Test]
-        public void PageLayoutInvalidContext()
+        public void PageLayoutInvalidContextThrowsNoOpenSheetException()
         {
             using (BigExcelWriter writer = GetWriterStream(out _))
             {
@@ -949,6 +1067,102 @@ namespace Test
             {
                 Assert.Throws<NoOpenSheetException>(() => _ = writer.PrintRowAndColumnHeadingsInCurrentSheet);
             }
+        }
+
+        [Test]
+        public void PageLayoutInvalidContextThrowsInvalidOperationException()
+        {
+            using (BigExcelWriter writer = GetWriterStream(out _))
+            {
+                Assert.Catch<InvalidOperationException>(() => writer.ShowGridLinesInCurrentSheet = false);
+            }
+            using (BigExcelWriter writer = GetWriterStream(out _))
+            {
+                Assert.Catch<InvalidOperationException>(() => writer.ShowRowAndColumnHeadingsInCurrentSheet = false);
+            }
+            using (BigExcelWriter writer = GetWriterStream(out _))
+            {
+                Assert.Catch<InvalidOperationException>(() => writer.PrintGridLinesInCurrentSheet = true);
+            }
+            using (BigExcelWriter writer = GetWriterStream(out _))
+            {
+                Assert.Catch<InvalidOperationException>(() => writer.PrintRowAndColumnHeadingsInCurrentSheet = true);
+            }
+
+            using (BigExcelWriter writer = GetWriterStream(out _))
+            {
+                Assert.Catch<InvalidOperationException>(() => _ = writer.ShowGridLinesInCurrentSheet);
+            }
+            using (BigExcelWriter writer = GetWriterStream(out _))
+            {
+                Assert.Catch<InvalidOperationException>(() => _ = writer.ShowRowAndColumnHeadingsInCurrentSheet);
+            }
+            using (BigExcelWriter writer = GetWriterStream(out _))
+            {
+                Assert.Catch<InvalidOperationException>(() => _ = writer.PrintGridLinesInCurrentSheet);
+            }
+            using (BigExcelWriter writer = GetWriterStream(out _))
+            {
+                Assert.Catch<InvalidOperationException>(() => _ = writer.PrintRowAndColumnHeadingsInCurrentSheet);
+            }
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        public void SheetNameEmptyThrowsSheetNameCannotBeEmptyException(string? sheetName)
+        {
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
+            Assert.Throws<SheetNameCannotBeEmptyException>(() => writer.CreateAndOpenSheet(sheetName));
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        public void SheetNameEmptyThrowsInvalidOperationException(string? sheetName)
+        {
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
+            Assert.Catch<InvalidOperationException>(() => writer.CreateAndOpenSheet(sheetName));
+        }
+
+        [TestCase("a", "a")]
+        [TestCase("a", "A")]
+        [TestCase("A", "a")]
+        [TestCase("A", "A")]
+        [TestCase("b", "B")]
+        [TestCase("AB", "ab")]
+        [TestCase("aB", "Ab")]
+        [TestCase("Ab", "aB")]
+        public void SheetNameRepeatedThrowsSheetWithSameNameAlreadyExistsException(string a, string b)
+        {
+            if (string.Compare(a, b, true) != 0)
+            {
+                Assert.Fail("Precondition failed. a and b must be equal except for case.");
+            }
+
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
+            writer.CreateAndOpenSheet("a");
+            writer.CloseSheet();
+            Assert.Throws<SheetWithSameNameAlreadyExistsException>(() => writer.CreateAndOpenSheet("a"));
+        }
+
+        [TestCase("a", "a")]
+        [TestCase("a", "A")]
+        [TestCase("A", "a")]
+        [TestCase("A", "A")]
+        [TestCase("b", "B")]
+        [TestCase("AB", "ab")]
+        [TestCase("aB", "Ab")]
+        [TestCase("Ab", "aB")]
+        public void SheetNameRepeatedThrowsInvalidOperationException(string a, string b)
+        {
+            if (string.Compare(a, b, true) != 0)
+            {
+                Assert.Fail("Precondition failed. a and b must be equal except for case.");
+            }
+
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
+            writer.CreateAndOpenSheet("a");
+            writer.CloseSheet();
+            Assert.Catch<InvalidOperationException>(() => writer.CreateAndOpenSheet("a"));
         }
     }
 }
