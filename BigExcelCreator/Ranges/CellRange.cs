@@ -189,6 +189,7 @@ namespace BigExcelCreator.Ranges
         /// <summary>
         /// Gets a value indicating whether the cell range represents an entire column.
         /// </summary>
+        /// <value>
         /// True if the cell range represents an entire column; otherwise, false.
         /// </value>
         public bool IsInfiniteCellRangeCol => ((StartRangeType & (RangeTypes.ColInfinite)) != 0) || ((StartRangeType & RangeTypes.ColInfinite) != 0);
@@ -196,6 +197,7 @@ namespace BigExcelCreator.Ranges
         /// <summary>
         /// Gets a value indicating whether the cell range represents an entire row.
         /// </summary>
+        /// <value>
         /// True if the cell range represents an entire row; otherwise, false.
         /// </value>
         public bool IsInfiniteCellRangeRow => ((StartRangeType & (RangeTypes.RowInfinite)) != 0) || ((StartRangeType & RangeTypes.RowInfinite) != 0);
