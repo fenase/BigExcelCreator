@@ -314,7 +314,7 @@ namespace BigExcelCreator
             if (sheetOpen) { throw new SheetAlreadyOpenException("Cannot open a new sheet. Please close current sheet before opening a new one"); }
 
             if (string.IsNullOrEmpty(name)) { throw new SheetNameCannotBeEmptyException("Sheet name cannot be null or empty"); }
-            if (SheetNames.Contains(name, StringComparer.InvariantCultureIgnoreCase)) { throw new SheetWithSameNameAlreadyExistsException("A sheet with the same name already exists"); }
+            if (SheetNames.Contains(name, StringComparer.OrdinalIgnoreCase)) { throw new SheetWithSameNameAlreadyExistsException("A sheet with the same name already exists"); }
             SheetNames.Add(name);
 
             workSheetPart = Document.WorkbookPart.AddNewPart<WorksheetPart>();
