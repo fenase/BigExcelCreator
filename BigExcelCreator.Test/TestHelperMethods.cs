@@ -1,8 +1,7 @@
-﻿using BigExcelCreator;
-using DocumentFormat.OpenXml.Packaging;
+﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 
-namespace Test
+namespace BigExcelCreator.Test
 {
     internal static class TestHelperMethods
     {
@@ -60,7 +59,7 @@ namespace Test
         internal static BigExcelWriter GetWriterStream(out MemoryStream stream)
         {
             stream = new MemoryStream();
-            return new BigExcelWriter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook);
+            return new BigExcelWriter(stream);
         }
     }
 }

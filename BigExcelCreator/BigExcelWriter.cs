@@ -173,10 +173,27 @@ namespace BigExcelCreator
         /// <summary>
         /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream and spreadsheet document type.
         /// </summary>
+        /// <remarks>Initializes a new Workbook</remarks>
+        /// <param name="stream">The stream to write the Excel document to.</param>
+        public BigExcelWriter(Stream stream)
+        : this(stream, SpreadsheetDocumentType.Workbook) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream and spreadsheet document type.
+        /// </summary>
         /// <param name="stream">The stream to write the Excel document to.</param>
         /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
         public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType)
         : this(stream, spreadsheetDocumentType, false) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream, spreadsheet document type, and stylesheet.
+        /// </summary>
+        /// <remarks>Initializes a new Workbook</remarks>
+        /// <param name="stream">The stream to write the Excel document to.</param>
+        /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/>.</param>
+        public BigExcelWriter(Stream stream, Stylesheet stylesheet)
+                : this(stream, SpreadsheetDocumentType.Workbook, stylesheet) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream, spreadsheet document type, and stylesheet.
@@ -190,11 +207,28 @@ namespace BigExcelCreator
         /// <summary>
         /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream, spreadsheet document type, and a flag indicating whether to skip cells when they are empty.
         /// </summary>
+        /// <remarks>Initializes a new Workbook</remarks>
+        /// <param name="stream">The stream to write the Excel document to.</param>
+        /// <param name="skipCellWhenEmpty">A flag indicating whether to skip cells when they are empty. When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
+        public BigExcelWriter(Stream stream, bool skipCellWhenEmpty)
+            : this(stream, SpreadsheetDocumentType.Workbook, skipCellWhenEmpty) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream, spreadsheet document type, and a flag indicating whether to skip cells when they are empty.
+        /// </summary>
         /// <param name="stream">The stream to write the Excel document to.</param>
         /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
         /// <param name="skipCellWhenEmpty">A flag indicating whether to skip cells when they are empty. When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
         public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty)
             : this(stream, spreadsheetDocumentType, skipCellWhenEmpty, new Stylesheet()) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path and spreadsheet document type.
+        /// </summary>
+        /// <remarks>Initializes a new Workbook</remarks>
+        /// <param name="path">The file path to write the Excel document to.</param>
+        public BigExcelWriter(string path)
+        : this(path, SpreadsheetDocumentType.Workbook) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path and spreadsheet document type.
@@ -206,12 +240,30 @@ namespace BigExcelCreator
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path, spreadsheet document type, and stylesheet.
+        /// <remarks>Initializes a new Workbook</remarks>
+        /// </summary>
+        /// <param name="path">The file path to write the Excel document to.</param>
+        /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
+        public BigExcelWriter(string path, Stylesheet stylesheet)
+        : this(path, SpreadsheetDocumentType.Workbook, stylesheet) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path, spreadsheet document type, and stylesheet.
         /// </summary>
         /// <param name="path">The file path to write the Excel document to.</param>
         /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
         /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
         public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, Stylesheet stylesheet)
         : this(path, spreadsheetDocumentType, false, stylesheet) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path, spreadsheet document type, and a flag indicating whether to skip cells when they are empty.
+        /// </summary>
+        /// <remarks>Initializes a new Workbook</remarks>
+        /// <param name="path">The file path to write the Excel document to.</param>
+        /// <param name="skipCellWhenEmpty">A flag indicating whether to skip cells when they are empty. When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
+        public BigExcelWriter(string path, bool skipCellWhenEmpty)
+            : this(path, SpreadsheetDocumentType.Workbook, skipCellWhenEmpty) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path, spreadsheet document type, and a flag indicating whether to skip cells when they are empty.
@@ -231,6 +283,7 @@ namespace BigExcelCreator
         /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/>.</param>
         public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
+            ThrowIfInvalidSpreadsheetDocumentType(spreadsheetDocumentType);
             Path = path;
             SavingTo = SavingTo.file;
             Document = SpreadsheetDocument.Create(Path, spreadsheetDocumentType);
@@ -246,6 +299,7 @@ namespace BigExcelCreator
         /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/>.</param>
         public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
+            ThrowIfInvalidSpreadsheetDocumentType(spreadsheetDocumentType);
             Stream = stream;
             SavingTo = SavingTo.stream;
             Document = SpreadsheetDocument.Create(Stream, spreadsheetDocumentType);
@@ -254,6 +308,7 @@ namespace BigExcelCreator
 
         private void CtorHelper(SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
+            disposed = false; // reset the disposed flag
             SpreadsheetDocumentType = spreadsheetDocumentType;
             WorkbookPart workbookPart = Document.AddWorkbookPart();
 
@@ -1491,7 +1546,7 @@ namespace BigExcelCreator
         }
 
         #region IDisposable
-        private bool disposed;
+        private bool disposed = true; // There is a possibility that an exception is thrown in the constructor, so we set this to true to avoid a NullReferenceException in the finalizer.
 
         /// <summary>
         /// Closes the current document, ensuring all data is written and resources are released.
@@ -1752,6 +1807,21 @@ namespace BigExcelCreator
                 workSheetPartWriter.WriteElement(printOptions);
             }
         }
-        #endregion
+
+        private static void ThrowIfInvalidSpreadsheetDocumentType(SpreadsheetDocumentType spreadsheetDocumentType)
+        {
+            var validSpreadsheetDocumentTypes = new[]
+            {
+                SpreadsheetDocumentType.Workbook,
+                SpreadsheetDocumentType.Template,
+                SpreadsheetDocumentType.MacroEnabledWorkbook,
+                SpreadsheetDocumentType.MacroEnabledTemplate,
+            };
+            if (!validSpreadsheetDocumentTypes.Contains(spreadsheetDocumentType))
+            {
+                throw new UnsupportedSpreadsheetDocumentTypeException(string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.InvalidSpreadsheetDocumentType, spreadsheetDocumentType));
+            }
+        }
     }
+    #endregion
 }

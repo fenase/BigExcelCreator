@@ -1,6 +1,6 @@
 ﻿using BigExcelCreator.Ranges;
 
-namespace Test
+namespace BigExcelCreator.Test
 {
     internal class CellRangeTest
     {

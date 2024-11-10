@@ -1,9 +1,8 @@
-﻿using BigExcelCreator;
-using DocumentFormat.OpenXml.Packaging;
+﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using static Test.TestHelperMethods;
+using static BigExcelCreator.Test.TestHelperMethods;
 
-namespace Test
+namespace BigExcelCreator.Test
 {
     internal class CommentManagerTest
     {
