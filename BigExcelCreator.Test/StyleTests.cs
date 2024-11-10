@@ -2,7 +2,7 @@ using BigExcelCreator.Styles;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 
-namespace Test
+namespace BigExcelCreator.Test
 {
     public class StyleTests
     {

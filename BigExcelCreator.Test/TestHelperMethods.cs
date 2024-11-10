@@ -1,8 +1,7 @@
-﻿using BigExcelCreator;
-using DocumentFormat.OpenXml.Packaging;
+﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 
-namespace Test
+namespace BigExcelCreator.Test
 {
     internal static class TestHelperMethods
     {

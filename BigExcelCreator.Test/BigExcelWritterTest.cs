@@ -1,6 +1,5 @@
 ﻿// Ignore Spelling: Validator
 
-using BigExcelCreator;
 using BigExcelCreator.Exceptions;
 using BigExcelCreator.Ranges;
 using BigExcelCreator.Styles;
@@ -8,9 +7,9 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System.Globalization;
-using static Test.TestHelperMethods;
+using static BigExcelCreator.Test.TestHelperMethods;
 
-namespace Test
+namespace BigExcelCreator.Test
 {
     internal class BigExcelWriterTest
     {
