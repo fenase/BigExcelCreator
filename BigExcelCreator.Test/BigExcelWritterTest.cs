@@ -16,6 +16,19 @@ namespace Test
     {
         string DirectoryPath { get; set; }
 
+        private static readonly IEnumerable<SpreadsheetDocumentType> ValidSpreadsheetDocumentTypes =
+        [
+            SpreadsheetDocumentType.Workbook,
+            SpreadsheetDocumentType.Template,
+            SpreadsheetDocumentType.MacroEnabledWorkbook,
+            SpreadsheetDocumentType.MacroEnabledTemplate,
+        ];
+
+        private static readonly IEnumerable<SpreadsheetDocumentType> InvalidSpreadsheetDocumentTypes =
+        [
+            SpreadsheetDocumentType.AddIn,
+        ];
+
         [SetUp]
         public void Setup()
         {
@@ -30,7 +43,7 @@ namespace Test
             new DirectoryInfo(DirectoryPath).Delete(true);
         }
 
-        [TestCaseSource(typeof(TestHelperMethods), nameof(ValidSpreadsheetDocumentTypes))]
+        [TestCaseSource(nameof(ValidSpreadsheetDocumentTypes))]
         public void FileExistsAfterCreation(SpreadsheetDocumentType spreadsheetDocumentType)
         {
             string path = Path.Combine(DirectoryPath, $"{Guid.NewGuid()}.xlsx");
@@ -52,7 +65,7 @@ namespace Test
             Assert.That(path, Does.Exist);
         }
 
-        [TestCaseSource(typeof(TestHelperMethods), nameof(InvalidSpreadsheetDocumentTypes))]
+        [TestCaseSource(nameof(InvalidSpreadsheetDocumentTypes))]
         public void UnsupportedSpreadsheetDocumentTypeFileCreationFails(SpreadsheetDocumentType spreadsheetDocumentType)
         {
             Assert.Multiple(() =>
@@ -84,7 +97,7 @@ namespace Test
             });
         }
 
-        [TestCaseSource(typeof(TestHelperMethods), nameof(InvalidSpreadsheetDocumentTypes))]
+        [TestCaseSource(nameof(InvalidSpreadsheetDocumentTypes))]
         public void UnsupportedSpreadsheetDocumentTypeStreamCreationFails(SpreadsheetDocumentType spreadsheetDocumentType)
         {
             Assert.Multiple(() =>
@@ -112,7 +125,7 @@ namespace Test
             });
         }
 
-        [TestCaseSource(typeof(TestHelperMethods), nameof(ValidSpreadsheetDocumentTypes))]
+        [TestCaseSource(nameof(ValidSpreadsheetDocumentTypes))]
         public void ValidFile(SpreadsheetDocumentType spreadsheetDocumentType)
         {
             string path = Path.Combine(DirectoryPath, $"{Guid.NewGuid()}.xlsx");
@@ -180,7 +193,7 @@ namespace Test
             });
         }
 
-        [TestCaseSource(typeof(TestHelperMethods), nameof(ValidSpreadsheetDocumentTypes))]
+        [TestCaseSource(nameof(ValidSpreadsheetDocumentTypes))]
         public void ValidStream(SpreadsheetDocumentType spreadsheetDocumentType)
         {
             MemoryStream stream = new();
@@ -290,7 +303,7 @@ namespace Test
             , Throws.Nothing);
         }
 
-        [TestCaseSource(typeof(TestHelperMethods), nameof(ValidSpreadsheetDocumentTypes))]
+        [TestCaseSource(nameof(ValidSpreadsheetDocumentTypes))]
         public void ValidContent(SpreadsheetDocumentType spreadsheetDocumentType)
         {
             List<Column> creationColumns = [new Column { Width = 15 }, new Column { Width = 20 },];
