@@ -31,10 +31,10 @@ namespace Test
         }
 
         [Test]
-        public void FileExistsAfterCreation()
+        public void FileExistsAfterCreation([Values] SpreadsheetDocumentType spreadsheetDocumentType)
         {
             string path = Path.Combine(DirectoryPath, $"{Guid.NewGuid()}.xlsx");
-            using (BigExcelWriter writer = new(path, SpreadsheetDocumentType.Workbook))
+            using (BigExcelWriter writer = new(path, spreadsheetDocumentType))
             {
                 // do nothing
             }
@@ -42,10 +42,21 @@ namespace Test
         }
 
         [Test]
-        public void ValidFile()
+        public void FileExistsAfterCreationDefaultDocumentType()
         {
             string path = Path.Combine(DirectoryPath, $"{Guid.NewGuid()}.xlsx");
-            using (BigExcelWriter writer = new(path, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+            using (BigExcelWriter writer = new(path))
+            {
+                // do nothing
+            }
+            Assert.That(path, Does.Exist);
+        }
+
+        [Test]
+        public void ValidFile([Values] SpreadsheetDocumentType spreadsheetDocumentType)
+        {
+            string path = Path.Combine(DirectoryPath, $"{Guid.NewGuid()}.xlsx");
+            using (BigExcelWriter writer = new(path, spreadsheetDocumentType))
             {
                 writer.CreateAndOpenSheet("first");
                 writer.CloseSheet();
@@ -53,6 +64,9 @@ namespace Test
             Assert.That(path, Does.Exist);
 
             using SpreadsheetDocument reader = SpreadsheetDocument.Open(path, false);
+
+            Assert.That(reader.DocumentType, Is.EqualTo(spreadsheetDocumentType));
+
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
 
@@ -73,10 +87,44 @@ namespace Test
         }
 
         [Test]
-        public void ValidStream()
+        public void ValidFileDefaultDocumentType()
+        {
+            string path = Path.Combine(DirectoryPath, $"{Guid.NewGuid()}.xlsx");
+            using (BigExcelWriter writer = new(path))
+            {
+                writer.CreateAndOpenSheet("first");
+                writer.CloseSheet();
+            }
+            Assert.That(path, Does.Exist);
+
+            using SpreadsheetDocument reader = SpreadsheetDocument.Open(path, false);
+
+            Assert.That(reader.DocumentType, Is.EqualTo(SpreadsheetDocumentType.Workbook));
+
+            WorkbookPart? workbookPart = reader.WorkbookPart;
+            Assert.That(workbookPart, Is.Not.Null);
+
+            Workbook workbook = workbookPart.Workbook;
+
+            Sheets? sheets = workbook.Sheets;
+            Assert.Multiple(() =>
+            {
+                Assert.That(sheets, Is.Not.Null);
+                Assert.That(sheets!.Count(), Is.EqualTo(1));
+            });
+            Sheet sheet = (Sheet)sheets!.ChildElements[0];
+            Assert.Multiple(() =>
+            {
+                Assert.That(sheet, Is.Not.Null);
+                Assert.That(sheet.Name!.ToString(), Is.EqualTo("first"));
+            });
+        }
+
+        [Test]
+        public void ValidStream([Values] SpreadsheetDocumentType spreadsheetDocumentType)
         {
             MemoryStream stream = new();
-            using (BigExcelWriter writer = new(stream, SpreadsheetDocumentType.Workbook))
+            using (BigExcelWriter writer = new(stream, spreadsheetDocumentType))
             {
                 writer.CreateAndOpenSheet("first");
                 writer.CloseSheet();
@@ -88,6 +136,47 @@ namespace Test
             });
 
             using SpreadsheetDocument reader = SpreadsheetDocument.Open(stream, false);
+
+            Assert.That(reader.DocumentType, Is.EqualTo(spreadsheetDocumentType));
+
+            WorkbookPart? workbookPart = reader.WorkbookPart;
+            Assert.That(workbookPart, Is.Not.Null);
+
+            Workbook workbook = workbookPart.Workbook;
+
+            Sheets? sheets = workbook.Sheets;
+            Assert.Multiple(() =>
+            {
+                Assert.That(sheets, Is.Not.Null);
+                Assert.That(sheets!.Count(), Is.EqualTo(1));
+            });
+            Sheet sheet = (Sheet)sheets!.ChildElements[0];
+            Assert.Multiple(() =>
+            {
+                Assert.That(sheet, Is.Not.Null);
+                Assert.That(sheet.Name!.ToString(), Is.EqualTo("first"));
+            });
+        }
+
+        [Test]
+        public void ValidStreamDefaultDocumentType()
+        {
+            MemoryStream stream = new();
+            using (BigExcelWriter writer = new(stream))
+            {
+                writer.CreateAndOpenSheet("first");
+                writer.CloseSheet();
+            }
+            Assert.Multiple(() =>
+            {
+                Assert.That(stream.Position, Is.EqualTo(0));
+                Assert.That(stream, Has.Length.GreaterThan(0));
+            });
+
+            using SpreadsheetDocument reader = SpreadsheetDocument.Open(stream, false);
+
+            Assert.That(reader.DocumentType, Is.EqualTo(SpreadsheetDocumentType.Workbook));
+
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
 

@@ -60,7 +60,7 @@ namespace Test
         internal static BigExcelWriter GetWriterStream(out MemoryStream stream)
         {
             stream = new MemoryStream();
-            return new BigExcelWriter(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook);
+            return new BigExcelWriter(stream);
         }
     }
 }
