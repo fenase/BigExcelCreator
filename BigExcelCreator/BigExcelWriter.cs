@@ -283,6 +283,7 @@ namespace BigExcelCreator
         /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/>.</param>
         public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
+            ThrowIfInvalidSpreadsheetDocumentType(spreadsheetDocumentType);
             Path = path;
             SavingTo = SavingTo.file;
             Document = SpreadsheetDocument.Create(Path, spreadsheetDocumentType);
@@ -298,6 +299,7 @@ namespace BigExcelCreator
         /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/>.</param>
         public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
+            ThrowIfInvalidSpreadsheetDocumentType(spreadsheetDocumentType);
             Stream = stream;
             SavingTo = SavingTo.stream;
             Document = SpreadsheetDocument.Create(Stream, spreadsheetDocumentType);
@@ -1804,6 +1806,21 @@ namespace BigExcelCreator
                 workSheetPartWriter.WriteElement(printOptions);
             }
         }
-        #endregion
+
+        private static void ThrowIfInvalidSpreadsheetDocumentType(SpreadsheetDocumentType spreadsheetDocumentType)
+        {
+            var validSpreadsheetDocumentTypes = new[]
+            {
+                SpreadsheetDocumentType.Workbook,
+                SpreadsheetDocumentType.Template,
+                SpreadsheetDocumentType.MacroEnabledWorkbook,
+                SpreadsheetDocumentType.MacroEnabledTemplate,
+            };
+            if (!validSpreadsheetDocumentTypes.Contains(spreadsheetDocumentType))
+            {
+                throw new UnsupportedSpreadsheetDocumentTypeException(string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.InvalidSpreadsheetDocumentType, spreadsheetDocumentType));
+            }
+        }
     }
+    #endregion
 }

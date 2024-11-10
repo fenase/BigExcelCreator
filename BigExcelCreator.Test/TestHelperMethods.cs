@@ -1,4 +1,5 @@
 ﻿using BigExcelCreator;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 
@@ -61,6 +62,25 @@ namespace Test
         {
             stream = new MemoryStream();
             return new BigExcelWriter(stream);
+        }
+
+        internal static IEnumerable<SpreadsheetDocumentType> ValidSpreadsheetDocumentTypes()
+        {
+            return
+            [
+                SpreadsheetDocumentType.Workbook,
+                SpreadsheetDocumentType.Template,
+                SpreadsheetDocumentType.MacroEnabledWorkbook,
+                SpreadsheetDocumentType.MacroEnabledTemplate,
+            ];
+        }
+
+        internal static IEnumerable<SpreadsheetDocumentType> InvalidSpreadsheetDocumentTypes()
+        {
+            return
+            [
+                SpreadsheetDocumentType.AddIn,
+            ];
         }
     }
 }
