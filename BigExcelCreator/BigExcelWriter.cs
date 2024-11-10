@@ -308,6 +308,7 @@ namespace BigExcelCreator
 
         private void CtorHelper(SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
+            disposed = false; // reset the disposed flag
             SpreadsheetDocumentType = spreadsheetDocumentType;
             WorkbookPart workbookPart = Document.AddWorkbookPart();
 
@@ -1545,7 +1546,7 @@ namespace BigExcelCreator
         }
 
         #region IDisposable
-        private bool disposed;
+        private bool disposed = true; // There is a possibility that an exception is thrown in the constructor, so we set this to true to avoid a NullReferenceException in the finalizer.
 
         /// <summary>
         /// Closes the current document, ensuring all data is written and resources are released.
