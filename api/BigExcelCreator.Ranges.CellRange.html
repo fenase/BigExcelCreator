@@ -6,7 +6,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta name="title" content="Class CellRange | BigExcelCreator ">
       
-      <meta name="description" content="Range in Excel spreadsheets">
+      <meta name="description" content="Represents a range of cells in an Excel sheet.">
       <link rel="icon" href="../favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/fenase/BigExcelCreator/new/main/apiSpec/new?filename=BigExcelCreator_Ranges_CellRange.md&amp;value=---%0Auid%3A%20BigExcelCreator.Ranges.CellRange%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/fenase/BigExcelCreator/new/3.2/apiSpec/new?filename=BigExcelCreator_Ranges_CellRange.md&amp;value=---%0Auid%3A%20BigExcelCreator.Ranges.CellRange%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -89,7 +89,7 @@
 
 
   <h1 id="BigExcelCreator_Ranges_CellRange" data-uid="BigExcelCreator.Ranges.CellRange" class="text-break">
-Class CellRange  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L16"><i class="bi bi-code-slash"></i></a>
+Class CellRange  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L19"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -97,7 +97,7 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <dl><dt>Assembly</dt><dd>BigExcelCreator.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>Range in Excel spreadsheets</p>
+  <div class="markdown summary"><p>Represents a range of cells in an Excel sheet.</p>
 </div>
   <div class="markdown conceptual"></div>
 
@@ -148,6 +148,9 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
 
 
+  <h2 id="BigExcelCreator_Ranges_CellRange_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>This class provides properties and methods to handle cell ranges, including their dimensions, overlap checks, and string representations.</p>
+</div>
 
 
   <h2 class="section" id="constructors">Constructors
@@ -158,10 +161,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange__ctor_System_Nullable_System_Int32__System_Boolean_System_Nullable_System_Int32__System_Boolean_System_Nullable_System_Int32__System_Boolean_System_Nullable_System_Int32__System_Boolean_System_String_" data-uid="BigExcelCreator.Ranges.CellRange.#ctor(System.Nullable{System.Int32},System.Boolean,System.Nullable{System.Int32},System.Boolean,System.Nullable{System.Int32},System.Boolean,System.Nullable{System.Int32},System.Boolean,System.String)">
   CellRange(int?, bool, int?, bool, int?, bool, int?, bool, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L242"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L279"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Creates a range using coordinates indexes</p>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> class using coordinates indexes.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -172,23 +175,32 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>startingColumn</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
-    <dd></dd>
+    <dd><p>The starting column of the cell range.</p>
+</dd>
     <dt><code>fixedStartingColumn</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p>Indicates whether the starting column is fixed.</p>
+</dd>
     <dt><code>startingRow</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
-    <dd></dd>
+    <dd><p>The starting row of the cell range.</p>
+</dd>
     <dt><code>fixedStartingRow</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p>Indicates whether the starting row is fixed.</p>
+</dd>
     <dt><code>endingColumn</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
-    <dd></dd>
+    <dd><p>The ending column of the cell range.</p>
+</dd>
     <dt><code>fixedEndingColumn</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p>Indicates whether the ending column is fixed.</p>
+</dd>
     <dt><code>endingRow</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
-    <dd></dd>
+    <dd><p>The ending row of the cell range.</p>
+</dd>
     <dt><code>fixedEndingRow</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p>Indicates whether the ending row is fixed.</p>
+</dd>
     <dt><code>sheetname</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
-    <dd></dd>
+    <dd><p>The name of the sheet.</p>
+</dd>
   </dl>
 
 
@@ -202,10 +214,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Exceptions</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception">ArgumentOutOfRangeException</a></dt>
-    <dd><p>If any index is less than 1</p>
+    <dd><p>Thrown when any of the column or row values are less than 1.</p>
 </dd>
     <dt><a class="xref" href="BigExcelCreator.Ranges.InvalidRangeException.html">InvalidRangeException</a></dt>
-    <dd><p>If a range makes no sense</p>
+    <dd><p>Thrown when the range is invalid.</p>
 </dd>
   </dl>
 
@@ -215,10 +227,11 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange__ctor_System_Nullable_System_Int32__System_Boolean_System_Nullable_System_Int32__System_Boolean_System_String_" data-uid="BigExcelCreator.Ranges.CellRange.#ctor(System.Nullable{System.Int32},System.Boolean,System.Nullable{System.Int32},System.Boolean,System.String)">
   CellRange(int?, bool, int?, bool, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L202"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L239"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Creates a fixed single cell range using coordinates indexes</p>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> class using coordinates indexes.
+<remarks>This creates a single cell range</remarks></p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -229,15 +242,20 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>column</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
-    <dd></dd>
+    <dd><p>The column of the cell range.</p>
+</dd>
     <dt><code>fixedColumn</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p>Indicates whether the column is fixed.</p>
+</dd>
     <dt><code>row</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
-    <dd></dd>
+    <dd><p>The row of the cell range.</p>
+</dd>
     <dt><code>fixedRow</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p>Indicates whether the row is fixed.</p>
+</dd>
     <dt><code>sheetname</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
-    <dd></dd>
+    <dd><p>The name of the sheet.</p>
+</dd>
   </dl>
 
 
@@ -251,10 +269,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Exceptions</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception">ArgumentOutOfRangeException</a></dt>
-    <dd><p>If any index is less than 1</p>
+    <dd><p>Thrown when any of the column or row values are less than 1.</p>
 </dd>
     <dt><a class="xref" href="BigExcelCreator.Ranges.InvalidRangeException.html">InvalidRangeException</a></dt>
-    <dd><p>If a range makes no sense</p>
+    <dd><p>Thrown when the range is invalid.</p>
 </dd>
   </dl>
 
@@ -264,10 +282,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange__ctor_System_Nullable_System_Int32__System_Nullable_System_Int32__System_Nullable_System_Int32__System_Nullable_System_Int32__System_String_" data-uid="BigExcelCreator.Ranges.CellRange.#ctor(System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.String)">
   CellRange(int?, int?, int?, int?, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L220"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L257"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Creates a range using coordinates indexes</p>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> class using coordinates indexes.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -278,15 +296,20 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>startingColumn</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
-    <dd></dd>
+    <dd><p>The starting column of the cell range.</p>
+</dd>
     <dt><code>startingRow</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
-    <dd></dd>
+    <dd><p>The starting row of the cell range.</p>
+</dd>
     <dt><code>endingColumn</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
-    <dd></dd>
+    <dd><p>The ending column of the cell range.</p>
+</dd>
     <dt><code>endingRow</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
-    <dd></dd>
+    <dd><p>The ending row of the cell range.</p>
+</dd>
     <dt><code>sheetname</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
-    <dd></dd>
+    <dd><p>The name of the sheet.</p>
+</dd>
   </dl>
 
 
@@ -300,10 +323,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Exceptions</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception">ArgumentOutOfRangeException</a></dt>
-    <dd><p>If any index is less than 1</p>
+    <dd><p>Thrown when any of the column or row values are less than 1.</p>
 </dd>
     <dt><a class="xref" href="BigExcelCreator.Ranges.InvalidRangeException.html">InvalidRangeException</a></dt>
-    <dd><p>If a range makes no sense</p>
+    <dd><p>Thrown when the range is invalid.</p>
 </dd>
   </dl>
 
@@ -313,10 +336,11 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange__ctor_System_Nullable_System_Int32__System_Nullable_System_Int32__System_String_" data-uid="BigExcelCreator.Ranges.CellRange.#ctor(System.Nullable{System.Int32},System.Nullable{System.Int32},System.String)">
   CellRange(int?, int?, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L186"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L222"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Creates a single cell range using coordinates indexes</p>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> class using coordinates indexes.
+<remarks>This creates a single cell range</remarks></p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -327,11 +351,14 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>column</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
-    <dd></dd>
+    <dd><p>The column of the cell range.</p>
+</dd>
     <dt><code>row</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
-    <dd></dd>
+    <dd><p>The row of the cell range.</p>
+</dd>
     <dt><code>sheetname</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
-    <dd></dd>
+    <dd><p>The name of the sheet.</p>
+</dd>
   </dl>
 
 
@@ -345,10 +372,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Exceptions</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception">ArgumentOutOfRangeException</a></dt>
-    <dd><p>If any index is less than 1</p>
+    <dd><p>Thrown when any of the column or row values are less than 1.</p>
 </dd>
     <dt><a class="xref" href="BigExcelCreator.Ranges.InvalidRangeException.html">InvalidRangeException</a></dt>
-    <dd><p>If a range makes no sense</p>
+    <dd><p>Thrown when the range is invalid.</p>
 </dd>
   </dl>
 
@@ -358,10 +385,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange__ctor_System_String_" data-uid="BigExcelCreator.Ranges.CellRange.#ctor(System.String)">
   CellRange(string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L281"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L318"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Parses a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a> into a range</p>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> class from a string representation of a range.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -372,7 +399,8 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>range</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
-    <dd></dd>
+    <dd><p>The range string to initialize the cell range.</p>
+</dd>
   </dl>
 
 
@@ -389,10 +417,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
     <dd><p>If <code class="paramref">range</code> is null</p>
 </dd>
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception">ArgumentOutOfRangeException</a></dt>
-    <dd><p>If any index is less than 1</p>
+    <dd><p>Thrown when any of the column or row values are less than 1.</p>
 </dd>
     <dt><a class="xref" href="BigExcelCreator.Ranges.InvalidRangeException.html">InvalidRangeException</a></dt>
-    <dd><p>If a range makes no sense</p>
+    <dd><p>Thrown when the <code class="paramref">range</code> does not represent a valid range.</p>
 </dd>
   </dl>
 
@@ -406,10 +434,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_EndingColumn" data-uid="BigExcelCreator.Ranges.CellRange.EndingColumn">
   EndingColumn
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L90"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L107"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Index of the range's last column</p>
+  <div class="markdown level1 summary"><p>Gets the ending column of the cell range.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -424,7 +452,8 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
-    <dd></dd>
+    <dd><p>The ending column of the cell range, or null if the ending column is not specified.</p>
+</dd>
   </dl>
 
 
@@ -438,7 +467,7 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_EndingColumnIsFixed" data-uid="BigExcelCreator.Ranges.CellRange.EndingColumnIsFixed">
   EndingColumnIsFixed
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L138"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L161"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the ending column is fixed</p>
@@ -471,10 +500,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_EndingRow" data-uid="BigExcelCreator.Ranges.CellRange.EndingRow">
   EndingRow
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L85"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L99"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Index of the range's last row</p>
+  <div class="markdown level1 summary"><p>Gets the ending row of the cell range.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -489,7 +518,8 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
-    <dd></dd>
+    <dd><p>The ending row of the cell range, or null if the ending row is not specified.</p>
+</dd>
   </dl>
 
 
@@ -503,7 +533,7 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_EndingRowIsFixed" data-uid="BigExcelCreator.Ranges.CellRange.EndingRowIsFixed">
   EndingRowIsFixed
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L132"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L155"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the ending row is fixed</p>
@@ -536,10 +566,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_Height" data-uid="BigExcelCreator.Ranges.CellRange.Height">
   Height
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L148"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L171"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Range's height</p>
+  <div class="markdown level1 summary"><p>Gets the height of the cell range.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -568,10 +598,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_IsInfiniteCellRange" data-uid="BigExcelCreator.Ranges.CellRange.IsInfiniteCellRange">
   IsInfiniteCellRange
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L158"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L187"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the range is infinite in any direction</p>
+  <div class="markdown level1 summary"><p>Gets a value indicating whether the cell range is infinite.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -586,7 +616,8 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p>True if the cell range is infinite; otherwise, false.</p>
+</dd>
   </dl>
 
 
@@ -600,10 +631,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_IsInfiniteCellRangeCol" data-uid="BigExcelCreator.Ranges.CellRange.IsInfiniteCellRangeCol">
   IsInfiniteCellRangeCol
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L163"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L195"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the range is infinite in any column</p>
+  <div class="markdown level1 summary"><p>Gets a value indicating whether the cell range represents an entire column.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -618,7 +649,8 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p>True if the cell range represents an entire column; otherwise, false.</p>
+</dd>
   </dl>
 
 
@@ -632,10 +664,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_IsInfiniteCellRangeRow" data-uid="BigExcelCreator.Ranges.CellRange.IsInfiniteCellRangeRow">
   IsInfiniteCellRangeRow
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L168"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L203"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the range is infinite in any row</p>
+  <div class="markdown level1 summary"><p>Gets a value indicating whether the cell range represents an entire row.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -650,7 +682,8 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p>True if the cell range represents an entire row; otherwise, false.</p>
+</dd>
   </dl>
 
 
@@ -664,10 +697,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_IsSingleCellRange" data-uid="BigExcelCreator.Ranges.CellRange.IsSingleCellRange">
   IsSingleCellRange
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L153"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L179"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the range represents a single column</p>
+  <div class="markdown level1 summary"><p>Gets a value indicating whether the cell range represents a single cell.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -682,7 +715,8 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p>True if the cell range represents a single cell; otherwise, false.</p>
+</dd>
   </dl>
 
 
@@ -696,10 +730,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_RangeString" data-uid="BigExcelCreator.Ranges.CellRange.RangeString">
   RangeString
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L21"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L25"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>A <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a> representing a range with the sheet's name (if available)</p>
+  <div class="markdown level1 summary"><p>Gets the range string representation of the cell range, including the sheet name if available.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -714,7 +748,8 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
-    <dd></dd>
+    <dd><p>The range string representation of the cell range, including the sheet name if available.</p>
+</dd>
   </dl>
 
 
@@ -728,10 +763,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_RangeStringNoSheetName" data-uid="BigExcelCreator.Ranges.CellRange.RangeStringNoSheetName">
   RangeStringNoSheetName
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L40"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L45"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>A <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a> representing a range without the sheet's name</p>
+  <div class="markdown level1 summary"><p>Gets the range string representation of the cell range without the sheet name.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -746,7 +781,8 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
-    <dd></dd>
+    <dd><p>The range string representation of the cell range without the sheet name.</p>
+</dd>
   </dl>
 
 
@@ -760,10 +796,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_Sheetname" data-uid="BigExcelCreator.Ranges.CellRange.Sheetname">
   Sheetname
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L95"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L118"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>The name of the range's sheet (if available)</p>
+  <div class="markdown level1 summary"><p>Gets or sets the sheet name of the cell range.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -778,13 +814,20 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
-    <dd></dd>
+    <dd><p>The sheet name of the cell range.</p>
+</dd>
   </dl>
 
 
 
 
 
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="BigExcelCreator.Ranges.InvalidRangeException.html">InvalidRangeException</a></dt>
+    <dd><p>Thrown when the sheet name contains invalid characters.</p>
+</dd>
+  </dl>
 
 
 
@@ -792,10 +835,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_StartingColumn" data-uid="BigExcelCreator.Ranges.CellRange.StartingColumn">
   StartingColumn
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L80"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L91"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Index of the range's first column</p>
+  <div class="markdown level1 summary"><p>Gets the starting column of the cell range.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -810,7 +853,8 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
-    <dd></dd>
+    <dd><p>The starting column of the cell range, or null if the starting column is not specified.</p>
+</dd>
   </dl>
 
 
@@ -824,7 +868,7 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_StartingColumnIsFixed" data-uid="BigExcelCreator.Ranges.CellRange.StartingColumnIsFixed">
   StartingColumnIsFixed
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L126"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L149"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the starting column is fixed</p>
@@ -857,10 +901,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_StartingRow" data-uid="BigExcelCreator.Ranges.CellRange.StartingRow">
   StartingRow
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L75"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L83"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Index of the range's first row</p>
+  <div class="markdown level1 summary"><p>Gets the starting row of the cell range.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -875,7 +919,8 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
-    <dd></dd>
+    <dd><p>The starting row of the cell range, or null if the starting row is not specified.</p>
+</dd>
   </dl>
 
 
@@ -889,7 +934,7 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_StartingRowIsFixed" data-uid="BigExcelCreator.Ranges.CellRange.StartingRowIsFixed">
   StartingRowIsFixed
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L120"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L143"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the starting row is fixed</p>
@@ -922,10 +967,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_Width" data-uid="BigExcelCreator.Ranges.CellRange.Width">
   Width
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L143"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L166"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Range's width</p>
+  <div class="markdown level1 summary"><p>Gets the width of the cell range.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -958,10 +1003,11 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_CompareTo_BigExcelCreator_Ranges_CellRange_" data-uid="BigExcelCreator.Ranges.CellRange.CompareTo(BigExcelCreator.Ranges.CellRange)">
   CompareTo(CellRange)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L408"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L465"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Comparison method</p>
+  <div class="markdown level1 summary"><p>Compares the current instance with another <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> and returns an integer that indicates whether the current instance precedes,
+follows, or occurs in the same position in the sort order as the other <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -972,14 +1018,15 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>other</code> <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a></dt>
-    <dd><p>Another range</p>
+    <dd><p>The <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> to compare with the current instance.</p>
 </dd>
   </dl>
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
-    <dd><p>See <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.icomparable.compareto">CompareTo(object)</a></p>
+    <dd><p>A value that indicates the relative order of the objects being compared. The return value has these meanings:</p>
+<ul><li>Less than zero: This instance precedes <code class="paramref">other</code> in the sort order.</li><li>Zero: This instance occurs in the same position in the sort order as <code class="paramref">other</code>.</li><li>Greater than zero: This instance follows <code class="paramref">other</code> in the sort order.</li></ul>
 </dd>
   </dl>
 
@@ -997,10 +1044,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_Equals_BigExcelCreator_Ranges_CellRange_" data-uid="BigExcelCreator.Ranges.CellRange.Equals(BigExcelCreator.Ranges.CellRange)">
   Equals(CellRange)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L357"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L398"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Range equals</p>
+  <div class="markdown level1 summary"><p>Determines whether the specified <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> is equal to the current <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> instance.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -1011,14 +1058,14 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>other</code> <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a></dt>
-    <dd><p>Another range</p>
+    <dd><p>The <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> to compare with the current instance.</p>
 </dd>
   </dl>
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if ranges are equal. <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> otherwise.</p>
+    <dd><p>True if the specified <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> is equal to the current instance; otherwise, false.</p>
 </dd>
   </dl>
 
@@ -1036,10 +1083,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_Equals_System_Object_" data-uid="BigExcelCreator.Ranges.CellRange.Equals(System.Object)">
   Equals(object)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L347"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L386"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Range equals</p>
+  <div class="markdown level1 summary"><p>Determines whether the specified object is equal to the current <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> instance.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -1050,14 +1097,14 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>obj</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
-    <dd><p>Another range</p>
+    <dd><p>The object to compare with the current instance.</p>
 </dd>
   </dl>
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if ranges are equal. <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> otherwise.</p>
+    <dd><p>True if the specified object is a <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> and is equal to the current instance; otherwise, false.</p>
 </dd>
   </dl>
 
@@ -1075,10 +1122,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_GetHashCode" data-uid="BigExcelCreator.Ranges.CellRange.GetHashCode">
   GetHashCode()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L376"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L419"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Returns the hash code for this range</p>
+  <div class="markdown level1 summary"><p>Returns the hash code for this instance.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -1090,7 +1137,8 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Returns</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
-    <dd></dd>
+    <dd><p>A 32-bit signed integer hash code.</p>
+</dd>
   </dl>
 
 
@@ -1107,10 +1155,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_RangeOverlaps_BigExcelCreator_Ranges_CellRange_" data-uid="BigExcelCreator.Ranges.CellRange.RangeOverlaps(BigExcelCreator.Ranges.CellRange)">
   RangeOverlaps(CellRange)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L501"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L572"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Compares ranges and returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if they share any cell</p>
+  <div class="markdown level1 summary"><p>Determines whether the current <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> overlaps with another specified <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -1121,13 +1169,15 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>other</code> <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a></dt>
-    <dd></dd>
+    <dd><p>The <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> to compare with the current <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a>.</p>
+</dd>
   </dl>
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p><code>true</code> if the current <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> overlaps with the <code class="paramref">other</code><a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a>; otherwise, <code>false</code>.</p>
+</dd>
   </dl>
 
 
@@ -1140,7 +1190,8 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Exceptions</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></dt>
-    <dd></dd>
+    <dd><p><code class="paramref">other</code> is <code>null</code>.</p>
+</dd>
   </dl>
 
 
@@ -1153,10 +1204,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_op_Equality_BigExcelCreator_Ranges_CellRange_BigExcelCreator_Ranges_CellRange_" data-uid="BigExcelCreator.Ranges.CellRange.op_Equality(BigExcelCreator.Ranges.CellRange,BigExcelCreator.Ranges.CellRange)">
   operator ==(CellRange, CellRange)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L430"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L489"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>The equality operator</p>
+  <div class="markdown level1 summary"><p>Determines whether two specified <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> objects have the same value.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -1167,15 +1218,18 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>left</code> <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a></dt>
-    <dd></dd>
+    <dd><p>The first <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> to compare.</p>
+</dd>
     <dt><code>right</code> <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a></dt>
-    <dd></dd>
+    <dd><p>The second <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> to compare.</p>
+</dd>
   </dl>
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p><code>true</code> if the value of <code class="paramref">left</code> is the same as the value of <code class="paramref">right</code>; otherwise, <code>false</code>.</p>
+</dd>
   </dl>
 
 
@@ -1192,10 +1246,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_op_GreaterThan_BigExcelCreator_Ranges_CellRange_BigExcelCreator_Ranges_CellRange_" data-uid="BigExcelCreator.Ranges.CellRange.op_GreaterThan(BigExcelCreator.Ranges.CellRange,BigExcelCreator.Ranges.CellRange)">
   operator &gt;(CellRange, CellRange)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L479"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L546"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>The greater than operator</p>
+  <div class="markdown level1 summary"><p>Determines whether one specified <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> is greater than another specified <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -1206,15 +1260,18 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>left</code> <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a></dt>
-    <dd></dd>
+    <dd><p>The first <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> to compare.</p>
+</dd>
     <dt><code>right</code> <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a></dt>
-    <dd></dd>
+    <dd><p>The second <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> to compare.</p>
+</dd>
   </dl>
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p><code>true</code> if the value of <code class="paramref">left</code> is greater than the value of <code class="paramref">right</code>; otherwise, <code>false</code>.</p>
+</dd>
   </dl>
 
 
@@ -1231,10 +1288,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_op_GreaterThanOrEqual_BigExcelCreator_Ranges_CellRange_BigExcelCreator_Ranges_CellRange_" data-uid="BigExcelCreator.Ranges.CellRange.op_GreaterThanOrEqual(BigExcelCreator.Ranges.CellRange,BigExcelCreator.Ranges.CellRange)">
   operator &gt;=(CellRange, CellRange)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L490"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L559"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>The greater or equal than operator</p>
+  <div class="markdown level1 summary"><p>Determines whether one specified <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> is greater than or equal to another specified <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -1245,15 +1302,18 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>left</code> <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a></dt>
-    <dd></dd>
+    <dd><p>The first <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> to compare.</p>
+</dd>
     <dt><code>right</code> <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a></dt>
-    <dd></dd>
+    <dd><p>The second <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> to compare.</p>
+</dd>
   </dl>
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p><code>true</code> if the value of <code class="paramref">left</code> is greater than or equal to the value of <code class="paramref">right</code>; otherwise, <code>false</code>.</p>
+</dd>
   </dl>
 
 
@@ -1270,10 +1330,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_op_Inequality_BigExcelCreator_Ranges_CellRange_BigExcelCreator_Ranges_CellRange_" data-uid="BigExcelCreator.Ranges.CellRange.op_Inequality(BigExcelCreator.Ranges.CellRange,BigExcelCreator.Ranges.CellRange)">
   operator !=(CellRange, CellRange)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L446"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L507"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>The inequality operator</p>
+  <div class="markdown level1 summary"><p>Determines whether two specified <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> objects have different values.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -1284,15 +1344,18 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>left</code> <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a></dt>
-    <dd></dd>
+    <dd><p>The first <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> to compare.</p>
+</dd>
     <dt><code>right</code> <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a></dt>
-    <dd></dd>
+    <dd><p>The second <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> to compare.</p>
+</dd>
   </dl>
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p><code>true</code> if the value of <code class="paramref">left</code> is different from the value of <code class="paramref">right</code>; otherwise, <code>false</code>.</p>
+</dd>
   </dl>
 
 
@@ -1309,10 +1372,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_op_LessThan_BigExcelCreator_Ranges_CellRange_BigExcelCreator_Ranges_CellRange_" data-uid="BigExcelCreator.Ranges.CellRange.op_LessThan(BigExcelCreator.Ranges.CellRange,BigExcelCreator.Ranges.CellRange)">
   operator &lt;(CellRange, CellRange)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L457"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L520"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>The less than operator</p>
+  <div class="markdown level1 summary"><p>Determines whether one specified <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> is less than another specified <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -1323,15 +1386,18 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>left</code> <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a></dt>
-    <dd></dd>
+    <dd><p>The first <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> to compare.</p>
+</dd>
     <dt><code>right</code> <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a></dt>
-    <dd></dd>
+    <dd><p>The second <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> to compare.</p>
+</dd>
   </dl>
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p><code>true</code> if the value of <code class="paramref">left</code> is less than the value of <code class="paramref">right</code>; otherwise, <code>false</code>.</p>
+</dd>
   </dl>
 
 
@@ -1348,10 +1414,10 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Ranges_CellRange_op_LessThanOrEqual_BigExcelCreator_Ranges_CellRange_BigExcelCreator_Ranges_CellRange_" data-uid="BigExcelCreator.Ranges.CellRange.op_LessThanOrEqual(BigExcelCreator.Ranges.CellRange,BigExcelCreator.Ranges.CellRange)">
   operator &lt;=(CellRange, CellRange)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L468"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L533"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>The less or equal than operator</p>
+  <div class="markdown level1 summary"><p>Determines whether one specified <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> is less than or equal to another specified <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -1362,15 +1428,18 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
     <dt><code>left</code> <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a></dt>
-    <dd></dd>
+    <dd><p>The first <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> to compare.</p>
+</dd>
     <dt><code>right</code> <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a></dt>
-    <dd></dd>
+    <dd><p>The second <a class="xref" href="BigExcelCreator.Ranges.CellRange.html">CellRange</a> to compare.</p>
+</dd>
   </dl>
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
     <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd></dd>
+    <dd><p><code>true</code> if the value of <code class="paramref">left</code> is less than or equal to the value of <code class="paramref">right</code>; otherwise, <code>false</code>.</p>
+</dd>
   </dl>
 
 
@@ -1387,7 +1456,7 @@ Class CellRange  <a class="header-action link-secondary" title="View source" hre
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Ranges/CellRange.cs/#L16" class="edit-link">Edit this page</a>
+          <a href="https://github.com/fenase/BigExcelCreator/blob/3.2/BigExcelCreator/Ranges/CellRange.cs/#L19" class="edit-link">Edit this page</a>
         </div>
 
 
