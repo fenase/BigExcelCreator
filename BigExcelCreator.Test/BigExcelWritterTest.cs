@@ -73,10 +73,8 @@ namespace BigExcelCreator.Test
 
                 Assert.Throws<UnsupportedSpreadsheetDocumentTypeException>(() =>
                 {
-                    using (BigExcelWriter writer = new(path, spreadsheetDocumentType))
-                    {
-                        // do nothing
-                    }
+                    using BigExcelWriter writer = new(path, spreadsheetDocumentType);
+                    // do nothing
                 });
                 Assert.That(path, Does.Not.Exist);
             });
@@ -87,10 +85,8 @@ namespace BigExcelCreator.Test
 
                 Assert.Catch<NotSupportedException>(() =>
                 {
-                    using (BigExcelWriter writer = new(path, spreadsheetDocumentType))
-                    {
-                        // do nothing
-                    }
+                    using BigExcelWriter writer = new(path, spreadsheetDocumentType);
+                    // do nothing
                 });
                 Assert.That(path, Does.Not.Exist);
             });
@@ -104,10 +100,8 @@ namespace BigExcelCreator.Test
                 Stream stream = new MemoryStream();
                 Assert.Throws<UnsupportedSpreadsheetDocumentTypeException>(() =>
                 {
-                    using (BigExcelWriter writer = new(stream, spreadsheetDocumentType))
-                    {
-                        // do nothing
-                    }
+                    using BigExcelWriter writer = new(stream, spreadsheetDocumentType);
+                    // do nothing
                 });
             });
 
@@ -116,10 +110,8 @@ namespace BigExcelCreator.Test
                 Stream stream = new MemoryStream();
                 Assert.Catch<NotSupportedException>(() =>
                 {
-                    using (BigExcelWriter writer = new(stream, spreadsheetDocumentType))
-                    {
-                        // do nothing
-                    }
+                    using BigExcelWriter writer = new(stream, spreadsheetDocumentType);
+                    // do nothing
                 });
             });
         }
@@ -265,6 +257,128 @@ namespace BigExcelCreator.Test
             {
                 Assert.That(sheet, Is.Not.Null);
                 Assert.That(sheet.Name!.ToString(), Is.EqualTo("first"));
+            });
+        }
+
+        [Test]
+        public void ValidDefaultStyles()
+        {
+            MemoryStream stream;
+            using (BigExcelWriter writer = GetWriterStream(out stream))
+            {
+                writer.CreateAndOpenSheet("first");
+                writer.CloseSheet();
+            }
+
+            using SpreadsheetDocument reader = SpreadsheetDocument.Open(stream, false);
+
+            WorkbookPart? workbookPart = reader.WorkbookPart;
+            Assert.That(workbookPart, Is.Not.Null);
+
+            WorkbookStylesPart? workbookStylesPart = workbookPart.WorkbookStylesPart;
+            Assert.That(workbookStylesPart, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(workbookStylesPart.Stylesheet, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.ChildElements, Is.Empty);
+                Assert.That(workbookStylesPart.Stylesheet.Fonts, Is.Null);
+                Assert.That(workbookStylesPart.Stylesheet.Fills, Is.Null);
+                Assert.That(workbookStylesPart.Stylesheet.Borders, Is.Null);
+                Assert.That(workbookStylesPart.Stylesheet.CellFormats, Is.Null);
+                Assert.That(workbookStylesPart.Stylesheet.DifferentialFormats, Is.Null);
+            });
+        }
+
+        [Test]
+        public void ValidCustomUnmodifiedStyles()
+        {
+            StyleList styleList = new();
+
+            MemoryStream stream = new();
+            using (BigExcelWriter writer = new(stream, styleList.GetStylesheet()))
+            {
+                writer.CreateAndOpenSheet("first");
+                writer.CloseSheet();
+            }
+
+            using SpreadsheetDocument reader = SpreadsheetDocument.Open(stream, false);
+
+            WorkbookPart? workbookPart = reader.WorkbookPart;
+            Assert.That(workbookPart, Is.Not.Null);
+
+            WorkbookStylesPart? workbookStylesPart = workbookPart.WorkbookStylesPart;
+            Assert.That(workbookStylesPart, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(workbookStylesPart.Stylesheet, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.ChildElements, Is.Not.Empty);
+                Assert.That(workbookStylesPart.Stylesheet.Fonts, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.Fills, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.Borders, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.CellFormats, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.CellFormats!.ChildElements, Has.Count.EqualTo(2)); // default formats (# = 2)
+                Assert.That(workbookStylesPart.Stylesheet.DifferentialFormats, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.DifferentialFormats!.ChildElements, Is.Empty);
+            });
+        }
+
+        [Test]
+        public void ValidCustomStyles()
+        {
+            StyleList styleList = new();
+            Font italic = new(new Italic());
+            Font bold = new(new Bold());
+            Font boldItalic = new(new Bold(), new Italic());
+            styleList.NewStyle(italic, null, null, null, "italic default");
+            styleList.NewStyle(bold, null, null, null, "bold default");
+            styleList.NewStyle(boldItalic, null, null, null, "bold italic default");
+
+            Alignment center = new() { Horizontal = HorizontalAlignmentValues.Center };
+
+            styleList.NewStyle(italic, null, null, null, center, "italic center");
+            styleList.NewStyle(bold, null, null, null, center, "bold center");
+            styleList.NewStyle(boldItalic, null, null, null, center, "bold italic center");
+            Fill yellowFill = new(new[]{
+                        new PatternFill(new[]{
+                            new ForegroundColor { Rgb = new HexBinaryValue { Value = "FFFF00" } } }
+                        )
+                        { PatternType = PatternValues.Solid } });
+            styleList.NewStyle(null, yellowFill, null, null, "YELLOW");
+
+            styleList.NewDifferentialStyle("RED", font: new Font(new[] { new Color { Rgb = new HexBinaryValue { Value = "FF0000" } } }));
+
+            Fill greenFill = new(new[]{
+                        new PatternFill(new[]{
+                            new BackgroundColor { Rgb = new HexBinaryValue { Value = "00FF00" } } })
+                        { PatternType = PatternValues.Solid } });
+
+            styleList.NewDifferentialStyle("GREENBKG", fill: greenFill);
+
+            MemoryStream stream = new();
+            using (BigExcelWriter writer = new(stream, styleList.GetStylesheet()))
+            {
+                writer.CreateAndOpenSheet("first");
+                writer.CloseSheet();
+            }
+
+            using SpreadsheetDocument reader = SpreadsheetDocument.Open(stream, false);
+
+            WorkbookPart? workbookPart = reader.WorkbookPart;
+            Assert.That(workbookPart, Is.Not.Null);
+
+            WorkbookStylesPart? workbookStylesPart = workbookPart.WorkbookStylesPart;
+            Assert.That(workbookStylesPart, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(workbookStylesPart.Stylesheet, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.ChildElements, Is.Not.Empty);
+                Assert.That(workbookStylesPart.Stylesheet.Fonts, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.Fills, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.Borders, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.CellFormats, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.CellFormats!.ChildElements, Has.Count.EqualTo(9)); // default formats (# = 2) + inserted (# = 7)
+                Assert.That(workbookStylesPart.Stylesheet.DifferentialFormats, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.DifferentialFormats!.ChildElements, Has.Count.EqualTo(2));
             });
         }
 
