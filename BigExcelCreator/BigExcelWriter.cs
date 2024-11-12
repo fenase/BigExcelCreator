@@ -403,7 +403,7 @@ namespace BigExcelCreator
             sheetOpen = true;
             currentSheetState = sheetState;
 
-            SetSheetDefault();
+            SetSheetDefaults();
         }
 
         /// <summary>
@@ -1776,7 +1776,7 @@ namespace BigExcelCreator
             workbookPartWriter.Close();
         }
 
-        private void SetSheetDefault()
+        private void SetSheetDefaults()
         {
             _showGridLinesInCurrentSheet = _showGridLinesDefault;
             _showRowAndColumnHeadingsInCurrentSheet = _showRowAndColumnHeadingsDefault;
@@ -1810,13 +1810,13 @@ namespace BigExcelCreator
 
         private static void ThrowIfInvalidSpreadsheetDocumentType(SpreadsheetDocumentType spreadsheetDocumentType)
         {
-            var validSpreadsheetDocumentTypes = new[]
-            {
+            SpreadsheetDocumentType[] validSpreadsheetDocumentTypes =
+            [
                 SpreadsheetDocumentType.Workbook,
                 SpreadsheetDocumentType.Template,
                 SpreadsheetDocumentType.MacroEnabledWorkbook,
                 SpreadsheetDocumentType.MacroEnabledTemplate,
-            };
+            ];
             if (!validSpreadsheetDocumentTypes.Contains(spreadsheetDocumentType))
             {
                 throw new UnsupportedSpreadsheetDocumentTypeException(string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.InvalidSpreadsheetDocumentType, spreadsheetDocumentType));
