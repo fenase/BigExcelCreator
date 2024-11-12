@@ -73,10 +73,8 @@ namespace BigExcelCreator.Test
 
                 Assert.Throws<UnsupportedSpreadsheetDocumentTypeException>(() =>
                 {
-                    using (BigExcelWriter writer = new(path, spreadsheetDocumentType))
-                    {
-                        // do nothing
-                    }
+                    using BigExcelWriter writer = new(path, spreadsheetDocumentType);
+                    // do nothing
                 });
                 Assert.That(path, Does.Not.Exist);
             });
@@ -87,10 +85,8 @@ namespace BigExcelCreator.Test
 
                 Assert.Catch<NotSupportedException>(() =>
                 {
-                    using (BigExcelWriter writer = new(path, spreadsheetDocumentType))
-                    {
-                        // do nothing
-                    }
+                    using BigExcelWriter writer = new(path, spreadsheetDocumentType);
+                    // do nothing
                 });
                 Assert.That(path, Does.Not.Exist);
             });
@@ -104,10 +100,8 @@ namespace BigExcelCreator.Test
                 Stream stream = new MemoryStream();
                 Assert.Throws<UnsupportedSpreadsheetDocumentTypeException>(() =>
                 {
-                    using (BigExcelWriter writer = new(stream, spreadsheetDocumentType))
-                    {
-                        // do nothing
-                    }
+                    using BigExcelWriter writer = new(stream, spreadsheetDocumentType);
+                    // do nothing
                 });
             });
 
@@ -116,10 +110,8 @@ namespace BigExcelCreator.Test
                 Stream stream = new MemoryStream();
                 Assert.Catch<NotSupportedException>(() =>
                 {
-                    using (BigExcelWriter writer = new(stream, spreadsheetDocumentType))
-                    {
-                        // do nothing
-                    }
+                    using BigExcelWriter writer = new(stream, spreadsheetDocumentType);
+                    // do nothing
                 });
             });
         }
@@ -346,7 +338,7 @@ namespace BigExcelCreator.Test
             styleList.NewStyle(italic, null, null, null, center, "italic center");
             styleList.NewStyle(bold, null, null, null, center, "bold center");
             styleList.NewStyle(boldItalic, null, null, null, center, "bold italic center");
-            Fill yellowFill = new Fill(new[]{
+            Fill yellowFill = new(new[]{
                         new PatternFill(new[]{
                             new ForegroundColor { Rgb = new HexBinaryValue { Value = "FFFF00" } } }
                         )
@@ -355,7 +347,7 @@ namespace BigExcelCreator.Test
 
             styleList.NewDifferentialStyle("RED", font: new Font(new[] { new Color { Rgb = new HexBinaryValue { Value = "FF0000" } } }));
 
-            Fill greenFill = new Fill(new[]{
+            Fill greenFill = new(new[]{
                         new PatternFill(new[]{
                             new BackgroundColor { Rgb = new HexBinaryValue { Value = "00FF00" } } })
                         { PatternType = PatternValues.Solid } });
