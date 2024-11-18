@@ -705,16 +705,4 @@ namespace BigExcelCreator.Ranges
             while (j < rangeEnd.Length && char.IsDigit(rangeEnd[j])) { numbers2++; j++; }
         }
     }
-
-    [Flags]
-    enum RangeTypes
-    {
-        None = 0b00,
-        ColFinite = None,
-        RowFinite = None,
-        ColInfinite = 0b01,
-        RowInfinite = 0b10,
-
-        AnyInfinite = ColInfinite | RowInfinite,
-    }
 }
