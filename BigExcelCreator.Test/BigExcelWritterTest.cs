@@ -1215,8 +1215,11 @@ namespace BigExcelCreator.Test
             Assert.Catch<InvalidOperationException>(() => writer.AddDecimalValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
         }
 
-        [Test]
-        public void IntegerValidator()
+        [TestCase(typeof(int))]
+        [TestCase(typeof(uint))]
+        [TestCase(typeof(long))]
+        [TestCase(typeof(ulong))]
+        public void IntegerValidator(Type type)
         {
             MemoryStream memoryStream;
             using (BigExcelWriter writer = GetWriterStream(out memoryStream))
@@ -1227,7 +1230,24 @@ namespace BigExcelCreator.Test
                     writer.WriteNumberRow(new List<ulong> { i });
                 }
 
-                writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Equal);
+                switch (type)
+                {
+                    case Type t when t == typeof(int):
+                        writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Equal);
+                        break;
+                    case Type t when t == typeof(uint):
+                        writer.AddIntegerValidator("A1:A20", 1u, DataValidationOperatorValues.Equal);
+                        break;
+                    case Type t when t == typeof(long):
+                        writer.AddIntegerValidator("A1:A20", 1L, DataValidationOperatorValues.Equal);
+                        break;
+                    case Type t when t == typeof(ulong):
+                        writer.AddIntegerValidator("A1:A20", 1ul, DataValidationOperatorValues.Equal);
+                        break;
+                    default:
+                        Assert.Fail("Missing test case");
+                        break;
+                }
             }
             using SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false);
             WorkbookPart? workbookPart = reader.WorkbookPart;
@@ -1235,7 +1255,7 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>, Is.Not.Empty);
+                Assert.That(workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>, Is.Not.Empty);
                 IEnumerable<DataValidations> dataValidations = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>();
                 Assert.That(dataValidations.Count(), Is.EqualTo(1));
 
@@ -1255,8 +1275,11 @@ namespace BigExcelCreator.Test
             });
         }
 
-        [Test]
-        public void IntegerValidatorNoSecondOperand()
+        [TestCase(typeof(int))]
+        [TestCase(typeof(uint))]
+        [TestCase(typeof(long))]
+        [TestCase(typeof(ulong))]
+        public void IntegerValidatorNoSecondOperand(Type type)
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
@@ -1265,11 +1288,31 @@ namespace BigExcelCreator.Test
                 writer.WriteNumberRow(new List<byte> { i });
             }
 
-            Assert.Throws<ArgumentNullException>(() => writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Between));
+            switch (type)
+            {
+                case Type t when t == typeof(int):
+                    Assert.Throws<ArgumentNullException>(() => writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Between));
+                    break;
+                case Type t when t == typeof(uint):
+                    Assert.Throws<ArgumentNullException>(() => writer.AddIntegerValidator("A1:A20", 1u, DataValidationOperatorValues.Between));
+                    break;
+                case Type t when t == typeof(long):
+                    Assert.Throws<ArgumentNullException>(() => writer.AddIntegerValidator("A1:A20", 1L, DataValidationOperatorValues.Between));
+                    break;
+                case Type t when t == typeof(ulong):
+                    Assert.Throws<ArgumentNullException>(() => writer.AddIntegerValidator("A1:A20", 1ul, DataValidationOperatorValues.Between));
+                    break;
+                default:
+                    Assert.Fail("Missing test case");
+                    break;
+            }
         }
 
-        [Test]
-        public void IntegerValidationNoSheetThrowsNoOpenSheetException()
+        [TestCase(typeof(int))]
+        [TestCase(typeof(uint))]
+        [TestCase(typeof(long))]
+        [TestCase(typeof(ulong))]
+        public void IntegerValidationNoSheetThrowsNoOpenSheetException(Type type)
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
@@ -1279,11 +1322,31 @@ namespace BigExcelCreator.Test
             }
             writer.CloseSheet();
 
-            Assert.Throws<NoOpenSheetException>(() => writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
+            switch (type)
+            {
+                case Type t when t == typeof(int):
+                    Assert.Throws<NoOpenSheetException>(() => writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(uint):
+                    Assert.Throws<NoOpenSheetException>(() => writer.AddIntegerValidator("A1:A20", 1u, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(long):
+                    Assert.Throws<NoOpenSheetException>(() => writer.AddIntegerValidator("A1:A20", 1L, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(ulong):
+                    Assert.Throws<NoOpenSheetException>(() => writer.AddIntegerValidator("A1:A20", 1ul, DataValidationOperatorValues.Equal));
+                    break;
+                default:
+                    Assert.Fail("Missing test case");
+                    break;
+            }
         }
 
-        [Test]
-        public void IntegerValidationNoSheetThrowsInvalidOperationException()
+        [TestCase(typeof(int))]
+        [TestCase(typeof(uint))]
+        [TestCase(typeof(long))]
+        [TestCase(typeof(ulong))]
+        public void IntegerValidationNoSheetThrowsInvalidOperationException(Type type)
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
@@ -1293,7 +1356,24 @@ namespace BigExcelCreator.Test
             }
             writer.CloseSheet();
 
-            Assert.Catch<InvalidOperationException>(() => writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
+            switch (type)
+            {
+                case Type t when t == typeof(int):
+                    Assert.Catch<InvalidOperationException>(() => writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(uint):
+                    Assert.Catch<InvalidOperationException>(() => writer.AddIntegerValidator("A1:A20", 1u, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(long):
+                    Assert.Catch<InvalidOperationException>(() => writer.AddIntegerValidator("A1:A20", 1L, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(ulong):
+                    Assert.Catch<InvalidOperationException>(() => writer.AddIntegerValidator("A1:A20", 1ul, DataValidationOperatorValues.Equal));
+                    break;
+                default:
+                    Assert.Fail("Missing test case");
+                    break;
+            }
         }
 
         [Test]
