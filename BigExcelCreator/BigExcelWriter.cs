@@ -1137,12 +1137,12 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
         /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
         public void AddIntegerValidator(string range,
-                                        int firstOperand,
+                                        long firstOperand,
                                         DataValidationOperatorValues validationType,
                                         bool allowBlank = true,
                                         bool showInputMessage = true,
                                         bool showErrorMessage = true,
-                                        int? secondOperand = null)
+                                        long? secondOperand = null)
         {
             AddIntegerValidator(new CellRange(range),
                                 firstOperand,
@@ -1167,12 +1167,12 @@ namespace BigExcelCreator
         /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
         /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
         public void AddIntegerValidator(CellRange range,
-                                        int firstOperand,
+                                        long firstOperand,
                                         DataValidationOperatorValues validationType,
                                         bool allowBlank = true,
                                         bool showInputMessage = true,
                                         bool showErrorMessage = true,
-                                        int? secondOperand = null)
+                                        long? secondOperand = null)
         {
             DataValidation dataValidation = AddValidatorCommon(range, DataValidationValues.Whole, validationType, allowBlank, showInputMessage, showErrorMessage);
 
