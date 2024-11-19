@@ -1133,8 +1133,16 @@ namespace BigExcelCreator.Test
             });
         }
 
-        [Test]
-        public void DecimalValidator()
+        [TestCase(typeof(float), 1f, 10f)]
+        [TestCase(typeof(float), 2f, 30f)]
+        [TestCase(typeof(float), 3f, 30f)]
+        [TestCase(typeof(double), 1d, 10d)]
+        [TestCase(typeof(double), 2d, 30d)]
+        [TestCase(typeof(double), 3d, 30d)]
+        [TestCase(typeof(decimal), 1d, 10d)]
+        [TestCase(typeof(decimal), 2d, 30d)]
+        [TestCase(typeof(decimal), 3d, 30d)]
+        public void DecimalValidator(Type type, object from, object to)
         {
             MemoryStream memoryStream;
             using (BigExcelWriter writer = GetWriterStream(out memoryStream))
@@ -1145,7 +1153,21 @@ namespace BigExcelCreator.Test
                     writer.WriteNumberRow(new List<double> { i });
                 }
 
-                writer.AddDecimalValidator("A1:A20", 1, DataValidationOperatorValues.Between, secondOperand: 10);
+                switch (type)
+                {
+                    case Type t when t == typeof(float):
+                        writer.AddDecimalValidator("A1:A20", (float)from, DataValidationOperatorValues.Between, secondOperand: (float)to);
+                        break;
+                    case Type t when t == typeof(double):
+                        writer.AddDecimalValidator("A1:A20", (double)from, DataValidationOperatorValues.Between, secondOperand: (double)to);
+                        break;
+                    case Type t when t == typeof(decimal):
+                        writer.AddDecimalValidator("A1:A20", Convert.ToDecimal(from), DataValidationOperatorValues.Between, secondOperand: Convert.ToDecimal(to));
+                        break;
+                    default:
+                        Assert.Fail("Missing test case");
+                        break;
+                }
             }
             using SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false);
             WorkbookPart? workbookPart = reader.WorkbookPart;
@@ -1168,14 +1190,16 @@ namespace BigExcelCreator.Test
                                 Assert.That(dataValidation.AllowBlank!.Value, Is.EqualTo(true));
                                 Assert.That(dataValidation.ShowErrorMessage!.Value, Is.EqualTo(true));
                                 Assert.That(dataValidation.ShowInputMessage!.Value, Is.EqualTo(true));
-                                Assert.That(dataValidation.Formula1!.Text, Is.EqualTo("1"));
-                                Assert.That(dataValidation.Formula2!.Text, Is.EqualTo("10"));
+                                Assert.That(dataValidation.Formula1!.Text, Is.EqualTo(from.ToString()));
+                                Assert.That(dataValidation.Formula2!.Text, Is.EqualTo(to.ToString()));
                             });
             });
         }
 
-        [Test]
-        public void DecimalValidatorNoSecondOperand()
+        [TestCase(typeof(float))]
+        [TestCase(typeof(double))]
+        [TestCase(typeof(decimal))]
+        public void DecimalValidatorNoSecondOperand(Type type)
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
@@ -1184,11 +1208,27 @@ namespace BigExcelCreator.Test
                 writer.WriteNumberRow(new List<uint> { i });
             }
 
-            Assert.Throws<ArgumentNullException>(() => writer.AddDecimalValidator("A1:A20", 1, DataValidationOperatorValues.Between));
+            switch (type)
+            {
+                case Type t when t == typeof(float):
+                    Assert.Throws<ArgumentNullException>(() => writer.AddDecimalValidator("A1:A20", 1f, DataValidationOperatorValues.Between));
+                    break;
+                case Type t when t == typeof(double):
+                    Assert.Throws<ArgumentNullException>(() => writer.AddDecimalValidator("A1:A20", 1d, DataValidationOperatorValues.Between));
+                    break;
+                case Type t when t == typeof(decimal):
+                    Assert.Throws<ArgumentNullException>(() => writer.AddDecimalValidator("A1:A20", 1m, DataValidationOperatorValues.Between));
+                    break;
+                default:
+                    Assert.Fail("Missing test case");
+                    break;
+            }
         }
 
-        [Test]
-        public void DecimalValidationNoSheetThrowsNoOpenSheetException()
+        [TestCase(typeof(float))]
+        [TestCase(typeof(double))]
+        [TestCase(typeof(decimal))]
+        public void DecimalValidationNoSheetThrowsNoOpenSheetException(Type type)
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
@@ -1198,11 +1238,27 @@ namespace BigExcelCreator.Test
             }
             writer.CloseSheet();
 
-            Assert.Throws<NoOpenSheetException>(() => writer.AddDecimalValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
+            switch (type)
+            {
+                case Type t when t == typeof(float):
+                    Assert.Throws<NoOpenSheetException>(() => writer.AddDecimalValidator("A1:A20", 1f, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(double):
+                    Assert.Throws<NoOpenSheetException>(() => writer.AddDecimalValidator("A1:A20", 1d, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(decimal):
+                    Assert.Throws<NoOpenSheetException>(() => writer.AddDecimalValidator("A1:A20", 1m, DataValidationOperatorValues.Equal));
+                    break;
+                default:
+                    Assert.Fail("Missing test case");
+                    break;
+            }
         }
 
-        [Test]
-        public void DecimalValidationNoSheetThrowsInvalidOperationException()
+        [TestCase(typeof(float))]
+        [TestCase(typeof(double))]
+        [TestCase(typeof(decimal))]
+        public void DecimalValidationNoSheetThrowsInvalidOperationException(Type type)
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
@@ -1212,7 +1268,21 @@ namespace BigExcelCreator.Test
             }
             writer.CloseSheet();
 
-            Assert.Catch<InvalidOperationException>(() => writer.AddDecimalValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
+            switch (type)
+            {
+                case Type t when t == typeof(float):
+                    Assert.Catch<InvalidOperationException>(() => writer.AddDecimalValidator("A1:A20", 1f, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(double):
+                    Assert.Catch<InvalidOperationException>(() => writer.AddDecimalValidator("A1:A20", 1d, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(decimal):
+                    Assert.Catch<InvalidOperationException>(() => writer.AddDecimalValidator("A1:A20", 1m, DataValidationOperatorValues.Equal));
+                    break;
+                default:
+                    Assert.Fail("Missing test case");
+                    break;
+            }
         }
 
         [TestCase(typeof(int))]
