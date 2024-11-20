@@ -13,7 +13,7 @@ namespace BigExcelCreator.Test
 {
     internal class BigExcelWriterTest
     {
-        string DirectoryPath { get; set; }
+        private static readonly string DirectoryPath = TestContext.CurrentContext.WorkDirectory + @"\excelOut";
 
         private static readonly IEnumerable<SpreadsheetDocumentType> ValidSpreadsheetDocumentTypes =
         [
@@ -31,7 +31,6 @@ namespace BigExcelCreator.Test
         [SetUp]
         public void Setup()
         {
-            DirectoryPath = TestContext.CurrentContext.WorkDirectory + @"\excelOut";
             Directory.CreateDirectory(DirectoryPath);
             Assert.That(DirectoryPath, Does.Exist);
         }
@@ -134,7 +133,7 @@ namespace BigExcelCreator.Test
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
 
-            Workbook workbook = workbookPart.Workbook;
+            Workbook workbook = workbookPart!.Workbook;
 
             Sheets? sheets = workbook.Sheets;
             Assert.Multiple(() =>
@@ -168,7 +167,7 @@ namespace BigExcelCreator.Test
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
 
-            Workbook workbook = workbookPart.Workbook;
+            Workbook workbook = workbookPart!.Workbook;
 
             Sheets? sheets = workbook.Sheets;
             Assert.Multiple(() =>
@@ -206,7 +205,7 @@ namespace BigExcelCreator.Test
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
 
-            Workbook workbook = workbookPart.Workbook;
+            Workbook workbook = workbookPart!.Workbook;
 
             Sheets? sheets = workbook.Sheets;
             Assert.Multiple(() =>
@@ -244,7 +243,7 @@ namespace BigExcelCreator.Test
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
 
-            Workbook workbook = workbookPart.Workbook;
+            Workbook workbook = workbookPart!.Workbook;
 
             Sheets? sheets = workbook.Sheets;
             Assert.Multiple(() =>
@@ -275,17 +274,17 @@ namespace BigExcelCreator.Test
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
 
-            WorkbookStylesPart? workbookStylesPart = workbookPart.WorkbookStylesPart;
+            WorkbookStylesPart? workbookStylesPart = workbookPart!.WorkbookStylesPart;
             Assert.That(workbookStylesPart, Is.Not.Null);
             Assert.Multiple(() =>
             {
-                Assert.That(workbookStylesPart.Stylesheet, Is.Not.Null);
-                Assert.That(workbookStylesPart.Stylesheet.ChildElements, Is.Empty);
-                Assert.That(workbookStylesPart.Stylesheet.Fonts, Is.Null);
-                Assert.That(workbookStylesPart.Stylesheet.Fills, Is.Null);
-                Assert.That(workbookStylesPart.Stylesheet.Borders, Is.Null);
-                Assert.That(workbookStylesPart.Stylesheet.CellFormats, Is.Null);
-                Assert.That(workbookStylesPart.Stylesheet.DifferentialFormats, Is.Null);
+                Assert.That(workbookStylesPart!.Stylesheet, Is.Not.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.ChildElements, Is.Empty);
+                Assert.That(workbookStylesPart!.Stylesheet.Fonts, Is.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.Fills, Is.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.Borders, Is.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.CellFormats, Is.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.DifferentialFormats, Is.Null);
             });
         }
 
@@ -306,19 +305,19 @@ namespace BigExcelCreator.Test
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
 
-            WorkbookStylesPart? workbookStylesPart = workbookPart.WorkbookStylesPart;
+            WorkbookStylesPart? workbookStylesPart = workbookPart!.WorkbookStylesPart;
             Assert.That(workbookStylesPart, Is.Not.Null);
             Assert.Multiple(() =>
             {
-                Assert.That(workbookStylesPart.Stylesheet, Is.Not.Null);
-                Assert.That(workbookStylesPart.Stylesheet.ChildElements, Is.Not.Empty);
-                Assert.That(workbookStylesPart.Stylesheet.Fonts, Is.Not.Null);
-                Assert.That(workbookStylesPart.Stylesheet.Fills, Is.Not.Null);
-                Assert.That(workbookStylesPart.Stylesheet.Borders, Is.Not.Null);
-                Assert.That(workbookStylesPart.Stylesheet.CellFormats, Is.Not.Null);
-                Assert.That(workbookStylesPart.Stylesheet.CellFormats!.ChildElements, Has.Count.EqualTo(2)); // default formats (# = 2)
-                Assert.That(workbookStylesPart.Stylesheet.DifferentialFormats, Is.Not.Null);
-                Assert.That(workbookStylesPart.Stylesheet.DifferentialFormats!.ChildElements, Is.Empty);
+                Assert.That(workbookStylesPart!.Stylesheet, Is.Not.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.ChildElements, Is.Not.Empty);
+                Assert.That(workbookStylesPart!.Stylesheet.Fonts, Is.Not.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.Fills, Is.Not.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.Borders, Is.Not.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.CellFormats, Is.Not.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.CellFormats!.ChildElements, Has.Count.EqualTo(2)); // default formats (# = 2)
+                Assert.That(workbookStylesPart!.Stylesheet.DifferentialFormats, Is.Not.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.DifferentialFormats!.ChildElements, Is.Empty);
             });
         }
 
@@ -366,19 +365,19 @@ namespace BigExcelCreator.Test
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
 
-            WorkbookStylesPart? workbookStylesPart = workbookPart.WorkbookStylesPart;
+            WorkbookStylesPart? workbookStylesPart = workbookPart!.WorkbookStylesPart;
             Assert.That(workbookStylesPart, Is.Not.Null);
             Assert.Multiple(() =>
             {
-                Assert.That(workbookStylesPart.Stylesheet, Is.Not.Null);
-                Assert.That(workbookStylesPart.Stylesheet.ChildElements, Is.Not.Empty);
-                Assert.That(workbookStylesPart.Stylesheet.Fonts, Is.Not.Null);
-                Assert.That(workbookStylesPart.Stylesheet.Fills, Is.Not.Null);
-                Assert.That(workbookStylesPart.Stylesheet.Borders, Is.Not.Null);
-                Assert.That(workbookStylesPart.Stylesheet.CellFormats, Is.Not.Null);
-                Assert.That(workbookStylesPart.Stylesheet.CellFormats!.ChildElements, Has.Count.EqualTo(9)); // default formats (# = 2) + inserted (# = 7)
-                Assert.That(workbookStylesPart.Stylesheet.DifferentialFormats, Is.Not.Null);
-                Assert.That(workbookStylesPart.Stylesheet.DifferentialFormats!.ChildElements, Has.Count.EqualTo(2));
+                Assert.That(workbookStylesPart!.Stylesheet, Is.Not.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.ChildElements, Is.Not.Empty);
+                Assert.That(workbookStylesPart!.Stylesheet.Fonts, Is.Not.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.Fills, Is.Not.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.Borders, Is.Not.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.CellFormats, Is.Not.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.CellFormats!.ChildElements, Has.Count.EqualTo(9)); // default formats (# = 2) + inserted (# = 7)
+                Assert.That(workbookStylesPart!.Stylesheet.DifferentialFormats, Is.Not.Null);
+                Assert.That(workbookStylesPart!.Stylesheet.DifferentialFormats!.ChildElements, Has.Count.EqualTo(2));
             });
         }
 
@@ -451,7 +450,7 @@ namespace BigExcelCreator.Test
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
 
-            Workbook workbook = workbookPart.Workbook;
+            Workbook workbook = workbookPart!.Workbook;
 
             Sheets? sheets = workbook.Sheets;
             Assert.Multiple(() =>
@@ -567,7 +566,7 @@ namespace BigExcelCreator.Test
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
 
-            Workbook workbook = workbookPart.Workbook;
+            Workbook workbook = workbookPart!.Workbook;
 
             Sheets? sheets = workbook.Sheets;
             Assert.Multiple(() =>
@@ -682,7 +681,7 @@ namespace BigExcelCreator.Test
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
 
-            Workbook workbook = workbookPart.Workbook;
+            Workbook workbook = workbookPart!.Workbook;
 
             Sheets? sheets = workbook.Sheets;
             Assert.Multiple(() =>
@@ -904,10 +903,10 @@ namespace BigExcelCreator.Test
 
             WorkbookPart? workbookPart1 = reader1.WorkbookPart;
             Assert.That(workbookPart1, Is.Not.Null);
-            IEnumerable<Row> rows1 = GetRows(workbookPart1.WorksheetParts.First().Worksheet);
+            IEnumerable<Row> rows1 = GetRows(workbookPart1!.WorksheetParts.First().Worksheet);
             WorkbookPart? workbookPart2 = reader2.WorkbookPart;
             Assert.That(workbookPart2, Is.Not.Null);
-            IEnumerable<Row> rows2 = GetRows(workbookPart2.WorksheetParts.First().Worksheet);
+            IEnumerable<Row> rows2 = GetRows(workbookPart2!.WorksheetParts.First().Worksheet);
 
             Assert.Multiple(() =>
             {
@@ -1080,7 +1079,7 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>, Is.Not.Empty);
+                Assert.That(workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>, Is.Not.Empty);
                 IEnumerable<ConditionalFormatting> conditionalFormattings = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>();
                 Assert.That(conditionalFormattings.Count(), Is.EqualTo(1));
                 Assert.That(conditionalFormattings.First().SequenceOfReferences, Is.Not.Null);
@@ -1118,8 +1117,8 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>, Is.Not.Empty);
-                IEnumerable<ConditionalFormatting> conditionalFormattings = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>();
+                Assert.That(workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>, Is.Not.Empty);
+                IEnumerable<ConditionalFormatting> conditionalFormattings = workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>();
                 Assert.That(conditionalFormattings.Count(), Is.EqualTo(1));
                 Assert.That(conditionalFormattings.First().SequenceOfReferences, Is.Not.Null);
                 Assert.That(conditionalFormattings.First().SequenceOfReferences!.Items, Has.Count.EqualTo(1));
@@ -1133,8 +1132,16 @@ namespace BigExcelCreator.Test
             });
         }
 
-        [Test]
-        public void DecimalValidator()
+        [TestCase(typeof(float), 1f, 10f)]
+        [TestCase(typeof(float), 2f, 30f)]
+        [TestCase(typeof(float), 3f, 30f)]
+        [TestCase(typeof(double), 1d, 10d)]
+        [TestCase(typeof(double), 2d, 30d)]
+        [TestCase(typeof(double), 3d, 30d)]
+        [TestCase(typeof(decimal), 1d, 10d)]
+        [TestCase(typeof(decimal), 2d, 30d)]
+        [TestCase(typeof(decimal), 3d, 30d)]
+        public void DecimalValidator(Type type, object from, object to)
         {
             MemoryStream memoryStream;
             using (BigExcelWriter writer = GetWriterStream(out memoryStream))
@@ -1145,7 +1152,21 @@ namespace BigExcelCreator.Test
                     writer.WriteNumberRow(new List<double> { i });
                 }
 
-                writer.AddDecimalValidator("A1:A20", 1, DataValidationOperatorValues.Between, secondOperand: 10);
+                switch (type)
+                {
+                    case Type t when t == typeof(float):
+                        writer.AddDecimalValidator("A1:A20", (float)from, DataValidationOperatorValues.Between, secondOperand: (float)to);
+                        break;
+                    case Type t when t == typeof(double):
+                        writer.AddDecimalValidator("A1:A20", (double)from, DataValidationOperatorValues.Between, secondOperand: (double)to);
+                        break;
+                    case Type t when t == typeof(decimal):
+                        writer.AddDecimalValidator("A1:A20", Convert.ToDecimal(from), DataValidationOperatorValues.Between, secondOperand: Convert.ToDecimal(to));
+                        break;
+                    default:
+                        Assert.Fail("Missing test case");
+                        break;
+                }
             }
             using SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false);
             WorkbookPart? workbookPart = reader.WorkbookPart;
@@ -1153,8 +1174,8 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>, Is.Not.Empty);
-                IEnumerable<DataValidations> dataValidations = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>();
+                Assert.That(workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>, Is.Not.Empty);
+                IEnumerable<DataValidations> dataValidations = workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>();
                 Assert.That(dataValidations.Count(), Is.EqualTo(1));
 
                 IEnumerable<DataValidation> dataValidationsE = dataValidations.First().ChildElements.OfType<DataValidation>();
@@ -1168,14 +1189,16 @@ namespace BigExcelCreator.Test
                                 Assert.That(dataValidation.AllowBlank!.Value, Is.EqualTo(true));
                                 Assert.That(dataValidation.ShowErrorMessage!.Value, Is.EqualTo(true));
                                 Assert.That(dataValidation.ShowInputMessage!.Value, Is.EqualTo(true));
-                                Assert.That(dataValidation.Formula1!.Text, Is.EqualTo("1"));
-                                Assert.That(dataValidation.Formula2!.Text, Is.EqualTo("10"));
+                                Assert.That(dataValidation.Formula1!.Text, Is.EqualTo(from.ToString()));
+                                Assert.That(dataValidation.Formula2!.Text, Is.EqualTo(to.ToString()));
                             });
             });
         }
 
-        [Test]
-        public void DecimalValidatorNoSecondOperand()
+        [TestCase(typeof(float))]
+        [TestCase(typeof(double))]
+        [TestCase(typeof(decimal))]
+        public void DecimalValidatorNoSecondOperand(Type type)
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
@@ -1184,11 +1207,27 @@ namespace BigExcelCreator.Test
                 writer.WriteNumberRow(new List<uint> { i });
             }
 
-            Assert.Throws<ArgumentNullException>(() => writer.AddDecimalValidator("A1:A20", 1, DataValidationOperatorValues.Between));
+            switch (type)
+            {
+                case Type t when t == typeof(float):
+                    Assert.Throws<ArgumentNullException>(() => writer.AddDecimalValidator("A1:A20", 1f, DataValidationOperatorValues.Between));
+                    break;
+                case Type t when t == typeof(double):
+                    Assert.Throws<ArgumentNullException>(() => writer.AddDecimalValidator("A1:A20", 1d, DataValidationOperatorValues.Between));
+                    break;
+                case Type t when t == typeof(decimal):
+                    Assert.Throws<ArgumentNullException>(() => writer.AddDecimalValidator("A1:A20", 1m, DataValidationOperatorValues.Between));
+                    break;
+                default:
+                    Assert.Fail("Missing test case");
+                    break;
+            }
         }
 
-        [Test]
-        public void DecimalValidationNoSheetThrowsNoOpenSheetException()
+        [TestCase(typeof(float))]
+        [TestCase(typeof(double))]
+        [TestCase(typeof(decimal))]
+        public void DecimalValidationNoSheetThrowsNoOpenSheetException(Type type)
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
@@ -1198,11 +1237,27 @@ namespace BigExcelCreator.Test
             }
             writer.CloseSheet();
 
-            Assert.Throws<NoOpenSheetException>(() => writer.AddDecimalValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
+            switch (type)
+            {
+                case Type t when t == typeof(float):
+                    Assert.Throws<NoOpenSheetException>(() => writer.AddDecimalValidator("A1:A20", 1f, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(double):
+                    Assert.Throws<NoOpenSheetException>(() => writer.AddDecimalValidator("A1:A20", 1d, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(decimal):
+                    Assert.Throws<NoOpenSheetException>(() => writer.AddDecimalValidator("A1:A20", 1m, DataValidationOperatorValues.Equal));
+                    break;
+                default:
+                    Assert.Fail("Missing test case");
+                    break;
+            }
         }
 
-        [Test]
-        public void DecimalValidationNoSheetThrowsInvalidOperationException()
+        [TestCase(typeof(float))]
+        [TestCase(typeof(double))]
+        [TestCase(typeof(decimal))]
+        public void DecimalValidationNoSheetThrowsInvalidOperationException(Type type)
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
@@ -1212,11 +1267,28 @@ namespace BigExcelCreator.Test
             }
             writer.CloseSheet();
 
-            Assert.Catch<InvalidOperationException>(() => writer.AddDecimalValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
+            switch (type)
+            {
+                case Type t when t == typeof(float):
+                    Assert.Catch<InvalidOperationException>(() => writer.AddDecimalValidator("A1:A20", 1f, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(double):
+                    Assert.Catch<InvalidOperationException>(() => writer.AddDecimalValidator("A1:A20", 1d, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(decimal):
+                    Assert.Catch<InvalidOperationException>(() => writer.AddDecimalValidator("A1:A20", 1m, DataValidationOperatorValues.Equal));
+                    break;
+                default:
+                    Assert.Fail("Missing test case");
+                    break;
+            }
         }
 
-        [Test]
-        public void IntegerValidator()
+        [TestCase(typeof(int))]
+        [TestCase(typeof(uint))]
+        [TestCase(typeof(long))]
+        [TestCase(typeof(ulong))]
+        public void IntegerValidator(Type type)
         {
             MemoryStream memoryStream;
             using (BigExcelWriter writer = GetWriterStream(out memoryStream))
@@ -1227,7 +1299,24 @@ namespace BigExcelCreator.Test
                     writer.WriteNumberRow(new List<ulong> { i });
                 }
 
-                writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Equal);
+                switch (type)
+                {
+                    case Type t when t == typeof(int):
+                        writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Equal);
+                        break;
+                    case Type t when t == typeof(uint):
+                        writer.AddIntegerValidator("A1:A20", 1u, DataValidationOperatorValues.Equal);
+                        break;
+                    case Type t when t == typeof(long):
+                        writer.AddIntegerValidator("A1:A20", 1L, DataValidationOperatorValues.Equal);
+                        break;
+                    case Type t when t == typeof(ulong):
+                        writer.AddIntegerValidator("A1:A20", 1ul, DataValidationOperatorValues.Equal);
+                        break;
+                    default:
+                        Assert.Fail("Missing test case");
+                        break;
+                }
             }
             using SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false);
             WorkbookPart? workbookPart = reader.WorkbookPart;
@@ -1235,7 +1324,7 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>, Is.Not.Empty);
+                Assert.That(workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>, Is.Not.Empty);
                 IEnumerable<DataValidations> dataValidations = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>();
                 Assert.That(dataValidations.Count(), Is.EqualTo(1));
 
@@ -1255,8 +1344,11 @@ namespace BigExcelCreator.Test
             });
         }
 
-        [Test]
-        public void IntegerValidatorNoSecondOperand()
+        [TestCase(typeof(int))]
+        [TestCase(typeof(uint))]
+        [TestCase(typeof(long))]
+        [TestCase(typeof(ulong))]
+        public void IntegerValidatorNoSecondOperand(Type type)
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
@@ -1265,11 +1357,31 @@ namespace BigExcelCreator.Test
                 writer.WriteNumberRow(new List<byte> { i });
             }
 
-            Assert.Throws<ArgumentNullException>(() => writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Between));
+            switch (type)
+            {
+                case Type t when t == typeof(int):
+                    Assert.Throws<ArgumentNullException>(() => writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Between));
+                    break;
+                case Type t when t == typeof(uint):
+                    Assert.Throws<ArgumentNullException>(() => writer.AddIntegerValidator("A1:A20", 1u, DataValidationOperatorValues.Between));
+                    break;
+                case Type t when t == typeof(long):
+                    Assert.Throws<ArgumentNullException>(() => writer.AddIntegerValidator("A1:A20", 1L, DataValidationOperatorValues.Between));
+                    break;
+                case Type t when t == typeof(ulong):
+                    Assert.Throws<ArgumentNullException>(() => writer.AddIntegerValidator("A1:A20", 1ul, DataValidationOperatorValues.Between));
+                    break;
+                default:
+                    Assert.Fail("Missing test case");
+                    break;
+            }
         }
 
-        [Test]
-        public void IntegerValidationNoSheetThrowsNoOpenSheetException()
+        [TestCase(typeof(int))]
+        [TestCase(typeof(uint))]
+        [TestCase(typeof(long))]
+        [TestCase(typeof(ulong))]
+        public void IntegerValidationNoSheetThrowsNoOpenSheetException(Type type)
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
@@ -1279,11 +1391,31 @@ namespace BigExcelCreator.Test
             }
             writer.CloseSheet();
 
-            Assert.Throws<NoOpenSheetException>(() => writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
+            switch (type)
+            {
+                case Type t when t == typeof(int):
+                    Assert.Throws<NoOpenSheetException>(() => writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(uint):
+                    Assert.Throws<NoOpenSheetException>(() => writer.AddIntegerValidator("A1:A20", 1u, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(long):
+                    Assert.Throws<NoOpenSheetException>(() => writer.AddIntegerValidator("A1:A20", 1L, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(ulong):
+                    Assert.Throws<NoOpenSheetException>(() => writer.AddIntegerValidator("A1:A20", 1ul, DataValidationOperatorValues.Equal));
+                    break;
+                default:
+                    Assert.Fail("Missing test case");
+                    break;
+            }
         }
 
-        [Test]
-        public void IntegerValidationNoSheetThrowsInvalidOperationException()
+        [TestCase(typeof(int))]
+        [TestCase(typeof(uint))]
+        [TestCase(typeof(long))]
+        [TestCase(typeof(ulong))]
+        public void IntegerValidationNoSheetThrowsInvalidOperationException(Type type)
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
             writer.CreateAndOpenSheet("a");
@@ -1293,7 +1425,24 @@ namespace BigExcelCreator.Test
             }
             writer.CloseSheet();
 
-            Assert.Catch<InvalidOperationException>(() => writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
+            switch (type)
+            {
+                case Type t when t == typeof(int):
+                    Assert.Catch<InvalidOperationException>(() => writer.AddIntegerValidator("A1:A20", 1, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(uint):
+                    Assert.Catch<InvalidOperationException>(() => writer.AddIntegerValidator("A1:A20", 1u, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(long):
+                    Assert.Catch<InvalidOperationException>(() => writer.AddIntegerValidator("A1:A20", 1L, DataValidationOperatorValues.Equal));
+                    break;
+                case Type t when t == typeof(ulong):
+                    Assert.Catch<InvalidOperationException>(() => writer.AddIntegerValidator("A1:A20", 1ul, DataValidationOperatorValues.Equal));
+                    break;
+                default:
+                    Assert.Fail("Missing test case");
+                    break;
+            }
         }
 
         [Test]
@@ -1316,8 +1465,8 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>, Is.Not.Empty);
-                IEnumerable<DataValidations> dataValidations = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>();
+                Assert.That(workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>, Is.Not.Empty);
+                IEnumerable<DataValidations> dataValidations = workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>();
                 Assert.That(dataValidations.Count(), Is.EqualTo(1));
 
                 IEnumerable<DataValidation> dataValidationsE = dataValidations.First().ChildElements.OfType<DataValidation>();
@@ -1353,8 +1502,8 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<MergeCells>, Is.Not.Empty);
-                IEnumerable<MergeCells> mergedCellsElement = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<MergeCells>();
+                Assert.That(workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<MergeCells>, Is.Not.Empty);
+                IEnumerable<MergeCells> mergedCellsElement = workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<MergeCells>();
                 Assert.Multiple(() =>
                 {
                     Assert.That(mergedCellsElement, Is.Not.Null);

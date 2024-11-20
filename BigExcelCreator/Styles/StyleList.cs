@@ -62,13 +62,13 @@ namespace BigExcelCreator.Styles
                         new BottomBorder(),
                         new DiagonalBorder());
             NumberingFormat defaultNumberingFormat = new() { NumberFormatId = STARTINGNUMBERFORMAT, FormatCode = "0,.00;(0,.00)" };
-            NewStyle(defaultFont, defaultFill, defaultBorder, defaultNumberingFormat, "DEFAULT");
+            _ = NewStyle(defaultFont, defaultFill, defaultBorder, defaultNumberingFormat, "DEFAULT");
             /* https://stackoverflow.com/a/42789914/14217380
              * For some reason I cannot seem to find documented, Fill Id 0 will always be None,
              * and Fill Id 1 will always be Gray125. If you want a custom fill,
              * you will need to get to at least Fill Id 2.
              */
-            NewStyle(defaultFont, defaultFillGray125, defaultBorder, defaultNumberingFormat, "DEFAULTFillGray125");
+            _ = NewStyle(defaultFont, defaultFillGray125, defaultBorder, defaultNumberingFormat, "DEFAULTFillGray125");
         }
         #endregion
 
@@ -106,10 +106,7 @@ namespace BigExcelCreator.Styles
         /// </summary>
         /// <param name="name">The name of the style to look for.</param>
         /// <returns>The index of the named style, or -1 if not found.</returns>
-        public int GetIndexByName(string name)
-        {
-            return GetIndexByName(name, out _);
-        }
+        public int GetIndexByName(string name) => GetIndexByName(name, out _);
 
         /// <summary>
         /// Gets the index of a named style.
@@ -128,10 +125,7 @@ namespace BigExcelCreator.Styles
         /// </summary>
         /// <param name="name">The name of the differential style to look for.</param>
         /// <returns>The index of the named differential style, or -1 if not found.</returns>
-        public int GetIndexDifferentialByName(string name)
-        {
-            return GetIndexDifferentialByName(name, out _);
-        }
+        public int GetIndexDifferentialByName(string name) => GetIndexDifferentialByName(name, out _);
 
         /// <summary>
         /// Gets the index of a named differential style.
@@ -155,9 +149,7 @@ namespace BigExcelCreator.Styles
         /// <param name="name">A unique name to find the inserted style later</param>
         /// <returns>The <see cref="StyleElement"/> generated</returns>
         public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, string name)
-        {
-            return NewStyle(font, fill, border, numberingFormat, null, name);
-        }
+            => NewStyle(font, fill, border, numberingFormat, null, name);
 
         /// <summary>
         /// Generates, stores and returns a new style

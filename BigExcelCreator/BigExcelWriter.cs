@@ -370,7 +370,7 @@ namespace BigExcelCreator
 
             if (string.IsNullOrEmpty(name)) { throw new SheetNameCannotBeEmptyException("Sheet name cannot be null or empty"); }
             if (SheetNames.Contains(name, StringComparer.OrdinalIgnoreCase)) { throw new SheetWithSameNameAlreadyExistsException("A sheet with the same name already exists"); }
-            SheetNames.Add(name);
+            _ = SheetNames.Add(name);
 
             workSheetPart = Document.WorkbookPart.AddNewPart<WorksheetPart>();
             workSheetPartWriter = OpenXmlWriter.Create(workSheetPart);
@@ -403,7 +403,7 @@ namespace BigExcelCreator
             sheetOpen = true;
             currentSheetState = sheetState;
 
-            SetSheetDefault();
+            SetSheetDefaults();
         }
 
         /// <summary>
@@ -461,10 +461,7 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
         /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
         /// <exception cref="OutOfOrderWritingException">Thrown when writing rows out of order is attempted.</exception>
-        public void BeginRow(int rownum)
-        {
-            BeginRow(rownum, false);
-        }
+        public void BeginRow(int rownum) => BeginRow(rownum, false);
 
         /// <summary>
         /// Begins a new row in the currently open sheet.
@@ -502,10 +499,7 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
         /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
         /// <exception cref="OutOfOrderWritingException">Thrown when writing rows out of order is attempted.</exception>
-        public void BeginRow()
-        {
-            BeginRow(false);
-        }
+        public void BeginRow() => BeginRow(false);
 
         /// <summary>
         /// Begins a new row in the currently open sheet.
@@ -514,10 +508,7 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
         /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
         /// <exception cref="OutOfOrderWritingException">Thrown when writing rows out of order is attempted.</exception>
-        public void BeginRow(bool hidden)
-        {
-            BeginRow(lastRowWritten + 1, hidden);
-        }
+        public void BeginRow(bool hidden) => BeginRow(lastRowWritten + 1, hidden);
 
         /// <summary>
         /// Ends the currently open row in the sheet.
@@ -602,9 +593,7 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         [CLSCompliant(false)]
         public void WriteNumberCell(sbyte number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
         /// Writes a numerical value to the currently open row in the sheet.
@@ -614,9 +603,7 @@ namespace BigExcelCreator
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteNumberCell(byte number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
         /// Writes a numerical value to the currently open row in the sheet.
@@ -626,9 +613,7 @@ namespace BigExcelCreator
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteNumberCell(short number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
         /// Writes a numerical value to the currently open row in the sheet.
@@ -639,9 +624,7 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         [CLSCompliant(false)]
         public void WriteNumberCell(ushort number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
         /// Writes a numerical value to the currently open row in the sheet.
@@ -651,9 +634,7 @@ namespace BigExcelCreator
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteNumberCell(int number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
         /// Writes a numerical value to the currently open row in the sheet.
@@ -664,9 +645,7 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         [CLSCompliant(false)]
         public void WriteNumberCell(uint number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
         /// Writes a numerical value to the currently open row in the sheet.
@@ -676,9 +655,7 @@ namespace BigExcelCreator
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteNumberCell(long number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
         /// Writes a numerical value to the currently open row in the sheet.
@@ -689,9 +666,7 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         [CLSCompliant(false)]
         public void WriteNumberCell(ulong number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
         /// Writes a numerical value to the currently open row in the sheet.
@@ -701,9 +676,7 @@ namespace BigExcelCreator
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteNumberCell(float number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
         /// Writes a numerical value to the currently open row in the sheet.
@@ -713,9 +686,7 @@ namespace BigExcelCreator
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteNumberCell(double number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
         /// Writes a numerical value to the currently open row in the sheet.
@@ -725,9 +696,7 @@ namespace BigExcelCreator
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteNumberCell(decimal number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
         /// Writes a formula cell to the currently open row in the sheet.
@@ -1047,9 +1016,7 @@ namespace BigExcelCreator
         /// <exception cref="SheetAlreadyHasFilterException">Thrown when there is already an autofilter in the current sheet and <paramref name="overwrite"/> is <c>false</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when the height of the <paramref name="range"/> is not 1.</exception>
         public void AddAutofilter(string range, bool overwrite = false)
-        {
-            AddAutofilter(new CellRange(range), overwrite);
-        }
+            => AddAutofilter(new CellRange(range), overwrite);
 
         /// <summary>
         /// Adds an autofilter to the specified range in the current sheet.
@@ -1185,6 +1152,196 @@ namespace BigExcelCreator
         }
 
         /// <summary>
+        /// Adds an integer data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
+        [CLSCompliant(false)]
+        public void AddIntegerValidator(string range,
+                                        uint firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        uint? secondOperand = null)
+        {
+            AddIntegerValidator(new CellRange(range),
+                                firstOperand,
+                                validationType,
+                                allowBlank,
+                                showInputMessage,
+                                showErrorMessage,
+                                secondOperand);
+        }
+
+        /// <summary>
+        /// Adds an integer data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        [CLSCompliant(false)]
+        public void AddIntegerValidator(CellRange range,
+                                        uint firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        uint? secondOperand = null)
+        {
+            DataValidation dataValidation = AddValidatorCommon(range, DataValidationValues.Whole, validationType, allowBlank, showInputMessage, showErrorMessage);
+
+            if (validationType.RequiresSecondOperand() && secondOperand == null)
+            {
+                throw new ArgumentNullException(nameof(secondOperand), $"validation type {validationType} requires a second operand");
+            }
+
+            AppendNewDataValidation(dataValidation, firstOperand.ToString(CultureInfo.InvariantCulture), secondOperand?.ToString(CultureInfo.InvariantCulture));
+        }
+
+        /// <summary>
+        /// Adds an integer data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
+        public void AddIntegerValidator(string range,
+                                        long firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        long? secondOperand = null)
+        {
+            AddIntegerValidator(new CellRange(range),
+                                firstOperand,
+                                validationType,
+                                allowBlank,
+                                showInputMessage,
+                                showErrorMessage,
+                                secondOperand);
+        }
+
+        /// <summary>
+        /// Adds an integer data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        public void AddIntegerValidator(CellRange range,
+                                        long firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        long? secondOperand = null)
+        {
+            DataValidation dataValidation = AddValidatorCommon(range, DataValidationValues.Whole, validationType, allowBlank, showInputMessage, showErrorMessage);
+
+            if (validationType.RequiresSecondOperand() && secondOperand == null)
+            {
+                throw new ArgumentNullException(nameof(secondOperand), $"validation type {validationType} requires a second operand");
+            }
+
+            AppendNewDataValidation(dataValidation, firstOperand.ToString(CultureInfo.InvariantCulture), secondOperand?.ToString(CultureInfo.InvariantCulture));
+        }
+
+        /// <summary>
+        /// Adds an integer data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
+        [CLSCompliant(false)]
+        public void AddIntegerValidator(string range,
+                                        ulong firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        ulong? secondOperand = null)
+        {
+            AddIntegerValidator(new CellRange(range),
+                                firstOperand,
+                                validationType,
+                                allowBlank,
+                                showInputMessage,
+                                showErrorMessage,
+                                secondOperand);
+        }
+
+        /// <summary>
+        /// Adds an integer data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        [CLSCompliant(false)]
+        public void AddIntegerValidator(CellRange range,
+                                        ulong firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        ulong? secondOperand = null)
+        {
+            DataValidation dataValidation = AddValidatorCommon(range, DataValidationValues.Whole, validationType, allowBlank, showInputMessage, showErrorMessage);
+
+            if (validationType.RequiresSecondOperand() && secondOperand == null)
+            {
+                throw new ArgumentNullException(nameof(secondOperand), $"validation type {validationType} requires a second operand");
+            }
+
+            AppendNewDataValidation(dataValidation, firstOperand.ToString(CultureInfo.InvariantCulture), secondOperand?.ToString(CultureInfo.InvariantCulture));
+        }
+
+        /// <summary>
         /// Adds a decimal data validation to the specified cell range.
         /// </summary>
         /// <param name="range">The cell range to apply the validation to.</param>
@@ -1235,6 +1392,130 @@ namespace BigExcelCreator
                                         bool showInputMessage = true,
                                         bool showErrorMessage = true,
                                         decimal? secondOperand = null)
+        {
+            DataValidation dataValidation = AddValidatorCommon(range, DataValidationValues.Decimal, validationType, allowBlank, showInputMessage, showErrorMessage);
+
+            if (validationType.RequiresSecondOperand() && secondOperand == null)
+            {
+                throw new ArgumentNullException(nameof(secondOperand), $"validation type {validationType} requires a second operand");
+            }
+
+            AppendNewDataValidation(dataValidation, firstOperand.ToString(CultureInfo.InvariantCulture), secondOperand?.ToString(CultureInfo.InvariantCulture));
+        }
+
+        /// <summary>
+        /// Adds a decimal data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
+        public void AddDecimalValidator(string range,
+                                        float firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        float? secondOperand = null)
+        {
+            AddDecimalValidator(new CellRange(range),
+                                firstOperand,
+                                validationType,
+                                allowBlank,
+                                showInputMessage,
+                                showErrorMessage,
+                                secondOperand);
+        }
+
+        /// <summary>
+        /// Adds a decimal data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        public void AddDecimalValidator(CellRange range,
+                                        float firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        float? secondOperand = null)
+        {
+            DataValidation dataValidation = AddValidatorCommon(range, DataValidationValues.Decimal, validationType, allowBlank, showInputMessage, showErrorMessage);
+
+            if (validationType.RequiresSecondOperand() && secondOperand == null)
+            {
+                throw new ArgumentNullException(nameof(secondOperand), $"validation type {validationType} requires a second operand");
+            }
+
+            AppendNewDataValidation(dataValidation, firstOperand.ToString(CultureInfo.InvariantCulture), secondOperand?.ToString(CultureInfo.InvariantCulture));
+        }
+
+        /// <summary>
+        /// Adds a decimal data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
+        public void AddDecimalValidator(string range,
+                                        double firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        double? secondOperand = null)
+        {
+            AddDecimalValidator(new CellRange(range),
+                                firstOperand,
+                                validationType,
+                                allowBlank,
+                                showInputMessage,
+                                showErrorMessage,
+                                secondOperand);
+        }
+
+        /// <summary>
+        /// Adds a decimal data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        public void AddDecimalValidator(CellRange range,
+                                        double firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        double? secondOperand = null)
         {
             DataValidation dataValidation = AddValidatorCommon(range, DataValidationValues.Decimal, validationType, allowBlank, showInputMessage, showErrorMessage);
 
@@ -1335,7 +1616,7 @@ namespace BigExcelCreator
 
             ConditionalFormatting conditionalFormatting = new()
             {
-                SequenceOfReferences = new(new List<StringValue> { cellRange.RangeStringNoSheetName }),
+                SequenceOfReferences = new([cellRange.RangeStringNoSheetName]),
             };
 
             ConditionalFormattingRule conditionalFormattingRule = new()
@@ -1404,7 +1685,7 @@ namespace BigExcelCreator
 
             ConditionalFormatting conditionalFormatting = new()
             {
-                SequenceOfReferences = new(new List<StringValue> { cellRange.RangeStringNoSheetName }),
+                SequenceOfReferences = new([cellRange.RangeStringNoSheetName]),
             };
 
             ConditionalFormattingRule conditionalFormattingRule = new()
@@ -1463,7 +1744,7 @@ namespace BigExcelCreator
 
             ConditionalFormatting conditionalFormatting = new()
             {
-                SequenceOfReferences = new(new List<StringValue> { cellRange.RangeStringNoSheetName }),
+                SequenceOfReferences = new([cellRange.RangeStringNoSheetName]),
             };
 
             ConditionalFormattingRule conditionalFormattingRule = new()
@@ -1512,10 +1793,7 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to merge the cells into.</exception>
         /// <exception cref="OverlappingRangesException">Thrown when the specified range overlaps with an existing merged range.</exception>
         /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
-        public void MergeCells(string range)
-        {
-            MergeCells(new CellRange(range));
-        }
+        public void MergeCells(string range) => MergeCells(new CellRange(range));
 
         /// <summary>
         /// Closes the current document, ensuring all data is written and resources are released.
@@ -1705,7 +1983,7 @@ namespace BigExcelCreator
                 foreach (ConditionalFormattingRule conditionalFormattingRule in conditionalFormatting.ChildElements.OfType<ConditionalFormattingRule>())
                 {
                     workSheetPartWriter.WriteStartElement(conditionalFormattingRule);
-                    foreach (var item in conditionalFormattingRule.ChildElements)
+                    foreach (OpenXmlElement item in conditionalFormattingRule.ChildElements)
                     {
                         workSheetPartWriter.WriteElement(item);
                     }
@@ -1776,7 +2054,7 @@ namespace BigExcelCreator
             workbookPartWriter.Close();
         }
 
-        private void SetSheetDefault()
+        private void SetSheetDefaults()
         {
             _showGridLinesInCurrentSheet = _showGridLinesDefault;
             _showRowAndColumnHeadingsInCurrentSheet = _showRowAndColumnHeadingsDefault;
@@ -1810,13 +2088,13 @@ namespace BigExcelCreator
 
         private static void ThrowIfInvalidSpreadsheetDocumentType(SpreadsheetDocumentType spreadsheetDocumentType)
         {
-            var validSpreadsheetDocumentTypes = new[]
-            {
+            SpreadsheetDocumentType[] validSpreadsheetDocumentTypes =
+            [
                 SpreadsheetDocumentType.Workbook,
                 SpreadsheetDocumentType.Template,
                 SpreadsheetDocumentType.MacroEnabledWorkbook,
                 SpreadsheetDocumentType.MacroEnabledTemplate,
-            };
+            ];
             if (!validSpreadsheetDocumentTypes.Contains(spreadsheetDocumentType))
             {
                 throw new UnsupportedSpreadsheetDocumentTypeException(string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.InvalidSpreadsheetDocumentType, spreadsheetDocumentType));

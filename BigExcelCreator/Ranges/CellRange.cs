@@ -29,7 +29,7 @@ namespace BigExcelCreator.Ranges
                 StringBuilder sb = new();
                 if (!Sheetname.IsNullOrWhiteSpace())
                 {
-                    sb.Append(Sheetname).Append('!');
+                    _ = sb.Append(Sheetname).Append('!');
                 }
 
                 RangeStringColAndRowPart(sb);
@@ -56,21 +56,21 @@ namespace BigExcelCreator.Ranges
 
         private void RangeStringColAndRowPart(StringBuilder sb)
         {
-            if (StartingColumnIsFixed) { sb.Append('$'); }
-            if (StartingColumn != null) { sb.Append(Helpers.GetColumnName(StartingColumn)); }
+            if (StartingColumnIsFixed) { _ = sb.Append('$'); }
+            if (StartingColumn != null) { _ = sb.Append(Helpers.GetColumnName(StartingColumn)); }
 
-            if (StartingRowIsFixed) { sb.Append('$'); }
-            if (StartingRow != null) { sb.Append(StartingRow); }
+            if (StartingRowIsFixed) { _ = sb.Append('$'); }
+            if (StartingRow != null) { _ = sb.Append(StartingRow); }
 
             if (!IsSingleCellRange || IsInfiniteCellRange)
             {
-                sb.Append(':');
+                _ = sb.Append(':');
 
-                if (EndingColumnIsFixed) { sb.Append('$'); }
-                if (EndingColumn != null) { sb.Append(Helpers.GetColumnName(EndingColumn)); }
+                if (EndingColumnIsFixed) { _ = sb.Append('$'); }
+                if (EndingColumn != null) { _ = sb.Append(Helpers.GetColumnName(EndingColumn)); }
 
-                if (EndingRowIsFixed) { sb.Append('$'); }
-                if (EndingRow != null) { sb.Append(EndingRow); }
+                if (EndingRowIsFixed) { _ = sb.Append('$'); }
+                if (EndingRow != null) { _ = sb.Append(EndingRow); }
             }
         }
 
@@ -163,12 +163,12 @@ namespace BigExcelCreator.Ranges
         /// <summary>
         /// Gets the width of the cell range.
         /// </summary>
-        public int Width { get => Math.Abs((EndingColumn ?? 0) - (StartingColumn ?? 0)) + 1; }
+        public int Width => Math.Abs((EndingColumn ?? 0) - (StartingColumn ?? 0)) + 1;
 
         /// <summary>
         /// Gets the height of the cell range.
         /// </summary>
-        public int Height { get => Math.Abs((EndingRow ?? 0) - (StartingRow ?? 0)) + 1; }
+        public int Height => Math.Abs((EndingRow ?? 0) - (StartingRow ?? 0)) + 1;
 
         /// <summary>
         /// Gets a value indicating whether the cell range represents a single cell.
@@ -383,10 +383,7 @@ namespace BigExcelCreator.Ranges
         /// <returns>
         /// True if the specified object is a <see cref="CellRange"/> and is equal to the current instance; otherwise, false.
         /// </returns>
-        public override bool Equals(object obj)
-        {
-            return obj is CellRange other && Equals(other);
-        }
+        public override bool Equals(object obj) => obj is CellRange other && Equals(other);
 
         /// <summary>
         /// Determines whether the specified <see cref="CellRange"/> is equal to the current <see cref="CellRange"/> instance.
@@ -444,7 +441,7 @@ namespace BigExcelCreator.Ranges
         }
 
         /// <summary>
-        /// Compares the current instance with another <see cref="CellRange"/> and returns an integer that indicates whether the current instance precedes, 
+        /// Compares the current instance with another <see cref="CellRange"/> and returns an integer that indicates whether the current instance precedes,
         /// follows, or occurs in the same position in the sort order as the other <see cref="CellRange"/>.
         /// </summary>
         /// <param name="other">The <see cref="CellRange"/> to compare with the current instance.</param>
@@ -464,16 +461,16 @@ namespace BigExcelCreator.Ranges
         /// </returns>
         public int CompareTo(CellRange other)
         {
-            if (other == null) return 1;
-            if (StartingRow < other.StartingRow) return -1;
-            if (StartingRow > other.StartingRow) return 1;
-            if (StartingColumn < other.StartingColumn) return -1;
-            if (StartingColumn > other.StartingColumn) return 1;
+            if (other == null) { return 1; }
+            if (StartingRow < other.StartingRow) { return -1; }
+            if (StartingRow > other.StartingRow) { return 1; }
+            if (StartingColumn < other.StartingColumn) { return -1; }
+            if (StartingColumn > other.StartingColumn) { return 1; }
 
-            if (EndingRow < other.EndingRow) return -1;
-            if (EndingRow > other.EndingRow) return 1;
-            if (EndingColumn < other.EndingColumn) return -1;
-            if (EndingColumn > other.EndingColumn) return 1;
+            if (EndingRow < other.EndingRow) { return -1; }
+            if (EndingRow > other.EndingRow) { return 1; }
+            if (EndingColumn < other.EndingColumn) { return -1; }
+            if (EndingColumn > other.EndingColumn) { return 1; }
 
             return 0;
         }
@@ -488,9 +485,9 @@ namespace BigExcelCreator.Ranges
         /// </returns>
         public static bool operator ==(CellRange left, CellRange right)
         {
-            if (ReferenceEquals(left, null))
+            if (left is null)
             {
-                return ReferenceEquals(right, null);
+                return right is null;
             }
 
             return left.Equals(right);
@@ -519,7 +516,7 @@ namespace BigExcelCreator.Ranges
         /// </returns>
         public static bool operator <(CellRange left, CellRange right)
         {
-            return ReferenceEquals(left, null) ? !ReferenceEquals(right, null) : left.CompareTo(right) < 0;
+            return left is null ? right is not null : left.CompareTo(right) < 0;
         }
 
         /// <summary>
@@ -532,7 +529,7 @@ namespace BigExcelCreator.Ranges
         /// </returns>
         public static bool operator <=(CellRange left, CellRange right)
         {
-            return ReferenceEquals(left, null) || left.CompareTo(right) <= 0;
+            return left is null || left.CompareTo(right) <= 0;
         }
 
         /// <summary>
@@ -545,7 +542,7 @@ namespace BigExcelCreator.Ranges
         /// </returns>
         public static bool operator >(CellRange left, CellRange right)
         {
-            return !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
+            return left is not null && left.CompareTo(right) > 0;
         }
 
         /// <summary>
@@ -558,7 +555,7 @@ namespace BigExcelCreator.Ranges
         /// </returns>
         public static bool operator >=(CellRange left, CellRange right)
         {
-            return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
+            return left is null ? right is null : left.CompareTo(right) >= 0;
         }
 
         /// <summary>
@@ -707,17 +704,5 @@ namespace BigExcelCreator.Ranges
             while (i < rangeStart.Length && char.IsDigit(rangeStart[i])) { numbers1++; i++; }
             while (j < rangeEnd.Length && char.IsDigit(rangeEnd[j])) { numbers2++; j++; }
         }
-    }
-
-    [Flags]
-    enum RangeTypes
-    {
-        None = 0b00,
-        ColFinite = None,
-        RowFinite = None,
-        ColInfinite = 0b01,
-        RowInfinite = 0b10,
-
-        AnyInfinite = ColInfinite | RowInfinite,
     }
 }

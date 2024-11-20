@@ -4,6 +4,8 @@
 ### Added
 - Throw exceptions when attempting to create a sheet with an invalid name.
 - Throw exceptions when attempting to create a sheet with the same name as an existing sheet.
+### Changed
+- It's no longer mandatory to provide a SpreadsheetDocumentType when creating a new BigExcelWriter. The default value is now Workbook (.xlsx).
 
 ## 3.1 (and 2.3.x)
 ### Added
