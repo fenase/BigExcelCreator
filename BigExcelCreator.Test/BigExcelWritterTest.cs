@@ -13,7 +13,7 @@ namespace BigExcelCreator.Test
 {
     internal class BigExcelWriterTest
     {
-        string DirectoryPath { get; set; }
+        private static readonly string DirectoryPath = TestContext.CurrentContext.WorkDirectory + @"\excelOut";
 
         private static readonly IEnumerable<SpreadsheetDocumentType> ValidSpreadsheetDocumentTypes =
         [
@@ -31,7 +31,6 @@ namespace BigExcelCreator.Test
         [SetUp]
         public void Setup()
         {
-            DirectoryPath = TestContext.CurrentContext.WorkDirectory + @"\excelOut";
             Directory.CreateDirectory(DirectoryPath);
             Assert.That(DirectoryPath, Does.Exist);
         }
