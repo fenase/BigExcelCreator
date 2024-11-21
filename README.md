@@ -92,7 +92,7 @@ using BigExcelCreator;
 ....
 
 MemoryStream stream = new MemoryStream();
-using (BigExcelWriter excel = new(stream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+using (BigExcelWriter excel = new(stream))
 {
     excel.CreateAndOpenSheet("Sheet Name");
     excel.BeginRow();
