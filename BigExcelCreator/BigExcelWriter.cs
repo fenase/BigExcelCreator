@@ -1,7 +1,7 @@
-﻿// Copyright (c) 2022-2024, Federico Seckel.
+﻿// Copyright (c) 2022-2025, Federico Seckel.
 // Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
 
-// Ignore Spelling: rownum Validator Validators Autofilter stylesheet finalizer inline unhiding gridlines
+// Ignore Spelling: Validators Autofilter stylesheet finalizer inline unhiding gridlines
 
 using BigExcelCreator.CommentsManager;
 using BigExcelCreator.Enum;
@@ -22,20 +22,24 @@ namespace BigExcelCreator
     /// <summary>
     /// This class writes Excel files directly using OpenXML SAX.
     /// Useful when trying to write tens of thousands of rows.
-    /// <see href="https://www.nuget.org/packages/BigExcelCreator/#readme-body-tab">NuGet</see>
-    /// <seealso href="https://github.com/fenase/BigExcelCreator">Source</seealso>
     /// </summary>
+    /// <remarks>
+    /// <para><see href="https://www.nuget.org/packages/BigExcelCreator">NuGet</see></para>
+    /// <para><seealso href="https://github.com/fenase/BigExcelCreator">Source</seealso></para>
+    /// <para><seealso href="https://fenase.github.io/BigExcelCreator/api/BigExcelCreator.BigExcelWriter.html">API</seealso></para>
+    /// <para><seealso href="https://fenase.github.io/projects/BigExcelCreator">Site</seealso></para>
+    /// </remarks>
     public class BigExcelWriter : IDisposable
     {
         #region props
         /// <summary>
-        /// Created file will be saved to: ...
+        /// Gets the file path where the Excel document is being saved.
         /// <para>(null when not saving to file)</para>
         /// </summary>
         public string Path { get; }
 
         /// <summary>
-        /// Created file will be saved to: ...
+        /// Gets the Stream where the Excel document is being saved.
         /// <para>(null when not saving to Stream)</para>
         /// </summary>
         public Stream Stream { get; }
@@ -46,26 +50,32 @@ namespace BigExcelCreator
         private SavingTo SavingTo { get; }
 
         /// <summary>
-        /// Document type
+        /// Gets the type of the spreadsheet document (e.g., Workbook, Template).
         /// <para>only <c>SpreadsheetDocumentType.Workbook</c> is tested</para>
         /// </summary>
         public SpreadsheetDocumentType SpreadsheetDocumentType { get; private set; }
 
         /// <summary>
-        /// The main document
+        /// Gets the SpreadsheetDocument object representing the Excel document.
         /// </summary>
         public SpreadsheetDocument Document { get; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to skip cells when they are empty.
+        /// </summary>
+        /// <remarks>
         /// When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written.
         /// When <see langword="false"/>, writing an empty value to a cell does nothing.
-        /// </summary>
+        /// </remarks>
         public bool SkipCellWhenEmpty { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to show grid lines in the current sheet.
+        /// </summary>
+        /// <remarks>
         /// When <see langword="true"/>, shows gridlines on screen (default).
         /// When <see langword="false"/>, hides gridlines on screen.
-        /// </summary>
+        /// </remarks>
         /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
         public bool ShowGridLinesInCurrentSheet
         {
@@ -77,9 +87,12 @@ namespace BigExcelCreator
         private const bool _showGridLinesDefault = true;
 
         /// <summary>
+        /// Gets or sets a value indicating whether to show row and column headings in the current sheet.
+        /// </summary>
+        /// <remarks>
         /// When <see langword="true"/>, shows row and column headings (default).
         /// When <see langword="false"/>, hides row and column headings.
-        /// </summary>
+        /// </remarks>
         /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
         public bool ShowRowAndColumnHeadingsInCurrentSheet
         {
@@ -91,9 +104,12 @@ namespace BigExcelCreator
         private const bool _showRowAndColumnHeadingsDefault = true;
 
         /// <summary>
+        /// Gets or sets a value indicating whether to print grid lines in the current sheet.
+        /// </summary>
+        /// <remarks>
         /// When <see langword="true"/>, Prints gridlines.
         /// When <see langword="false"/>, Doesn't print gridlines (default).
-        /// </summary>
+        /// </remarks>
         /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
         public bool PrintGridLinesInCurrentSheet
         {
@@ -104,9 +120,12 @@ namespace BigExcelCreator
         private const bool _printGridLinesDefault = false;
 
         /// <summary>
+        /// Gets or sets a value indicating whether to print row and column headings in the current sheet.
+        /// </summary>
+        /// <remarks>
         /// When <see langword="true"/>, Prints row and column headings.
         /// When <see langword="false"/>, Doesn't print row and column headings (default).
-        /// </summary>
+        /// </remarks>
         /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
         public bool PrintRowAndColumnHeadingsInCurrentSheet
         {
@@ -146,70 +165,125 @@ namespace BigExcelCreator
 
         private readonly List<CellRange> SheetMergedCells = [];
 
+        private readonly HashSet<string> SheetNames = [];
+
         #endregion
 
         #region ctor
         /// <summary>
-        /// Creates a document into <paramref name="stream"/>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream and spreadsheet document type.
         /// </summary>
-        /// <param name="stream">Where to store the document. <c>MemoryStream</c> is recommended</param>
-        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
+        /// <remarks>Initializes a new Workbook</remarks>
+        /// <param name="stream">The stream to write the Excel document to.</param>
+        public BigExcelWriter(Stream stream)
+        : this(stream, SpreadsheetDocumentType.Workbook) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream and spreadsheet document type.
+        /// </summary>
+        /// <param name="stream">The stream to write the Excel document to.</param>
+        /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
         public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType)
         : this(stream, spreadsheetDocumentType, false) { }
 
         /// <summary>
-        /// Creates a document into <paramref name="stream"/>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream, spreadsheet document type, and stylesheet.
         /// </summary>
-        /// <param name="stream">Where to store the document. <c>MemoryStream</c> is recommended</param>
-        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
-        /// <param name="stylesheet">A Stylesheet for the document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
-        public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, Stylesheet stylesheet)
-        : this(stream, spreadsheetDocumentType, false, stylesheet) { }
+        /// <remarks>Initializes a new Workbook</remarks>
+        /// <param name="stream">The stream to write the Excel document to.</param>
+        /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/>.</param>
+        public BigExcelWriter(Stream stream, Stylesheet stylesheet)
+                : this(stream, SpreadsheetDocumentType.Workbook, stylesheet) { }
 
         /// <summary>
-        /// Creates a document into <paramref name="stream"/>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream, spreadsheet document type, and stylesheet.
         /// </summary>
-        /// <param name="stream">Where to store the document. <c>MemoryStream</c> is recommended</param>
-        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
-        /// <param name="skipCellWhenEmpty">When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
+        /// <param name="stream">The stream to write the Excel document to.</param>
+        /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
+        /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/>.</param>
+        public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, Stylesheet stylesheet)
+                : this(stream, spreadsheetDocumentType, false, stylesheet) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream, spreadsheet document type, and a flag indicating whether to skip cells when they are empty.
+        /// </summary>
+        /// <remarks>Initializes a new Workbook</remarks>
+        /// <param name="stream">The stream to write the Excel document to.</param>
+        /// <param name="skipCellWhenEmpty">A flag indicating whether to skip cells when they are empty. When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
+        public BigExcelWriter(Stream stream, bool skipCellWhenEmpty)
+            : this(stream, SpreadsheetDocumentType.Workbook, skipCellWhenEmpty) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream, spreadsheet document type, and a flag indicating whether to skip cells when they are empty.
+        /// </summary>
+        /// <param name="stream">The stream to write the Excel document to.</param>
+        /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
+        /// <param name="skipCellWhenEmpty">A flag indicating whether to skip cells when they are empty. When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
         public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty)
             : this(stream, spreadsheetDocumentType, skipCellWhenEmpty, new Stylesheet()) { }
 
         /// <summary>
-        /// Creates a document into a file located in <paramref name="path"/>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path and spreadsheet document type.
         /// </summary>
-        /// <param name="path">Path where the document will be saved</param>
-        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
+        /// <remarks>Initializes a new Workbook</remarks>
+        /// <param name="path">The file path to write the Excel document to.</param>
+        public BigExcelWriter(string path)
+        : this(path, SpreadsheetDocumentType.Workbook) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path and spreadsheet document type.
+        /// </summary>
+        /// <param name="path">The file path to write the Excel document to.</param>
+        /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
         public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType)
         : this(path, spreadsheetDocumentType, false) { }
 
         /// <summary>
-        /// Creates a document into a file located in <paramref name="path"/>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path, spreadsheet document type, and stylesheet.
+        /// <remarks>Initializes a new Workbook</remarks>
         /// </summary>
-        /// <param name="path">Path where the document will be saved</param>
-        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
-        /// <param name="stylesheet">A Stylesheet for the document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
+        /// <param name="path">The file path to write the Excel document to.</param>
+        /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
+        public BigExcelWriter(string path, Stylesheet stylesheet)
+        : this(path, SpreadsheetDocumentType.Workbook, stylesheet) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path, spreadsheet document type, and stylesheet.
+        /// </summary>
+        /// <param name="path">The file path to write the Excel document to.</param>
+        /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
+        /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
         public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, Stylesheet stylesheet)
         : this(path, spreadsheetDocumentType, false, stylesheet) { }
 
         /// <summary>
-        /// Creates a document into a file located in <paramref name="path"/>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path, spreadsheet document type, and a flag indicating whether to skip cells when they are empty.
         /// </summary>
-        /// <param name="path">Path where the document will be saved</param>
-        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
-        /// <param name="skipCellWhenEmpty">When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
+        /// <remarks>Initializes a new Workbook</remarks>
+        /// <param name="path">The file path to write the Excel document to.</param>
+        /// <param name="skipCellWhenEmpty">A flag indicating whether to skip cells when they are empty. When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
+        public BigExcelWriter(string path, bool skipCellWhenEmpty)
+            : this(path, SpreadsheetDocumentType.Workbook, skipCellWhenEmpty) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path, spreadsheet document type, and a flag indicating whether to skip cells when they are empty.
+        /// </summary>
+        /// <param name="path">The file path to write the Excel document to.</param>
+        /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
+        /// <param name="skipCellWhenEmpty">A flag indicating whether to skip cells when they are empty. When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
         public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty)
             : this(path, spreadsheetDocumentType, skipCellWhenEmpty, new Stylesheet()) { }
 
         /// <summary>
-        /// Creates a document into a file located in <paramref name="path"/>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified file path, spreadsheet document type, a flag indicating whether to skip cells when they are empty, and a stylesheet.
         /// </summary>
-        /// <param name="path">Path where the document will be saved</param>
-        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
-        /// <param name="skipCellWhenEmpty">When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
-        /// <param name="stylesheet">A Stylesheet for the document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
+        /// <param name="path">The file path to write the Excel document to.</param>
+        /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
+        /// <param name="skipCellWhenEmpty">A flag indicating whether to skip cells when they are empty. When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
+        /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/>.</param>
         public BigExcelWriter(string path, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
+            ThrowIfInvalidSpreadsheetDocumentType(spreadsheetDocumentType);
             Path = path;
             SavingTo = SavingTo.file;
             Document = SpreadsheetDocument.Create(Path, spreadsheetDocumentType);
@@ -217,14 +291,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Creates a document into <paramref name="stream"/>
+        /// Initializes a new instance of the <see cref="BigExcelWriter"/> class with the specified stream, spreadsheet document type, a flag indicating whether to skip cells when they are empty, and a stylesheet.
         /// </summary>
-        /// <param name="stream">Where to store the document. <c>MemoryStream</c> is recommended</param>
-        /// <param name="spreadsheetDocumentType">Document type. Only <c>SpreadsheetDocumentType.Workbook</c> is tested</param>
-        /// <param name="skipCellWhenEmpty">When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
-        /// <param name="stylesheet">A Stylesheet for the document. See <see cref="Styles.StyleList.GetStylesheet()"/></param>
+        /// <param name="stream">The stream to write the Excel document to.</param>
+        /// <param name="spreadsheetDocumentType">The type of the spreadsheet document (e.g., Workbook, Template).</param>
+        /// <param name="skipCellWhenEmpty">A flag indicating whether to skip cells when they are empty. When <see langword="true"/>, writing an empty value to a cell moves the next cell to be written. When <see langword="false"/>, writing an empty value to a cell does nothing.</param>
+        /// <param name="stylesheet">The stylesheet to apply to the Excel document. See <see cref="Styles.StyleList.GetStylesheet()"/>.</param>
         public BigExcelWriter(Stream stream, SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
+            ThrowIfInvalidSpreadsheetDocumentType(spreadsheetDocumentType);
             Stream = stream;
             SavingTo = SavingTo.stream;
             Document = SpreadsheetDocument.Create(Stream, spreadsheetDocumentType);
@@ -233,6 +308,7 @@ namespace BigExcelCreator
 
         private void CtorHelper(SpreadsheetDocumentType spreadsheetDocumentType, bool skipCellWhenEmpty, Stylesheet stylesheet)
         {
+            disposed = false; // reset the disposed flag
             SpreadsheetDocumentType = spreadsheetDocumentType;
             WorkbookPart workbookPart = Document.AddWorkbookPart();
 
@@ -251,38 +327,50 @@ namespace BigExcelCreator
         #endregion
 
         /// <summary>
-        /// Creates a new sheet and prepares the writer to use it.
+        /// Creates and opens a new sheet with the specified name, and prepares the writer to use it.
         /// </summary>
-        /// <param name="name">Names the sheet</param>
-        /// <exception cref="SheetAlreadyOpenException">When a sheet is already open</exception>
+        /// <param name="name">The name of the sheet to create and open.</param>
+        /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
+        /// <exception cref="SheetNameCannotBeEmptyException">Thrown when the sheet name is null or empty.</exception>
+        /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
         public void CreateAndOpenSheet(string name) => CreateAndOpenSheet(name, null, SheetStateValues.Visible);
 
         /// <summary>
-        /// Creates a new sheet and prepares the writer to use it.
+        /// Creates and opens a new sheet with the specified name, and sheet state, and prepares the writer to use it.
         /// </summary>
-        /// <param name="name">Names the sheet</param>
+        /// <param name="name">The name of the sheet to create and open.</param>
         /// <param name="sheetState">Sets sheet visibility. <c>SheetStateValues.Visible</c> to list the sheet. <c>SheetStateValues.Hidden</c> to hide it. <c>SheetStateValues.VeryHidden</c> to hide it and prevent unhiding from the GUI.</param>
-        /// <exception cref="SheetAlreadyOpenException">When a sheet is already open</exception>
+        /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
+        /// <exception cref="SheetNameCannotBeEmptyException">Thrown when the sheet name is null or empty.</exception>
+        /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
         public void CreateAndOpenSheet(string name, SheetStateValues sheetState) => CreateAndOpenSheet(name, null, sheetState);
 
         /// <summary>
-        /// Creates a new sheet and prepares the writer to use it.
+        /// Creates and opens a new sheet with the specified name and columns, and prepares the writer to use it.
         /// </summary>
-        /// <param name="name">Names the sheet</param>
-        /// <param name="columns">Use this to set the columns' width</param>
-        /// <exception cref="SheetAlreadyOpenException">When a sheet is already open</exception>
+        /// <param name="name">The name of the sheet to create and open.</param>
+        /// <param name="columns">The columns to add to the sheet. Can be null. Use this to set the columns' width.</param>
+        /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
+        /// <exception cref="SheetNameCannotBeEmptyException">Thrown when the sheet name is null or empty.</exception>
+        /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
         public void CreateAndOpenSheet(string name, IList<Column> columns) => CreateAndOpenSheet(name, columns, SheetStateValues.Visible);
 
         /// <summary>
-        /// Creates a new sheet and prepares the writer to use it.
+        /// Creates and opens a new sheet with the specified name, columns, and sheet state, and prepares the writer to use it.
         /// </summary>
-        /// <param name="name">Names the sheet</param>
-        /// <param name="columns">Use this to set the columns' width</param>
+        /// <param name="name">The name of the sheet to create and open.</param>
+        /// <param name="columns">The columns to add to the sheet. Can be null. Use this to set the columns' width.</param>
         /// <param name="sheetState">Sets sheet visibility. <c>SheetStateValues.Visible</c> to list the sheet. <c>SheetStateValues.Hidden</c> to hide it. <c>SheetStateValues.VeryHidden</c> to hide it and prevent unhiding from the GUI.</param>
-        /// <exception cref="SheetAlreadyOpenException">When a sheet is already open</exception>
+        /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
+        /// <exception cref="SheetNameCannotBeEmptyException">Thrown when the sheet name is null or empty.</exception>
+        /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
         public void CreateAndOpenSheet(string name, IList<Column> columns, SheetStateValues sheetState)
         {
             if (sheetOpen) { throw new SheetAlreadyOpenException("Cannot open a new sheet. Please close current sheet before opening a new one"); }
+
+            if (string.IsNullOrEmpty(name)) { throw new SheetNameCannotBeEmptyException("Sheet name cannot be null or empty"); }
+            if (SheetNames.Contains(name, StringComparer.OrdinalIgnoreCase)) { throw new SheetWithSameNameAlreadyExistsException("A sheet with the same name already exists"); }
+            _ = SheetNames.Add(name);
 
             workSheetPart = Document.WorkbookPart.AddNewPart<WorksheetPart>();
             workSheetPartWriter = OpenXmlWriter.Create(workSheetPart);
@@ -315,13 +403,13 @@ namespace BigExcelCreator
             sheetOpen = true;
             currentSheetState = sheetState;
 
-            SetSheetDefault();
+            SetSheetDefaults();
         }
 
         /// <summary>
-        /// Closes a sheet
+        /// Closes the currently open sheet.
         /// </summary>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to close.</exception>
         public void CloseSheet()
         {
             if (!sheetOpen) { throw new NoOpenSheetException("There is no sheet to close"); }
@@ -367,25 +455,22 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Creates a new row
+        /// Begins a new row in the currently open sheet.
         /// </summary>
-        /// <param name="rownum">Row index</param>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="OutOfOrderWritingException">If attempting to write rows out of order</exception>
-        public void BeginRow(int rownum)
-        {
-            BeginRow(rownum, false);
-        }
+        /// <param name="rownum">The row number to begin.</param>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="OutOfOrderWritingException">Thrown when writing rows out of order is attempted.</exception>
+        public void BeginRow(int rownum) => BeginRow(rownum, false);
 
         /// <summary>
-        /// Creates a new row
+        /// Begins a new row in the currently open sheet.
         /// </summary>
-        /// <param name="rownum">Row index</param>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="OutOfOrderWritingException">If attempting to write rows out of order</exception>
+        /// <param name="rownum">The row number to begin.</param>
+        /// <param name="hidden">Indicates whether the row should be hidden.</param>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="OutOfOrderWritingException">Thrown when writing rows out of order is attempted.</exception>
         public void BeginRow(int rownum, bool hidden)
         {
             if (!sheetOpen) { throw new NoOpenSheetException("There is no open sheet to write a row to"); }
@@ -409,30 +494,26 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Creates a new row
+        /// Begins a new row in the currently open sheet.
         /// </summary>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        public void BeginRow()
-        {
-            BeginRow(false);
-        }
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="OutOfOrderWritingException">Thrown when writing rows out of order is attempted.</exception>
+        public void BeginRow() => BeginRow(false);
 
         /// <summary>
-        /// Creates a new row
+        /// Begins a new row in the currently open sheet.
         /// </summary>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        public void BeginRow(bool hidden)
-        {
-            BeginRow(lastRowWritten + 1, hidden);
-        }
+        /// <param name="hidden">Indicates whether the row should be hidden.</param>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="OutOfOrderWritingException">Thrown when writing rows out of order is attempted.</exception>
+        public void BeginRow(bool hidden) => BeginRow(lastRowWritten + 1, hidden);
 
         /// <summary>
-        /// Closes a row
+        /// Ends the currently open row in the sheet.
         /// </summary>
-        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        /// <exception cref="NoOpenRowException">Thrown when there is no open row to end.</exception>
         public void EndRow()
         {
             if (!rowOpen) { throw new NoOpenRowException("There is no row to close"); }
@@ -445,13 +526,13 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Writes a string to a cell
+        /// Writes a text cell to the currently open row in the sheet.
         /// </summary>
-        /// <param name="text">value to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="useSharedStrings">Write the value to the shared strings table. This might help reduce the output file size when the same text is shared multiple times among sheets.</param>
+        /// <param name="text">The text to write in the cell.</param>
+        /// <param name="format">The format index to apply to the cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/>.</param>
+        /// <param name="useSharedStrings">Indicates whether to write the value to the shared strings table. This might help reduce the output file size when the same text is shared multiple times among sheets. Default is false.</param>
+        /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
-        /// <exception cref="NoOpenRowException">When there is no open row</exception>
         public void WriteTextCell(string text, int format = 0, bool useSharedStrings = false)
         {
 #if NET8_0_OR_GREATER
@@ -504,148 +585,126 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Writes a numerical value to a cell
+        /// Writes a numerical value to the currently open row in the sheet.
         /// </summary>
-        /// <param name="number">value to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
-        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        /// <param name="number">The number to write in the cell.</param>
+        /// <param name="format">The format index to apply to the cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         [CLSCompliant(false)]
         public void WriteNumberCell(sbyte number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
-        /// Writes a numerical value to a cell
+        /// Writes a numerical value to the currently open row in the sheet.
         /// </summary>
-        /// <param name="number">value to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
-        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        /// <param name="number">The number to write in the cell.</param>
+        /// <param name="format">The format index to apply to the cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteNumberCell(byte number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
-        /// Writes a numerical value to a cell
+        /// Writes a numerical value to the currently open row in the sheet.
         /// </summary>
-        /// <param name="number">value to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
-        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        /// <param name="number">The number to write in the cell.</param>
+        /// <param name="format">The format index to apply to the cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteNumberCell(short number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
-        /// Writes a numerical value to a cell
+        /// Writes a numerical value to the currently open row in the sheet.
         /// </summary>
-        /// <param name="number">value to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
-        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        /// <param name="number">The number to write in the cell.</param>
+        /// <param name="format">The format index to apply to the cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         [CLSCompliant(false)]
         public void WriteNumberCell(ushort number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
-        /// Writes a numerical value to a cell
+        /// Writes a numerical value to the currently open row in the sheet.
         /// </summary>
-        /// <param name="number">value to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
-        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        /// <param name="number">The number to write in the cell.</param>
+        /// <param name="format">The format index to apply to the cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteNumberCell(int number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
-        /// Writes a numerical value to a cell
+        /// Writes a numerical value to the currently open row in the sheet.
         /// </summary>
-        /// <param name="number">value to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
-        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        /// <param name="number">The number to write in the cell.</param>
+        /// <param name="format">The format index to apply to the cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         [CLSCompliant(false)]
         public void WriteNumberCell(uint number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
-        /// Writes a numerical value to a cell
+        /// Writes a numerical value to the currently open row in the sheet.
         /// </summary>
-        /// <param name="number">value to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
-        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        /// <param name="number">The number to write in the cell.</param>
+        /// <param name="format">The format index to apply to the cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteNumberCell(long number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
-        /// Writes a numerical value to a cell
+        /// Writes a numerical value to the currently open row in the sheet.
         /// </summary>
-        /// <param name="number">value to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
-        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        /// <param name="number">The number to write in the cell.</param>
+        /// <param name="format">The format index to apply to the cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         [CLSCompliant(false)]
         public void WriteNumberCell(ulong number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
-        /// Writes a numerical value to a cell
+        /// Writes a numerical value to the currently open row in the sheet.
         /// </summary>
-        /// <param name="number">value to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
-        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        /// <param name="number">The number to write in the cell.</param>
+        /// <param name="format">The format index to apply to the cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteNumberCell(float number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
-        /// Writes a numerical value to a cell
+        /// Writes a numerical value to the currently open row in the sheet.
         /// </summary>
-        /// <param name="number">value to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
-        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        /// <param name="number">The number to write in the cell.</param>
+        /// <param name="format">The format index to apply to the cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteNumberCell(double number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
-        /// Writes a numerical value to a cell
+        /// Writes a numerical value to the currently open row in the sheet.
         /// </summary>
-        /// <param name="number">value to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
-        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        /// <param name="number">The number to write in the cell.</param>
+        /// <param name="format">The format index to apply to the cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/>.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteNumberCell(decimal number, int format = 0)
-        {
-            WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
-        }
+            => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
 
         /// <summary>
-        /// Writes a formula to a cell
+        /// Writes a formula cell to the currently open row in the sheet.
         /// </summary>
-        /// <param name="formula">formula to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
-        /// <exception cref="NoOpenRowException">When there is no open row</exception>
+        /// <param name="formula">The formula to write in the cell.</param>
+        /// <param name="format">The format index to apply to the cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
+        /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteFormulaCell(string formula, int format = 0)
         {
 #if NET8_0_OR_GREATER
@@ -678,16 +737,16 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Writes an entire text row at once
+        /// Writes a row of text cells to the currently open sheet.
         /// </summary>
-        /// <param name="texts">List of values to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <param name="useSharedStrings">Write the value to the shared strings table. This might help reduce the output file size when the same text is shared multiple times among sheets.</param>
-        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <param name="texts">The collection of text strings to write in the row.</param>
+        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <param name="useSharedStrings">Indicates whether to write the value to the shared strings table. This might help reduce the output file size when the same text is shared multiple times among sheets. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the texts collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         public void WriteTextRow(IEnumerable<string> texts, int format = 0, bool hidden = false, bool useSharedStrings = false)
         {
             BeginRow(hidden);
@@ -699,15 +758,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Writes an entire numerical row at once
+        /// Writes a row of cells with numerical values to the currently open sheet.
         /// </summary>
-        /// <param name="numbers">Lists of values to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <param name="numbers">The collection of numbers to write in the row.</param>
+        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the numbers collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         [CLSCompliant(false)]
         public void WriteNumberRow(IEnumerable<sbyte> numbers, int format = 0, bool hidden = false)
         {
@@ -720,15 +779,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Writes an entire numerical row at once
+        /// Writes a row of cells with numerical values to the currently open sheet.
         /// </summary>
-        /// <param name="numbers">Lists of values to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <param name="numbers">The collection of numbers to write in the row.</param>
+        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the numbers collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         public void WriteNumberRow(IEnumerable<byte> numbers, int format = 0, bool hidden = false)
         {
             BeginRow(hidden);
@@ -740,15 +799,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Writes an entire numerical row at once
+        /// Writes a row of cells with numerical values to the currently open sheet.
         /// </summary>
-        /// <param name="numbers">Lists of values to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <param name="numbers">The collection of numbers to write in the row.</param>
+        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the numbers collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         public void WriteNumberRow(IEnumerable<short> numbers, int format = 0, bool hidden = false)
         {
             BeginRow(hidden);
@@ -760,15 +819,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Writes an entire numerical row at once
+        /// Writes a row of cells with numerical values to the currently open sheet.
         /// </summary>
-        /// <param name="numbers">Lists of values to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <param name="numbers">The collection of numbers to write in the row.</param>
+        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the numbers collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         [CLSCompliant(false)]
         public void WriteNumberRow(IEnumerable<ushort> numbers, int format = 0, bool hidden = false)
         {
@@ -781,15 +840,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Writes an entire numerical row at once
+        /// Writes a row of cells with numerical values to the currently open sheet.
         /// </summary>
-        /// <param name="numbers">Lists of values to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <param name="numbers">The collection of numbers to write in the row.</param>
+        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the numbers collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         public void WriteNumberRow(IEnumerable<int> numbers, int format = 0, bool hidden = false)
         {
             BeginRow(hidden);
@@ -801,15 +860,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Writes an entire numerical row at once
+        /// Writes a row of cells with numerical values to the currently open sheet.
         /// </summary>
-        /// <param name="numbers">Lists of values to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <param name="numbers">The collection of numbers to write in the row.</param>
+        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the numbers collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         [CLSCompliant(false)]
         public void WriteNumberRow(IEnumerable<uint> numbers, int format = 0, bool hidden = false)
         {
@@ -822,15 +881,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Writes an entire numerical row at once
+        /// Writes a row of cells with numerical values to the currently open sheet.
         /// </summary>
-        /// <param name="numbers">Lists of values to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <param name="numbers">The collection of numbers to write in the row.</param>
+        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the numbers collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         public void WriteNumberRow(IEnumerable<long> numbers, int format = 0, bool hidden = false)
         {
             BeginRow(hidden);
@@ -842,15 +901,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Writes an entire numerical row at once
+        /// Writes a row of cells with numerical values to the currently open sheet.
         /// </summary>
-        /// <param name="numbers">Lists of values to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <param name="numbers">The collection of numbers to write in the row.</param>
+        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the numbers collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         [CLSCompliant(false)]
         public void WriteNumberRow(IEnumerable<ulong> numbers, int format = 0, bool hidden = false)
         {
@@ -863,15 +922,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Writes an entire numerical row at once
+        /// Writes a row of cells with numerical values to the currently open sheet.
         /// </summary>
-        /// <param name="numbers">Lists of values to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <param name="numbers">The collection of numbers to write in the row.</param>
+        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the numbers collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         public void WriteNumberRow(IEnumerable<float> numbers, int format = 0, bool hidden = false)
         {
             BeginRow(hidden);
@@ -883,15 +942,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Writes an entire numerical row at once
+        /// Writes a row of cells with numerical values to the currently open sheet.
         /// </summary>
-        /// <param name="numbers">Lists of values to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <param name="numbers">The collection of numbers to write in the row.</param>
+        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the numbers collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         public void WriteNumberRow(IEnumerable<double> numbers, int format = 0, bool hidden = false)
         {
             BeginRow(hidden);
@@ -903,15 +962,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Writes an entire numerical row at once
+        /// Writes a row of cells with numerical values to the currently open sheet.
         /// </summary>
-        /// <param name="numbers">Lists of values to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <param name="numbers">The collection of numbers to write in the row.</param>
+        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the numbers collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         public void WriteNumberRow(IEnumerable<decimal> numbers, int format = 0, bool hidden = false)
         {
             BeginRow(hidden);
@@ -923,15 +982,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Writes an entire formula row at once
+        /// Writes a row of formula cells to the currently open sheet.
         /// </summary>
-        /// <param name="formulas">List of formulas to be written</param>
-        /// <param name="format">Format index inside stylesheet. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="hidden">Hides the row when <see langword="true"/></param>
-        /// <exception cref="ArgumentNullException">When list is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">If there is no open sheet</exception>
-        /// <exception cref="RowAlreadyOpenException">If already inside a row</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="format"/> is less than 0</exception>
+        /// <param name="formulas">The collection of formulas to write in the row.</param>
+        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the formulas collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         public void WriteFormulaRow(IEnumerable<string> formulas, int format = 0, bool hidden = false)
         {
             BeginRow(hidden);
@@ -943,29 +1002,35 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds autofilter. Only one filter per sheet is allowed.
+        /// Adds an autofilter to the specified range in the current sheet.
         /// </summary>
-        /// <param name="range">Where to add the filter (header cells)</param>
-        /// <param name="overwrite">Replace active filter</param>
-        /// <exception cref="ArgumentNullException">Null range</exception>
-        /// <exception cref="NoOpenSheetException">When no open sheet </exception>
-        /// <exception cref="SheetAlreadyHasFilterException">When there is already a filter an <paramref name="overwrite"/> is set to <see langword="false"/></exception>
-        /// <exception cref="ArgumentOutOfRangeException">When range height is not exactly one row</exception>
-        /// <exception cref="InvalidRangeException">When <paramref name="range"/> is not a valid range</exception>
+        /// <remarks>
+        /// <para>The range height must be 1.</para>
+        /// <para>Only one filter per sheet is allowed.</para>
+        /// </remarks>
+        /// <param name="range">The range where the autofilter should be applied.</param>
+        /// <param name="overwrite">If set to <c>true</c>, any existing autofilter will be replaced.</param>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the autofilter to.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="SheetAlreadyHasFilterException">Thrown when there is already an autofilter in the current sheet and <paramref name="overwrite"/> is <c>false</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when the height of the <paramref name="range"/> is not 1.</exception>
         public void AddAutofilter(string range, bool overwrite = false)
-        {
-            AddAutofilter(new CellRange(range), overwrite);
-        }
+            => AddAutofilter(new CellRange(range), overwrite);
 
         /// <summary>
-        /// Adds autofilter. Only one filter per sheet is allowed.
+        /// Adds an autofilter to the specified range in the current sheet.
         /// </summary>
-        /// <param name="range">Where to add the filter (header cells)</param>
-        /// <param name="overwrite">Replace active filter</param>
-        /// <exception cref="ArgumentNullException">Null range</exception>
-        /// <exception cref="NoOpenSheetException">When no open sheet </exception>
-        /// <exception cref="SheetAlreadyHasFilterException">When there is already a filter an <paramref name="overwrite"/> is set to <see langword="false"/></exception>
-        /// <exception cref="ArgumentOutOfRangeException">When range height is not exactly one row</exception>
+        /// <remarks>
+        /// <para>The range height must be 1.</para>
+        /// <para>Only one filter per sheet is allowed.</para>
+        /// </remarks>
+        /// <param name="range">The range where the autofilter should be applied.</param>
+        /// <param name="overwrite">If set to <c>true</c>, any existing autofilter will be replaced.</param>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the autofilter to.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="SheetAlreadyHasFilterException">Thrown when there is already an autofilter in the current sheet and <paramref name="overwrite"/> is <c>false</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when the height of the <paramref name="range"/> is not 1.</exception>
         public void AddAutofilter(CellRange range, bool overwrite = false)
         {
             if (!sheetOpen) { throw new NoOpenSheetException("Filters need to be assigned to a sheet"); }
@@ -980,16 +1045,16 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds a list validator to a range based on a formula
+        /// Adds a list data validation to the specified cell range.
         /// </summary>
-        /// <param name="range">Cells to validate</param>
-        /// <param name="formula">Validation formula</param>
-        /// <param name="allowBlank"></param>
-        /// <param name="showInputMessage"></param>
-        /// <param name="showErrorMessage"></param>
-        /// <exception cref="ArgumentNullException">When <paramref name="range"/> is null</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
-        /// <exception cref="InvalidRangeException">When <paramref name="range"/> is not a valid range</exception>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="formula">The formula defining the list of valid values.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are considered valid.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the autofilter to.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
         public void AddListValidator(string range,
                                      string formula,
                                      bool allowBlank = true,
@@ -1004,15 +1069,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds a list validator to a range based on a formula
+        /// Adds a list data validation to the specified cell range.
         /// </summary>
-        /// <param name="range">Cells to validate</param>
-        /// <param name="formula">Validation formula</param>
-        /// <param name="allowBlank"></param>
-        /// <param name="showInputMessage"></param>
-        /// <param name="showErrorMessage"></param>
-        /// <exception cref="ArgumentNullException">When <paramref name="range"/> is null</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="formula">The formula defining the list of valid values.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are considered valid.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the autofilter to.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
         public void AddListValidator(CellRange range,
                                      string formula,
                                      bool allowBlank = true,
@@ -1025,17 +1090,19 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds an integer (whole) number validator to a range
+        /// Adds an integer data validation to the specified cell range.
         /// </summary>
-        /// <param name="range"></param>
-        /// <param name="firstOperand"></param>
-        /// <param name="validationType"></param>
-        /// <param name="allowBlank"></param>
-        /// <param name="showInputMessage"></param>
-        /// <param name="showErrorMessage"></param>
-        /// <param name="secondOperand"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="NoOpenSheetException"></exception>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
         public void AddIntegerValidator(string range,
                                         int firstOperand,
                                         DataValidationOperatorValues validationType,
@@ -1054,17 +1121,18 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds an integer (whole) number validator to a range
+        /// Adds an integer data validation to the specified cell range.
         /// </summary>
-        /// <param name="range"></param>
-        /// <param name="firstOperand"></param>
-        /// <param name="validationType"></param>
-        /// <param name="allowBlank"></param>
-        /// <param name="showInputMessage"></param>
-        /// <param name="showErrorMessage"></param>
-        /// <param name="secondOperand"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="NoOpenSheetException"></exception>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
         public void AddIntegerValidator(CellRange range,
                                         int firstOperand,
                                         DataValidationOperatorValues validationType,
@@ -1084,17 +1152,209 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds a decimal number validator to a range
+        /// Adds an integer data validation to the specified cell range.
         /// </summary>
-        /// <param name="range"></param>
-        /// <param name="firstOperand"></param>
-        /// <param name="validationType"></param>
-        /// <param name="allowBlank"></param>
-        /// <param name="showInputMessage"></param>
-        /// <param name="showErrorMessage"></param>
-        /// <param name="secondOperand"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="NoOpenSheetException"></exception>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
+        [CLSCompliant(false)]
+        public void AddIntegerValidator(string range,
+                                        uint firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        uint? secondOperand = null)
+        {
+            AddIntegerValidator(new CellRange(range),
+                                firstOperand,
+                                validationType,
+                                allowBlank,
+                                showInputMessage,
+                                showErrorMessage,
+                                secondOperand);
+        }
+
+        /// <summary>
+        /// Adds an integer data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        [CLSCompliant(false)]
+        public void AddIntegerValidator(CellRange range,
+                                        uint firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        uint? secondOperand = null)
+        {
+            DataValidation dataValidation = AddValidatorCommon(range, DataValidationValues.Whole, validationType, allowBlank, showInputMessage, showErrorMessage);
+
+            if (validationType.RequiresSecondOperand() && secondOperand == null)
+            {
+                throw new ArgumentNullException(nameof(secondOperand), $"validation type {validationType} requires a second operand");
+            }
+
+            AppendNewDataValidation(dataValidation, firstOperand.ToString(CultureInfo.InvariantCulture), secondOperand?.ToString(CultureInfo.InvariantCulture));
+        }
+
+        /// <summary>
+        /// Adds an integer data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
+        public void AddIntegerValidator(string range,
+                                        long firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        long? secondOperand = null)
+        {
+            AddIntegerValidator(new CellRange(range),
+                                firstOperand,
+                                validationType,
+                                allowBlank,
+                                showInputMessage,
+                                showErrorMessage,
+                                secondOperand);
+        }
+
+        /// <summary>
+        /// Adds an integer data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        public void AddIntegerValidator(CellRange range,
+                                        long firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        long? secondOperand = null)
+        {
+            DataValidation dataValidation = AddValidatorCommon(range, DataValidationValues.Whole, validationType, allowBlank, showInputMessage, showErrorMessage);
+
+            if (validationType.RequiresSecondOperand() && secondOperand == null)
+            {
+                throw new ArgumentNullException(nameof(secondOperand), $"validation type {validationType} requires a second operand");
+            }
+
+            AppendNewDataValidation(dataValidation, firstOperand.ToString(CultureInfo.InvariantCulture), secondOperand?.ToString(CultureInfo.InvariantCulture));
+        }
+
+        /// <summary>
+        /// Adds an integer data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
+        [CLSCompliant(false)]
+        public void AddIntegerValidator(string range,
+                                        ulong firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        ulong? secondOperand = null)
+        {
+            AddIntegerValidator(new CellRange(range),
+                                firstOperand,
+                                validationType,
+                                allowBlank,
+                                showInputMessage,
+                                showErrorMessage,
+                                secondOperand);
+        }
+
+        /// <summary>
+        /// Adds an integer data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        [CLSCompliant(false)]
+        public void AddIntegerValidator(CellRange range,
+                                        ulong firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        ulong? secondOperand = null)
+        {
+            DataValidation dataValidation = AddValidatorCommon(range, DataValidationValues.Whole, validationType, allowBlank, showInputMessage, showErrorMessage);
+
+            if (validationType.RequiresSecondOperand() && secondOperand == null)
+            {
+                throw new ArgumentNullException(nameof(secondOperand), $"validation type {validationType} requires a second operand");
+            }
+
+            AppendNewDataValidation(dataValidation, firstOperand.ToString(CultureInfo.InvariantCulture), secondOperand?.ToString(CultureInfo.InvariantCulture));
+        }
+
+        /// <summary>
+        /// Adds a decimal data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
         public void AddDecimalValidator(string range,
                                         decimal firstOperand,
                                         DataValidationOperatorValues validationType,
@@ -1113,17 +1373,18 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds a decimal number validator to a range
+        /// Adds a decimal data validation to the specified cell range.
         /// </summary>
-        /// <param name="range"></param>
-        /// <param name="firstOperand"></param>
-        /// <param name="validationType"></param>
-        /// <param name="allowBlank"></param>
-        /// <param name="showInputMessage"></param>
-        /// <param name="showErrorMessage"></param>
-        /// <param name="secondOperand"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="NoOpenSheetException"></exception>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
         public void AddDecimalValidator(CellRange range,
                                         decimal firstOperand,
                                         DataValidationOperatorValues validationType,
@@ -1143,14 +1404,139 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds a comment to a cell
+        /// Adds a decimal data validation to the specified cell range.
         /// </summary>
-        /// <param name="text">Comment text</param>
-        /// <param name="reference">Commented cell</param>
-        /// <param name="author">Comment Author</param>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="author"/> is null or an empty string OR <paramref name="reference"/> is not a single cell</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
-        /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
+        public void AddDecimalValidator(string range,
+                                        float firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        float? secondOperand = null)
+        {
+            AddDecimalValidator(new CellRange(range),
+                                firstOperand,
+                                validationType,
+                                allowBlank,
+                                showInputMessage,
+                                showErrorMessage,
+                                secondOperand);
+        }
+
+        /// <summary>
+        /// Adds a decimal data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        public void AddDecimalValidator(CellRange range,
+                                        float firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        float? secondOperand = null)
+        {
+            DataValidation dataValidation = AddValidatorCommon(range, DataValidationValues.Decimal, validationType, allowBlank, showInputMessage, showErrorMessage);
+
+            if (validationType.RequiresSecondOperand() && secondOperand == null)
+            {
+                throw new ArgumentNullException(nameof(secondOperand), $"validation type {validationType} requires a second operand");
+            }
+
+            AppendNewDataValidation(dataValidation, firstOperand.ToString(CultureInfo.InvariantCulture), secondOperand?.ToString(CultureInfo.InvariantCulture));
+        }
+
+        /// <summary>
+        /// Adds a decimal data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
+        public void AddDecimalValidator(string range,
+                                        double firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        double? secondOperand = null)
+        {
+            AddDecimalValidator(new CellRange(range),
+                                firstOperand,
+                                validationType,
+                                allowBlank,
+                                showInputMessage,
+                                showErrorMessage,
+                                secondOperand);
+        }
+
+        /// <summary>
+        /// Adds a decimal data validation to the specified cell range.
+        /// </summary>
+        /// <param name="range">The cell range to apply the validation to.</param>
+        /// <param name="firstOperand">The first operand for the validation.</param>
+        /// <param name="validationType">The type of validation to apply.</param>
+        /// <param name="allowBlank">If set to <c>true</c>, blank values are allowed.</param>
+        /// <param name="showInputMessage">If set to <c>true</c>, an input message will be shown.</param>
+        /// <param name="showErrorMessage">If set to <c>true</c>, an error message will be shown when invalid data is entered.</param>
+        /// <param name="secondOperand">The second operand for the validation, if required by the validation type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the validation type requires a second operand but <paramref name="secondOperand"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="range"/> is <c>null</c>.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the validation to.</exception>
+        public void AddDecimalValidator(CellRange range,
+                                        double firstOperand,
+                                        DataValidationOperatorValues validationType,
+                                        bool allowBlank = true,
+                                        bool showInputMessage = true,
+                                        bool showErrorMessage = true,
+                                        double? secondOperand = null)
+        {
+            DataValidation dataValidation = AddValidatorCommon(range, DataValidationValues.Decimal, validationType, allowBlank, showInputMessage, showErrorMessage);
+
+            if (validationType.RequiresSecondOperand() && secondOperand == null)
+            {
+                throw new ArgumentNullException(nameof(secondOperand), $"validation type {validationType} requires a second operand");
+            }
+
+            AppendNewDataValidation(dataValidation, firstOperand.ToString(CultureInfo.InvariantCulture), secondOperand?.ToString(CultureInfo.InvariantCulture));
+        }
+
+        /// <summary>
+        /// Adds a comment to a specified cell range.
+        /// </summary>
+        /// <param name="text">The text of the comment.</param>
+        /// <param name="reference">The cell range where the comment will be added. Must be a single cell range.</param>
+        /// <param name="author">The author of the comment. Default is "BigExcelCreator".</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="author"/> is null or empty, or when <paramref name="reference"/> is not a single cell range.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="reference"/> is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the comment to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="reference"/> does not represent a valid range.</exception>
         public void Comment(string text, string reference, string author = "BigExcelCreator")
         {
             CellRange cellRange = new(reference);
@@ -1158,14 +1544,14 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds a comment to a cell
+        /// Adds a comment to a specified cell range.
         /// </summary>
-        /// <param name="text">Comment text</param>
-        /// <param name="cellRange">Commented cell</param>
-        /// <param name="author">Comment Author</param>
-        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="author"/> is null or an empty string OR <paramref name="cellRange"/> is not a single cell</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="cellRange"/> is <c>null</c>.</exception>
+        /// <param name="text">The text of the comment.</param>
+        /// <param name="cellRange">The cell range where the comment will be added. Must be a single cell range.</param>
+        /// <param name="author">The author of the comment. Default is "BigExcelCreator".</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="author"/> is null or empty, or when <paramref name="cellRange"/> is not a single cell range.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="cellRange"/> is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the comment to.</exception>
         public void Comment(string text, CellRange cellRange, string author = "BigExcelCreator")
         {
             if (string.IsNullOrEmpty(author)) { throw new ArgumentOutOfRangeException(nameof(author)); }
@@ -1187,15 +1573,15 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds conditional formatting based on a formula
+        /// Adds a conditional formatting rule based on a formula to the specified cell range.
         /// </summary>
-        /// <param name="reference">Cell to apply format to</param>
-        /// <param name="formula">Formula. Format will be applied when this formula evaluates to true</param>
-        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
-        /// <exception cref="ArgumentNullException">When formula is <see langword="null"/> or empty string</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
-        /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
+        /// <param name="reference">The cell range to apply the conditional formatting to.</param>
+        /// <param name="formula">The formula that determines the conditional formatting rule.</param>
+        /// <param name="format">The format ID of the differential format in stylesheet to apply when the condition is met. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the conditional formatting to.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="reference"/> or <paramref name="formula"/> is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is negative.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="reference"/> does not represent a valid range.</exception>
         public void AddConditionalFormattingFormula(string reference, string formula, int format)
         {
             CellRange cellRange = new(reference);
@@ -1203,15 +1589,14 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds conditional formatting based on a formula
+        /// Adds a conditional formatting rule based on a formula to the specified cell range.
         /// </summary>
-        /// <param name="cellRange">Cell to apply format to</param>
-        /// <param name="formula">Formula. Format will be applied when this formula evaluates to true</param>
-        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
-        /// <exception cref="ArgumentNullException">When formula is <see langword="null"/> or empty string</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="cellRange"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        /// <param name="cellRange">The cell range to apply the conditional formatting to.</param>
+        /// <param name="formula">The formula that determines the conditional formatting rule.</param>
+        /// <param name="format">The format ID of the differential format in stylesheet to apply when the condition is met. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the conditional formatting to.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="cellRange"/> or <paramref name="formula"/> is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is negative.</exception>
         public void AddConditionalFormattingFormula(CellRange cellRange, string formula, int format)
         {
             if (!sheetOpen) { throw new NoOpenSheetException(ConstantsAndTexts.ConditionalFormattingMustBeOnSheet); }
@@ -1231,7 +1616,7 @@ namespace BigExcelCreator
 
             ConditionalFormatting conditionalFormatting = new()
             {
-                SequenceOfReferences = new(new List<StringValue> { cellRange.RangeStringNoSheetName }),
+                SequenceOfReferences = new([cellRange.RangeStringNoSheetName]),
             };
 
             ConditionalFormattingRule conditionalFormattingRule = new()
@@ -1249,35 +1634,34 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds conditional formatting based on cell value
+        /// Adds a conditional formatting rule based on a cell value to the specified cell range.
         /// </summary>
-        /// <param name="reference">Cell to apply format to</param>
-        /// <param name="operator"></param>
-        /// <param name="value">Compare cell value to this</param>
-        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
-        /// <param name="value2">When <paramref name="operator"/> requires 2 parameters, compare cell value to this as second parameter</param>
-        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
-        /// <exception cref="ArgumentNullException">When <paramref name="value"/> is <see langword="null"/> OR <paramref name="operator"/> requires 2 arguments and <paramref name="value2"/> is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
-        /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
+        /// <param name="reference">The cell range to apply the conditional formatting to.</param>
+        /// <param name="operator">The operator to use for the conditional formatting rule.</param>
+        /// <param name="value">The value to compare the cell value against.</param>
+        /// <param name="format">The format ID of the differential format in stylesheet to apply when the condition is met. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <param name="value2">The second value to compare the cell value against, used for "Between" and "NotBetween" operators.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="reference"/>, <paramref name="value"/>, or <paramref name="value2"/> (if required) is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is negative.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the conditional formatting to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="reference"/> does not represent a valid range.</exception>
         public void AddConditionalFormattingCellIs(string reference, ConditionalFormattingOperatorValues @operator, string value, int format, string value2 = null)
         {
             CellRange cellRange = new(reference);
             AddConditionalFormattingCellIs(cellRange, @operator, value, format, value2);
         }
 
-
         /// <summary>
-        /// Adds conditional formatting based on cell value
+        /// Adds a conditional formatting rule based on a cell value to the specified cell range.
         /// </summary>
-        /// <param name="cellRange">Cell to apply format to</param>
-        /// <param name="operator"></param>
-        /// <param name="value">Compare cell value to this</param>
-        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
-        /// <param name="value2">When <paramref name="operator"/> requires 2 parameters, compare cell value to this as second parameter</param>
-        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
-        /// <exception cref="ArgumentNullException">When <paramref name="value"/> is <see langword="null"/> OR <paramref name="operator"/> requires 2 arguments and <paramref name="value2"/> is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        /// <param name="cellRange">The cell range to apply the conditional formatting to.</param>
+        /// <param name="operator">The operator to use for the conditional formatting rule.</param>
+        /// <param name="value">The value to compare the cell value against.</param>
+        /// <param name="format">The format ID of the differential format in stylesheet to apply when the condition is met. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <param name="value2">The second value to compare the cell value against, used for "Between" and "NotBetween" operators.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="cellRange"/>, <paramref name="value"/>, or <paramref name="value2"/> (if required) is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is negative.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the conditional formatting to.</exception>
         public void AddConditionalFormattingCellIs(CellRange cellRange, ConditionalFormattingOperatorValues @operator, string value, int format, string value2 = null)
         {
 #if NET6_0_OR_GREATER
@@ -1301,7 +1685,7 @@ namespace BigExcelCreator
 
             ConditionalFormatting conditionalFormatting = new()
             {
-                SequenceOfReferences = new(new List<StringValue> { cellRange.RangeStringNoSheetName }),
+                SequenceOfReferences = new([cellRange.RangeStringNoSheetName]),
             };
 
             ConditionalFormattingRule conditionalFormattingRule = new()
@@ -1321,13 +1705,14 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds conditional formatting to duplicated values
+        /// Adds a conditional formatting rule to highlight duplicated values in the specified cell range.
         /// </summary>
-        /// <param name="reference">Cell to apply format to</param>
-        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
-        /// <exception cref="InvalidRangeException">When <paramref name="reference"/> is not a valid range</exception>
+        /// <param name="reference">The cell range to apply the conditional formatting to.</param>
+        /// <param name="format">The format ID of the differential format in stylesheet to apply when the condition is met. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="reference"/> is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is negative.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the conditional formatting to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="reference"/> does not represent a valid range.</exception>
         public void AddConditionalFormattingDuplicatedValues(string reference, int format)
         {
             CellRange cellRange = new(reference);
@@ -1335,12 +1720,13 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Adds conditional formatting to duplicated values
+        /// Adds a conditional formatting rule to highlight duplicated values in the specified cell range.
         /// </summary>
-        /// <param name="cellRange">Cell to apply format to</param>
-        /// <param name="format">Index of differential format in stylesheet. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">When format is less than 0</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
+        /// <param name="cellRange">The cell range to apply the conditional formatting to.</param>
+        /// <param name="format">The format ID of the differential format in stylesheet to apply when the condition is met. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="cellRange"/> is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is negative.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the conditional formatting to.</exception>
         public void AddConditionalFormattingDuplicatedValues(CellRange cellRange, int format)
         {
 #if NET6_0_OR_GREATER
@@ -1358,7 +1744,7 @@ namespace BigExcelCreator
 
             ConditionalFormatting conditionalFormatting = new()
             {
-                SequenceOfReferences = new(new List<StringValue> { cellRange.RangeStringNoSheetName }),
+                SequenceOfReferences = new([cellRange.RangeStringNoSheetName]),
             };
 
             ConditionalFormattingRule conditionalFormattingRule = new()
@@ -1374,12 +1760,12 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Merges cells
+        /// Merges the specified cell range in the current sheet.
         /// </summary>
-        /// <param name="range">Cells to merge</param>
-        /// <exception cref="ArgumentNullException">When <paramref name="range"/> is <see langword="null"/></exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
-        /// <exception cref="OverlappingRangesException">When trying to merge already merged cells</exception>
+        /// <param name="range">The cell range to merge.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="range"/> is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to merge the cells into.</exception>
+        /// <exception cref="OverlappingRangesException">Thrown when the specified range overlaps with an existing merged range.</exception>
         public void MergeCells(CellRange range)
         {
 #if NET6_0_OR_GREATER
@@ -1400,20 +1786,22 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Merges cells
+        /// Merges the specified cell range in the current sheet.
         /// </summary>
-        /// <param name="range">Cells to merge</param>
-        /// <exception cref="InvalidRangeException">When <paramref name="range"/> is not a valid range</exception>
-        /// <exception cref="NoOpenSheetException">When there is no open sheet</exception>
-        /// <exception cref="OverlappingRangesException">When trying to merge already merged cells</exception>
-        public void MergeCells(string range)
-        {
-            MergeCells(new CellRange(range));
-        }
+        /// <param name="range">The cell range to merge.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="range"/> is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to merge the cells into.</exception>
+        /// <exception cref="OverlappingRangesException">Thrown when the specified range overlaps with an existing merged range.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
+        public void MergeCells(string range) => MergeCells(new CellRange(range));
 
         /// <summary>
-        /// Closes the document
+        /// Closes the current document, ensuring all data is written and resources are released.
         /// </summary>
+        /// <remarks>
+        /// This method will end any open rows and sheets, write shared strings and sheets, and save the document and worksheet part writer.
+        /// If saving to a stream, it will reset the stream position to the beginning.
+        /// </remarks>
         public void CloseDocument()
         {
             if (open)
@@ -1436,16 +1824,21 @@ namespace BigExcelCreator
         }
 
         #region IDisposable
-        private bool disposed;
+        private bool disposed = true; // There is a possibility that an exception is thrown in the constructor, so we set this to true to avoid a NullReferenceException in the finalizer.
 
         /// <summary>
-        /// Saves and closes the document.
+        /// Closes the current document, ensuring all data is written and resources are released.
         /// </summary>
+        /// <remarks>
+        /// This method will end any open rows and sheets, write shared strings and sheets, and save the document and worksheet part writer.
+        /// If saving to a stream, it will reset the stream position to the beginning.
+        /// </remarks>
         /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposed)
             {
+                // Ensure the document is properly closed.
                 CloseDocument();
                 if (disposing)
                 {
@@ -1459,8 +1852,12 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Saves and closes the document.
+        /// Closes the current document, ensuring all data is written and resources are released.
         /// </summary>
+        /// <remarks>
+        /// This method will end any open rows and sheets, write shared strings and sheets, and save the document and worksheet part writer.
+        /// If saving to a stream, it will reset the stream position to the beginning.
+        /// </remarks>
         public void Dispose() // Implement IDisposable
         {
             Dispose(true);
@@ -1468,7 +1865,7 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// The finalizer
+        /// Finalizes an instance of the <see cref="BigExcelWriter"/> class.
         /// </summary>
         ~BigExcelWriter()
         {
@@ -1586,7 +1983,7 @@ namespace BigExcelCreator
                 foreach (ConditionalFormattingRule conditionalFormattingRule in conditionalFormatting.ChildElements.OfType<ConditionalFormattingRule>())
                 {
                     workSheetPartWriter.WriteStartElement(conditionalFormattingRule);
-                    foreach (var item in conditionalFormattingRule.ChildElements)
+                    foreach (OpenXmlElement item in conditionalFormattingRule.ChildElements)
                     {
                         workSheetPartWriter.WriteElement(item);
                     }
@@ -1657,7 +2054,7 @@ namespace BigExcelCreator
             workbookPartWriter.Close();
         }
 
-        private void SetSheetDefault()
+        private void SetSheetDefaults()
         {
             _showGridLinesInCurrentSheet = _showGridLinesDefault;
             _showRowAndColumnHeadingsInCurrentSheet = _showRowAndColumnHeadingsDefault;
@@ -1688,6 +2085,21 @@ namespace BigExcelCreator
                 workSheetPartWriter.WriteElement(printOptions);
             }
         }
-        #endregion
+
+        private static void ThrowIfInvalidSpreadsheetDocumentType(SpreadsheetDocumentType spreadsheetDocumentType)
+        {
+            SpreadsheetDocumentType[] validSpreadsheetDocumentTypes =
+            [
+                SpreadsheetDocumentType.Workbook,
+                SpreadsheetDocumentType.Template,
+                SpreadsheetDocumentType.MacroEnabledWorkbook,
+                SpreadsheetDocumentType.MacroEnabledTemplate,
+            ];
+            if (!validSpreadsheetDocumentTypes.Contains(spreadsheetDocumentType))
+            {
+                throw new UnsupportedSpreadsheetDocumentTypeException(string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.InvalidSpreadsheetDocumentType, spreadsheetDocumentType));
+            }
+        }
     }
+    #endregion
 }

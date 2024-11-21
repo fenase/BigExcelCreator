@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022-2024, Federico Seckel.
+﻿// Copyright (c) 2022-2025, Federico Seckel.
 // Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
 
 // Ignore Spelling: sheetname
@@ -11,13 +11,17 @@ using System.Text;
 namespace BigExcelCreator.Ranges
 {
     /// <summary>
-    /// Range in Excel spreadsheets
+    /// Represents a range of cells in an Excel sheet.
     /// </summary>
+    /// <remarks>
+    /// This class provides properties and methods to handle cell ranges, including their dimensions, overlap checks, and string representations.
+    /// </remarks>
     public class CellRange : IEquatable<CellRange>, IComparable<CellRange>
     {
         /// <summary>
-        /// A <see cref="string"/> representing a range with the sheet's name (if available)
+        /// Gets the range string representation of the cell range, including the sheet name if available.
         /// </summary>
+        /// <value>The range string representation of the cell range, including the sheet name if available.</value>
         public string RangeString
         {
             get
@@ -25,7 +29,7 @@ namespace BigExcelCreator.Ranges
                 StringBuilder sb = new();
                 if (!Sheetname.IsNullOrWhiteSpace())
                 {
-                    sb.Append(Sheetname).Append('!');
+                    _ = sb.Append(Sheetname).Append('!');
                 }
 
                 RangeStringColAndRowPart(sb);
@@ -35,8 +39,9 @@ namespace BigExcelCreator.Ranges
         }
 
         /// <summary>
-        /// A <see cref="string"/> representing a range without the sheet's name
+        /// Gets the range string representation of the cell range without the sheet name.
         /// </summary>
+        /// <value>The range string representation of the cell range without the sheet name.</value>
         public string RangeStringNoSheetName
         {
             get
@@ -51,47 +56,65 @@ namespace BigExcelCreator.Ranges
 
         private void RangeStringColAndRowPart(StringBuilder sb)
         {
-            if (StartingColumnIsFixed) { sb.Append('$'); }
-            if (StartingColumn != null) { sb.Append(Helpers.GetColumnName(StartingColumn)); }
+            if (StartingColumnIsFixed) { _ = sb.Append('$'); }
+            if (StartingColumn != null) { _ = sb.Append(Helpers.GetColumnName(StartingColumn)); }
 
-            if (StartingRowIsFixed) { sb.Append('$'); }
-            if (StartingRow != null) { sb.Append(StartingRow); }
+            if (StartingRowIsFixed) { _ = sb.Append('$'); }
+            if (StartingRow != null) { _ = sb.Append(StartingRow); }
 
             if (!IsSingleCellRange || IsInfiniteCellRange)
             {
-                sb.Append(':');
+                _ = sb.Append(':');
 
-                if (EndingColumnIsFixed) { sb.Append('$'); }
-                if (EndingColumn != null) { sb.Append(Helpers.GetColumnName(EndingColumn)); }
+                if (EndingColumnIsFixed) { _ = sb.Append('$'); }
+                if (EndingColumn != null) { _ = sb.Append(Helpers.GetColumnName(EndingColumn)); }
 
-                if (EndingRowIsFixed) { sb.Append('$'); }
-                if (EndingRow != null) { sb.Append(EndingRow); }
+                if (EndingRowIsFixed) { _ = sb.Append('$'); }
+                if (EndingRow != null) { _ = sb.Append(EndingRow); }
             }
         }
 
         /// <summary>
-        /// Index of the range's first row
+        /// Gets the starting row of the cell range.
         /// </summary>
+        /// <value>
+        /// The starting row of the cell range, or null if the starting row is not specified.
+        /// </value>
         public int? StartingRow { get; }
 
         /// <summary>
-        /// Index of the range's first column
+        /// Gets the starting column of the cell range.
         /// </summary>
+        /// <value>
+        /// The starting column of the cell range, or null if the starting column is not specified.
+        /// </value>
         public int? StartingColumn { get; }
 
         /// <summary>
-        /// Index of the range's last row
+        /// Gets the ending row of the cell range.
         /// </summary>
+        /// <value>
+        /// The ending row of the cell range, or null if the ending row is not specified.
+        /// </value>
         public int? EndingRow { get; }
 
         /// <summary>
-        /// Index of the range's last column
+        /// Gets the ending column of the cell range.
         /// </summary>
+        /// <value>
+        /// The ending column of the cell range, or null if the ending column is not specified.
+        /// </value>
         public int? EndingColumn { get; }
 
         /// <summary>
-        /// The name of the range's sheet (if available)
+        /// Gets or sets the sheet name of the cell range.
         /// </summary>
+        /// <value>
+        /// The sheet name of the cell range.
+        /// </value>
+        /// <exception cref="InvalidRangeException">
+        /// Thrown when the sheet name contains invalid characters.
+        /// </exception>
         public string Sheetname
         {
             get => sheetName;
@@ -138,33 +161,45 @@ namespace BigExcelCreator.Ranges
         public bool EndingColumnIsFixed { get; private set; }
 
         /// <summary>
-        /// Range's width
+        /// Gets the width of the cell range.
         /// </summary>
-        public int Width { get => Math.Abs((EndingColumn ?? 0) - (StartingColumn ?? 0)) + 1; }
+        public int Width => Math.Abs((EndingColumn ?? 0) - (StartingColumn ?? 0)) + 1;
 
         /// <summary>
-        /// Range's height
+        /// Gets the height of the cell range.
         /// </summary>
-        public int Height { get => Math.Abs((EndingRow ?? 0) - (StartingRow ?? 0)) + 1; }
+        public int Height => Math.Abs((EndingRow ?? 0) - (StartingRow ?? 0)) + 1;
 
         /// <summary>
-        /// <see langword="true"/> if the range represents a single column
+        /// Gets a value indicating whether the cell range represents a single cell.
         /// </summary>
+        /// <value>
+        /// True if the cell range represents a single cell; otherwise, false.
+        /// </value>
         public bool IsSingleCellRange => StartingRow == EndingRow && StartingColumn == EndingColumn;
 
         /// <summary>
-        /// <see langword="true"/> if the range is infinite in any direction
+        /// Gets a value indicating whether the cell range is infinite.
         /// </summary>
+        /// <value>
+        /// True if the cell range is infinite; otherwise, false.
+        /// </value>
         public bool IsInfiniteCellRange => ((StartRangeType & (RangeTypes.AnyInfinite)) != 0) || ((StartRangeType & RangeTypes.AnyInfinite) != 0);
 
         /// <summary>
-        /// <see langword="true"/> if the range is infinite in any column
+        /// Gets a value indicating whether the cell range represents an entire column.
         /// </summary>
+        /// <value>
+        /// True if the cell range represents an entire column; otherwise, false.
+        /// </value>
         public bool IsInfiniteCellRangeCol => ((StartRangeType & (RangeTypes.ColInfinite)) != 0) || ((StartRangeType & RangeTypes.ColInfinite) != 0);
 
         /// <summary>
-        /// <see langword="true"/> if the range is infinite in any row
+        /// Gets a value indicating whether the cell range represents an entire row.
         /// </summary>
+        /// <value>
+        /// True if the cell range represents an entire row; otherwise, false.
+        /// </value>
         public bool IsInfiniteCellRangeRow => ((StartRangeType & (RangeTypes.RowInfinite)) != 0) || ((StartRangeType & RangeTypes.RowInfinite) != 0);
 
         private readonly RangeTypes StartRangeType;
@@ -176,13 +211,14 @@ namespace BigExcelCreator.Ranges
 #endif
 
         /// <summary>
-        /// Creates a single cell range using coordinates indexes
+        /// Initializes a new instance of the <see cref="CellRange"/> class using coordinates indexes.
+        /// <remarks>This creates a single cell range</remarks>
         /// </summary>
-        /// <param name="column"></param>
-        /// <param name="row"></param>
-        /// <param name="sheetname"></param>
-        /// <exception cref="ArgumentOutOfRangeException">If any index is less than 1</exception>
-        /// <exception cref="InvalidRangeException">If a range makes no sense</exception>
+        /// <param name="column">The column of the cell range.</param>
+        /// <param name="row">The row of the cell range.</param>
+        /// <param name="sheetname">The name of the sheet.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the column or row values are less than 1.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the range is invalid.</exception>
         public CellRange(int? column,
                          int? row,
                          string sheetname)
@@ -190,15 +226,16 @@ namespace BigExcelCreator.Ranges
         { }
 
         /// <summary>
-        /// Creates a fixed single cell range using coordinates indexes
+        /// Initializes a new instance of the <see cref="CellRange"/> class using coordinates indexes.
+        /// <remarks>This creates a single cell range</remarks>
         /// </summary>
-        /// <param name="column"></param>
-        /// <param name="fixedColumn"></param>
-        /// <param name="row"></param>
-        /// <param name="fixedRow"></param>
-        /// <param name="sheetname"></param>
-        /// <exception cref="ArgumentOutOfRangeException">If any index is less than 1</exception>
-        /// <exception cref="InvalidRangeException">If a range makes no sense</exception>
+        /// <param name="column">The column of the cell range.</param>
+        /// <param name="fixedColumn">Indicates whether the column is fixed.</param>
+        /// <param name="row">The row of the cell range.</param>
+        /// <param name="fixedRow">Indicates whether the row is fixed.</param>
+        /// <param name="sheetname">The name of the sheet.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the column or row values are less than 1.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the range is invalid.</exception>
         public CellRange(int? column,
                          bool fixedColumn,
                          int? row,
@@ -208,15 +245,15 @@ namespace BigExcelCreator.Ranges
         { }
 
         /// <summary>
-        /// Creates a range using coordinates indexes
+        /// Initializes a new instance of the <see cref="CellRange"/> class using coordinates indexes.
         /// </summary>
-        /// <param name="startingColumn"></param>
-        /// <param name="startingRow"></param>
-        /// <param name="endingColumn"></param>
-        /// <param name="endingRow"></param>
-        /// <param name="sheetname"></param>
-        /// <exception cref="ArgumentOutOfRangeException">If any index is less than 1</exception>
-        /// <exception cref="InvalidRangeException">If a range makes no sense</exception>
+        /// <param name="startingColumn">The starting column of the cell range.</param>
+        /// <param name="startingRow">The starting row of the cell range.</param>
+        /// <param name="endingColumn">The ending column of the cell range.</param>
+        /// <param name="endingRow">The ending row of the cell range.</param>
+        /// <param name="sheetname">The name of the sheet.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the column or row values are less than 1.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the range is invalid.</exception>
         public CellRange(int? startingColumn,
                          int? startingRow,
                          int? endingColumn,
@@ -226,19 +263,19 @@ namespace BigExcelCreator.Ranges
         { }
 
         /// <summary>
-        /// Creates a range using coordinates indexes
+        /// Initializes a new instance of the <see cref="CellRange"/> class using coordinates indexes.
         /// </summary>
-        /// <param name="startingColumn"></param>
-        /// <param name="fixedStartingColumn"></param>
-        /// <param name="startingRow"></param>
-        /// <param name="fixedStartingRow"></param>
-        /// <param name="endingColumn"></param>
-        /// <param name="fixedEndingColumn"></param>
-        /// <param name="endingRow"></param>
-        /// <param name="fixedEndingRow"></param>
-        /// <param name="sheetname"></param>
-        /// <exception cref="ArgumentOutOfRangeException">If any index is less than 1</exception>
-        /// <exception cref="InvalidRangeException">If a range makes no sense</exception>
+        /// <param name="startingColumn">The starting column of the cell range.</param>
+        /// <param name="fixedStartingColumn">Indicates whether the starting column is fixed.</param>
+        /// <param name="startingRow">The starting row of the cell range.</param>
+        /// <param name="fixedStartingRow">Indicates whether the starting row is fixed.</param>
+        /// <param name="endingColumn">The ending column of the cell range.</param>
+        /// <param name="fixedEndingColumn">Indicates whether the ending column is fixed.</param>
+        /// <param name="endingRow">The ending row of the cell range.</param>
+        /// <param name="fixedEndingRow">Indicates whether the ending row is fixed.</param>
+        /// <param name="sheetname">The name of the sheet.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the column or row values are less than 1.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the range is invalid.</exception>
         public CellRange(int? startingColumn,
                          bool fixedStartingColumn,
                          int? startingRow,
@@ -272,12 +309,12 @@ namespace BigExcelCreator.Ranges
         }
 
         /// <summary>
-        /// Parses a <see cref="string"/> into a range
+        /// Initializes a new instance of the <see cref="CellRange"/> class from a string representation of a range.
         /// </summary>
-        /// <param name="range"></param>
+        /// <param name="range">The range string to initialize the cell range.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="range"/> is null</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If any index is less than 1</exception>
-        /// <exception cref="InvalidRangeException">If a range makes no sense</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the column or row values are less than 1.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="range"/> does not represent a valid range.</exception>
         public CellRange(string range)
         {
             range = PrepareRangeString(range);
@@ -340,20 +377,21 @@ namespace BigExcelCreator.Ranges
         }
 
         /// <summary>
-        /// Range equals
+        /// Determines whether the specified object is equal to the current <see cref="CellRange"/> instance.
         /// </summary>
-        /// <param name="obj">Another range</param>
-        /// <returns><see langword="true"/> if ranges are equal. <see langword="false"/> otherwise.</returns>
-        public override bool Equals(object obj)
-        {
-            return obj is CellRange other && Equals(other);
-        }
+        /// <param name="obj">The object to compare with the current instance.</param>
+        /// <returns>
+        /// True if the specified object is a <see cref="CellRange"/> and is equal to the current instance; otherwise, false.
+        /// </returns>
+        public override bool Equals(object obj) => obj is CellRange other && Equals(other);
 
         /// <summary>
-        /// Range equals
+        /// Determines whether the specified <see cref="CellRange"/> is equal to the current <see cref="CellRange"/> instance.
         /// </summary>
-        /// <param name="other">Another range</param>
-        /// <returns><see langword="true"/> if ranges are equal. <see langword="false"/> otherwise.</returns>
+        /// <param name="other">The <see cref="CellRange"/> to compare with the current instance.</param>
+        /// <returns>
+        /// True if the specified <see cref="CellRange"/> is equal to the current instance; otherwise, false.
+        /// </returns>
         public virtual bool Equals(CellRange other)
         {
             return other != null
@@ -370,9 +408,11 @@ namespace BigExcelCreator.Ranges
         }
 
         /// <summary>
-        /// Returns the hash code for this range
+        /// Returns the hash code for this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// A 32-bit signed integer hash code.
+        /// </returns>
         public override int GetHashCode()
         {
             unchecked
@@ -401,103 +441,131 @@ namespace BigExcelCreator.Ranges
         }
 
         /// <summary>
-        /// Comparison method
+        /// Compares the current instance with another <see cref="CellRange"/> and returns an integer that indicates whether the current instance precedes,
+        /// follows, or occurs in the same position in the sort order as the other <see cref="CellRange"/>.
         /// </summary>
-        /// <param name="other">Another range</param>
-        /// <returns>See <see cref="IComparable.CompareTo(object)"/></returns>
+        /// <param name="other">The <see cref="CellRange"/> to compare with the current instance.</param>
+        /// <returns>
+        /// A value that indicates the relative order of the objects being compared. The return value has these meanings:
+        /// <list type="bullet">
+        /// <item>
+        /// <description>Less than zero: This instance precedes <paramref name="other"/> in the sort order.</description>
+        /// </item>
+        /// <item>
+        /// <description>Zero: This instance occurs in the same position in the sort order as <paramref name="other"/>.</description>
+        /// </item>
+        /// <item>
+        /// <description>Greater than zero: This instance follows <paramref name="other"/> in the sort order.</description>
+        /// </item>
+        /// </list>
+        /// </returns>
         public int CompareTo(CellRange other)
         {
-            if (other == null) return 1;
-            if (StartingRow < other.StartingRow) return -1;
-            if (StartingRow > other.StartingRow) return 1;
-            if (StartingColumn < other.StartingColumn) return -1;
-            if (StartingColumn > other.StartingColumn) return 1;
+            if (other == null) { return 1; }
+            if (StartingRow < other.StartingRow) { return -1; }
+            if (StartingRow > other.StartingRow) { return 1; }
+            if (StartingColumn < other.StartingColumn) { return -1; }
+            if (StartingColumn > other.StartingColumn) { return 1; }
 
-            if (EndingRow < other.EndingRow) return -1;
-            if (EndingRow > other.EndingRow) return 1;
-            if (EndingColumn < other.EndingColumn) return -1;
-            if (EndingColumn > other.EndingColumn) return 1;
+            if (EndingRow < other.EndingRow) { return -1; }
+            if (EndingRow > other.EndingRow) { return 1; }
+            if (EndingColumn < other.EndingColumn) { return -1; }
+            if (EndingColumn > other.EndingColumn) { return 1; }
 
             return 0;
         }
 
         /// <summary>
-        /// The equality operator
+        /// Determines whether two specified <see cref="CellRange"/> objects have the same value.
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
+        /// <param name="left">The first <see cref="CellRange"/> to compare.</param>
+        /// <param name="right">The second <see cref="CellRange"/> to compare.</param>
+        /// <returns>
+        /// <c>true</c> if the value of <paramref name="left"/> is the same as the value of <paramref name="right"/>; otherwise, <c>false</c>.
+        /// </returns>
         public static bool operator ==(CellRange left, CellRange right)
         {
-            if (ReferenceEquals(left, null))
+            if (left is null)
             {
-                return ReferenceEquals(right, null);
+                return right is null;
             }
 
             return left.Equals(right);
         }
 
         /// <summary>
-        /// The inequality operator
+        /// Determines whether two specified <see cref="CellRange"/> objects have different values.
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
+        /// <param name="left">The first <see cref="CellRange"/> to compare.</param>
+        /// <param name="right">The second <see cref="CellRange"/> to compare.</param>
+        /// <returns>
+        /// <c>true</c> if the value of <paramref name="left"/> is different from the value of <paramref name="right"/>; otherwise, <c>false</c>.
+        /// </returns>
         public static bool operator !=(CellRange left, CellRange right)
         {
             return !(left == right);
         }
 
         /// <summary>
-        /// The less than operator
+        /// Determines whether one specified <see cref="CellRange"/> is less than another specified <see cref="CellRange"/>.
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
+        /// <param name="left">The first <see cref="CellRange"/> to compare.</param>
+        /// <param name="right">The second <see cref="CellRange"/> to compare.</param>
+        /// <returns>
+        /// <c>true</c> if the value of <paramref name="left"/> is less than the value of <paramref name="right"/>; otherwise, <c>false</c>.
+        /// </returns>
         public static bool operator <(CellRange left, CellRange right)
         {
-            return ReferenceEquals(left, null) ? !ReferenceEquals(right, null) : left.CompareTo(right) < 0;
+            return left is null ? right is not null : left.CompareTo(right) < 0;
         }
 
         /// <summary>
-        /// The less or equal than operator
+        /// Determines whether one specified <see cref="CellRange"/> is less than or equal to another specified <see cref="CellRange"/>.
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
+        /// <param name="left">The first <see cref="CellRange"/> to compare.</param>
+        /// <param name="right">The second <see cref="CellRange"/> to compare.</param>
+        /// <returns>
+        /// <c>true</c> if the value of <paramref name="left"/> is less than or equal to the value of <paramref name="right"/>; otherwise, <c>false</c>.
+        /// </returns>
         public static bool operator <=(CellRange left, CellRange right)
         {
-            return ReferenceEquals(left, null) || left.CompareTo(right) <= 0;
+            return left is null || left.CompareTo(right) <= 0;
         }
 
         /// <summary>
-        /// The greater than operator
+        /// Determines whether one specified <see cref="CellRange"/> is greater than another specified <see cref="CellRange"/>.
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
+        /// <param name="left">The first <see cref="CellRange"/> to compare.</param>
+        /// <param name="right">The second <see cref="CellRange"/> to compare.</param>
+        /// <returns>
+        /// <c>true</c> if the value of <paramref name="left"/> is greater than the value of <paramref name="right"/>; otherwise, <c>false</c>.
+        /// </returns>
         public static bool operator >(CellRange left, CellRange right)
         {
-            return !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
+            return left is not null && left.CompareTo(right) > 0;
         }
 
         /// <summary>
-        /// The greater or equal than operator
+        /// Determines whether one specified <see cref="CellRange"/> is greater than or equal to another specified <see cref="CellRange"/>.
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
+        /// <param name="left">The first <see cref="CellRange"/> to compare.</param>
+        /// <param name="right">The second <see cref="CellRange"/> to compare.</param>
+        /// <returns>
+        /// <c>true</c> if the value of <paramref name="left"/> is greater than or equal to the value of <paramref name="right"/>; otherwise, <c>false</c>.
+        /// </returns>
         public static bool operator >=(CellRange left, CellRange right)
         {
-            return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
+            return left is null ? right is null : left.CompareTo(right) >= 0;
         }
 
         /// <summary>
-        /// Compares ranges and returns <see langword="true"/> if they share any cell
+        /// Determines whether the current <see cref="CellRange"/> overlaps with another specified <see cref="CellRange"/>.
         /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="other">The <see cref="CellRange"/> to compare with the current <see cref="CellRange"/>.</param>
+        /// <returns>
+        /// <c>true</c> if the current <see cref="CellRange"/> overlaps with the <paramref name="other"/> <see cref="CellRange"/>; otherwise, <c>false</c>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="other"/> is <c>null</c>.</exception>
         public bool RangeOverlaps(CellRange other)
         {
 #if NET6_0_OR_GREATER
@@ -636,17 +704,5 @@ namespace BigExcelCreator.Ranges
             while (i < rangeStart.Length && char.IsDigit(rangeStart[i])) { numbers1++; i++; }
             while (j < rangeEnd.Length && char.IsDigit(rangeEnd[j])) { numbers2++; j++; }
         }
-    }
-
-    [Flags]
-    enum RangeTypes
-    {
-        None = 0b00,
-        ColFinite = None,
-        RowFinite = None,
-        ColInfinite = 0b01,
-        RowInfinite = 0b10,
-
-        AnyInfinite = ColInfinite | RowInfinite,
     }
 }

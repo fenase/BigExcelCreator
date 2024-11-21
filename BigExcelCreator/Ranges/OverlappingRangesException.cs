@@ -8,7 +8,7 @@ namespace BigExcelCreator.Ranges
 #if (NET20_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NET5_0_OR_GREATER) && !NET8_0_OR_GREATER
     [Serializable]
 #endif
-    public class OverlappingRangesException : Exception
+    public class OverlappingRangesException : InvalidOperationException
     {
         /// <summary>
         /// The constructor for OverlappingRangesException

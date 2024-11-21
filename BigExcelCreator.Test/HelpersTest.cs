@@ -1,6 +1,4 @@
-﻿using BigExcelCreator;
-
-namespace Test
+﻿namespace BigExcelCreator.Test
 {
     internal class HelpersTest
     {

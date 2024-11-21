@@ -59,7 +59,7 @@ Fill greenFill = new Fill(new[]{
 
 styleList.NewDifferentialStyle("GREENBKG", fill: greenFill);
 
-using BigExcelWriter excel = new(fullPath, SpreadsheetDocumentType.Workbook, styleList.GetStylesheet());
+using BigExcelWriter excel = new(fullPath, styleList.GetStylesheet());
 
 excel.CreateAndOpenSheet("S1", columns: columns, sheetState: SheetStateValues.Visible);
 
@@ -142,7 +142,7 @@ excel.AddConditionalFormattingCellIs(conditionalFormattingRange, ConditionalForm
 excel.AddConditionalFormattingCellIs(conditionalFormattingRange, ConditionalFormattingOperatorValues.Between, "3", styleList.GetIndexDifferentialByName("RED"), "7");
 
 excel.AddIntegerValidator("B1:B10", 2, DataValidationOperatorValues.Between, secondOperand: 8);
-excel.AddDecimalValidator("C1:C10", 0, DataValidationOperatorValues.Between, secondOperand: 1);
+excel.AddDecimalValidator("C1:C10", 0d, DataValidationOperatorValues.Between, secondOperand: 3.14159265359d);
 
 excel.CloseSheet();
 

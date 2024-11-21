@@ -18,31 +18,23 @@ namespace BigExcelCreator
             while (dividend > 0)
             {
                 modifier = (dividend - 1) % 26;
-                columnName.Insert(0, Convert.ToChar(65 + modifier));
+                _ = columnName.Insert(0, Convert.ToChar(65 + modifier));
                 dividend = (dividend - modifier) / 26;
             }
 
             return columnName.ToString();
         }
         internal static string GetColumnName(int? columnIndex)
-        {
-            if (columnIndex == null)
-            {
-                return string.Empty;
-            }
-            else
-            {
-                return GetColumnName(columnIndex.Value);
-            }
-        }
+            => columnIndex == null ? string.Empty : GetColumnName(columnIndex.Value);
 
         private static readonly List<char> chars = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
         internal static int GetColumnIndex(string columnName)
         {
-            if (columnName.IsNullOrWhiteSpace()) { return 0; }
-            return ((chars.IndexOf(char.ToUpperInvariant(columnName[0])) + 1) * (int)Math.Pow(chars.Count, columnName.Length - 1))
-                + GetColumnIndex(columnName.Substring(1));
+            return columnName.IsNullOrWhiteSpace()
+                ? 0
+                : ((chars.IndexOf(char.ToUpperInvariant(columnName[0])) + 1) * (int)Math.Pow(chars.Count, columnName.Length - 1))
+                    + GetColumnIndex(columnName.Substring(1));
         }
     }
 }

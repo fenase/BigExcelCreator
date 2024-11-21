@@ -1,8 +1,16 @@
 ﻿# Changelog
 
-## 3.1 (and 2.3.x)
+## 3.2 (and 2.3.2024.32600)
 ### Added
-Overloads for WriteNumberCell and WriteNumberRow to accept different numeric types in addition to float.
+- Throw exceptions when attempting to create a sheet with an invalid name.
+- Throw exceptions when attempting to create a sheet with the same name as an existing sheet.
+### Changed
+- It's no longer mandatory to provide a SpreadsheetDocumentType when creating a new BigExcelWriter. The default value is now Workbook (.xlsx).
+- Improved documentation comments. Also published in https://fenase.github.io/BigExcelCreator/api/BigExcelCreator.html
+
+## 3.1 (and 2.3.2024.30215)
+### Added
+- Overloads for WriteNumberCell and WriteNumberRow to accept different numeric types in addition to float.
 
 ## 3.0
 This version uses the new 3.* version of DocumentFormat.OpenXml and it's not compatible with 2.*

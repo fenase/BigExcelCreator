@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022-2024, Federico Seckel.
+﻿// Copyright (c) 2022-2025, Federico Seckel.
 // Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
 
 // Ignore Spelling: stylesheet stylesheets Calibri
@@ -62,13 +62,13 @@ namespace BigExcelCreator.Styles
                         new BottomBorder(),
                         new DiagonalBorder());
             NumberingFormat defaultNumberingFormat = new() { NumberFormatId = STARTINGNUMBERFORMAT, FormatCode = "0,.00;(0,.00)" };
-            NewStyle(defaultFont, defaultFill, defaultBorder, defaultNumberingFormat, "DEFAULT");
+            _ = NewStyle(defaultFont, defaultFill, defaultBorder, defaultNumberingFormat, "DEFAULT");
             /* https://stackoverflow.com/a/42789914/14217380
              * For some reason I cannot seem to find documented, Fill Id 0 will always be None,
              * and Fill Id 1 will always be Gray125. If you want a custom fill,
              * you will need to get to at least Fill Id 2.
              */
-            NewStyle(defaultFont, defaultFillGray125, defaultBorder, defaultNumberingFormat, "DEFAULTFillGray125");
+            _ = NewStyle(defaultFont, defaultFillGray125, defaultBorder, defaultNumberingFormat, "DEFAULTFillGray125");
         }
         #endregion
 
@@ -104,19 +104,16 @@ namespace BigExcelCreator.Styles
         /// <summary>
         /// Gets the index of a named style
         /// </summary>
-        /// <param name="name">Style to look for</param>
-        /// <returns></returns>
-        public int GetIndexByName(string name)
-        {
-            return GetIndexByName(name, out _);
-        }
+        /// <param name="name">The name of the style to look for.</param>
+        /// <returns>The index of the named style, or -1 if not found.</returns>
+        public int GetIndexByName(string name) => GetIndexByName(name, out _);
 
         /// <summary>
-        /// Gets the index of a named style
+        /// Gets the index of a named style.
         /// </summary>
-        /// <param name="name">Style to look for</param>
-        /// <param name="styleElement">A copy of the found style</param>
-        /// <returns></returns>
+        /// <param name="name">The name of the style to look for.</param>
+        /// <param name="styleElement">A copy of the found style.</param>
+        /// <returns>The index of the named style, or -1 if not found.</returns>
         public int GetIndexByName(string name, out StyleElement styleElement)
         {
             styleElement = Styles.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
@@ -124,21 +121,18 @@ namespace BigExcelCreator.Styles
         }
 
         /// <summary>
-        /// Gets the index of a named differential style
+        /// Gets the index of a named differential style.
         /// </summary>
-        /// <param name="name">Style to look for</param>
-        /// <returns></returns>
-        public int GetIndexDifferentialByName(string name)
-        {
-            return GetIndexDifferentialByName(name, out _);
-        }
+        /// <param name="name">The name of the differential style to look for.</param>
+        /// <returns>The index of the named differential style, or -1 if not found.</returns>
+        public int GetIndexDifferentialByName(string name) => GetIndexDifferentialByName(name, out _);
 
         /// <summary>
-        /// Gets the index of a named differential style
+        /// Gets the index of a named differential style.
         /// </summary>
-        /// <param name="name">Style to look for</param>
-        /// <param name="differentialStyleElement">A copy of the found style</param>
-        /// <returns></returns>
+        /// <param name="name">The name of the differential style to look for.</param>
+        /// <param name="differentialStyleElement">A copy of the found differential style.</param>
+        /// <returns>The index of the named differential style, or -1 if not found.</returns>
         public int GetIndexDifferentialByName(string name, out DifferentialStyleElement differentialStyleElement)
         {
             differentialStyleElement = DifferentialStyleElements.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
@@ -155,9 +149,7 @@ namespace BigExcelCreator.Styles
         /// <param name="name">A unique name to find the inserted style later</param>
         /// <returns>The <see cref="StyleElement"/> generated</returns>
         public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, string name)
-        {
-            return NewStyle(font, fill, border, numberingFormat, null, name);
-        }
+            => NewStyle(font, fill, border, numberingFormat, null, name);
 
         /// <summary>
         /// Generates, stores and returns a new style
@@ -189,9 +181,12 @@ namespace BigExcelCreator.Styles
 
         /// <summary>
         /// Generates, stores and returns a new style.
+        /// </summary>
+        /// <remarks>
         /// <para>If the inserted indexes don't exist when the stylesheet is generated, the file might fail to open</para>
         /// <para>To avoid such problems, use <see cref="NewStyle(Font, Fill, Border, NumberingFormat, string)"/> or <see cref="NewStyle(Font, Fill, Border, NumberingFormat, Alignment, string)"/> instead</para>
-        /// </summary>
+        /// <para>This method should be private, but it's kept public for backwards compatibility reasons.</para>
+        /// </remarks>
         /// <param name="fontId">Index of already inserted font</param>
         /// <param name="fillId">Index of already inserted fill</param>
         /// <param name="borderId">Index of already inserted border</param>
@@ -199,6 +194,7 @@ namespace BigExcelCreator.Styles
         /// <param name="alignment"><see cref="Alignment"/></param>
         /// <param name="name">A unique name to find the inserted style later</param>
         /// <returns>The <see cref="StyleElement"/> generated</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the provided indexes are less than 0</exception>
         public StyleElement NewStyle(int? fontId, int? fillId, int? borderId, int? numberingFormatId, Alignment alignment, string name)
         {
             if (fontId < 0) { throw new ArgumentOutOfRangeException(nameof(fontId), ConstantsAndTexts.MusBeGreaterThan0); }
