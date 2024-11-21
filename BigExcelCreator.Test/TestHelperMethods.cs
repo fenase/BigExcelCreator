@@ -32,10 +32,9 @@ namespace BigExcelCreator.Test
         internal static IEnumerable<ConditionalFormatting> GetConditionalFormatting(Worksheet worksheet)
         {
             IEnumerable<ConditionalFormatting> conditionalFormattingData = worksheet.ChildElements.OfType<ConditionalFormatting>();
-            Assert.Multiple(() =>
-            {
-                Assert.That(conditionalFormattingData, Is.Not.Null);
-            });
+
+            Assert.That(conditionalFormattingData, Is.Not.Null);
+
             return conditionalFormattingData;
         }
 
@@ -46,14 +45,11 @@ namespace BigExcelCreator.Test
 
         internal static string GetCellRealValue(Cell cell, WorkbookPart workbookPart)
         {
-            switch (cell.DataType?.ToString())
+            return (cell.DataType?.ToString()) switch
             {
-                case "s":
-                    return workbookPart.SharedStringTablePart!.SharedStringTable.Elements<SharedStringItem>().ElementAt(int.Parse(cell.CellValue!.Text.ToString()!)).Text!.Text;
-                case "str":
-                default:
-                    return cell.CellValue!.Text;
-            }
+                "s" => workbookPart.SharedStringTablePart!.SharedStringTable.Elements<SharedStringItem>().ElementAt(int.Parse(cell.CellValue!.Text!)).Text!.Text,
+                "str" or _ => cell.CellValue!.Text,
+            };
         }
 
         internal static BigExcelWriter GetWriterStream(out MemoryStream stream)
