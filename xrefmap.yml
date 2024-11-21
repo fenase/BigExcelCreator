@@ -13,6 +13,24 @@ references:
   commentId: T:BigExcelCreator.BigExcelWriter
   fullName: BigExcelCreator.BigExcelWriter
   nameWithType: BigExcelWriter
+- uid: BigExcelCreator.BigExcelWriter.#ctor(System.IO.Stream)
+  name: BigExcelWriter(Stream)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_IO_Stream_
+  commentId: M:BigExcelCreator.BigExcelWriter.#ctor(System.IO.Stream)
+  name.vb: New(Stream)
+  fullName: BigExcelCreator.BigExcelWriter.BigExcelWriter(System.IO.Stream)
+  fullName.vb: BigExcelCreator.BigExcelWriter.New(System.IO.Stream)
+  nameWithType: BigExcelWriter.BigExcelWriter(Stream)
+  nameWithType.vb: BigExcelWriter.New(Stream)
+- uid: BigExcelCreator.BigExcelWriter.#ctor(System.IO.Stream,DocumentFormat.OpenXml.Spreadsheet.Stylesheet)
+  name: BigExcelWriter(Stream, Stylesheet)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_IO_Stream_DocumentFormat_OpenXml_Spreadsheet_Stylesheet_
+  commentId: M:BigExcelCreator.BigExcelWriter.#ctor(System.IO.Stream,DocumentFormat.OpenXml.Spreadsheet.Stylesheet)
+  name.vb: New(Stream, Stylesheet)
+  fullName: BigExcelCreator.BigExcelWriter.BigExcelWriter(System.IO.Stream, DocumentFormat.OpenXml.Spreadsheet.Stylesheet)
+  fullName.vb: BigExcelCreator.BigExcelWriter.New(System.IO.Stream, DocumentFormat.OpenXml.Spreadsheet.Stylesheet)
+  nameWithType: BigExcelWriter.BigExcelWriter(Stream, Stylesheet)
+  nameWithType.vb: BigExcelWriter.New(Stream, Stylesheet)
 - uid: BigExcelCreator.BigExcelWriter.#ctor(System.IO.Stream,DocumentFormat.OpenXml.SpreadsheetDocumentType)
   name: BigExcelWriter(Stream, SpreadsheetDocumentType)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_IO_Stream_DocumentFormat_OpenXml_SpreadsheetDocumentType_
@@ -49,6 +67,33 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.New(System.IO.Stream, DocumentFormat.OpenXml.SpreadsheetDocumentType, Boolean, DocumentFormat.OpenXml.Spreadsheet.Stylesheet)
   nameWithType: BigExcelWriter.BigExcelWriter(Stream, SpreadsheetDocumentType, bool, Stylesheet)
   nameWithType.vb: BigExcelWriter.New(Stream, SpreadsheetDocumentType, Boolean, Stylesheet)
+- uid: BigExcelCreator.BigExcelWriter.#ctor(System.IO.Stream,System.Boolean)
+  name: BigExcelWriter(Stream, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_IO_Stream_System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.#ctor(System.IO.Stream,System.Boolean)
+  name.vb: New(Stream, Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.BigExcelWriter(System.IO.Stream, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.New(System.IO.Stream, Boolean)
+  nameWithType: BigExcelWriter.BigExcelWriter(Stream, bool)
+  nameWithType.vb: BigExcelWriter.New(Stream, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.#ctor(System.String)
+  name: BigExcelWriter(string)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_String_
+  commentId: M:BigExcelCreator.BigExcelWriter.#ctor(System.String)
+  name.vb: New(String)
+  fullName: BigExcelCreator.BigExcelWriter.BigExcelWriter(string)
+  fullName.vb: BigExcelCreator.BigExcelWriter.New(String)
+  nameWithType: BigExcelWriter.BigExcelWriter(string)
+  nameWithType.vb: BigExcelWriter.New(String)
+- uid: BigExcelCreator.BigExcelWriter.#ctor(System.String,DocumentFormat.OpenXml.Spreadsheet.Stylesheet)
+  name: BigExcelWriter(string, Stylesheet)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_String_DocumentFormat_OpenXml_Spreadsheet_Stylesheet_
+  commentId: M:BigExcelCreator.BigExcelWriter.#ctor(System.String,DocumentFormat.OpenXml.Spreadsheet.Stylesheet)
+  name.vb: New(String, Stylesheet)
+  fullName: BigExcelCreator.BigExcelWriter.BigExcelWriter(string, DocumentFormat.OpenXml.Spreadsheet.Stylesheet)
+  fullName.vb: BigExcelCreator.BigExcelWriter.New(String, DocumentFormat.OpenXml.Spreadsheet.Stylesheet)
+  nameWithType: BigExcelWriter.BigExcelWriter(string, Stylesheet)
+  nameWithType.vb: BigExcelWriter.New(String, Stylesheet)
 - uid: BigExcelCreator.BigExcelWriter.#ctor(System.String,DocumentFormat.OpenXml.SpreadsheetDocumentType)
   name: BigExcelWriter(string, SpreadsheetDocumentType)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_String_DocumentFormat_OpenXml_SpreadsheetDocumentType_
@@ -85,6 +130,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.New(String, DocumentFormat.OpenXml.SpreadsheetDocumentType, Boolean, DocumentFormat.OpenXml.Spreadsheet.Stylesheet)
   nameWithType: BigExcelWriter.BigExcelWriter(string, SpreadsheetDocumentType, bool, Stylesheet)
   nameWithType.vb: BigExcelWriter.New(String, SpreadsheetDocumentType, Boolean, Stylesheet)
+- uid: BigExcelCreator.BigExcelWriter.#ctor(System.String,System.Boolean)
+  name: BigExcelWriter(string, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_String_System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.#ctor(System.String,System.Boolean)
+  name.vb: New(String, Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.BigExcelWriter(string, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.New(String, Boolean)
+  nameWithType: BigExcelWriter.BigExcelWriter(string, bool)
+  nameWithType.vb: BigExcelWriter.New(String, Boolean)
 - uid: BigExcelCreator.BigExcelWriter.#ctor*
   name: BigExcelWriter
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_
@@ -204,6 +258,24 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.AddDecimalValidator(BigExcelCreator.Ranges.CellRange, Decimal, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, Boolean, Boolean, Boolean, Decimal?)
   nameWithType: BigExcelWriter.AddDecimalValidator(CellRange, decimal, DataValidationOperatorValues, bool, bool, bool, decimal?)
   nameWithType.vb: BigExcelWriter.AddDecimalValidator(CellRange, Decimal, DataValidationOperatorValues, Boolean, Boolean, Boolean, Decimal?)
+- uid: BigExcelCreator.BigExcelWriter.AddDecimalValidator(BigExcelCreator.Ranges.CellRange,System.Double,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.Double})
+  name: AddDecimalValidator(CellRange, double, DataValidationOperatorValues, bool, bool, bool, double?)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddDecimalValidator_BigExcelCreator_Ranges_CellRange_System_Double_DocumentFormat_OpenXml_Spreadsheet_DataValidationOperatorValues_System_Boolean_System_Boolean_System_Boolean_System_Nullable_System_Double__
+  commentId: M:BigExcelCreator.BigExcelWriter.AddDecimalValidator(BigExcelCreator.Ranges.CellRange,System.Double,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.Double})
+  name.vb: AddDecimalValidator(CellRange, Double, DataValidationOperatorValues, Boolean, Boolean, Boolean, Double?)
+  fullName: BigExcelCreator.BigExcelWriter.AddDecimalValidator(BigExcelCreator.Ranges.CellRange, double, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, bool, bool, bool, double?)
+  fullName.vb: BigExcelCreator.BigExcelWriter.AddDecimalValidator(BigExcelCreator.Ranges.CellRange, Double, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, Boolean, Boolean, Boolean, Double?)
+  nameWithType: BigExcelWriter.AddDecimalValidator(CellRange, double, DataValidationOperatorValues, bool, bool, bool, double?)
+  nameWithType.vb: BigExcelWriter.AddDecimalValidator(CellRange, Double, DataValidationOperatorValues, Boolean, Boolean, Boolean, Double?)
+- uid: BigExcelCreator.BigExcelWriter.AddDecimalValidator(BigExcelCreator.Ranges.CellRange,System.Single,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.Single})
+  name: AddDecimalValidator(CellRange, float, DataValidationOperatorValues, bool, bool, bool, float?)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddDecimalValidator_BigExcelCreator_Ranges_CellRange_System_Single_DocumentFormat_OpenXml_Spreadsheet_DataValidationOperatorValues_System_Boolean_System_Boolean_System_Boolean_System_Nullable_System_Single__
+  commentId: M:BigExcelCreator.BigExcelWriter.AddDecimalValidator(BigExcelCreator.Ranges.CellRange,System.Single,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.Single})
+  name.vb: AddDecimalValidator(CellRange, Single, DataValidationOperatorValues, Boolean, Boolean, Boolean, Single?)
+  fullName: BigExcelCreator.BigExcelWriter.AddDecimalValidator(BigExcelCreator.Ranges.CellRange, float, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, bool, bool, bool, float?)
+  fullName.vb: BigExcelCreator.BigExcelWriter.AddDecimalValidator(BigExcelCreator.Ranges.CellRange, Single, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, Boolean, Boolean, Boolean, Single?)
+  nameWithType: BigExcelWriter.AddDecimalValidator(CellRange, float, DataValidationOperatorValues, bool, bool, bool, float?)
+  nameWithType.vb: BigExcelWriter.AddDecimalValidator(CellRange, Single, DataValidationOperatorValues, Boolean, Boolean, Boolean, Single?)
 - uid: BigExcelCreator.BigExcelWriter.AddDecimalValidator(System.String,System.Decimal,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.Decimal})
   name: AddDecimalValidator(string, decimal, DataValidationOperatorValues, bool, bool, bool, decimal?)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddDecimalValidator_System_String_System_Decimal_DocumentFormat_OpenXml_Spreadsheet_DataValidationOperatorValues_System_Boolean_System_Boolean_System_Boolean_System_Nullable_System_Decimal__
@@ -213,6 +285,24 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.AddDecimalValidator(String, Decimal, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, Boolean, Boolean, Boolean, Decimal?)
   nameWithType: BigExcelWriter.AddDecimalValidator(string, decimal, DataValidationOperatorValues, bool, bool, bool, decimal?)
   nameWithType.vb: BigExcelWriter.AddDecimalValidator(String, Decimal, DataValidationOperatorValues, Boolean, Boolean, Boolean, Decimal?)
+- uid: BigExcelCreator.BigExcelWriter.AddDecimalValidator(System.String,System.Double,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.Double})
+  name: AddDecimalValidator(string, double, DataValidationOperatorValues, bool, bool, bool, double?)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddDecimalValidator_System_String_System_Double_DocumentFormat_OpenXml_Spreadsheet_DataValidationOperatorValues_System_Boolean_System_Boolean_System_Boolean_System_Nullable_System_Double__
+  commentId: M:BigExcelCreator.BigExcelWriter.AddDecimalValidator(System.String,System.Double,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.Double})
+  name.vb: AddDecimalValidator(String, Double, DataValidationOperatorValues, Boolean, Boolean, Boolean, Double?)
+  fullName: BigExcelCreator.BigExcelWriter.AddDecimalValidator(string, double, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, bool, bool, bool, double?)
+  fullName.vb: BigExcelCreator.BigExcelWriter.AddDecimalValidator(String, Double, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, Boolean, Boolean, Boolean, Double?)
+  nameWithType: BigExcelWriter.AddDecimalValidator(string, double, DataValidationOperatorValues, bool, bool, bool, double?)
+  nameWithType.vb: BigExcelWriter.AddDecimalValidator(String, Double, DataValidationOperatorValues, Boolean, Boolean, Boolean, Double?)
+- uid: BigExcelCreator.BigExcelWriter.AddDecimalValidator(System.String,System.Single,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.Single})
+  name: AddDecimalValidator(string, float, DataValidationOperatorValues, bool, bool, bool, float?)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddDecimalValidator_System_String_System_Single_DocumentFormat_OpenXml_Spreadsheet_DataValidationOperatorValues_System_Boolean_System_Boolean_System_Boolean_System_Nullable_System_Single__
+  commentId: M:BigExcelCreator.BigExcelWriter.AddDecimalValidator(System.String,System.Single,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.Single})
+  name.vb: AddDecimalValidator(String, Single, DataValidationOperatorValues, Boolean, Boolean, Boolean, Single?)
+  fullName: BigExcelCreator.BigExcelWriter.AddDecimalValidator(string, float, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, bool, bool, bool, float?)
+  fullName.vb: BigExcelCreator.BigExcelWriter.AddDecimalValidator(String, Single, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, Boolean, Boolean, Boolean, Single?)
+  nameWithType: BigExcelWriter.AddDecimalValidator(string, float, DataValidationOperatorValues, bool, bool, bool, float?)
+  nameWithType.vb: BigExcelWriter.AddDecimalValidator(String, Single, DataValidationOperatorValues, Boolean, Boolean, Boolean, Single?)
 - uid: BigExcelCreator.BigExcelWriter.AddDecimalValidator*
   name: AddDecimalValidator
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddDecimalValidator_
@@ -229,6 +319,33 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.AddIntegerValidator(BigExcelCreator.Ranges.CellRange, Integer, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, Boolean, Boolean, Boolean, Integer?)
   nameWithType: BigExcelWriter.AddIntegerValidator(CellRange, int, DataValidationOperatorValues, bool, bool, bool, int?)
   nameWithType.vb: BigExcelWriter.AddIntegerValidator(CellRange, Integer, DataValidationOperatorValues, Boolean, Boolean, Boolean, Integer?)
+- uid: BigExcelCreator.BigExcelWriter.AddIntegerValidator(BigExcelCreator.Ranges.CellRange,System.Int64,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.Int64})
+  name: AddIntegerValidator(CellRange, long, DataValidationOperatorValues, bool, bool, bool, long?)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddIntegerValidator_BigExcelCreator_Ranges_CellRange_System_Int64_DocumentFormat_OpenXml_Spreadsheet_DataValidationOperatorValues_System_Boolean_System_Boolean_System_Boolean_System_Nullable_System_Int64__
+  commentId: M:BigExcelCreator.BigExcelWriter.AddIntegerValidator(BigExcelCreator.Ranges.CellRange,System.Int64,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.Int64})
+  name.vb: AddIntegerValidator(CellRange, Long, DataValidationOperatorValues, Boolean, Boolean, Boolean, Long?)
+  fullName: BigExcelCreator.BigExcelWriter.AddIntegerValidator(BigExcelCreator.Ranges.CellRange, long, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, bool, bool, bool, long?)
+  fullName.vb: BigExcelCreator.BigExcelWriter.AddIntegerValidator(BigExcelCreator.Ranges.CellRange, Long, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, Boolean, Boolean, Boolean, Long?)
+  nameWithType: BigExcelWriter.AddIntegerValidator(CellRange, long, DataValidationOperatorValues, bool, bool, bool, long?)
+  nameWithType.vb: BigExcelWriter.AddIntegerValidator(CellRange, Long, DataValidationOperatorValues, Boolean, Boolean, Boolean, Long?)
+- uid: BigExcelCreator.BigExcelWriter.AddIntegerValidator(BigExcelCreator.Ranges.CellRange,System.UInt32,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.UInt32})
+  name: AddIntegerValidator(CellRange, uint, DataValidationOperatorValues, bool, bool, bool, uint?)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddIntegerValidator_BigExcelCreator_Ranges_CellRange_System_UInt32_DocumentFormat_OpenXml_Spreadsheet_DataValidationOperatorValues_System_Boolean_System_Boolean_System_Boolean_System_Nullable_System_UInt32__
+  commentId: M:BigExcelCreator.BigExcelWriter.AddIntegerValidator(BigExcelCreator.Ranges.CellRange,System.UInt32,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.UInt32})
+  name.vb: AddIntegerValidator(CellRange, UInteger, DataValidationOperatorValues, Boolean, Boolean, Boolean, UInteger?)
+  fullName: BigExcelCreator.BigExcelWriter.AddIntegerValidator(BigExcelCreator.Ranges.CellRange, uint, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, bool, bool, bool, uint?)
+  fullName.vb: BigExcelCreator.BigExcelWriter.AddIntegerValidator(BigExcelCreator.Ranges.CellRange, UInteger, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, Boolean, Boolean, Boolean, UInteger?)
+  nameWithType: BigExcelWriter.AddIntegerValidator(CellRange, uint, DataValidationOperatorValues, bool, bool, bool, uint?)
+  nameWithType.vb: BigExcelWriter.AddIntegerValidator(CellRange, UInteger, DataValidationOperatorValues, Boolean, Boolean, Boolean, UInteger?)
+- uid: BigExcelCreator.BigExcelWriter.AddIntegerValidator(BigExcelCreator.Ranges.CellRange,System.UInt64,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.UInt64})
+  name: AddIntegerValidator(CellRange, ulong, DataValidationOperatorValues, bool, bool, bool, ulong?)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddIntegerValidator_BigExcelCreator_Ranges_CellRange_System_UInt64_DocumentFormat_OpenXml_Spreadsheet_DataValidationOperatorValues_System_Boolean_System_Boolean_System_Boolean_System_Nullable_System_UInt64__
+  commentId: M:BigExcelCreator.BigExcelWriter.AddIntegerValidator(BigExcelCreator.Ranges.CellRange,System.UInt64,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.UInt64})
+  name.vb: AddIntegerValidator(CellRange, ULong, DataValidationOperatorValues, Boolean, Boolean, Boolean, ULong?)
+  fullName: BigExcelCreator.BigExcelWriter.AddIntegerValidator(BigExcelCreator.Ranges.CellRange, ulong, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, bool, bool, bool, ulong?)
+  fullName.vb: BigExcelCreator.BigExcelWriter.AddIntegerValidator(BigExcelCreator.Ranges.CellRange, ULong, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, Boolean, Boolean, Boolean, ULong?)
+  nameWithType: BigExcelWriter.AddIntegerValidator(CellRange, ulong, DataValidationOperatorValues, bool, bool, bool, ulong?)
+  nameWithType.vb: BigExcelWriter.AddIntegerValidator(CellRange, ULong, DataValidationOperatorValues, Boolean, Boolean, Boolean, ULong?)
 - uid: BigExcelCreator.BigExcelWriter.AddIntegerValidator(System.String,System.Int32,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.Int32})
   name: AddIntegerValidator(string, int, DataValidationOperatorValues, bool, bool, bool, int?)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddIntegerValidator_System_String_System_Int32_DocumentFormat_OpenXml_Spreadsheet_DataValidationOperatorValues_System_Boolean_System_Boolean_System_Boolean_System_Nullable_System_Int32__
@@ -238,6 +355,33 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.AddIntegerValidator(String, Integer, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, Boolean, Boolean, Boolean, Integer?)
   nameWithType: BigExcelWriter.AddIntegerValidator(string, int, DataValidationOperatorValues, bool, bool, bool, int?)
   nameWithType.vb: BigExcelWriter.AddIntegerValidator(String, Integer, DataValidationOperatorValues, Boolean, Boolean, Boolean, Integer?)
+- uid: BigExcelCreator.BigExcelWriter.AddIntegerValidator(System.String,System.Int64,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.Int64})
+  name: AddIntegerValidator(string, long, DataValidationOperatorValues, bool, bool, bool, long?)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddIntegerValidator_System_String_System_Int64_DocumentFormat_OpenXml_Spreadsheet_DataValidationOperatorValues_System_Boolean_System_Boolean_System_Boolean_System_Nullable_System_Int64__
+  commentId: M:BigExcelCreator.BigExcelWriter.AddIntegerValidator(System.String,System.Int64,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.Int64})
+  name.vb: AddIntegerValidator(String, Long, DataValidationOperatorValues, Boolean, Boolean, Boolean, Long?)
+  fullName: BigExcelCreator.BigExcelWriter.AddIntegerValidator(string, long, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, bool, bool, bool, long?)
+  fullName.vb: BigExcelCreator.BigExcelWriter.AddIntegerValidator(String, Long, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, Boolean, Boolean, Boolean, Long?)
+  nameWithType: BigExcelWriter.AddIntegerValidator(string, long, DataValidationOperatorValues, bool, bool, bool, long?)
+  nameWithType.vb: BigExcelWriter.AddIntegerValidator(String, Long, DataValidationOperatorValues, Boolean, Boolean, Boolean, Long?)
+- uid: BigExcelCreator.BigExcelWriter.AddIntegerValidator(System.String,System.UInt32,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.UInt32})
+  name: AddIntegerValidator(string, uint, DataValidationOperatorValues, bool, bool, bool, uint?)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddIntegerValidator_System_String_System_UInt32_DocumentFormat_OpenXml_Spreadsheet_DataValidationOperatorValues_System_Boolean_System_Boolean_System_Boolean_System_Nullable_System_UInt32__
+  commentId: M:BigExcelCreator.BigExcelWriter.AddIntegerValidator(System.String,System.UInt32,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.UInt32})
+  name.vb: AddIntegerValidator(String, UInteger, DataValidationOperatorValues, Boolean, Boolean, Boolean, UInteger?)
+  fullName: BigExcelCreator.BigExcelWriter.AddIntegerValidator(string, uint, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, bool, bool, bool, uint?)
+  fullName.vb: BigExcelCreator.BigExcelWriter.AddIntegerValidator(String, UInteger, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, Boolean, Boolean, Boolean, UInteger?)
+  nameWithType: BigExcelWriter.AddIntegerValidator(string, uint, DataValidationOperatorValues, bool, bool, bool, uint?)
+  nameWithType.vb: BigExcelWriter.AddIntegerValidator(String, UInteger, DataValidationOperatorValues, Boolean, Boolean, Boolean, UInteger?)
+- uid: BigExcelCreator.BigExcelWriter.AddIntegerValidator(System.String,System.UInt64,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.UInt64})
+  name: AddIntegerValidator(string, ulong, DataValidationOperatorValues, bool, bool, bool, ulong?)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddIntegerValidator_System_String_System_UInt64_DocumentFormat_OpenXml_Spreadsheet_DataValidationOperatorValues_System_Boolean_System_Boolean_System_Boolean_System_Nullable_System_UInt64__
+  commentId: M:BigExcelCreator.BigExcelWriter.AddIntegerValidator(System.String,System.UInt64,DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues,System.Boolean,System.Boolean,System.Boolean,System.Nullable{System.UInt64})
+  name.vb: AddIntegerValidator(String, ULong, DataValidationOperatorValues, Boolean, Boolean, Boolean, ULong?)
+  fullName: BigExcelCreator.BigExcelWriter.AddIntegerValidator(string, ulong, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, bool, bool, bool, ulong?)
+  fullName.vb: BigExcelCreator.BigExcelWriter.AddIntegerValidator(String, ULong, DocumentFormat.OpenXml.Spreadsheet.DataValidationOperatorValues, Boolean, Boolean, Boolean, ULong?)
+  nameWithType: BigExcelWriter.AddIntegerValidator(string, ulong, DataValidationOperatorValues, bool, bool, bool, ulong?)
+  nameWithType.vb: BigExcelWriter.AddIntegerValidator(String, ULong, DataValidationOperatorValues, Boolean, Boolean, Boolean, ULong?)
 - uid: BigExcelCreator.BigExcelWriter.AddIntegerValidator*
   name: AddIntegerValidator
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddIntegerValidator_
@@ -1188,6 +1332,162 @@ references:
   fullName.vb: BigExcelCreator.Exceptions.SheetAlreadyOpenException.New
   nameWithType: SheetAlreadyOpenException.SheetAlreadyOpenException
   nameWithType.vb: SheetAlreadyOpenException.New
+- uid: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException
+  name: SheetNameCannotBeEmptyException
+  href: api/BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.html
+  commentId: T:BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException
+  fullName: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException
+  nameWithType: SheetNameCannotBeEmptyException
+- uid: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.#ctor
+  name: SheetNameCannotBeEmptyException()
+  href: api/BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.html#BigExcelCreator_Exceptions_SheetNameCannotBeEmptyException__ctor
+  commentId: M:BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.#ctor
+  name.vb: New()
+  fullName: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.SheetNameCannotBeEmptyException()
+  fullName.vb: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.New()
+  nameWithType: SheetNameCannotBeEmptyException.SheetNameCannotBeEmptyException()
+  nameWithType.vb: SheetNameCannotBeEmptyException.New()
+- uid: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  name: SheetNameCannotBeEmptyException(SerializationInfo, StreamingContext)
+  href: api/BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.html#BigExcelCreator_Exceptions_SheetNameCannotBeEmptyException__ctor_System_Runtime_Serialization_SerializationInfo_System_Runtime_Serialization_StreamingContext_
+  commentId: M:BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  name.vb: New(SerializationInfo, StreamingContext)
+  fullName: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.SheetNameCannotBeEmptyException(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+  fullName.vb: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.New(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+  nameWithType: SheetNameCannotBeEmptyException.SheetNameCannotBeEmptyException(SerializationInfo, StreamingContext)
+  nameWithType.vb: SheetNameCannotBeEmptyException.New(SerializationInfo, StreamingContext)
+- uid: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.#ctor(System.String)
+  name: SheetNameCannotBeEmptyException(string)
+  href: api/BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.html#BigExcelCreator_Exceptions_SheetNameCannotBeEmptyException__ctor_System_String_
+  commentId: M:BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.#ctor(System.String)
+  name.vb: New(String)
+  fullName: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.SheetNameCannotBeEmptyException(string)
+  fullName.vb: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.New(String)
+  nameWithType: SheetNameCannotBeEmptyException.SheetNameCannotBeEmptyException(string)
+  nameWithType.vb: SheetNameCannotBeEmptyException.New(String)
+- uid: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.#ctor(System.String,System.Exception)
+  name: SheetNameCannotBeEmptyException(string, Exception)
+  href: api/BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.html#BigExcelCreator_Exceptions_SheetNameCannotBeEmptyException__ctor_System_String_System_Exception_
+  commentId: M:BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.#ctor(System.String,System.Exception)
+  name.vb: New(String, Exception)
+  fullName: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.SheetNameCannotBeEmptyException(string, System.Exception)
+  fullName.vb: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.New(String, System.Exception)
+  nameWithType: SheetNameCannotBeEmptyException.SheetNameCannotBeEmptyException(string, Exception)
+  nameWithType.vb: SheetNameCannotBeEmptyException.New(String, Exception)
+- uid: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.#ctor*
+  name: SheetNameCannotBeEmptyException
+  href: api/BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.html#BigExcelCreator_Exceptions_SheetNameCannotBeEmptyException__ctor_
+  commentId: Overload:BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.SheetNameCannotBeEmptyException
+  fullName.vb: BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.New
+  nameWithType: SheetNameCannotBeEmptyException.SheetNameCannotBeEmptyException
+  nameWithType.vb: SheetNameCannotBeEmptyException.New
+- uid: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException
+  name: SheetWithSameNameAlreadyExistsException
+  href: api/BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.html
+  commentId: T:BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException
+  fullName: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException
+  nameWithType: SheetWithSameNameAlreadyExistsException
+- uid: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.#ctor
+  name: SheetWithSameNameAlreadyExistsException()
+  href: api/BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.html#BigExcelCreator_Exceptions_SheetWithSameNameAlreadyExistsException__ctor
+  commentId: M:BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.#ctor
+  name.vb: New()
+  fullName: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.SheetWithSameNameAlreadyExistsException()
+  fullName.vb: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.New()
+  nameWithType: SheetWithSameNameAlreadyExistsException.SheetWithSameNameAlreadyExistsException()
+  nameWithType.vb: SheetWithSameNameAlreadyExistsException.New()
+- uid: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  name: SheetWithSameNameAlreadyExistsException(SerializationInfo, StreamingContext)
+  href: api/BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.html#BigExcelCreator_Exceptions_SheetWithSameNameAlreadyExistsException__ctor_System_Runtime_Serialization_SerializationInfo_System_Runtime_Serialization_StreamingContext_
+  commentId: M:BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  name.vb: New(SerializationInfo, StreamingContext)
+  fullName: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.SheetWithSameNameAlreadyExistsException(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+  fullName.vb: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.New(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+  nameWithType: SheetWithSameNameAlreadyExistsException.SheetWithSameNameAlreadyExistsException(SerializationInfo, StreamingContext)
+  nameWithType.vb: SheetWithSameNameAlreadyExistsException.New(SerializationInfo, StreamingContext)
+- uid: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.#ctor(System.String)
+  name: SheetWithSameNameAlreadyExistsException(string)
+  href: api/BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.html#BigExcelCreator_Exceptions_SheetWithSameNameAlreadyExistsException__ctor_System_String_
+  commentId: M:BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.#ctor(System.String)
+  name.vb: New(String)
+  fullName: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.SheetWithSameNameAlreadyExistsException(string)
+  fullName.vb: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.New(String)
+  nameWithType: SheetWithSameNameAlreadyExistsException.SheetWithSameNameAlreadyExistsException(string)
+  nameWithType.vb: SheetWithSameNameAlreadyExistsException.New(String)
+- uid: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.#ctor(System.String,System.Exception)
+  name: SheetWithSameNameAlreadyExistsException(string, Exception)
+  href: api/BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.html#BigExcelCreator_Exceptions_SheetWithSameNameAlreadyExistsException__ctor_System_String_System_Exception_
+  commentId: M:BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.#ctor(System.String,System.Exception)
+  name.vb: New(String, Exception)
+  fullName: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.SheetWithSameNameAlreadyExistsException(string, System.Exception)
+  fullName.vb: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.New(String, System.Exception)
+  nameWithType: SheetWithSameNameAlreadyExistsException.SheetWithSameNameAlreadyExistsException(string, Exception)
+  nameWithType.vb: SheetWithSameNameAlreadyExistsException.New(String, Exception)
+- uid: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.#ctor*
+  name: SheetWithSameNameAlreadyExistsException
+  href: api/BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.html#BigExcelCreator_Exceptions_SheetWithSameNameAlreadyExistsException__ctor_
+  commentId: Overload:BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.SheetWithSameNameAlreadyExistsException
+  fullName.vb: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.New
+  nameWithType: SheetWithSameNameAlreadyExistsException.SheetWithSameNameAlreadyExistsException
+  nameWithType.vb: SheetWithSameNameAlreadyExistsException.New
+- uid: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException
+  name: UnsupportedSpreadsheetDocumentTypeException
+  href: api/BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.html
+  commentId: T:BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException
+  fullName: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException
+  nameWithType: UnsupportedSpreadsheetDocumentTypeException
+- uid: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.#ctor
+  name: UnsupportedSpreadsheetDocumentTypeException()
+  href: api/BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.html#BigExcelCreator_Exceptions_UnsupportedSpreadsheetDocumentTypeException__ctor
+  commentId: M:BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.#ctor
+  name.vb: New()
+  fullName: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.UnsupportedSpreadsheetDocumentTypeException()
+  fullName.vb: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.New()
+  nameWithType: UnsupportedSpreadsheetDocumentTypeException.UnsupportedSpreadsheetDocumentTypeException()
+  nameWithType.vb: UnsupportedSpreadsheetDocumentTypeException.New()
+- uid: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  name: UnsupportedSpreadsheetDocumentTypeException(SerializationInfo, StreamingContext)
+  href: api/BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.html#BigExcelCreator_Exceptions_UnsupportedSpreadsheetDocumentTypeException__ctor_System_Runtime_Serialization_SerializationInfo_System_Runtime_Serialization_StreamingContext_
+  commentId: M:BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  name.vb: New(SerializationInfo, StreamingContext)
+  fullName: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.UnsupportedSpreadsheetDocumentTypeException(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+  fullName.vb: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.New(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+  nameWithType: UnsupportedSpreadsheetDocumentTypeException.UnsupportedSpreadsheetDocumentTypeException(SerializationInfo, StreamingContext)
+  nameWithType.vb: UnsupportedSpreadsheetDocumentTypeException.New(SerializationInfo, StreamingContext)
+- uid: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.#ctor(System.String)
+  name: UnsupportedSpreadsheetDocumentTypeException(string)
+  href: api/BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.html#BigExcelCreator_Exceptions_UnsupportedSpreadsheetDocumentTypeException__ctor_System_String_
+  commentId: M:BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.#ctor(System.String)
+  name.vb: New(String)
+  fullName: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.UnsupportedSpreadsheetDocumentTypeException(string)
+  fullName.vb: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.New(String)
+  nameWithType: UnsupportedSpreadsheetDocumentTypeException.UnsupportedSpreadsheetDocumentTypeException(string)
+  nameWithType.vb: UnsupportedSpreadsheetDocumentTypeException.New(String)
+- uid: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.#ctor(System.String,System.Exception)
+  name: UnsupportedSpreadsheetDocumentTypeException(string, Exception)
+  href: api/BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.html#BigExcelCreator_Exceptions_UnsupportedSpreadsheetDocumentTypeException__ctor_System_String_System_Exception_
+  commentId: M:BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.#ctor(System.String,System.Exception)
+  name.vb: New(String, Exception)
+  fullName: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.UnsupportedSpreadsheetDocumentTypeException(string, System.Exception)
+  fullName.vb: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.New(String, System.Exception)
+  nameWithType: UnsupportedSpreadsheetDocumentTypeException.UnsupportedSpreadsheetDocumentTypeException(string, Exception)
+  nameWithType.vb: UnsupportedSpreadsheetDocumentTypeException.New(String, Exception)
+- uid: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.#ctor*
+  name: UnsupportedSpreadsheetDocumentTypeException
+  href: api/BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.html#BigExcelCreator_Exceptions_UnsupportedSpreadsheetDocumentTypeException__ctor_
+  commentId: Overload:BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.UnsupportedSpreadsheetDocumentTypeException
+  fullName.vb: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.New
+  nameWithType: UnsupportedSpreadsheetDocumentTypeException.UnsupportedSpreadsheetDocumentTypeException
+  nameWithType.vb: UnsupportedSpreadsheetDocumentTypeException.New
 - uid: BigExcelCreator.Ranges
   name: BigExcelCreator.Ranges
   href: api/BigExcelCreator.Ranges.html

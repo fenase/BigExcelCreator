@@ -102,6 +102,36 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/BigExcelCreator.Exceptions.yml",
       "output": {
         ".html": {
