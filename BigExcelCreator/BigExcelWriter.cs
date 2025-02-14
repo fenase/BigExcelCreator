@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2022-2025, Federico Seckel.
 // Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
 
-// Ignore Spelling: Validators Autofilter stylesheet finalizer inline unhiding gridlines
+// Ignore Spelling: Validator Validators Autofilter stylesheet finalizer inline unhiding gridlines rownum
 
 using BigExcelCreator.CommentsManager;
 using BigExcelCreator.Enum;
