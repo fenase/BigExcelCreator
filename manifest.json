@@ -38,7 +38,11 @@
           "relative_path": "api/BigExcelCreator.BigExcelWriter.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.BigExcelWriter",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.BigExcelWriter.yml\" sourcestartlinenumber=\"1\">This class writes Excel files directly using OpenXML SAX.\nUseful when trying to write tens of thousands of rows.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -48,7 +52,11 @@
           "relative_path": "api/BigExcelCreator.Exceptions.NoOpenRowException.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Exceptions.NoOpenRowException",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Exceptions.NoOpenRowException.yml\" sourcestartlinenumber=\"1\">When attempting to write to a row when there is none open</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -58,7 +66,11 @@
           "relative_path": "api/BigExcelCreator.Exceptions.NoOpenSheetException.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Exceptions.NoOpenSheetException",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Exceptions.NoOpenSheetException.yml\" sourcestartlinenumber=\"1\">When attempting to write to a sheet when there is none open</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -68,7 +80,11 @@
           "relative_path": "api/BigExcelCreator.Exceptions.OutOfOrderWritingException.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Exceptions.OutOfOrderWritingException",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Exceptions.OutOfOrderWritingException.yml\" sourcestartlinenumber=\"1\">When attempting to write to a previous row / a row before another already written to</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -78,7 +94,11 @@
           "relative_path": "api/BigExcelCreator.Exceptions.RowAlreadyOpenException.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Exceptions.RowAlreadyOpenException",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Exceptions.RowAlreadyOpenException.yml\" sourcestartlinenumber=\"1\">When attempting to open a row when there is another already open</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -88,7 +108,11 @@
           "relative_path": "api/BigExcelCreator.Exceptions.SheetAlreadyHasFilterException.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Exceptions.SheetAlreadyHasFilterException",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Exceptions.SheetAlreadyHasFilterException.yml\" sourcestartlinenumber=\"1\">When attempting to create a filter to a sheet that already has one, without indicating to overwrite the old one</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -98,7 +122,11 @@
           "relative_path": "api/BigExcelCreator.Exceptions.SheetAlreadyOpenException.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Exceptions.SheetAlreadyOpenException",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Exceptions.SheetAlreadyOpenException.yml\" sourcestartlinenumber=\"1\">When attempting to open a sheet when there is another already open</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -108,7 +136,11 @@
           "relative_path": "api/BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Exceptions.SheetNameCannotBeEmptyException.yml\" sourcestartlinenumber=\"1\">When attempting to open a sheet when there is another already open</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -118,7 +150,11 @@
           "relative_path": "api/BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.yml\" sourcestartlinenumber=\"1\">When attempting to open a sheet when there is another already open</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -128,7 +164,11 @@
           "relative_path": "api/BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.yml\" sourcestartlinenumber=\"1\">When attempting to open a sheet when there is another already open</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -138,7 +178,11 @@
           "relative_path": "api/BigExcelCreator.Exceptions.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Exceptions",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -148,7 +192,11 @@
           "relative_path": "api/BigExcelCreator.Ranges.CellRange.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Ranges.CellRange",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Ranges.CellRange.yml\" sourcestartlinenumber=\"1\">Represents a range of cells in an Excel sheet.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -158,7 +206,11 @@
           "relative_path": "api/BigExcelCreator.Ranges.InvalidRangeException.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Ranges.InvalidRangeException",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Ranges.InvalidRangeException.yml\" sourcestartlinenumber=\"1\">When unable to parse a range from a string or a range is not valid</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -168,7 +220,11 @@
           "relative_path": "api/BigExcelCreator.Ranges.OverlappingRangesException.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Ranges.OverlappingRangesException",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Ranges.OverlappingRangesException.yml\" sourcestartlinenumber=\"1\">When 2 or more ranges overlaps one another</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -178,7 +234,11 @@
           "relative_path": "api/BigExcelCreator.Ranges.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Ranges",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -188,7 +248,11 @@
           "relative_path": "api/BigExcelCreator.Styles.DifferentialStyleElement.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Styles.DifferentialStyleElement",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Styles.DifferentialStyleElement.yml\" sourcestartlinenumber=\"1\">A style to be converted to an entry of a stylesheet.</p>\n<p>Used in conditional formatting</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -198,7 +262,11 @@
           "relative_path": "api/BigExcelCreator.Styles.StyleElement.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Styles.StyleElement",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Styles.StyleElement.yml\" sourcestartlinenumber=\"1\">A style to be converted to an entry of a stylesheet</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -208,7 +276,11 @@
           "relative_path": "api/BigExcelCreator.Styles.StyleList.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Styles.StyleList",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Styles.StyleList.yml\" sourcestartlinenumber=\"1\">Manages styles and generates stylesheets</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -218,7 +290,11 @@
           "relative_path": "api/BigExcelCreator.Styles.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Styles",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -228,7 +304,11 @@
           "relative_path": "api/BigExcelCreator.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator",
+      "Summary": null
     },
     {
       "type": "Toc",
