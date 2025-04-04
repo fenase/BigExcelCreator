@@ -1028,7 +1028,7 @@ namespace BigExcelCreator.Test
                 ["fermentum molestie", "parturient montes", "Lorem ipsum", "dolor sit amet" ,"eleifend", "urna", "laoreet libero", "id metus placerat" ,"justo convallis in"],
             ];
 
-            using BigExcelWriter writer1 = GetWriterStream(out MemoryStream m1);
+            using BigExcelWriter writer1 = GetWriterStream(out MemoryStream _);
             writer1.CreateAndOpenSheet("s1");
             foreach (List<string> row in strings)
             {
@@ -1049,7 +1049,7 @@ namespace BigExcelCreator.Test
                 ["fermentum molestie", "parturient montes", "Lorem ipsum", "dolor sit amet" ,"eleifend", "urna", "laoreet libero", "id metus placerat" ,"justo convallis in"],
             ];
 
-            using BigExcelWriter writer1 = GetWriterStream(out MemoryStream m1);
+            using BigExcelWriter writer1 = GetWriterStream(out MemoryStream _);
             writer1.CreateAndOpenSheet("s1");
             foreach (List<string> row in strings)
             {
@@ -1202,7 +1202,7 @@ namespace BigExcelCreator.Test
         [TestCase(typeof(decimal))]
         public void DecimalValidatorNoSecondOperand(Type type)
         {
-            using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
             writer.CreateAndOpenSheet("a");
             for (uint i = 0; i < 10; i++)
             {
@@ -1231,7 +1231,7 @@ namespace BigExcelCreator.Test
         [TestCase(typeof(decimal))]
         public void DecimalValidationNoSheetThrowsNoOpenSheetException(Type type)
         {
-            using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
             writer.CreateAndOpenSheet("a");
             for (decimal i = 0; i < 10; i++)
             {
@@ -1261,7 +1261,7 @@ namespace BigExcelCreator.Test
         [TestCase(typeof(decimal))]
         public void DecimalValidationNoSheetThrowsInvalidOperationException(Type type)
         {
-            using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
             writer.CreateAndOpenSheet("a");
             for (decimal i = 0; i < 10; i++)
             {
@@ -1352,7 +1352,7 @@ namespace BigExcelCreator.Test
         [TestCase(typeof(ulong))]
         public void IntegerValidatorNoSecondOperand(Type type)
         {
-            using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
             writer.CreateAndOpenSheet("a");
             for (byte i = 0; i < 10; i++)
             {
@@ -1385,7 +1385,7 @@ namespace BigExcelCreator.Test
         [TestCase(typeof(ulong))]
         public void IntegerValidationNoSheetThrowsNoOpenSheetException(Type type)
         {
-            using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
             writer.CreateAndOpenSheet("a");
             for (sbyte i = 0; i < 10; i++)
             {
@@ -1419,7 +1419,7 @@ namespace BigExcelCreator.Test
         [TestCase(typeof(ulong))]
         public void IntegerValidationNoSheetThrowsInvalidOperationException(Type type)
         {
-            using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
             writer.CreateAndOpenSheet("a");
             for (sbyte i = 0; i < 10; i++)
             {
@@ -1526,7 +1526,7 @@ namespace BigExcelCreator.Test
         [Test]
         public void MergedCellsOverlappingRangesThrowsOverlappingRangesException()
         {
-            using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
             writer.CreateAndOpenSheet("a");
             writer.MergeCells("a1:c7");
             Assert.Throws<OverlappingRangesException>(() => writer.MergeCells("b2:b3"));
@@ -1535,7 +1535,7 @@ namespace BigExcelCreator.Test
         [Test]
         public void MergedCellsOverlappingRangesThrowsInvalidOperationException()
         {
-            using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
             writer.CreateAndOpenSheet("a");
             writer.MergeCells("a1:c7");
             Assert.Catch<InvalidOperationException>(() => writer.MergeCells("b2:b3"));
@@ -1544,14 +1544,14 @@ namespace BigExcelCreator.Test
         [Test]
         public void MergedCellsNoSheetThrowsNoOpenSheetException()
         {
-            using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
             Assert.Throws<NoOpenSheetException>(() => writer.MergeCells("b2:b3"));
         }
 
         [Test]
         public void MergedCellsNoSheetThrowsInvalidOperationException()
         {
-            using BigExcelWriter writer = GetWriterStream(out MemoryStream memoryStream);
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
             Assert.Catch<InvalidOperationException>(() => writer.MergeCells("b2:b3"));
         }
 
