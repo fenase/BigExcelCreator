@@ -472,7 +472,8 @@ namespace BigExcelCreator.Test
                 Assert.That(columns!.Count(), Is.EqualTo(creationColumns.Count));
                 for (int i = 0; i < creationColumns.Count; i++)
                 {
-                    Assert.That(columns.ElementAt(i).CustomWidth, Is.EqualTo(true));
+                    Assert.That(columns.ElementAt(i).CustomWidth, Is.Not.Null);
+                    Assert.That(columns.ElementAt(i).CustomWidth?.Value, Is.True);
                     Assert.That(columns.ElementAt(i).Width, Is.EqualTo(creationColumns[i].Width));
                 }
             });
@@ -588,7 +589,8 @@ namespace BigExcelCreator.Test
                 Assert.That(columns!.Count(), Is.EqualTo(creationColumns.Count));
                 for (int i = 0; i < creationColumns.Count; i++)
                 {
-                    Assert.That(columns.ElementAt(i).CustomWidth, Is.EqualTo(true));
+                    Assert.That(columns.ElementAt(i).CustomWidth, Is.Not.Null);
+                    Assert.That(columns.ElementAt(i).CustomWidth?.Value, Is.True);
                     Assert.That(columns.ElementAt(i).Width, Is.EqualTo(creationColumns[i].Width));
                 }
             });
@@ -1186,9 +1188,9 @@ namespace BigExcelCreator.Test
                             {
                                 Assert.That(dataValidation.Type!.Value, Is.EqualTo(DataValidationValues.Decimal));
                                 Assert.That(dataValidation.Operator!.Value, Is.EqualTo(DataValidationOperatorValues.Between));
-                                Assert.That(dataValidation.AllowBlank!.Value, Is.EqualTo(true));
-                                Assert.That(dataValidation.ShowErrorMessage!.Value, Is.EqualTo(true));
-                                Assert.That(dataValidation.ShowInputMessage!.Value, Is.EqualTo(true));
+                                Assert.That(dataValidation.AllowBlank!.Value, Is.True);
+                                Assert.That(dataValidation.ShowErrorMessage!.Value, Is.True);
+                                Assert.That(dataValidation.ShowInputMessage!.Value, Is.True);
                                 Assert.That(dataValidation.Formula1!.Text, Is.EqualTo(from.ToString()));
                                 Assert.That(dataValidation.Formula2!.Text, Is.EqualTo(to.ToString()));
                             });
@@ -1336,9 +1338,9 @@ namespace BigExcelCreator.Test
                 {
                     Assert.That(dataValidation.Type!.Value, Is.EqualTo(DataValidationValues.Whole));
                     Assert.That(dataValidation.Operator!.Value, Is.EqualTo(DataValidationOperatorValues.Equal));
-                    Assert.That(dataValidation.AllowBlank!.Value, Is.EqualTo(true));
-                    Assert.That(dataValidation.ShowErrorMessage!.Value, Is.EqualTo(true));
-                    Assert.That(dataValidation.ShowInputMessage!.Value, Is.EqualTo(true));
+                    Assert.That(dataValidation.AllowBlank!.Value, Is.True);
+                    Assert.That(dataValidation.ShowErrorMessage!.Value, Is.True);
+                    Assert.That(dataValidation.ShowInputMessage!.Value, Is.True);
                     Assert.That(dataValidation.Formula1!.Text, Is.EqualTo("1"));
                 });
             });
@@ -1477,9 +1479,9 @@ namespace BigExcelCreator.Test
                 {
                     Assert.That(dataValidation.Type!.Value, Is.EqualTo(DataValidationValues.List));
                     Assert.That(dataValidation.Operator!.Value, Is.EqualTo(DataValidationOperatorValues.Equal));
-                    Assert.That(dataValidation.AllowBlank!.Value, Is.EqualTo(true));
-                    Assert.That(dataValidation.ShowErrorMessage!.Value, Is.EqualTo(true));
-                    Assert.That(dataValidation.ShowInputMessage!.Value, Is.EqualTo(true));
+                    Assert.That(dataValidation.AllowBlank!.Value, Is.True);
+                    Assert.That(dataValidation.ShowErrorMessage!.Value, Is.True);
+                    Assert.That(dataValidation.ShowInputMessage!.Value, Is.True);
                     Assert.That(dataValidation.Formula1!.Text, Is.EqualTo("B1:B4"));
                 });
             });
