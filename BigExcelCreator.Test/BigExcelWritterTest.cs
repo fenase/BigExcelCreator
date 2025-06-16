@@ -194,7 +194,7 @@ namespace BigExcelCreator.Test
             }
             Assert.Multiple(() =>
             {
-                Assert.That(stream.Position, Is.EqualTo(0));
+                Assert.That(stream.Position, Is.Zero);
                 Assert.That(stream, Has.Length.GreaterThan(0));
             });
 
@@ -232,7 +232,7 @@ namespace BigExcelCreator.Test
             }
             Assert.Multiple(() =>
             {
-                Assert.That(stream.Position, Is.EqualTo(0));
+                Assert.That(stream.Position, Is.Zero);
                 Assert.That(stream, Has.Length.GreaterThan(0));
             });
 
@@ -439,7 +439,7 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(stream.Position, Is.EqualTo(0));
+                Assert.That(stream.Position, Is.Zero);
                 Assert.That(stream, Has.Length.GreaterThan(0));
             });
 
@@ -556,7 +556,7 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(stream.Position, Is.EqualTo(0));
+                Assert.That(stream.Position, Is.Zero);
                 Assert.That(stream, Has.Length.GreaterThan(0));
             });
 
@@ -672,7 +672,7 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(stream.Position, Is.EqualTo(0));
+                Assert.That(stream.Position, Is.Zero);
                 Assert.That(stream, Has.Length.GreaterThan(0));
             });
 
