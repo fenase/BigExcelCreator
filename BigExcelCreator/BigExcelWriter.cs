@@ -4,7 +4,7 @@
 // Ignore Spelling: Validator Validators Autofilter stylesheet finalizer inline unhiding gridlines rownum
 
 using BigExcelCreator.CommentsManager;
-using BigExcelCreator.Enum;
+using BigExcelCreator.Enums;
 using BigExcelCreator.Exceptions;
 using BigExcelCreator.Extensions;
 using BigExcelCreator.Ranges;
