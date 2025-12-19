@@ -10,11 +10,11 @@ namespace BigExcelCreator.ClassAttributes
     /// Specifies the Excel cell type for a property when exporting to Excel.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public sealed class ExcelColumnTypeAttribute(CellType type) : Attribute
+    public sealed class ExcelColumnTypeAttribute(CellDataType type) : Attribute
     {
         /// <summary>
         /// Gets the Excel cell type for the attributed property.
         /// </summary>
-        public CellType Type { get; } = type;
+        public CellDataType Type { get; } = type;
     }
 }

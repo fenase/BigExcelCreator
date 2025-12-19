@@ -6,7 +6,7 @@ namespace BigExcelCreator.Enums
     /// <summary>
     /// Specifies the Excel cell type for a spreadsheet cell.
     /// </summary>
-    public enum CellType
+    public enum CellDataType
     {
         /// <summary>
         /// Text cell type for string values.
