@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;net35;net40;net46;net48;net6.0;net8.0;net10.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;net35;net40;net46;net48;net6.0;net8.0</TargetFrameworks>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<Title>Create large Excel files with stylesheet Quickly using SAX</Title>
 		<Description>Create Excel files using OpenXML SAX with styling.
@@ -130,7 +130,7 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 
 
 	<ItemGroup>
-		<PackageReference Include="DocumentFormat.OpenXml" Version="[3.3,4)" />
+		<PackageReference Include="DocumentFormat.OpenXml" Version="[3.2,4)" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
