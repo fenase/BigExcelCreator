@@ -45,7 +45,7 @@ namespace BigExcelCreator.Test.Classes
         [ExcelColumnOrder(5)]
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
-        public decimal? Bonus { get; set; }
+        public double? Bonus { get; set; }
 
         [ExcelColumnName("Monthly Net Income")]
         [ExcelColumnOrder(6)]
@@ -57,7 +57,7 @@ namespace BigExcelCreator.Test.Classes
         [ExcelColumnOrder(7)]
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
-        public decimal? Sale { get; set; }
+        public float? Sale { get; set; }
 
         [ExcelColumnName("Additional Notes")]
         [ExcelColumnOrder(8)]
