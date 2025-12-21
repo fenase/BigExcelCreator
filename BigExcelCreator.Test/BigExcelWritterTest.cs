@@ -1838,9 +1838,9 @@ namespace BigExcelCreator.Test
                         Description = "Develops software solutions.",
                         CreatedAt = new DateTime(2022, 1, 15, 15, 47, 23, DateTimeKind.Utc),
                         Salary = 6000.50m,
-                        Bonus = 500.00m,
+                        Bonus = 500.00d,
                         NetIncome="SUM(E2:F2)",
-                        Sale = 15000.75m,
+                        Sale = 15000.75f,
                         Secret = "TopSecret",
                     },
                     new ExampleModel
