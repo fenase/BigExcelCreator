@@ -702,18 +702,24 @@ namespace BigExcelCreator
 
         private void WriteNumberCell(object number, int format = 0)
         {
-            if (number is sbyte sbnum) { WriteNumberCell(sbnum, format); }
-            else if (number is byte bnum) { WriteNumberCell(bnum, format); }
-            else if (number is short sn) { WriteNumberCell(sn, format); }
-            else if (number is ushort usn) { WriteNumberCell(usn, format); }
-            else if (number is int inum) { WriteNumberCell(inum, format); }
-            else if (number is uint uinum) { WriteNumberCell(uinum, format); }
-            else if (number is long lnum) { WriteNumberCell(lnum, format); }
-            else if (number is ulong ulnum) { WriteNumberCell(ulnum, format); }
-            else if (number is float fnum) { WriteNumberCell(fnum, format); }
-            else if (number is double dnum) { WriteNumberCell(dnum, format); }
-            else if (number is decimal decnum) { WriteNumberCell(decnum, format); }
-            else { throw new ArgumentException("Unsupported number type", nameof(number)); }
+            switch (number)
+            {
+                case sbyte v: WriteNumberCell(v, format); break;
+                case byte v: WriteNumberCell(v, format); break;
+                case short v: WriteNumberCell(v, format); break;
+                case ushort v: WriteNumberCell(v, format); break;
+                case int v: WriteNumberCell(v, format); break;
+                case uint v: WriteNumberCell(v, format); break;
+                case long v: WriteNumberCell(v, format); break;
+                case ulong v: WriteNumberCell(v, format); break;
+                case float v: WriteNumberCell(v, format); break;
+                case double v: WriteNumberCell(v, format); break;
+                case decimal v: WriteNumberCell(v, format); break;
+                default:
+                    throw new ArgumentException(
+                        $"Unsupported numeric type '{number.GetType().FullName}'. Supported types include: sbyte, byte, short, ushort, int, uint, long, ulong, float, double, decimal.",
+                        nameof(number));
+            }
         }
 
         /// <summary>
