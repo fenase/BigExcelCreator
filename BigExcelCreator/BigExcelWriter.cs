@@ -1819,6 +1819,7 @@ namespace BigExcelCreator
         /// <typeparam name="T">The type of objects in the collection. Must be a reference type.</typeparam>
         /// <param name="data">The collection of objects to write to the sheet.</param>
         /// <param name="sheetName">The name of the sheet to create.</param>
+        /// <param name="writeHeaderRow">If set to <c>true</c>, writes column headers as first row. Default is <c>true</c>.</param>
         /// <param name="addAutoFilterOnFirstColumn">If set to <c>true</c>, adds an autofilter to the first row. Default is <c>false</c>.</param>
         /// <param name="columns">The column definitions to use for the sheet. If not provided, columns will be generated automatically from the object type. Default is <c>null</c>.</param>
         /// <remarks>
@@ -1838,8 +1839,8 @@ namespace BigExcelCreator
         /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
         /// <exception cref="SheetNameCannotBeEmptyException">Thrown when <paramref name="sheetName"/> is null or empty.</exception>
         /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
-        public void CreateSheetFromObject<T>(IEnumerable<T> data, string sheetName, bool addAutoFilterOnFirstColumn = false, IList<Column> columns = default)
-             where T : class => CreateSheetFromObject(data, sheetName, SheetStateValues.Visible, addAutoFilterOnFirstColumn, columns);
+        public void CreateSheetFromObject<T>(IEnumerable<T> data, string sheetName, bool writeHeaderRow = true, bool addAutoFilterOnFirstColumn = false, IList<Column> columns = default)
+             where T : class => CreateSheetFromObject(data, sheetName, SheetStateValues.Visible, writeHeaderRow, addAutoFilterOnFirstColumn, columns);
 
         /// <summary>
         /// Creates a new sheet from a collection of objects with a specified sheet state, automatically mapping object properties to columns.
@@ -1848,6 +1849,7 @@ namespace BigExcelCreator
         /// <param name="data">The collection of objects to write to the sheet.</param>
         /// <param name="sheetName">The name of the sheet to create.</param>
         /// <param name="sheetState">Sets sheet visibility. <c>SheetStateValues.Visible</c> to list the sheet. <c>SheetStateValues.Hidden</c> to hide it. <c>SheetStateValues.VeryHidden</c> to hide it and prevent unhiding from the GUI.</param>
+        /// <param name="writeHeaderRow">If set to <c>true</c>, writes column headers as first row. Default is <c>true</c>.</param>
         /// <param name="addAutoFilterOnFirstColumn">If set to <c>true</c>, adds an autofilter to the first row. Default is <c>false</c>.</param>
         /// <param name="columns">The column definitions to use for the sheet. If not provided, columns will be generated automatically from the object type. Default is <c>null</c>.</param>
         /// <remarks>
@@ -1867,7 +1869,7 @@ namespace BigExcelCreator
         /// <exception cref="SheetNameCannotBeEmptyException">Thrown when <paramref name="sheetName"/> is null or empty.</exception>
         /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1851:Possible multiple enumerations of 'IEnumerable' collection", Justification = "I need to have it separated")]
-        public void CreateSheetFromObject<T>(IEnumerable<T> data, string sheetName, SheetStateValues sheetState, bool addAutoFilterOnFirstColumn = false, IList<Column> columns = default)
+        public void CreateSheetFromObject<T>(IEnumerable<T> data, string sheetName, SheetStateValues sheetState, bool writeHeaderRow = true, bool addAutoFilterOnFirstColumn = false, IList<Column> columns = default)
             where T : class
         {
 #if NET6_0_OR_GREATER
@@ -1882,14 +1884,17 @@ namespace BigExcelCreator
 
             IOrderedEnumerable<PropertyInfo> sortedColumns = GetColumnsOrdered(typeof(T));
 
-            IEnumerable<string> columnNames = sortedColumns
-                .Select(x => x.GetCustomAttributes(typeof(ExcelColumnNameAttribute), false).Cast<ExcelColumnNameAttribute>().FirstOrDefault()?.Name ?? x.Name);
+            if (writeHeaderRow)
+            {
+                IEnumerable<string> columnNames = sortedColumns
+                    .Select(x => x.GetCustomAttributes(typeof(ExcelColumnNameAttribute), false).Cast<ExcelColumnNameAttribute>().FirstOrDefault()?.Name ?? x.Name);
 
-            WriteTextRow(columnNames);
+                WriteTextRow(columnNames);
+            }
 
             if (addAutoFilterOnFirstColumn)
             {
-                CellRange autoFilterRange = new CellRange(1, 1, columnNames.Count(), 1, sheetName);
+                CellRange autoFilterRange = new CellRange(1, 1, sortedColumns.Count(), 1, sheetName);
                 AddAutofilter(autoFilterRange);
             }
 

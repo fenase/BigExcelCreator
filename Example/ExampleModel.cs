@@ -15,19 +15,19 @@ namespace Example
         [ExcelColumnOrder(1)]
         [ExcelColumnType(CellDataType.Text)]
         [ExcelColumnWidth(30)]
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
 
         [ExcelColumnName("Job Position")]
         [ExcelColumnOrder(2)]
         [ExcelColumnType(CellDataType.Text)]
         [ExcelColumnWidth(25)]
-        public string Position { get; set; }
+        public string Position { get; set; } = "";
 
         [ExcelColumnName("Job Description")]
         [ExcelColumnOrder(3)]
         [ExcelColumnType(CellDataType.Text)]
         [ExcelColumnWidth(50)]
-        public string Description { get; set; }
+        public string Description { get; set; } = "";
 
         [ExcelColumnName("Creation Date")]
         [ExcelColumnOrder(8)]
@@ -54,13 +54,13 @@ namespace Example
         string? Notes { get; set; }
 
         [ExcelColumnHidden]
-        public string Secret { get; set; }
+        public string Secret { get; set; } = "";
 
         [ExcelColumnName("Public Information")]
         [ExcelColumnOrder(7)]
         [ExcelColumnType(CellDataType.Text)]
         [ExcelColumnWidth(40)]
-        public string PublicInfo { get; set; }
+        public string PublicInfo { get; set; } = "";
 
         [ExcelIgnore]
         public int TopSecretNumber { get; set; }
