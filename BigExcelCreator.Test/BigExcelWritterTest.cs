@@ -1852,8 +1852,7 @@ namespace BigExcelCreator.Test
                         CreatedAt = new DateTime(2021, 11, 30, 10, 5, 58, DateTimeKind.Utc),
                         Salary = 7500.00m,
                         Bonus = 750.00m,
-                        NetIncome="SUM(E3:F3)",
-                        Sale = 20000.00m,
+                        NetIncome="",
                         Secret = "Classified",
                     }
                 ];

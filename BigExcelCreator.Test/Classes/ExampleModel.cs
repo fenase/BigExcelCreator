@@ -57,7 +57,7 @@ namespace BigExcelCreator.Test.Classes
         [ExcelColumnOrder(7)]
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
-        public decimal Sale { get; set; }
+        public decimal? Sale { get; set; }
 
         [ExcelColumnName("Additional Notes")]
         [ExcelColumnOrder(8)]
