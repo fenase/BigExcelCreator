@@ -1882,5 +1882,13 @@ namespace BigExcelCreator.Test
                 Assert.That(sheet.Name!.ToString(), Is.EqualTo("example"));
             });
         }
+
+        [Test]
+        public void FromObjectNoDataThrowsColumnWidthExeption()
+        {
+            using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
+            List<InvalidColumnWidthExample> data = new();
+            Assert.Throws<ArgumentOutOfRangeException>(() => writer.CreateSheetFromObject(data, "example"));
+        }
     }
 }
