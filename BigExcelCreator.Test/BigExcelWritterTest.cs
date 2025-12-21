@@ -3,6 +3,7 @@
 using BigExcelCreator.Exceptions;
 using BigExcelCreator.Ranges;
 using BigExcelCreator.Styles;
+using BigExcelCreator.Test.Classes;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -1818,6 +1819,64 @@ namespace BigExcelCreator.Test
             writer.CreateAndOpenSheet("a");
             writer.CloseSheet();
             Assert.Catch<InvalidOperationException>(() => writer.CreateAndOpenSheet("a"));
+        }
+
+        [Test]
+        public void FromObjectTest()
+        {
+            MemoryStream stream = new();
+            using (BigExcelWriter writer = new(stream))
+            {
+
+                List<ExampleModel> data =
+                [
+                    new ExampleModel
+                    {
+                        Id = 1,
+                        Name = "John Doe",
+                        Position = "Software Engineer",
+                        Description = "Develops software solutions.",
+                        CreatedAt = new DateTime(2022, 1, 15),
+                        Salary = 6000.50m,
+                        Sale = 15000.75m,
+                        Secret = "TopSecret",
+                    },
+                    new ExampleModel
+                    {
+                        Id = 2,
+                        Name = "Jane Smith",
+                        Position = "Project Manager",
+                        Description = "Manages projects and teams.",
+                        CreatedAt = new DateTime(2021, 11, 30),
+                        Salary = 7500.00m,
+                        Sale = 20000.00m,
+                        Secret = "Classified",
+                    }
+                ];
+
+                writer.CreateSheetFromObject(data, "example");
+            }
+
+            using SpreadsheetDocument reader = SpreadsheetDocument.Open(stream, false);
+
+
+            WorkbookPart? workbookPart = reader.WorkbookPart;
+            Assert.That(workbookPart, Is.Not.Null);
+
+            Workbook workbook = workbookPart!.Workbook;
+
+            Sheets? sheets = workbook.Sheets;
+            Assert.Multiple(() =>
+            {
+                Assert.That(sheets, Is.Not.Null);
+                Assert.That(sheets!.Count(), Is.EqualTo(1));
+            });
+            Sheet sheet = (Sheet)sheets!.ChildElements[0];
+            Assert.Multiple(() =>
+            {
+                Assert.That(sheet, Is.Not.Null);
+                Assert.That(sheet.Name!.ToString(), Is.EqualTo("example"));
+            });
         }
     }
 }
