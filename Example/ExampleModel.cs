@@ -30,7 +30,7 @@ namespace Example
         public string Description { get; set; } = "";
 
         [ExcelColumnName("Creation Date")]
-        [ExcelColumnOrder(8)]
+        [ExcelColumnOrder(10)]
         [ExcelColumnType(CellDataType.Text)]
         [ExcelColumnWidth(20)]
         public DateTime CreatedAt { get; set; }
@@ -41,14 +41,26 @@ namespace Example
         [ExcelColumnWidth(20)]
         public decimal Salary { get; set; }
 
-        [ExcelColumnName("Sale Amount")]
+        [ExcelColumnName("Monthly Bonus")]
         [ExcelColumnOrder(5)]
+        [ExcelColumnType(CellDataType.Number)]
+        [ExcelColumnWidth(20)]
+        public decimal Bonus { get; set; }
+
+        [ExcelColumnName("Monthly Net Income")]
+        [ExcelColumnOrder(6)]
+        [ExcelColumnType(CellDataType.Formula)]
+        [ExcelColumnWidth(20)]
+        public string NetIncome { get; set; } = "";
+
+        [ExcelColumnName("Sale Amount")]
+        [ExcelColumnOrder(7)]
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
         public decimal Sale { get; set; }
 
         [ExcelColumnName("Additional Notes")]
-        [ExcelColumnOrder(6)]
+        [ExcelColumnOrder(8)]
         [ExcelColumnType(CellDataType.Text)]
         [ExcelColumnWidth(40)]
         string? Notes { get; set; }
@@ -57,7 +69,7 @@ namespace Example
         public string Secret { get; set; } = "";
 
         [ExcelColumnName("Public Information")]
-        [ExcelColumnOrder(7)]
+        [ExcelColumnOrder(9)]
         [ExcelColumnType(CellDataType.Text)]
         [ExcelColumnWidth(40)]
         public string PublicInfo { get; set; } = "";
@@ -76,6 +88,8 @@ namespace Example
                     Description = "Responsible for developing software solutions.",
                     CreatedAt = DateTime.Now.AddMonths(-6),
                     Salary = 6000.50m,
+                    Bonus = 500.00m,
+                    NetIncome="SUM(E2:F2)",
                     Sale = 15000.75m,
                     Notes = "Excellent performance.",
                     Secret = "Loves pizza",
@@ -90,6 +104,8 @@ namespace Example
                     Description = "Oversees project development and delivery.",
                     CreatedAt = DateTime.Now.AddYears(-1),
                     Salary = 8000.00m,
+                    Bonus=550M,
+                    NetIncome="SUM(E3:F3)",
                     Sale = 20000.00m,
                     Notes = "Strong leadership skills.",
                     Secret = "Collects stamps",
