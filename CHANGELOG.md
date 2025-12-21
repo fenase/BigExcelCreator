@@ -1,5 +1,10 @@
 ﻿# Changelog
 
+## 3.3
+### Added
+- Support to write a new sheet directly from a list of objects of a custom class, configuring which properties to write using attributes.
+- .Net10.0 build target
+
 ## 3.2 (and 2.3.2024.32600)
 ### Added
 - Throw exceptions when attempting to create a sheet with an invalid name.
