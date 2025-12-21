@@ -1900,7 +1900,7 @@ namespace BigExcelCreator
 
             if (addAutoFilterOnFirstColumn)
             {
-                CellRange autoFilterRange = new CellRange(1, 1, sortedColumns.Count(), 1, sheetName);
+                CellRange autoFilterRange = new(1, 1, sortedColumns.Count(), 1, sheetName);
                 AddAutofilter(autoFilterRange);
             }
 
@@ -2199,7 +2199,7 @@ namespace BigExcelCreator
                 if (_showRowAndColumnHeadingsInCurrentSheet != _showRowAndColumnHeadingsDefault) { sheetView.ShowRowColHeaders = _showRowAndColumnHeadingsInCurrentSheet; }
                 sheetView.WorkbookViewId = 0;
 
-                worksheet.SheetViews = new SheetViews(sheetView);
+                worksheet.SheetViews = new(sheetView);
             }
         }
 
@@ -2231,7 +2231,7 @@ namespace BigExcelCreator
 
         private static List<Column> CreateColumnsFromObject(Type type)
         {
-            List<Column> columns = new List<Column>();
+            List<Column> columns = [];
 
             var dtoCols = GetColumnsOrdered(type);
             foreach (var dtoCol in dtoCols)
@@ -2242,7 +2242,7 @@ namespace BigExcelCreator
                   .FirstOrDefault()?
                   .Width;
                 bool customWidth = width != null;
-                Column column = new Column() { CustomWidth = customWidth, Hidden = hidden };
+                Column column = new() { CustomWidth = customWidth, Hidden = hidden };
                 if (customWidth)
                 {
                     column.Width = width;
