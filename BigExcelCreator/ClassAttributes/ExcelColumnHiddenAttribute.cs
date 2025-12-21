@@ -10,7 +10,5 @@ namespace BigExcelCreator.ClassAttributes
     /// When applied to a property, the corresponding column will not be visible in the generated Excel spreadsheet.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public sealed class ExcelColumnHiddenAttribute : Attribute
-    {
-    }
+    public sealed class ExcelColumnHiddenAttribute : Attribute { }
 }

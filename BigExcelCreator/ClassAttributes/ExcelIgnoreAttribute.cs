@@ -9,7 +9,5 @@ namespace BigExcelCreator.ClassAttributes
     /// Marks a property to be ignored when generating Excel output.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public sealed class ExcelIgnoreAttribute : Attribute
-    {
-    }
+    public sealed class ExcelIgnoreAttribute : Attribute { }
 }
