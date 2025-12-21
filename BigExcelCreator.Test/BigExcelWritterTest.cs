@@ -1851,8 +1851,8 @@ namespace BigExcelCreator.Test
                         Description = "Manages projects and teams.",
                         CreatedAt = new DateTime(2021, 11, 30, 10, 5, 58, DateTimeKind.Utc),
                         Salary = 7500.00m,
-                        Bonus = 750.00m,
-                        NetIncome="",
+                        Bonus = null,
+                        NetIncome = null,
                         Secret = "Classified",
                     }
                 ];

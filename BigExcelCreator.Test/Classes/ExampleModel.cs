@@ -45,13 +45,13 @@ namespace BigExcelCreator.Test.Classes
         [ExcelColumnOrder(5)]
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
-        public decimal Bonus { get; set; }
+        public decimal? Bonus { get; set; }
 
         [ExcelColumnName("Monthly Net Income")]
         [ExcelColumnOrder(6)]
         [ExcelColumnType(CellDataType.Formula)]
         [ExcelColumnWidth(20)]
-        public string NetIncome { get; set; } = "";
+        public string? NetIncome { get; set; } = "";
 
         [ExcelColumnName("Sale Amount")]
         [ExcelColumnOrder(7)]
