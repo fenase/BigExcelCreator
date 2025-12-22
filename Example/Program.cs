@@ -7,6 +7,7 @@ using BigExcelCreator;
 using BigExcelCreator.Styles;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Example;
 
 int attempts = 0;
 string fullPath;
@@ -154,3 +155,9 @@ excel.MergeCells("a3:a5");
 excel.MergeCells("c3:d5");
 
 excel.CloseSheet();
+
+
+
+excel.CreateSheetFromObject(ExampleModel.GetTestData(), "From objects");
+
+

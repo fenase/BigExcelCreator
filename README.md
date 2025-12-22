@@ -73,6 +73,12 @@ Since the most common reason for a file to become corrupted when creating it usi
     
     > Starting on version 1.1, text cells can be written using the shared strings table, which should reduce the generated file size.
     > See [Shared Strings](#shared-strings) below
+
+    > Starting on version 3.3, you can use `CreateSheetFromObject` to write an entire sheet from a list of elements.
+    > This method uses class decorators to define how to write each column from a property.
+    >
+    > See more in the [example code](https://github.com/fenase/BigExcelCreator/blob/main/Example/Program.cs)
+	> and in the [API documentation](https://fenase.github.io/BigExcelCreator/api/BigExcelCreator.html)
 5. Use `WriteFormulaCell` or `WriteFormulaRow` to insert formulas.
 6. Use `WriteNumberCell` or `WriteNumberRow` to insert numbers. This is useful if you need to do any calculation later on.
 7. Use `CloseSheet` to finish.

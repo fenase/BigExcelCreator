@@ -1,10 +1,11 @@
-﻿// Copyright (c) 2022-2025, Federico Seckel.
+﻿// Copyright (c) 2022-2026, Federico Seckel.
 // Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
 
 // Ignore Spelling: Validator Validators Autofilter stylesheet finalizer inline unhiding gridlines rownum
 
+using BigExcelCreator.ClassAttributes;
 using BigExcelCreator.CommentsManager;
-using BigExcelCreator.Enum;
+using BigExcelCreator.Enums;
 using BigExcelCreator.Exceptions;
 using BigExcelCreator.Extensions;
 using BigExcelCreator.Ranges;
@@ -16,6 +17,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace BigExcelCreator
 {
@@ -697,6 +699,28 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteNumberCell(decimal number, int format = 0)
             => WriteNumberCellInternal(number.ToString(CultureInfo.InvariantCulture), format);
+
+        private void WriteNumberCell(object number, int format = 0)
+        {
+            switch (number)
+            {
+                case sbyte v: WriteNumberCell(v, format); break;
+                case byte v: WriteNumberCell(v, format); break;
+                case short v: WriteNumberCell(v, format); break;
+                case ushort v: WriteNumberCell(v, format); break;
+                case int v: WriteNumberCell(v, format); break;
+                case uint v: WriteNumberCell(v, format); break;
+                case long v: WriteNumberCell(v, format); break;
+                case ulong v: WriteNumberCell(v, format); break;
+                case float v: WriteNumberCell(v, format); break;
+                case double v: WriteNumberCell(v, format); break;
+                case decimal v: WriteNumberCell(v, format); break;
+                default:
+                    throw new ArgumentException(
+                        $"Unsupported numeric type '{number.GetType().FullName}'. Supported types include: sbyte, byte, short, ushort, int, uint, long, ulong, float, double, decimal.",
+                        nameof(number));
+            }
+        }
 
         /// <summary>
         /// Writes a formula cell to the currently open row in the sheet.
@@ -1796,6 +1820,110 @@ namespace BigExcelCreator
         public void MergeCells(string range) => MergeCells(new CellRange(range));
 
         /// <summary>
+        /// Creates a new sheet from a collection of objects, automatically mapping object properties to columns.
+        /// </summary>
+        /// <typeparam name="T">The type of objects in the collection. Must be a reference type.</typeparam>
+        /// <param name="data">The collection of objects to write to the sheet.</param>
+        /// <param name="sheetName">The name of the sheet to create.</param>
+        /// <param name="writeHeaderRow">If set to <c>true</c>, writes column headers as first row. Default is <c>true</c>.</param>
+        /// <param name="addAutoFilterOnFirstColumn">If set to <c>true</c>, adds an autofilter to the first row. Default is <c>false</c>.</param>
+        /// <param name="columns">The column definitions to use for the sheet. If not provided, columns will be generated automatically from the object type. Default is <c>null</c>.</param>
+        /// <remarks>
+        /// <para>This method automatically discovers properties from type <typeparamref name="T"/> and writes them as sheet columns.</para>
+        /// <para>Properties can be decorated with the following attributes to customize their behavior:</para>
+        /// <list type="bullet">
+        /// <item><description><see cref="ExcelIgnoreAttribute"/> - Excludes a property from being written to the sheet.</description></item>
+        /// <item><description><see cref="ExcelColumnNameAttribute"/> - Sets a custom column header name.</description></item>
+        /// <item><description><see cref="ExcelColumnOrderAttribute"/> - Controls the column order.</description></item>
+        /// <item><description><see cref="ExcelColumnTypeAttribute"/> - Specifies the cell data type (Text, Number, or Formula).</description></item>
+        /// <item><description><see cref="ExcelColumnWidthAttribute"/> - Sets a custom column width.</description></item>
+        /// <item><description><see cref="ExcelColumnHiddenAttribute"/> - Hides the column from view.</description></item>
+        /// </list>
+        /// <para>The sheet state is set to <see cref="SheetStateValues.Visible"/> by default.</para>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="data"/> is <c>null</c>.</exception>
+        /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
+        /// <exception cref="SheetNameCannotBeEmptyException">Thrown when <paramref name="sheetName"/> is null or empty.</exception>
+        /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
+        public void CreateSheetFromObject<T>(IEnumerable<T> data, string sheetName, bool writeHeaderRow = true, bool addAutoFilterOnFirstColumn = false, IList<Column> columns = default)
+             where T : class => CreateSheetFromObject(data, sheetName, SheetStateValues.Visible, writeHeaderRow, addAutoFilterOnFirstColumn, columns);
+
+        /// <summary>
+        /// Creates a new sheet from a collection of objects with a specified sheet state, automatically mapping object properties to columns.
+        /// </summary>
+        /// <typeparam name="T">The type of objects in the collection. Must be a reference type.</typeparam>
+        /// <param name="data">The collection of objects to write to the sheet.</param>
+        /// <param name="sheetName">The name of the sheet to create.</param>
+        /// <param name="sheetState">Sets sheet visibility. <c>SheetStateValues.Visible</c> to list the sheet. <c>SheetStateValues.Hidden</c> to hide it. <c>SheetStateValues.VeryHidden</c> to hide it and prevent unhiding from the GUI.</param>
+        /// <param name="writeHeaderRow">If set to <c>true</c>, writes column headers as first row. Default is <c>true</c>.</param>
+        /// <param name="addAutoFilterOnFirstColumn">If set to <c>true</c>, adds an autofilter to the first row. Default is <c>false</c>.</param>
+        /// <param name="columns">The column definitions to use for the sheet. If not provided, columns will be generated automatically from the object type. Default is <c>null</c>.</param>
+        /// <remarks>
+        /// <para>This method automatically discovers properties from type <typeparamref name="T"/> and writes them as sheet columns.</para>
+        /// <para>Properties can be decorated with the following attributes to customize their behavior:</para>
+        /// <list type="bullet">
+        /// <item><description><see cref="ExcelIgnoreAttribute"/> - Excludes a property from being written to the sheet.</description></item>
+        /// <item><description><see cref="ExcelColumnNameAttribute"/> - Sets a custom column header name.</description></item>
+        /// <item><description><see cref="ExcelColumnOrderAttribute"/> - Controls the column order.</description></item>
+        /// <item><description><see cref="ExcelColumnTypeAttribute"/> - Specifies the cell data type (Text, Number, or Formula).</description></item>
+        /// <item><description><see cref="ExcelColumnWidthAttribute"/> - Sets a custom column width.</description></item>
+        /// <item><description><see cref="ExcelColumnHiddenAttribute"/> - Hides the column from view.</description></item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="data"/> is <c>null</c>.</exception>
+        /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
+        /// <exception cref="SheetNameCannotBeEmptyException">Thrown when <paramref name="sheetName"/> is null or empty.</exception>
+        /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1851:Possible multiple enumerations of 'IEnumerable' collection", Justification = "I need to have it separated")]
+        public void CreateSheetFromObject<T>(IEnumerable<T> data, string sheetName, SheetStateValues sheetState, bool writeHeaderRow = true, bool addAutoFilterOnFirstColumn = false, IList<Column> columns = default)
+            where T : class
+        {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(data);
+#else
+            if (data is null) throw new ArgumentNullException(nameof(data));
+#endif
+
+            if (columns?.Any() != true) { columns = CreateColumnsFromObject(typeof(T)); }
+
+            CreateAndOpenSheet(sheetName, columns, sheetState);
+
+            IOrderedEnumerable<PropertyInfo> sortedColumns = GetColumnsOrdered(typeof(T));
+
+            if (writeHeaderRow)
+            {
+                IEnumerable<string> columnNames = sortedColumns
+                    .Select(x => x.GetCustomAttributes(typeof(ExcelColumnNameAttribute), false).Cast<ExcelColumnNameAttribute>().FirstOrDefault()?.Name ?? x.Name);
+
+                WriteTextRow(columnNames);
+            }
+
+            if (addAutoFilterOnFirstColumn)
+            {
+                CellRange autoFilterRange = new(1, 1, sortedColumns.Count(), 1, sheetName);
+                AddAutofilter(autoFilterRange);
+            }
+
+            foreach (T dataRow in data)
+            {
+                BeginRow();
+                foreach (PropertyInfo columnName in sortedColumns)
+                {
+                    CellDataType cellType =
+                        columnName.GetCustomAttributes(typeof(ExcelColumnTypeAttribute), false)
+                        .Cast<ExcelColumnTypeAttribute>()
+                        .FirstOrDefault()?
+                        .Type ?? CellDataType.Text;
+                    object cellData = columnName.GetValue(dataRow, null);
+
+                    WriteCellFromData(cellData, cellType);
+                }
+                EndRow();
+            }
+            CloseSheet();
+        }
+
+        /// <summary>
         /// Closes the current document, ensuring all data is written and resources are released.
         /// </summary>
         /// <remarks>
@@ -2071,7 +2199,7 @@ namespace BigExcelCreator
                 if (_showRowAndColumnHeadingsInCurrentSheet != _showRowAndColumnHeadingsDefault) { sheetView.ShowRowColHeaders = _showRowAndColumnHeadingsInCurrentSheet; }
                 sheetView.WorkbookViewId = 0;
 
-                worksheet.SheetViews = new SheetViews(sheetView);
+                worksheet.SheetViews = new(sheetView);
             }
         }
 
@@ -2098,6 +2226,73 @@ namespace BigExcelCreator
             if (!validSpreadsheetDocumentTypes.Contains(spreadsheetDocumentType))
             {
                 throw new UnsupportedSpreadsheetDocumentTypeException(string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.InvalidSpreadsheetDocumentType, spreadsheetDocumentType));
+            }
+        }
+
+        private static List<Column> CreateColumnsFromObject(Type type)
+        {
+            List<Column> columns = [];
+
+            var dtoCols = GetColumnsOrdered(type);
+            foreach (var dtoCol in dtoCols)
+            {
+                bool hidden = Attribute.IsDefined(dtoCol, typeof(ExcelColumnHiddenAttribute));
+                int? width = dtoCol.GetCustomAttributes(typeof(ExcelColumnWidthAttribute), false)
+                  .Cast<ExcelColumnWidthAttribute>()
+                  .FirstOrDefault()?
+                  .Width;
+                bool customWidth = width != null;
+                Column column = new() { CustomWidth = customWidth, Hidden = hidden };
+                if (customWidth)
+                {
+                    column.Width = width;
+                }
+
+                columns.Add(column);
+            }
+
+            return columns;
+        }
+
+        private static IOrderedEnumerable<PropertyInfo> GetColumnsOrdered(Type type)
+        {
+            return type.GetProperties()
+                    .Where(x => !Attribute.IsDefined(x, typeof(ExcelIgnoreAttribute)))
+                    .OrderBy(x => x.GetCustomAttributes(typeof(ExcelColumnOrderAttribute), false)
+                            .Cast<ExcelColumnOrderAttribute>()
+                        .FirstOrDefault()?
+                        .Order ?? int.MaxValue);
+        }
+
+        private void WriteCellFromData(object cellData, CellDataType cellType)
+        {
+            switch (cellType)
+            {
+                case CellDataType.Number:
+                    if (cellData != null)
+                    {
+                        WriteNumberCell(cellData);
+                    }
+                    else
+                    {
+                        WriteTextCell(string.Empty);
+                    }
+                    break;
+                case CellDataType.Formula:
+                    string cellDataFormula = cellData?.ToString();
+                    if (!cellDataFormula.IsNullOrWhiteSpace())
+                    {
+                        WriteFormulaCell(cellDataFormula);
+                    }
+                    else
+                    {
+                        WriteTextCell(string.Empty);
+                    }
+                    break;
+                case CellDataType.Text:
+                    string cellDataString = cellData?.ToString() ?? "";
+                    WriteTextCell(cellDataString);
+                    break;
             }
         }
     }
