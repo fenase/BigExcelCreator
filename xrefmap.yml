@@ -548,6 +548,31 @@ references:
   isSpec: "True"
   fullName: BigExcelCreator.BigExcelWriter.CreateAndOpenSheet
   nameWithType: BigExcelWriter.CreateAndOpenSheet
+- uid: BigExcelCreator.BigExcelWriter.CreateSheetFromObject*
+  name: CreateSheetFromObject
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_CreateSheetFromObject_
+  commentId: Overload:BigExcelCreator.BigExcelWriter.CreateSheetFromObject
+  isSpec: "True"
+  fullName: BigExcelCreator.BigExcelWriter.CreateSheetFromObject
+  nameWithType: BigExcelWriter.CreateSheetFromObject
+- uid: BigExcelCreator.BigExcelWriter.CreateSheetFromObject``1(System.Collections.Generic.IEnumerable{``0},System.String,DocumentFormat.OpenXml.Spreadsheet.SheetStateValues,System.Boolean,System.Boolean,System.Collections.Generic.IList{DocumentFormat.OpenXml.Spreadsheet.Column})
+  name: CreateSheetFromObject<T>(IEnumerable<T>, string, SheetStateValues, bool, bool, IList<Column>)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_CreateSheetFromObject__1_System_Collections_Generic_IEnumerable___0__System_String_DocumentFormat_OpenXml_Spreadsheet_SheetStateValues_System_Boolean_System_Boolean_System_Collections_Generic_IList_DocumentFormat_OpenXml_Spreadsheet_Column__
+  commentId: M:BigExcelCreator.BigExcelWriter.CreateSheetFromObject``1(System.Collections.Generic.IEnumerable{``0},System.String,DocumentFormat.OpenXml.Spreadsheet.SheetStateValues,System.Boolean,System.Boolean,System.Collections.Generic.IList{DocumentFormat.OpenXml.Spreadsheet.Column})
+  name.vb: CreateSheetFromObject(Of T)(IEnumerable(Of T), String, SheetStateValues, Boolean, Boolean, IList(Of Column))
+  fullName: BigExcelCreator.BigExcelWriter.CreateSheetFromObject<T>(System.Collections.Generic.IEnumerable<T>, string, DocumentFormat.OpenXml.Spreadsheet.SheetStateValues, bool, bool, System.Collections.Generic.IList<DocumentFormat.OpenXml.Spreadsheet.Column>)
+  fullName.vb: BigExcelCreator.BigExcelWriter.CreateSheetFromObject(Of T)(System.Collections.Generic.IEnumerable(Of T), String, DocumentFormat.OpenXml.Spreadsheet.SheetStateValues, Boolean, Boolean, System.Collections.Generic.IList(Of DocumentFormat.OpenXml.Spreadsheet.Column))
+  nameWithType: BigExcelWriter.CreateSheetFromObject<T>(IEnumerable<T>, string, SheetStateValues, bool, bool, IList<Column>)
+  nameWithType.vb: BigExcelWriter.CreateSheetFromObject(Of T)(IEnumerable(Of T), String, SheetStateValues, Boolean, Boolean, IList(Of Column))
+- uid: BigExcelCreator.BigExcelWriter.CreateSheetFromObject``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Boolean,System.Boolean,System.Collections.Generic.IList{DocumentFormat.OpenXml.Spreadsheet.Column})
+  name: CreateSheetFromObject<T>(IEnumerable<T>, string, bool, bool, IList<Column>)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_CreateSheetFromObject__1_System_Collections_Generic_IEnumerable___0__System_String_System_Boolean_System_Boolean_System_Collections_Generic_IList_DocumentFormat_OpenXml_Spreadsheet_Column__
+  commentId: M:BigExcelCreator.BigExcelWriter.CreateSheetFromObject``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Boolean,System.Boolean,System.Collections.Generic.IList{DocumentFormat.OpenXml.Spreadsheet.Column})
+  name.vb: CreateSheetFromObject(Of T)(IEnumerable(Of T), String, Boolean, Boolean, IList(Of Column))
+  fullName: BigExcelCreator.BigExcelWriter.CreateSheetFromObject<T>(System.Collections.Generic.IEnumerable<T>, string, bool, bool, System.Collections.Generic.IList<DocumentFormat.OpenXml.Spreadsheet.Column>)
+  fullName.vb: BigExcelCreator.BigExcelWriter.CreateSheetFromObject(Of T)(System.Collections.Generic.IEnumerable(Of T), String, Boolean, Boolean, System.Collections.Generic.IList(Of DocumentFormat.OpenXml.Spreadsheet.Column))
+  nameWithType: BigExcelWriter.CreateSheetFromObject<T>(IEnumerable<T>, string, bool, bool, IList<Column>)
+  nameWithType.vb: BigExcelWriter.CreateSheetFromObject(Of T)(IEnumerable(Of T), String, Boolean, Boolean, IList(Of Column))
 - uid: BigExcelCreator.BigExcelWriter.Dispose
   name: Dispose()
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_Dispose
@@ -1014,6 +1039,206 @@ references:
   isSpec: "True"
   fullName: BigExcelCreator.BigExcelWriter.WriteTextRow
   nameWithType: BigExcelWriter.WriteTextRow
+- uid: BigExcelCreator.ClassAttributes
+  name: BigExcelCreator.ClassAttributes
+  href: api/BigExcelCreator.ClassAttributes.html
+  commentId: N:BigExcelCreator.ClassAttributes
+  fullName: BigExcelCreator.ClassAttributes
+  nameWithType: BigExcelCreator.ClassAttributes
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnHiddenAttribute
+  name: ExcelColumnHiddenAttribute
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnHiddenAttribute.html
+  commentId: T:BigExcelCreator.ClassAttributes.ExcelColumnHiddenAttribute
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnHiddenAttribute
+  nameWithType: ExcelColumnHiddenAttribute
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute
+  name: ExcelColumnNameAttribute
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.html
+  commentId: T:BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute
+  nameWithType: ExcelColumnNameAttribute
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.#ctor(System.String)
+  name: ExcelColumnNameAttribute(string)
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.html#BigExcelCreator_ClassAttributes_ExcelColumnNameAttribute__ctor_System_String_
+  commentId: M:BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.#ctor(System.String)
+  name.vb: New(String)
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.ExcelColumnNameAttribute(string)
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.New(String)
+  nameWithType: ExcelColumnNameAttribute.ExcelColumnNameAttribute(string)
+  nameWithType.vb: ExcelColumnNameAttribute.New(String)
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.#ctor*
+  name: ExcelColumnNameAttribute
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.html#BigExcelCreator_ClassAttributes_ExcelColumnNameAttribute__ctor_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.ExcelColumnNameAttribute
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.New
+  nameWithType: ExcelColumnNameAttribute.ExcelColumnNameAttribute
+  nameWithType.vb: ExcelColumnNameAttribute.New
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.Name
+  name: Name
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.html#BigExcelCreator_ClassAttributes_ExcelColumnNameAttribute_Name
+  commentId: P:BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.Name
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.Name
+  nameWithType: ExcelColumnNameAttribute.Name
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.Name*
+  name: Name
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.html#BigExcelCreator_ClassAttributes_ExcelColumnNameAttribute_Name_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.Name
+  isSpec: "True"
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.Name
+  nameWithType: ExcelColumnNameAttribute.Name
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute
+  name: ExcelColumnOrderAttribute
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.html
+  commentId: T:BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute
+  nameWithType: ExcelColumnOrderAttribute
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.#ctor(System.Int32)
+  name: ExcelColumnOrderAttribute(int)
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.html#BigExcelCreator_ClassAttributes_ExcelColumnOrderAttribute__ctor_System_Int32_
+  commentId: M:BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.#ctor(System.Int32)
+  name.vb: New(Integer)
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.ExcelColumnOrderAttribute(int)
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.New(Integer)
+  nameWithType: ExcelColumnOrderAttribute.ExcelColumnOrderAttribute(int)
+  nameWithType.vb: ExcelColumnOrderAttribute.New(Integer)
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.#ctor*
+  name: ExcelColumnOrderAttribute
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.html#BigExcelCreator_ClassAttributes_ExcelColumnOrderAttribute__ctor_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.ExcelColumnOrderAttribute
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.New
+  nameWithType: ExcelColumnOrderAttribute.ExcelColumnOrderAttribute
+  nameWithType.vb: ExcelColumnOrderAttribute.New
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.Order
+  name: Order
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.html#BigExcelCreator_ClassAttributes_ExcelColumnOrderAttribute_Order
+  commentId: P:BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.Order
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.Order
+  nameWithType: ExcelColumnOrderAttribute.Order
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.Order*
+  name: Order
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.html#BigExcelCreator_ClassAttributes_ExcelColumnOrderAttribute_Order_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.Order
+  isSpec: "True"
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.Order
+  nameWithType: ExcelColumnOrderAttribute.Order
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute
+  name: ExcelColumnTypeAttribute
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.html
+  commentId: T:BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute
+  nameWithType: ExcelColumnTypeAttribute
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.#ctor(BigExcelCreator.Enums.CellDataType)
+  name: ExcelColumnTypeAttribute(CellDataType)
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.html#BigExcelCreator_ClassAttributes_ExcelColumnTypeAttribute__ctor_BigExcelCreator_Enums_CellDataType_
+  commentId: M:BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.#ctor(BigExcelCreator.Enums.CellDataType)
+  name.vb: New(CellDataType)
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.ExcelColumnTypeAttribute(BigExcelCreator.Enums.CellDataType)
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.New(BigExcelCreator.Enums.CellDataType)
+  nameWithType: ExcelColumnTypeAttribute.ExcelColumnTypeAttribute(CellDataType)
+  nameWithType.vb: ExcelColumnTypeAttribute.New(CellDataType)
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.#ctor*
+  name: ExcelColumnTypeAttribute
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.html#BigExcelCreator_ClassAttributes_ExcelColumnTypeAttribute__ctor_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.ExcelColumnTypeAttribute
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.New
+  nameWithType: ExcelColumnTypeAttribute.ExcelColumnTypeAttribute
+  nameWithType.vb: ExcelColumnTypeAttribute.New
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.Type
+  name: Type
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.html#BigExcelCreator_ClassAttributes_ExcelColumnTypeAttribute_Type
+  commentId: P:BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.Type
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.Type
+  nameWithType: ExcelColumnTypeAttribute.Type
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.Type*
+  name: Type
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.html#BigExcelCreator_ClassAttributes_ExcelColumnTypeAttribute_Type_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.Type
+  isSpec: "True"
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.Type
+  nameWithType: ExcelColumnTypeAttribute.Type
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute
+  name: ExcelColumnWidthAttribute
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.html
+  commentId: T:BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute
+  nameWithType: ExcelColumnWidthAttribute
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.#ctor(System.Int32)
+  name: ExcelColumnWidthAttribute(int)
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.html#BigExcelCreator_ClassAttributes_ExcelColumnWidthAttribute__ctor_System_Int32_
+  commentId: M:BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.#ctor(System.Int32)
+  name.vb: New(Integer)
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.ExcelColumnWidthAttribute(int)
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.New(Integer)
+  nameWithType: ExcelColumnWidthAttribute.ExcelColumnWidthAttribute(int)
+  nameWithType.vb: ExcelColumnWidthAttribute.New(Integer)
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.#ctor*
+  name: ExcelColumnWidthAttribute
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.html#BigExcelCreator_ClassAttributes_ExcelColumnWidthAttribute__ctor_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.ExcelColumnWidthAttribute
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.New
+  nameWithType: ExcelColumnWidthAttribute.ExcelColumnWidthAttribute
+  nameWithType.vb: ExcelColumnWidthAttribute.New
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.Width
+  name: Width
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.html#BigExcelCreator_ClassAttributes_ExcelColumnWidthAttribute_Width
+  commentId: P:BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.Width
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.Width
+  nameWithType: ExcelColumnWidthAttribute.Width
+- uid: BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.Width*
+  name: Width
+  href: api/BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.html#BigExcelCreator_ClassAttributes_ExcelColumnWidthAttribute_Width_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.Width
+  isSpec: "True"
+  fullName: BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.Width
+  nameWithType: ExcelColumnWidthAttribute.Width
+- uid: BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute
+  name: ExcelIgnoreAttribute
+  href: api/BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute.html
+  commentId: T:BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute
+  fullName: BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute
+  nameWithType: ExcelIgnoreAttribute
+- uid: BigExcelCreator.Enums
+  name: BigExcelCreator.Enums
+  href: api/BigExcelCreator.Enums.html
+  commentId: N:BigExcelCreator.Enums
+  fullName: BigExcelCreator.Enums
+  nameWithType: BigExcelCreator.Enums
+- uid: BigExcelCreator.Enums.CellDataType
+  name: CellDataType
+  href: api/BigExcelCreator.Enums.CellDataType.html
+  commentId: T:BigExcelCreator.Enums.CellDataType
+  fullName: BigExcelCreator.Enums.CellDataType
+  nameWithType: CellDataType
+- uid: BigExcelCreator.Enums.CellDataType.Formula
+  name: Formula
+  href: api/BigExcelCreator.Enums.CellDataType.html#BigExcelCreator_Enums_CellDataType_Formula
+  commentId: F:BigExcelCreator.Enums.CellDataType.Formula
+  fullName: BigExcelCreator.Enums.CellDataType.Formula
+  nameWithType: CellDataType.Formula
+- uid: BigExcelCreator.Enums.CellDataType.Number
+  name: Number
+  href: api/BigExcelCreator.Enums.CellDataType.html#BigExcelCreator_Enums_CellDataType_Number
+  commentId: F:BigExcelCreator.Enums.CellDataType.Number
+  fullName: BigExcelCreator.Enums.CellDataType.Number
+  nameWithType: CellDataType.Number
+- uid: BigExcelCreator.Enums.CellDataType.Text
+  name: Text
+  href: api/BigExcelCreator.Enums.CellDataType.html#BigExcelCreator_Enums_CellDataType_Text
+  commentId: F:BigExcelCreator.Enums.CellDataType.Text
+  fullName: BigExcelCreator.Enums.CellDataType.Text
+  nameWithType: CellDataType.Text
 - uid: BigExcelCreator.Exceptions
   name: BigExcelCreator.Exceptions
   href: api/BigExcelCreator.Exceptions.html

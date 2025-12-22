@@ -46,6 +46,132 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.ClassAttributes.ExcelColumnHiddenAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.ClassAttributes.ExcelColumnHiddenAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.ClassAttributes.ExcelColumnHiddenAttribute",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.ClassAttributes.ExcelColumnHiddenAttribute.yml\" sourcestartlinenumber=\"1\">Marks a property as hidden in Excel exports.\nWhen applied to a property, the corresponding column will not be visible in the generated Excel spreadsheet.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.yml\" sourcestartlinenumber=\"1\">Specifies the name of an Excel column for a property.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.yml\" sourcestartlinenumber=\"1\">Specifies the column order for a property when exporting to Excel.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.yml\" sourcestartlinenumber=\"1\">Specifies the Excel cell type for a property when exporting to Excel.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.yml\" sourcestartlinenumber=\"1\">Specifies the width of an Excel column for a property.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute.yml\" sourcestartlinenumber=\"1\">Marks a property to be ignored when generating Excel output.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.ClassAttributes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.ClassAttributes.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.ClassAttributes",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Enums.CellDataType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Enums.CellDataType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Enums.CellDataType",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Enums.CellDataType.yml\" sourcestartlinenumber=\"1\">Specifies the Excel cell type for a spreadsheet cell.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Enums.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Enums.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Enums",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/BigExcelCreator.Exceptions.NoOpenRowException.yml",
       "output": {
         ".html": {
