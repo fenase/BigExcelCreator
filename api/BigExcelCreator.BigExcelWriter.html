@@ -2680,7 +2680,7 @@ public void AddIntegerValidator(string range, ulong firstOperand, DataValidation
 
   <h3 id="BigExcelCreator_BigExcelWriter_CloseDocument" data-uid="BigExcelCreator.BigExcelWriter.CloseDocument">
   CloseDocument()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/BigExcelWriter.cs/#L1933"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/BigExcelWriter.cs/#L1943"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Closes the current document, ensuring all data is written and resources are released.</p>
@@ -3041,7 +3041,7 @@ If saving to a stream, it will reset the stream position to the beginning.</p>
 
   <h3 id="BigExcelCreator_BigExcelWriter_CreateSheetFromObject__1_System_Collections_Generic_IEnumerable___0__System_String_DocumentFormat_OpenXml_Spreadsheet_SheetStateValues_System_Boolean_System_Boolean_System_Collections_Generic_IList_DocumentFormat_OpenXml_Spreadsheet_Column__" data-uid="BigExcelCreator.BigExcelWriter.CreateSheetFromObject``1(System.Collections.Generic.IEnumerable{``0},System.String,DocumentFormat.OpenXml.Spreadsheet.SheetStateValues,System.Boolean,System.Boolean,System.Collections.Generic.IList{DocumentFormat.OpenXml.Spreadsheet.Column})">
   CreateSheetFromObject&lt;T&gt;(IEnumerable&lt;T&gt;, string, SheetStateValues, bool, bool, IList&lt;Column&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/BigExcelWriter.cs/#L1877"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/BigExcelWriter.cs/#L1881"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Creates a new sheet from a collection of objects with a specified sheet state, automatically mapping object properties to columns.</p>
@@ -3049,8 +3049,7 @@ If saving to a stream, it will reset the stream position to the beginning.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[SuppressMessage(&quot;Performance&quot;, &quot;CA1851:Possible multiple enumerations of &#39;IEnumerable&#39; collection&quot;, Justification = &quot;I need to have it separated&quot;)]
-public void CreateSheetFromObject&lt;T&gt;(IEnumerable&lt;T&gt; data, string sheetName, SheetStateValues sheetState, bool writeHeaderRow = true, bool addAutoFilterOnFirstColumn = false, IList&lt;Column&gt; columns = null) where T : class</code></pre>
+    <pre><code class="lang-csharp hljs">public void CreateSheetFromObject&lt;T&gt;(IEnumerable&lt;T&gt; data, string sheetName, SheetStateValues sheetState, bool writeHeaderRow = true, bool addAutoFilterOnFirstColumn = false, IList&lt;Column&gt; columns = null) where T : class</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -3091,7 +3090,7 @@ public void CreateSheetFromObject&lt;T&gt;(IEnumerable&lt;T&gt; data, string she
   <h4 class="section" id="BigExcelCreator_BigExcelWriter_CreateSheetFromObject__1_System_Collections_Generic_IEnumerable___0__System_String_DocumentFormat_OpenXml_Spreadsheet_SheetStateValues_System_Boolean_System_Boolean_System_Collections_Generic_IList_DocumentFormat_OpenXml_Spreadsheet_Column___remarks">Remarks</h4>
   <div class="markdown level1 remarks"><p>This method automatically discovers properties from type <code class="typeparamref">T</code> and writes them as sheet columns.</p>
 <p>Properties can be decorated with the following attributes to customize their behavior:</p>
-<ul><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute.html">ExcelIgnoreAttribute</a> - Excludes a property from being written to the sheet.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.html">ExcelColumnNameAttribute</a> - Sets a custom column header name.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.html">ExcelColumnOrderAttribute</a> - Controls the column order.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.html">ExcelColumnTypeAttribute</a> - Specifies the cell data type (Text, Number, or Formula).</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.html">ExcelColumnWidthAttribute</a> - Sets a custom column width.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnHiddenAttribute.html">ExcelColumnHiddenAttribute</a> - Hides the column from view.</li></ul>
+<ul><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute.html">ExcelIgnoreAttribute</a> - Excludes a property from being written to the sheet.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.html">ExcelColumnNameAttribute</a> - Sets a custom column header name.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.html">ExcelColumnOrderAttribute</a> - Controls the column order.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.html">ExcelColumnTypeAttribute</a> - Specifies the cell data type (Text, Number, or Formula).</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.html">ExcelColumnWidthAttribute</a> - Sets a custom column width.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnHiddenAttribute.html">ExcelColumnHiddenAttribute</a> - Hides the column from view.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.html">ExcelStyleFormatAttribute</a> - Controls styling</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.html">ExcelHeaderStyleFormatAttribute</a> (in class) - Controls header row styling</li></ul>
 </div>
 
   <h4 class="section">Exceptions</h4>
@@ -3116,7 +3115,7 @@ public void CreateSheetFromObject&lt;T&gt;(IEnumerable&lt;T&gt; data, string she
 
   <h3 id="BigExcelCreator_BigExcelWriter_CreateSheetFromObject__1_System_Collections_Generic_IEnumerable___0__System_String_System_Boolean_System_Boolean_System_Collections_Generic_IList_DocumentFormat_OpenXml_Spreadsheet_Column__" data-uid="BigExcelCreator.BigExcelWriter.CreateSheetFromObject``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Boolean,System.Boolean,System.Collections.Generic.IList{DocumentFormat.OpenXml.Spreadsheet.Column})">
   CreateSheetFromObject&lt;T&gt;(IEnumerable&lt;T&gt;, string, bool, bool, IList&lt;Column&gt;)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/BigExcelWriter.cs/#L1848"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/BigExcelWriter.cs/#L1850"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Creates a new sheet from a collection of objects, automatically mapping object properties to columns.</p>
@@ -3162,7 +3161,7 @@ public void CreateSheetFromObject&lt;T&gt;(IEnumerable&lt;T&gt; data, string she
   <h4 class="section" id="BigExcelCreator_BigExcelWriter_CreateSheetFromObject__1_System_Collections_Generic_IEnumerable___0__System_String_System_Boolean_System_Boolean_System_Collections_Generic_IList_DocumentFormat_OpenXml_Spreadsheet_Column___remarks">Remarks</h4>
   <div class="markdown level1 remarks"><p>This method automatically discovers properties from type <code class="typeparamref">T</code> and writes them as sheet columns.</p>
 <p>Properties can be decorated with the following attributes to customize their behavior:</p>
-<ul><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute.html">ExcelIgnoreAttribute</a> - Excludes a property from being written to the sheet.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.html">ExcelColumnNameAttribute</a> - Sets a custom column header name.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.html">ExcelColumnOrderAttribute</a> - Controls the column order.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.html">ExcelColumnTypeAttribute</a> - Specifies the cell data type (Text, Number, or Formula).</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.html">ExcelColumnWidthAttribute</a> - Sets a custom column width.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnHiddenAttribute.html">ExcelColumnHiddenAttribute</a> - Hides the column from view.</li></ul>
+<ul><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute.html">ExcelIgnoreAttribute</a> - Excludes a property from being written to the sheet.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnNameAttribute.html">ExcelColumnNameAttribute</a> - Sets a custom column header name.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnOrderAttribute.html">ExcelColumnOrderAttribute</a> - Controls the column order.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnTypeAttribute.html">ExcelColumnTypeAttribute</a> - Specifies the cell data type (Text, Number, or Formula).</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.html">ExcelColumnWidthAttribute</a> - Sets a custom column width.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelColumnHiddenAttribute.html">ExcelColumnHiddenAttribute</a> - Hides the column from view.</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.html">ExcelStyleFormatAttribute</a> - Controls styling</li><li><a class="xref" href="BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.html">ExcelHeaderStyleFormatAttribute</a> (in class) - Controls header row styling</li></ul>
 <p>The sheet state is set to <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.sheetstatevalues.visible">Visible</a> by default.</p>
 </div>
 
@@ -3188,7 +3187,7 @@ public void CreateSheetFromObject&lt;T&gt;(IEnumerable&lt;T&gt; data, string she
 
   <h3 id="BigExcelCreator_BigExcelWriter_Dispose" data-uid="BigExcelCreator.BigExcelWriter.Dispose">
   Dispose()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/BigExcelWriter.cs/#L1989"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/BigExcelWriter.cs/#L1999"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Closes the current document, ensuring all data is written and resources are released.</p>
@@ -3219,7 +3218,7 @@ If saving to a stream, it will reset the stream position to the beginning.</p>
 
   <h3 id="BigExcelCreator_BigExcelWriter_Dispose_System_Boolean_" data-uid="BigExcelCreator.BigExcelWriter.Dispose(System.Boolean)">
   Dispose(bool)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/BigExcelWriter.cs/#L1965"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/BigExcelWriter.cs/#L1975"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Closes the current document, ensuring all data is written and resources are released.</p>
@@ -3288,7 +3287,7 @@ If saving to a stream, it will reset the stream position to the beginning.</p>
 
   <h3 id="BigExcelCreator_BigExcelWriter_Finalize" data-uid="BigExcelCreator.BigExcelWriter.Finalize">
   ~BigExcelWriter()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/BigExcelWriter.cs/#L1998"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/BigExcelWriter.cs/#L2008"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Finalizes an instance of the <a class="xref" href="BigExcelCreator.BigExcelWriter.html">BigExcelWriter</a> class.</p>

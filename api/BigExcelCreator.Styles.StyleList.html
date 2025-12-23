@@ -452,7 +452,7 @@ Class StyleList  <a class="header-action link-secondary" title="View source" hre
 
   <h3 id="BigExcelCreator_Styles_StyleList_NewDifferentialStyle_System_String_DocumentFormat_OpenXml_Spreadsheet_Font_DocumentFormat_OpenXml_Spreadsheet_Fill_DocumentFormat_OpenXml_Spreadsheet_Border_DocumentFormat_OpenXml_Spreadsheet_NumberingFormat_DocumentFormat_OpenXml_Spreadsheet_Alignment_" data-uid="BigExcelCreator.Styles.StyleList.NewDifferentialStyle(System.String,DocumentFormat.OpenXml.Spreadsheet.Font,DocumentFormat.OpenXml.Spreadsheet.Fill,DocumentFormat.OpenXml.Spreadsheet.Border,DocumentFormat.OpenXml.Spreadsheet.NumberingFormat,DocumentFormat.OpenXml.Spreadsheet.Alignment)">
   NewDifferentialStyle(string, Font, Fill, Border, NumberingFormat, Alignment)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Styles/StyleList.cs/#L222"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Styles/StyleList.cs/#L272"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates, stores and returns a new differential style</p>
@@ -502,11 +502,68 @@ Class StyleList  <a class="header-action link-secondary" title="View source" hre
 
 
 
+  <a id="BigExcelCreator_Styles_StyleList_NewDifferentialStyle_" data-uid="BigExcelCreator.Styles.StyleList.NewDifferentialStyle*"></a>
+
+  <h3 id="BigExcelCreator_Styles_StyleList_NewDifferentialStyle_System_String_System_Int32__DocumentFormat_OpenXml_Spreadsheet_Font_DocumentFormat_OpenXml_Spreadsheet_Fill_DocumentFormat_OpenXml_Spreadsheet_Border_DocumentFormat_OpenXml_Spreadsheet_NumberingFormat_DocumentFormat_OpenXml_Spreadsheet_Alignment_" data-uid="BigExcelCreator.Styles.StyleList.NewDifferentialStyle(System.String,System.Int32@,DocumentFormat.OpenXml.Spreadsheet.Font,DocumentFormat.OpenXml.Spreadsheet.Fill,DocumentFormat.OpenXml.Spreadsheet.Border,DocumentFormat.OpenXml.Spreadsheet.NumberingFormat,DocumentFormat.OpenXml.Spreadsheet.Alignment)">
+  NewDifferentialStyle(string, out int, Font, Fill, Border, NumberingFormat, Alignment)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Styles/StyleList.cs/#L286"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates, stores and returns a new differential style</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DifferentialStyleElement NewDifferentialStyle(string name, out int styleIndex, Font font = null, Fill fill = null, Border border = null, NumberingFormat numberingFormat = null, Alignment alignment = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>A unique name to find the inserted style later</p>
+</dd>
+    <dt><code>styleIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The index of the newly created differential style</p>
+</dd>
+    <dt><code>font</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.font">Font</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.font">Font</a></p>
+</dd>
+    <dt><code>fill</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.fill">Fill</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.fill">Fill</a></p>
+</dd>
+    <dt><code>border</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.border">Border</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.border">Border</a></p>
+</dd>
+    <dt><code>numberingFormat</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.numberingformat">NumberingFormat</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.numberingformat">NumberingFormat</a></p>
+</dd>
+    <dt><code>alignment</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.alignment">Alignment</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.alignment">Alignment</a></p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="BigExcelCreator.Styles.DifferentialStyleElement.html">DifferentialStyleElement</a></dt>
+    <dd><p>The <a class="xref" href="BigExcelCreator.Styles.DifferentialStyleElement.html">DifferentialStyleElement</a> generated</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="BigExcelCreator_Styles_StyleList_NewStyle_" data-uid="BigExcelCreator.Styles.StyleList.NewStyle*"></a>
 
   <h3 id="BigExcelCreator_Styles_StyleList_NewStyle_DocumentFormat_OpenXml_Spreadsheet_Font_DocumentFormat_OpenXml_Spreadsheet_Fill_DocumentFormat_OpenXml_Spreadsheet_Border_DocumentFormat_OpenXml_Spreadsheet_NumberingFormat_DocumentFormat_OpenXml_Spreadsheet_Alignment_System_String_" data-uid="BigExcelCreator.Styles.StyleList.NewStyle(DocumentFormat.OpenXml.Spreadsheet.Font,DocumentFormat.OpenXml.Spreadsheet.Fill,DocumentFormat.OpenXml.Spreadsheet.Border,DocumentFormat.OpenXml.Spreadsheet.NumberingFormat,DocumentFormat.OpenXml.Spreadsheet.Alignment,System.String)">
   NewStyle(Font, Fill, Border, NumberingFormat, Alignment, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Styles/StyleList.cs/#L164"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Styles/StyleList.cs/#L177"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates, stores and returns a new style</p>
@@ -536,6 +593,63 @@ Class StyleList  <a class="header-action link-secondary" title="View source" hre
 </dd>
     <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
     <dd><p>A unique name to find the inserted style later</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="BigExcelCreator.Styles.StyleElement.html">StyleElement</a></dt>
+    <dd><p>The <a class="xref" href="BigExcelCreator.Styles.StyleElement.html">StyleElement</a> generated</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="BigExcelCreator_Styles_StyleList_NewStyle_" data-uid="BigExcelCreator.Styles.StyleList.NewStyle*"></a>
+
+  <h3 id="BigExcelCreator_Styles_StyleList_NewStyle_DocumentFormat_OpenXml_Spreadsheet_Font_DocumentFormat_OpenXml_Spreadsheet_Fill_DocumentFormat_OpenXml_Spreadsheet_Border_DocumentFormat_OpenXml_Spreadsheet_NumberingFormat_DocumentFormat_OpenXml_Spreadsheet_Alignment_System_String_System_Int32__" data-uid="BigExcelCreator.Styles.StyleList.NewStyle(DocumentFormat.OpenXml.Spreadsheet.Font,DocumentFormat.OpenXml.Spreadsheet.Fill,DocumentFormat.OpenXml.Spreadsheet.Border,DocumentFormat.OpenXml.Spreadsheet.NumberingFormat,DocumentFormat.OpenXml.Spreadsheet.Alignment,System.String,System.Int32@)">
+  NewStyle(Font, Fill, Border, NumberingFormat, Alignment, string, out int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Styles/StyleList.cs/#L191"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates, stores and returns a new style</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, Alignment alignment, string name, out int styleIndex)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>font</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.font">Font</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.font">Font</a></p>
+</dd>
+    <dt><code>fill</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.fill">Fill</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.fill">Fill</a></p>
+</dd>
+    <dt><code>border</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.border">Border</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.border">Border</a></p>
+</dd>
+    <dt><code>numberingFormat</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.numberingformat">NumberingFormat</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.numberingformat">NumberingFormat</a></p>
+</dd>
+    <dt><code>alignment</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.alignment">Alignment</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.alignment">Alignment</a></p>
+</dd>
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>A unique name to find the inserted style later</p>
+</dd>
+    <dt><code>styleIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The index of the newly created style</p>
 </dd>
   </dl>
 
@@ -609,9 +723,63 @@ Class StyleList  <a class="header-action link-secondary" title="View source" hre
 
   <a id="BigExcelCreator_Styles_StyleList_NewStyle_" data-uid="BigExcelCreator.Styles.StyleList.NewStyle*"></a>
 
+  <h3 id="BigExcelCreator_Styles_StyleList_NewStyle_DocumentFormat_OpenXml_Spreadsheet_Font_DocumentFormat_OpenXml_Spreadsheet_Fill_DocumentFormat_OpenXml_Spreadsheet_Border_DocumentFormat_OpenXml_Spreadsheet_NumberingFormat_System_String_System_Int32__" data-uid="BigExcelCreator.Styles.StyleList.NewStyle(DocumentFormat.OpenXml.Spreadsheet.Font,DocumentFormat.OpenXml.Spreadsheet.Fill,DocumentFormat.OpenXml.Spreadsheet.Border,DocumentFormat.OpenXml.Spreadsheet.NumberingFormat,System.String,System.Int32@)">
+  NewStyle(Font, Fill, Border, NumberingFormat, string, out int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Styles/StyleList.cs/#L164"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates, stores and returns a new style</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, string name, out int styleIndex)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>font</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.font">Font</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.font">Font</a></p>
+</dd>
+    <dt><code>fill</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.fill">Fill</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.fill">Fill</a></p>
+</dd>
+    <dt><code>border</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.border">Border</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.border">Border</a></p>
+</dd>
+    <dt><code>numberingFormat</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.numberingformat">NumberingFormat</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.numberingformat">NumberingFormat</a></p>
+</dd>
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>A unique name to find the inserted style later</p>
+</dd>
+    <dt><code>styleIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The index of the newly created style</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="BigExcelCreator.Styles.StyleElement.html">StyleElement</a></dt>
+    <dd><p>The <a class="xref" href="BigExcelCreator.Styles.StyleElement.html">StyleElement</a> generated</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="BigExcelCreator_Styles_StyleList_NewStyle_" data-uid="BigExcelCreator.Styles.StyleList.NewStyle*"></a>
+
   <h3 id="BigExcelCreator_Styles_StyleList_NewStyle_System_Nullable_System_Int32__System_Nullable_System_Int32__System_Nullable_System_Int32__System_Nullable_System_Int32__DocumentFormat_OpenXml_Spreadsheet_Alignment_System_String_" data-uid="BigExcelCreator.Styles.StyleList.NewStyle(System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},DocumentFormat.OpenXml.Spreadsheet.Alignment,System.String)">
   NewStyle(int?, int?, int?, int?, Alignment, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Styles/StyleList.cs/#L198"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Styles/StyleList.cs/#L226"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates, stores and returns a new style.</p>
@@ -658,6 +826,74 @@ Class StyleList  <a class="header-action link-secondary" title="View source" hre
 
 
   <h4 class="section" id="BigExcelCreator_Styles_StyleList_NewStyle_System_Nullable_System_Int32__System_Nullable_System_Int32__System_Nullable_System_Int32__System_Nullable_System_Int32__DocumentFormat_OpenXml_Spreadsheet_Alignment_System_String__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If the inserted indexes don't exist when the stylesheet is generated, the file might fail to open</p>
+<p>To avoid such problems, use <a class="xref" href="BigExcelCreator.Styles.StyleList.html#BigExcelCreator_Styles_StyleList_NewStyle_DocumentFormat_OpenXml_Spreadsheet_Font_DocumentFormat_OpenXml_Spreadsheet_Fill_DocumentFormat_OpenXml_Spreadsheet_Border_DocumentFormat_OpenXml_Spreadsheet_NumberingFormat_System_String_">NewStyle(Font, Fill, Border, NumberingFormat, string)</a> or <a class="xref" href="BigExcelCreator.Styles.StyleList.html#BigExcelCreator_Styles_StyleList_NewStyle_DocumentFormat_OpenXml_Spreadsheet_Font_DocumentFormat_OpenXml_Spreadsheet_Fill_DocumentFormat_OpenXml_Spreadsheet_Border_DocumentFormat_OpenXml_Spreadsheet_NumberingFormat_DocumentFormat_OpenXml_Spreadsheet_Alignment_System_String_">NewStyle(Font, Fill, Border, NumberingFormat, Alignment, string)</a> instead</p>
+<p>This method should be private, but it's kept public for backwards compatibility reasons.</p>
+</div>
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception">ArgumentOutOfRangeException</a></dt>
+    <dd><p>Thrown when any of the provided indexes are less than 0</p>
+</dd>
+  </dl>
+
+
+
+  <a id="BigExcelCreator_Styles_StyleList_NewStyle_" data-uid="BigExcelCreator.Styles.StyleList.NewStyle*"></a>
+
+  <h3 id="BigExcelCreator_Styles_StyleList_NewStyle_System_Nullable_System_Int32__System_Nullable_System_Int32__System_Nullable_System_Int32__System_Nullable_System_Int32__DocumentFormat_OpenXml_Spreadsheet_Alignment_System_String_System_Int32__" data-uid="BigExcelCreator.Styles.StyleList.NewStyle(System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},DocumentFormat.OpenXml.Spreadsheet.Alignment,System.String,System.Int32@)">
+  NewStyle(int?, int?, int?, int?, Alignment, string, out int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/Styles/StyleList.cs/#L246"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates, stores and returns a new style.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public StyleElement NewStyle(int? fontId, int? fillId, int? borderId, int? numberingFormatId, Alignment alignment, string name, out int styleIndex)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>fontId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
+    <dd><p>Index of already inserted font</p>
+</dd>
+    <dt><code>fillId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
+    <dd><p>Index of already inserted fill</p>
+</dd>
+    <dt><code>borderId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
+    <dd><p>Index of already inserted border</p>
+</dd>
+    <dt><code>numberingFormatId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
+    <dd><p>Index of already inserted numbering format</p>
+</dd>
+    <dt><code>alignment</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.alignment">Alignment</a></dt>
+    <dd><p><a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.alignment">Alignment</a></p>
+</dd>
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>A unique name to find the inserted style later</p>
+</dd>
+    <dt><code>styleIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The index of the newly created style</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="BigExcelCreator.Styles.StyleElement.html">StyleElement</a></dt>
+    <dd><p>The <a class="xref" href="BigExcelCreator.Styles.StyleElement.html">StyleElement</a> generated</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="BigExcelCreator_Styles_StyleList_NewStyle_System_Nullable_System_Int32__System_Nullable_System_Int32__System_Nullable_System_Int32__System_Nullable_System_Int32__DocumentFormat_OpenXml_Spreadsheet_Alignment_System_String_System_Int32___remarks">Remarks</h4>
   <div class="markdown level1 remarks"><p>If the inserted indexes don't exist when the stylesheet is generated, the file might fail to open</p>
 <p>To avoid such problems, use <a class="xref" href="BigExcelCreator.Styles.StyleList.html#BigExcelCreator_Styles_StyleList_NewStyle_DocumentFormat_OpenXml_Spreadsheet_Font_DocumentFormat_OpenXml_Spreadsheet_Fill_DocumentFormat_OpenXml_Spreadsheet_Border_DocumentFormat_OpenXml_Spreadsheet_NumberingFormat_System_String_">NewStyle(Font, Fill, Border, NumberingFormat, string)</a> or <a class="xref" href="BigExcelCreator.Styles.StyleList.html#BigExcelCreator_Styles_StyleList_NewStyle_DocumentFormat_OpenXml_Spreadsheet_Font_DocumentFormat_OpenXml_Spreadsheet_Fill_DocumentFormat_OpenXml_Spreadsheet_Border_DocumentFormat_OpenXml_Spreadsheet_NumberingFormat_DocumentFormat_OpenXml_Spreadsheet_Alignment_System_String_">NewStyle(Font, Fill, Border, NumberingFormat, Alignment, string)</a> instead</p>
 <p>This method should be private, but it's kept public for backwards compatibility reasons.</p>
