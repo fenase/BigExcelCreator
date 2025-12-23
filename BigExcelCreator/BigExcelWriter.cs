@@ -1890,12 +1890,14 @@ namespace BigExcelCreator
 
             IOrderedEnumerable<PropertyInfo> sortedColumns = GetColumnsOrdered(typeof(T));
 
+            ExcelHeaderStyleNameAttribute headerStyle = typeof(T)
+                .GetCustomAttributes(typeof(ExcelHeaderStyleNameAttribute), false)
+                .Cast<ExcelHeaderStyleNameAttribute>()
+                .FirstOrDefault();
+
             if (writeHeaderRow)
             {
-                IEnumerable<string> columnNames = sortedColumns
-                    .Select(x => x.GetCustomAttributes(typeof(ExcelColumnNameAttribute), false).Cast<ExcelColumnNameAttribute>().FirstOrDefault()?.Name ?? x.Name);
-
-                WriteTextRow(columnNames);
+                writeHeaderRowFromData(sortedColumns, headerStyle);
             }
 
             if (addAutoFilterOnFirstColumn)
@@ -1909,6 +1911,11 @@ namespace BigExcelCreator
                 BeginRow();
                 foreach (PropertyInfo columnName in sortedColumns)
                 {
+                    int cellFormat =
+                        columnName.GetCustomAttributes(typeof(ExcelStyleNameAttribute), false)
+                        .Cast<ExcelStyleNameAttribute>()
+                        .FirstOrDefault()?
+                        .Format ?? 0;
                     CellDataType cellType =
                         columnName.GetCustomAttributes(typeof(ExcelColumnTypeAttribute), false)
                         .Cast<ExcelColumnTypeAttribute>()
@@ -1916,7 +1923,7 @@ namespace BigExcelCreator
                         .Type ?? CellDataType.Text;
                     object cellData = columnName.GetValue(dataRow, null);
 
-                    WriteCellFromData(cellData, cellType);
+                    WriteCellFromData(cellData, cellType, cellFormat);
                 }
                 EndRow();
             }
@@ -2264,36 +2271,64 @@ namespace BigExcelCreator
                         .Order ?? int.MaxValue);
         }
 
-        private void WriteCellFromData(object cellData, CellDataType cellType)
+        private void WriteCellFromData(object cellData, CellDataType cellType, int format)
         {
             switch (cellType)
             {
                 case CellDataType.Number:
                     if (cellData != null)
                     {
-                        WriteNumberCell(cellData);
+                        WriteNumberCell(cellData, format);
                     }
                     else
                     {
-                        WriteTextCell(string.Empty);
+                        WriteTextCell(string.Empty, format);
                     }
                     break;
                 case CellDataType.Formula:
                     string cellDataFormula = cellData?.ToString();
                     if (!cellDataFormula.IsNullOrWhiteSpace())
                     {
-                        WriteFormulaCell(cellDataFormula);
+                        WriteFormulaCell(cellDataFormula, format);
                     }
                     else
                     {
-                        WriteTextCell(string.Empty);
+                        WriteTextCell(string.Empty, format);
                     }
                     break;
                 case CellDataType.Text:
                     string cellDataString = cellData?.ToString() ?? "";
-                    WriteTextCell(cellDataString);
+                    WriteTextCell(cellDataString, format);
                     break;
             }
+        }
+
+        private void writeHeaderRowFromData(IOrderedEnumerable<PropertyInfo> sortedColumns, ExcelHeaderStyleNameAttribute headerFormat)
+        {
+            BeginRow();
+            foreach (var column in sortedColumns)
+            {
+                string columnName = column.GetCustomAttributes(typeof(ExcelColumnNameAttribute), false).Cast<ExcelColumnNameAttribute>().FirstOrDefault()?.Name ?? column.Name;
+                int format = 0;
+
+                ExcelStyleNameAttribute columnFormat = column.GetCustomAttributes(typeof(ExcelStyleNameAttribute), false).Cast<ExcelStyleNameAttribute>().FirstOrDefault();
+
+                if (headerFormat != null)
+                {
+                    format = headerFormat.Format;
+                }
+
+                if (columnFormat != null
+                    && (columnFormat.HeaderStylingPriority == StylingPriority.Data
+                        || headerFormat == null
+                    ))
+                {
+                    format = columnFormat.Format;
+                }
+
+                WriteTextCell(columnName, format);
+            }
+            EndRow();
         }
     }
     #endregion

@@ -3,6 +3,7 @@ using BigExcelCreator.Enums;
 
 namespace BigExcelCreator.Test.Classes
 {
+    [ExcelHeaderStyleName(6)]
     internal class ExampleModel
     {
         [ExcelColumnName("Identifier")]
@@ -45,12 +46,14 @@ namespace BigExcelCreator.Test.Classes
         [ExcelColumnOrder(5)]
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
+        [ExcelStyleName(8)]
         public double? Bonus { get; set; }
 
         [ExcelColumnName("Monthly Net Income")]
         [ExcelColumnOrder(6)]
         [ExcelColumnType(CellDataType.Formula)]
         [ExcelColumnWidth(20)]
+        [ExcelStyleName(8, StylingPriority.Data)]
         public string? NetIncome { get; set; } = "";
 
         [ExcelColumnName("Sale Amount")]
