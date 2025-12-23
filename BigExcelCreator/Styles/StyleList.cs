@@ -149,7 +149,20 @@ namespace BigExcelCreator.Styles
         /// <param name="name">A unique name to find the inserted style later</param>
         /// <returns>The <see cref="StyleElement"/> generated</returns>
         public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, string name)
-            => NewStyle(font, fill, border, numberingFormat, null, name);
+            => NewStyle(font, fill, border, numberingFormat, name, out _);
+
+        /// <summary>
+        /// Generates, stores and returns a new style
+        /// </summary>
+        /// <param name="font"><see cref="Font"/></param>
+        /// <param name="fill"><see cref="Fill"/></param>
+        /// <param name="border"><see cref="Border"/></param>
+        /// <param name="numberingFormat"><see cref="NumberingFormat"/></param>
+        /// <param name="name">A unique name to find the inserted style later</param>
+        /// <param name="styleIndex">The index of the newly created style</param>
+        /// <returns>The <see cref="StyleElement"/> generated</returns>
+        public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, string name, out int styleIndex)
+            => NewStyle(font, fill, border, numberingFormat, null, name, out styleIndex);
 
         /// <summary>
         /// Generates, stores and returns a new style
@@ -162,8 +175,23 @@ namespace BigExcelCreator.Styles
         /// <param name="name">A unique name to find the inserted style later</param>
         /// <returns>The <see cref="StyleElement"/> generated</returns>
         public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, Alignment alignment, string name)
+            => NewStyle(font, fill, border, numberingFormat, alignment, name, out _);
+
+        /// <summary>
+        /// Generates, stores and returns a new style
+        /// </summary>
+        /// <param name="font"><see cref="Font"/></param>
+        /// <param name="fill"><see cref="Fill"/></param>
+        /// <param name="border"><see cref="Border"/></param>
+        /// <param name="numberingFormat"><see cref="NumberingFormat"/></param>
+        /// <param name="alignment"><see cref="Alignment"/></param>
+        /// <param name="name">A unique name to find the inserted style later</param>
+        /// <param name="styleIndex">The index of the newly created style</param>
+        /// <returns>The <see cref="StyleElement"/> generated</returns>
+        public StyleElement NewStyle(Font font, Fill fill, Border border, NumberingFormat numberingFormat, Alignment alignment, string name, out int styleIndex)
         {
-            if (GetIndexByName(name, out StyleElement style) >= 0)
+            styleIndex = GetIndexByName(name, out StyleElement style);
+            if (styleIndex >= 0)
             {
                 return style;
             }
@@ -176,7 +204,7 @@ namespace BigExcelCreator.Styles
 
             int numberingFormatId = GetNumberingFormatId(numberingFormat);
 
-            return NewStyle(fontId, fillId, borderId, numberingFormatId, alignment, name);
+            return NewStyle(fontId, fillId, borderId, numberingFormatId, alignment, name, out styleIndex);
         }
 
         /// <summary>
@@ -196,6 +224,26 @@ namespace BigExcelCreator.Styles
         /// <returns>The <see cref="StyleElement"/> generated</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the provided indexes are less than 0</exception>
         public StyleElement NewStyle(int? fontId, int? fillId, int? borderId, int? numberingFormatId, Alignment alignment, string name)
+            => NewStyle(fontId, fillId, borderId, numberingFormatId, alignment, name, out _);
+
+        /// <summary>
+        /// Generates, stores and returns a new style.
+        /// </summary>
+        /// <remarks>
+        /// <para>If the inserted indexes don't exist when the stylesheet is generated, the file might fail to open</para>
+        /// <para>To avoid such problems, use <see cref="NewStyle(Font, Fill, Border, NumberingFormat, string)"/> or <see cref="NewStyle(Font, Fill, Border, NumberingFormat, Alignment, string)"/> instead</para>
+        /// <para>This method should be private, but it's kept public for backwards compatibility reasons.</para>
+        /// </remarks>
+        /// <param name="fontId">Index of already inserted font</param>
+        /// <param name="fillId">Index of already inserted fill</param>
+        /// <param name="borderId">Index of already inserted border</param>
+        /// <param name="numberingFormatId">Index of already inserted numbering format</param>
+        /// <param name="alignment"><see cref="Alignment"/></param>
+        /// <param name="name">A unique name to find the inserted style later</param>
+        /// <param name="styleIndex">The index of the newly created style</param>
+        /// <returns>The <see cref="StyleElement"/> generated</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the provided indexes are less than 0</exception>
+        public StyleElement NewStyle(int? fontId, int? fillId, int? borderId, int? numberingFormatId, Alignment alignment, string name, out int styleIndex)
         {
             if (fontId < 0) { throw new ArgumentOutOfRangeException(nameof(fontId), ConstantsAndTexts.MusBeGreaterThan0); }
             if (fillId < 0) { throw new ArgumentOutOfRangeException(nameof(fillId), ConstantsAndTexts.MusBeGreaterThan0); }
@@ -205,6 +253,8 @@ namespace BigExcelCreator.Styles
             StyleElement styleElement = new(name, fontId, fillId, borderId, numberingFormatId, alignment);
 
             Styles.Add(styleElement);
+
+            styleIndex = GetIndexByName(name);
 
             return styleElement;
         }
@@ -220,8 +270,23 @@ namespace BigExcelCreator.Styles
         /// <param name="alignment"><see cref="Alignment"/></param>
         /// <returns>The <see cref="DifferentialStyleElement"/> generated</returns>
         public DifferentialStyleElement NewDifferentialStyle(string name, Font font = null, Fill fill = null, Border border = null, NumberingFormat numberingFormat = null, Alignment alignment = null)
+            => NewDifferentialStyle(name, out _, font, fill, border, numberingFormat, alignment);
+
+        /// <summary>
+        /// Generates, stores and returns a new differential style
+        /// </summary>
+        /// <param name="name">A unique name to find the inserted style later</param>
+        /// <param name="styleIndex">The index of the newly created differential style</param>
+        /// <param name="font"><see cref="Font"/></param>
+        /// <param name="fill"><see cref="Fill"/></param>
+        /// <param name="border"><see cref="Border"/></param>
+        /// <param name="numberingFormat"><see cref="NumberingFormat"/></param>
+        /// <param name="alignment"><see cref="Alignment"/></param>
+        /// <returns>The <see cref="DifferentialStyleElement"/> generated</returns>
+        public DifferentialStyleElement NewDifferentialStyle(string name, out int styleIndex, Font font = null, Fill fill = null, Border border = null, NumberingFormat numberingFormat = null, Alignment alignment = null)
         {
-            if (GetIndexDifferentialByName(name, out DifferentialStyleElement style) >= 0)
+            styleIndex = GetIndexDifferentialByName(name, out DifferentialStyleElement style);
+            if (styleIndex >= 0)
             {
                 return style;
             }
@@ -257,6 +322,7 @@ namespace BigExcelCreator.Styles
             {
                 differentialFormat.Name = !name.IsNullOrWhiteSpace() ? name : throw new ArgumentNullException(nameof(name));
                 DifferentialStyleElements.Add(differentialFormat);
+                styleIndex = GetIndexDifferentialByName(name);
                 return differentialFormat;
             }
             else

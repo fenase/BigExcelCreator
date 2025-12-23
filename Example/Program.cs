@@ -36,7 +36,7 @@ Font italic = new(new Italic());
 Font bold = new(new Bold());
 Font boldItalic = new(new Bold(), new Italic());
 styleList.NewStyle(italic, null, null, null, "italic default");
-styleList.NewStyle(bold, null, null, null, "bold default");
+styleList.NewStyle(bold, null, null, null, "bold default", out int boldStyleIndex);
 styleList.NewStyle(boldItalic, null, null, null, "bold italic default");
 
 Alignment center = new() { Horizontal = HorizontalAlignmentValues.Center };
@@ -117,7 +117,7 @@ excel.CloseSheet();
 excel.CreateAndOpenSheet("format");
 excel.BeginRow();
 excel.WriteTextCell("this is in italic", styleList.GetIndexByName("italic default"));
-excel.WriteTextCell("this is bold", styleList.GetIndexByName("bold default"));
+excel.WriteTextCell("this is bold", boldStyleIndex);
 excel.WriteTextCell("this is bold and italic", styleList.GetIndexByName("bold italic default"));
 excel.EndRow();
 excel.BeginRow();
