@@ -1838,6 +1838,8 @@ namespace BigExcelCreator
         /// <item><description><see cref="ExcelColumnTypeAttribute"/> - Specifies the cell data type (Text, Number, or Formula).</description></item>
         /// <item><description><see cref="ExcelColumnWidthAttribute"/> - Sets a custom column width.</description></item>
         /// <item><description><see cref="ExcelColumnHiddenAttribute"/> - Hides the column from view.</description></item>
+        /// <item><description><see cref="ExcelStyleNameAttribute"/> - Controls styling</description></item>
+        /// <item><description><see cref="ExcelHeaderStyleNameAttribute"/> (in class) - Controls header row styling</description></item>
         /// </list>
         /// <para>The sheet state is set to <see cref="SheetStateValues.Visible"/> by default.</para>
         /// </remarks>
@@ -1868,6 +1870,8 @@ namespace BigExcelCreator
         /// <item><description><see cref="ExcelColumnTypeAttribute"/> - Specifies the cell data type (Text, Number, or Formula).</description></item>
         /// <item><description><see cref="ExcelColumnWidthAttribute"/> - Sets a custom column width.</description></item>
         /// <item><description><see cref="ExcelColumnHiddenAttribute"/> - Hides the column from view.</description></item>
+        /// <item><description><see cref="ExcelStyleNameAttribute"/> - Controls styling</description></item>
+        /// <item><description><see cref="ExcelHeaderStyleNameAttribute"/> (in class) - Controls header row styling</description></item>
         /// </list>
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="data"/> is <c>null</c>.</exception>
