@@ -265,5 +265,38 @@ namespace BigExcelCreator.Test
                 Assert.That(style.NumberFormatIndex, Is.GreaterThan(0));
             });
         }
+
+        [Test]
+        public void NewStyleOutputIndex()
+        {
+            var list = new StyleList();
+            Assert.That(list.Styles, Has.Count.GreaterThan(0));
+            int defaultCount = list.Styles.Count;
+
+            var style = list.NewStyle(new Font(), new Fill(), new Border(), new NumberingFormat(), "style1", out int index1);
+            var style2 = list.NewStyle(new Font(), new Fill(), new Border(), new NumberingFormat(), "style2", out int index2);
+            Assert.Multiple(() =>
+            {
+                Assert.That(list.Styles, Has.Count.EqualTo(defaultCount + 2));
+                Assert.That(index1, Is.EqualTo(defaultCount));
+                Assert.That(index2, Is.EqualTo(defaultCount + 1));
+            });
+        }
+
+        [Test]
+        public void NewDifferentialStyleOutputIndex()
+        {
+            var list = new StyleList();
+            Assert.That(list.DifferentialStyleElements, Has.Count.GreaterThanOrEqualTo(0));
+            int defaultCount = list.DifferentialStyleElements.Count;
+            var diffStyle = list.NewDifferentialStyle("diffstyle1", out int index1, new Font(), new Fill(), new Border(), new NumberingFormat());
+            var diffStyle2 = list.NewDifferentialStyle("diffstyle2", out int index2, new Font(), new Fill(), new Border(), new NumberingFormat());
+            Assert.Multiple(() =>
+            {
+                Assert.That(list.DifferentialStyleElements, Has.Count.EqualTo(defaultCount + 2));
+                Assert.That(index1, Is.EqualTo(defaultCount));
+                Assert.That(index2, Is.EqualTo(defaultCount + 1));
+            });
+        }
     }
 }
