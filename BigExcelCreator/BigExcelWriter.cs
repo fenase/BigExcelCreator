@@ -2322,7 +2322,7 @@ namespace BigExcelCreator
                 }
 
                 if (columnFormat != null
-                    && (columnFormat.HeaderStylingPriority == StylingPriority.Data
+                    && (columnFormat.UseStyleInHeader == StylingPriority.Data
                         || headerFormat == null
                     ))
                 {

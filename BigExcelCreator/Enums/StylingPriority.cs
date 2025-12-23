@@ -8,8 +8,14 @@ namespace BigExcelCreator.Enums
     /// </summary>
     public enum StylingPriority
     {
+        /// <summary>
+        /// Prefer styles applied to the header row (if present) over styles applied to data rows.
+        /// </summary>
         Header,
 
+        /// <summary>
+        /// Prefer styles applied to data rows over styles applied to the header row.
+        /// </summary>
         Data,
     }
 }

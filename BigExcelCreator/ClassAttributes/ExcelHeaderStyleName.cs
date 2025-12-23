@@ -9,6 +9,9 @@ namespace BigExcelCreator.ClassAttributes
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public sealed class ExcelHeaderStyleNameAttribute(int format) : Attribute
     {
+        /// <summary>
+        /// The format index to apply to the cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/>.
+        /// </summary>
         public int Format { get; } = format;
     }
 }
