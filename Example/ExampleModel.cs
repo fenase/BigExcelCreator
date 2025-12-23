@@ -3,6 +3,7 @@ using BigExcelCreator.Enums;
 
 namespace Example
 {
+    [ExcelHeaderStyleFormat(6)]
     internal class ExampleModel
     {
         [ExcelColumnName("Identifier")]
@@ -45,19 +46,21 @@ namespace Example
         [ExcelColumnOrder(5)]
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
-        public decimal Bonus { get; set; }
+        [ExcelStyleFormat(8)]
+        public double? Bonus { get; set; }
 
         [ExcelColumnName("Monthly Net Income")]
         [ExcelColumnOrder(6)]
         [ExcelColumnType(CellDataType.Formula)]
         [ExcelColumnWidth(20)]
-        public string NetIncome { get; set; } = "";
+        [ExcelStyleFormat(8, StylingPriority.Data)]
+        public string? NetIncome { get; set; } = "";
 
         [ExcelColumnName("Sale Amount")]
         [ExcelColumnOrder(7)]
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
-        public decimal Sale { get; set; }
+        public float? Sale { get; set; }
 
         [ExcelColumnName("Additional Notes")]
         [ExcelColumnOrder(8)]
@@ -88,9 +91,9 @@ namespace Example
                     Description = "Responsible for developing software solutions.",
                     CreatedAt = DateTime.Now.AddMonths(-6),
                     Salary = 6000.50m,
-                    Bonus = 500.00m,
+                    Bonus = 500.00d,
                     NetIncome="SUM(E2:F2)",
-                    Sale = 15000.75m,
+                    Sale = 15000.75f,
                     Notes = "Excellent performance.",
                     Secret = "Loves pizza",
                     PublicInfo = "Enjoys hiking.",
@@ -104,9 +107,9 @@ namespace Example
                     Description = "Oversees project development and delivery.",
                     CreatedAt = DateTime.Now.AddYears(-1),
                     Salary = 8000.00m,
-                    Bonus=550M,
+                    Bonus=550d,
                     NetIncome="SUM(E3:F3)",
-                    Sale = 20000.00m,
+                    Sale = 20000.00f,
                     Notes = "Strong leadership skills.",
                     Secret = "Collects stamps",
                     PublicInfo = "Volunteers at local shelter.",
@@ -120,7 +123,7 @@ namespace Example
                     Description = "Designs user-friendly interfaces.",
                     CreatedAt = DateTime.Now.AddMonths(-3),
                     Salary = 5500.25m,
-                    Sale = 12000.50m,
+                    Sale = 12000.50f,
                     Notes = "Creative thinker.",
                     Secret = "Plays the violin",
                     PublicInfo = "Loves painting.",
@@ -134,7 +137,7 @@ namespace Example
                     Description = "Analyzes data to support business decisions.",
                     CreatedAt = DateTime.Now.AddMonths(-9),
                     Salary = 6200.75m,
-                    Sale = 18000.00m,
+                    Sale = 18000.00f,
                     Notes = "Detail-oriented.",
                     Secret = "Enjoys skydiving",
                     PublicInfo = "Active in community sports.",
@@ -148,7 +151,7 @@ namespace Example
                     Description = "Develops marketing strategies and campaigns.",
                     CreatedAt = DateTime.Now.AddYears(-2),
                     Salary = 7000.00m,
-                    Sale = 22000.25m,
+                    Sale = 22000.25f,
                     Notes = "Excellent communication skills.",
                     Secret = "Writes poetry",
                     PublicInfo = "Travels frequently.",
