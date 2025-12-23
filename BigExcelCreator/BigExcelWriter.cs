@@ -1838,6 +1838,8 @@ namespace BigExcelCreator
         /// <item><description><see cref="ExcelColumnTypeAttribute"/> - Specifies the cell data type (Text, Number, or Formula).</description></item>
         /// <item><description><see cref="ExcelColumnWidthAttribute"/> - Sets a custom column width.</description></item>
         /// <item><description><see cref="ExcelColumnHiddenAttribute"/> - Hides the column from view.</description></item>
+        /// <item><description><see cref="ExcelStyleFormatAttribute"/> - Controls styling</description></item>
+        /// <item><description><see cref="ExcelHeaderStyleFormatAttribute"/> (in class) - Controls header row styling</description></item>
         /// </list>
         /// <para>The sheet state is set to <see cref="SheetStateValues.Visible"/> by default.</para>
         /// </remarks>
@@ -1868,13 +1870,14 @@ namespace BigExcelCreator
         /// <item><description><see cref="ExcelColumnTypeAttribute"/> - Specifies the cell data type (Text, Number, or Formula).</description></item>
         /// <item><description><see cref="ExcelColumnWidthAttribute"/> - Sets a custom column width.</description></item>
         /// <item><description><see cref="ExcelColumnHiddenAttribute"/> - Hides the column from view.</description></item>
+        /// <item><description><see cref="ExcelStyleFormatAttribute"/> - Controls styling</description></item>
+        /// <item><description><see cref="ExcelHeaderStyleFormatAttribute"/> (in class) - Controls header row styling</description></item>
         /// </list>
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="data"/> is <c>null</c>.</exception>
         /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
         /// <exception cref="SheetNameCannotBeEmptyException">Thrown when <paramref name="sheetName"/> is null or empty.</exception>
         /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1851:Possible multiple enumerations of 'IEnumerable' collection", Justification = "I need to have it separated")]
         public void CreateSheetFromObject<T>(IEnumerable<T> data, string sheetName, SheetStateValues sheetState, bool writeHeaderRow = true, bool addAutoFilterOnFirstColumn = false, IList<Column> columns = default)
             where T : class
         {
@@ -1890,12 +1893,14 @@ namespace BigExcelCreator
 
             IOrderedEnumerable<PropertyInfo> sortedColumns = GetColumnsOrdered(typeof(T));
 
+            ExcelHeaderStyleFormatAttribute headerStyle = typeof(T)
+                .GetCustomAttributes(typeof(ExcelHeaderStyleFormatAttribute), false)
+                .Cast<ExcelHeaderStyleFormatAttribute>()
+                .FirstOrDefault();
+
             if (writeHeaderRow)
             {
-                IEnumerable<string> columnNames = sortedColumns
-                    .Select(x => x.GetCustomAttributes(typeof(ExcelColumnNameAttribute), false).Cast<ExcelColumnNameAttribute>().FirstOrDefault()?.Name ?? x.Name);
-
-                WriteTextRow(columnNames);
+                writeHeaderRowFromData(sortedColumns, headerStyle);
             }
 
             if (addAutoFilterOnFirstColumn)
@@ -1909,6 +1914,11 @@ namespace BigExcelCreator
                 BeginRow();
                 foreach (PropertyInfo columnName in sortedColumns)
                 {
+                    int cellFormat =
+                        columnName.GetCustomAttributes(typeof(ExcelStyleFormatAttribute), false)
+                        .Cast<ExcelStyleFormatAttribute>()
+                        .FirstOrDefault()?
+                        .Format ?? 0;
                     CellDataType cellType =
                         columnName.GetCustomAttributes(typeof(ExcelColumnTypeAttribute), false)
                         .Cast<ExcelColumnTypeAttribute>()
@@ -1916,7 +1926,7 @@ namespace BigExcelCreator
                         .Type ?? CellDataType.Text;
                     object cellData = columnName.GetValue(dataRow, null);
 
-                    WriteCellFromData(cellData, cellType);
+                    WriteCellFromData(cellData, cellType, cellFormat);
                 }
                 EndRow();
             }
@@ -2264,36 +2274,64 @@ namespace BigExcelCreator
                         .Order ?? int.MaxValue);
         }
 
-        private void WriteCellFromData(object cellData, CellDataType cellType)
+        private void WriteCellFromData(object cellData, CellDataType cellType, int format)
         {
             switch (cellType)
             {
                 case CellDataType.Number:
                     if (cellData != null)
                     {
-                        WriteNumberCell(cellData);
+                        WriteNumberCell(cellData, format);
                     }
                     else
                     {
-                        WriteTextCell(string.Empty);
+                        WriteTextCell(string.Empty, format);
                     }
                     break;
                 case CellDataType.Formula:
                     string cellDataFormula = cellData?.ToString();
                     if (!cellDataFormula.IsNullOrWhiteSpace())
                     {
-                        WriteFormulaCell(cellDataFormula);
+                        WriteFormulaCell(cellDataFormula, format);
                     }
                     else
                     {
-                        WriteTextCell(string.Empty);
+                        WriteTextCell(string.Empty, format);
                     }
                     break;
                 case CellDataType.Text:
                     string cellDataString = cellData?.ToString() ?? "";
-                    WriteTextCell(cellDataString);
+                    WriteTextCell(cellDataString, format);
                     break;
             }
+        }
+
+        private void writeHeaderRowFromData(IOrderedEnumerable<PropertyInfo> sortedColumns, ExcelHeaderStyleFormatAttribute headerFormat)
+        {
+            BeginRow();
+            foreach (var column in sortedColumns)
+            {
+                string columnName = column.GetCustomAttributes(typeof(ExcelColumnNameAttribute), false).Cast<ExcelColumnNameAttribute>().FirstOrDefault()?.Name ?? column.Name;
+                int format = 0;
+
+                ExcelStyleFormatAttribute columnFormat = column.GetCustomAttributes(typeof(ExcelStyleFormatAttribute), false).Cast<ExcelStyleFormatAttribute>().FirstOrDefault();
+
+                if (headerFormat != null)
+                {
+                    format = headerFormat.Format;
+                }
+
+                if (columnFormat != null
+                    && (columnFormat.UseStyleInHeader == StylingPriority.Data
+                        || headerFormat == null
+                    ))
+                {
+                    format = columnFormat.Format;
+                }
+
+                WriteTextCell(columnName, format);
+            }
+            EndRow();
         }
     }
     #endregion
