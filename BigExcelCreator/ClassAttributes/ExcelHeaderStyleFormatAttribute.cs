@@ -10,10 +10,13 @@ namespace BigExcelCreator.ClassAttributes
     public sealed class ExcelHeaderStyleFormatAttribute : Attribute
     {
         /// <summary>
-        /// The format index to apply to the cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/>.
+        /// The format to apply to the cell./>.
         /// </summary>
         public int Format { get; }
 
+        /// <summary>
+        /// The style name to apply to the cells in header row.
+        /// </summary>
         public string StyleName { get; }
 
         internal StyleModes StyleMode { get; }
