@@ -680,9 +680,6 @@ namespace BigExcelCreator
             }
         }
 
-        private void WriteNumberCell(object number, string styleName)
-            => WriteNumberCell(number, GetFormatFromStyleName(styleName));
-
         private void WriteNumberCellInternal(string number, int format = 0)
         {
 #if NET8_0_OR_GREATER
