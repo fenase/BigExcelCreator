@@ -341,5 +341,18 @@ namespace BigExcelCreator
             }
             EndRow();
         }
+
+        private int GetFormatFromStyleName(string name)
+        {
+            if (name.IsNullOrWhiteSpace()) { throw new StyleNameMustBeProvidedException(); }
+            if (StyleList == default)
+            {
+                throw new StyleListNotAvailableException("In order to use named styles, a StyleList must be provided in the constructor");
+            }
+
+            int styleIndex = StyleList.GetIndexByName(name);
+            if (styleIndex == -1) { throw new StyleNameNotFoundException(); }
+            return styleIndex;
+        }
     }
 }
