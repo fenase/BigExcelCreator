@@ -89,5 +89,42 @@ namespace BigExcelCreator
             }
             columnNum++;
         }
+
+        /// <summary>
+        /// Writes a row of text cells to the currently open sheet.
+        /// </summary>
+        /// <param name="texts">The collection of text strings to write in the row.</param>
+        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <param name="useSharedStrings">Indicates whether to write the value to the shared strings table. This might help reduce the output file size when the same text is shared multiple times among sheets. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the texts collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
+        public void WriteTextRow(IEnumerable<string> texts, int format = 0, bool hidden = false, bool useSharedStrings = false)
+        {
+            BeginRow(hidden);
+            foreach (string text in texts ?? throw new ArgumentNullException(nameof(texts)))
+            {
+                WriteTextCell(text, format, useSharedStrings);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes a row of text cells to the currently open sheet.
+        /// </summary>
+        /// <param name="texts">The collection of text strings to write in the row.</param>
+        /// <param name="styleName">The style name to apply to the cell.</param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <param name="useSharedStrings">Indicates whether to write the value to the shared strings table. This might help reduce the output file size when the same text is shared multiple times among sheets. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the texts collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="StyleListNotAvailableException">Thrown when no style list was provided to the <see cref="BigExcelWriter"/> instance.</exception>
+        /// <exception cref="StyleNameMustBeProvidedException">Thrown when <paramref name="styleName"/>is empty.</exception>
+        /// <exception cref="StyleNameNotFoundException">Thrown when the provided style name was not found in the style list.</exception>"
+        public void WriteTextRow(IEnumerable<string> texts, string styleName, bool hidden = false, bool useSharedStrings = false)
+            => WriteTextRow(texts, GetFormatFromStyleName(styleName), hidden, useSharedStrings);
     }
 }

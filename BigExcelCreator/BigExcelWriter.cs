@@ -232,16 +232,6 @@ namespace BigExcelCreator
             rowOpen = false;
         }
 
-        public void WriteTextRow(IEnumerable<string> texts, int format = 0, bool hidden = false, bool useSharedStrings = false)
-        {
-            BeginRow(hidden);
-            foreach (string text in texts ?? throw new ArgumentNullException(nameof(texts)))
-            {
-                WriteTextCell(text, format, useSharedStrings);
-            }
-            EndRow();
-        }
-
         /// <summary>
         /// Writes a row of cells with numerical values to the currently open sheet.
         /// </summary>
