@@ -46,7 +46,7 @@ namespace Example
         [ExcelColumnOrder(5)]
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
-        [ExcelStyleFormat(8)]
+        [ExcelStyleFormat("bold italic center")]
         public double? Bonus { get; set; }
 
         [ExcelColumnName("Monthly Net Income")]

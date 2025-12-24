@@ -348,7 +348,7 @@ namespace BigExcelCreator
 
             if (writeHeaderRow)
             {
-                writeHeaderRowFromData(sortedColumns, headerStyle);
+                WriteHeaderRowFromData(sortedColumns, headerStyle);
             }
 
             if (addAutoFilterOnFirstColumn)
@@ -362,11 +362,12 @@ namespace BigExcelCreator
                 BeginRow();
                 foreach (PropertyInfo columnName in sortedColumns)
                 {
-                    int cellFormat =
+                    ExcelStyleFormatAttribute cellFormat =
                         columnName.GetCustomAttributes(typeof(ExcelStyleFormatAttribute), false)
                         .Cast<ExcelStyleFormatAttribute>()
-                        .FirstOrDefault()?
-                        .Format ?? 0;
+                        .FirstOrDefault();
+                    int cellStyleIndex = GetStyleFormatIndexFromAttributeAndStyleList(cellFormat);
+
                     CellDataType cellType =
                         columnName.GetCustomAttributes(typeof(ExcelColumnTypeAttribute), false)
                         .Cast<ExcelColumnTypeAttribute>()
@@ -374,7 +375,7 @@ namespace BigExcelCreator
                         .Type ?? CellDataType.Text;
                     object cellData = columnName.GetValue(dataRow, null);
 
-                    WriteCellFromData(cellData, cellType, cellFormat);
+                    WriteCellFromData(cellData, cellType, cellStyleIndex);
                 }
                 EndRow();
             }

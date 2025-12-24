@@ -285,7 +285,7 @@ namespace BigExcelCreator
             }
         }
 
-        private void writeHeaderRowFromData(IOrderedEnumerable<PropertyInfo> sortedColumns, ExcelHeaderStyleFormatAttribute headerFormat)
+        private void WriteHeaderRowFromData(IOrderedEnumerable<PropertyInfo> sortedColumns, ExcelHeaderStyleFormatAttribute headerFormat)
         {
             BeginRow();
             foreach (var column in sortedColumns)
@@ -295,14 +295,12 @@ namespace BigExcelCreator
 
                 ExcelStyleFormatAttribute columnFormat = column.GetCustomAttributes(typeof(ExcelStyleFormatAttribute), false).Cast<ExcelStyleFormatAttribute>().FirstOrDefault();
 
-
-
                 if (columnFormat != null
                     && (columnFormat.UseStyleInHeader == StylingPriority.Data
                         || headerFormat == null
                     ))
                 {
-                    format = columnFormat.Format;
+                    format = GetStyleFormatIndexFromAttributeAndStyleList(columnFormat);
                 }
 
                 WriteTextCell(columnName, format);
@@ -313,7 +311,7 @@ namespace BigExcelCreator
         private int GetFormatFromStyleName(string name)
         {
             if (name.IsNullOrWhiteSpace()) { throw new StyleNameMustBeProvidedException(); }
-            if (StyleList == default)
+            if (!AllowedStyleModes.HasFlag(StyleModes.Name))
             {
                 throw new StyleListNotAvailableException("In order to use named styles, a StyleList must be provided in the constructor");
             }
@@ -325,7 +323,7 @@ namespace BigExcelCreator
 
         private bool IsStyleModeAllowed(StyleModes styleMode)
         {
-            return (AllowedStyleModes & styleMode) == styleMode;
+            return AllowedStyleModes.HasFlag(styleMode);
         }
 
         private int GetHeaderStyleFormatIndexFromAttributeAndStyleList(ExcelHeaderStyleFormatAttribute headerFormat)
@@ -344,6 +342,26 @@ namespace BigExcelCreator
             if (headerFormat.StyleMode.HasFlag(StyleModes.Index))
             {
                 return headerFormat.Format;
+            }
+            return 0;
+        }
+
+        private int GetStyleFormatIndexFromAttributeAndStyleList(ExcelStyleFormatAttribute styleFormat)
+        {
+            if (styleFormat == null) { return 0; }
+
+            if (!IsStyleModeAllowed(styleFormat.StyleMode))
+            {
+                throw new InvalidOperationException($"Unable to fetch style. This is most likely due to creating this instance using {nameof(Stylesheet)} instead of {nameof(StyleList)}. Please check the constructors documentation.");
+            }
+
+            if (styleFormat.StyleMode.HasFlag(StyleModes.Name))
+            {
+                return GetFormatFromStyleName(styleFormat.StyleName);
+            }
+            if (styleFormat.StyleMode.HasFlag(StyleModes.Index))
+            {
+                return styleFormat.Format;
             }
             return 0;
         }
