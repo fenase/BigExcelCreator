@@ -1203,101 +1203,12 @@ references:
   isSpec: "True"
   fullName: BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.Width
   nameWithType: ExcelColumnWidthAttribute.Width
-- uid: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute
-  name: ExcelHeaderStyleFormatAttribute
-  href: api/BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.html
-  commentId: T:BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute
-  fullName: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute
-  nameWithType: ExcelHeaderStyleFormatAttribute
-- uid: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.#ctor(System.Int32)
-  name: ExcelHeaderStyleFormatAttribute(int)
-  href: api/BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelHeaderStyleFormatAttribute__ctor_System_Int32_
-  commentId: M:BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.#ctor(System.Int32)
-  name.vb: New(Integer)
-  fullName: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.ExcelHeaderStyleFormatAttribute(int)
-  fullName.vb: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.New(Integer)
-  nameWithType: ExcelHeaderStyleFormatAttribute.ExcelHeaderStyleFormatAttribute(int)
-  nameWithType.vb: ExcelHeaderStyleFormatAttribute.New(Integer)
-- uid: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.#ctor*
-  name: ExcelHeaderStyleFormatAttribute
-  href: api/BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelHeaderStyleFormatAttribute__ctor_
-  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.#ctor
-  isSpec: "True"
-  name.vb: New
-  fullName: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.ExcelHeaderStyleFormatAttribute
-  fullName.vb: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.New
-  nameWithType: ExcelHeaderStyleFormatAttribute.ExcelHeaderStyleFormatAttribute
-  nameWithType.vb: ExcelHeaderStyleFormatAttribute.New
-- uid: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.Format
-  name: Format
-  href: api/BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelHeaderStyleFormatAttribute_Format
-  commentId: P:BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.Format
-  fullName: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.Format
-  nameWithType: ExcelHeaderStyleFormatAttribute.Format
-- uid: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.Format*
-  name: Format
-  href: api/BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelHeaderStyleFormatAttribute_Format_
-  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.Format
-  isSpec: "True"
-  fullName: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.Format
-  nameWithType: ExcelHeaderStyleFormatAttribute.Format
 - uid: BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute
   name: ExcelIgnoreAttribute
   href: api/BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute.html
   commentId: T:BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute
   fullName: BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute
   nameWithType: ExcelIgnoreAttribute
-- uid: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute
-  name: ExcelStyleFormatAttribute
-  href: api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.html
-  commentId: T:BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute
-  fullName: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute
-  nameWithType: ExcelStyleFormatAttribute
-- uid: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.#ctor(System.Int32,BigExcelCreator.Enums.StylingPriority)
-  name: ExcelStyleFormatAttribute(int, StylingPriority)
-  href: api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelStyleFormatAttribute__ctor_System_Int32_BigExcelCreator_Enums_StylingPriority_
-  commentId: M:BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.#ctor(System.Int32,BigExcelCreator.Enums.StylingPriority)
-  name.vb: New(Integer, StylingPriority)
-  fullName: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.ExcelStyleFormatAttribute(int, BigExcelCreator.Enums.StylingPriority)
-  fullName.vb: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.New(Integer, BigExcelCreator.Enums.StylingPriority)
-  nameWithType: ExcelStyleFormatAttribute.ExcelStyleFormatAttribute(int, StylingPriority)
-  nameWithType.vb: ExcelStyleFormatAttribute.New(Integer, StylingPriority)
-- uid: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.#ctor*
-  name: ExcelStyleFormatAttribute
-  href: api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelStyleFormatAttribute__ctor_
-  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.#ctor
-  isSpec: "True"
-  name.vb: New
-  fullName: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.ExcelStyleFormatAttribute
-  fullName.vb: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.New
-  nameWithType: ExcelStyleFormatAttribute.ExcelStyleFormatAttribute
-  nameWithType.vb: ExcelStyleFormatAttribute.New
-- uid: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.Format
-  name: Format
-  href: api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelStyleFormatAttribute_Format
-  commentId: P:BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.Format
-  fullName: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.Format
-  nameWithType: ExcelStyleFormatAttribute.Format
-- uid: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.Format*
-  name: Format
-  href: api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelStyleFormatAttribute_Format_
-  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.Format
-  isSpec: "True"
-  fullName: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.Format
-  nameWithType: ExcelStyleFormatAttribute.Format
-- uid: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.UseStyleInHeader
-  name: UseStyleInHeader
-  href: api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelStyleFormatAttribute_UseStyleInHeader
-  commentId: P:BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.UseStyleInHeader
-  fullName: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.UseStyleInHeader
-  nameWithType: ExcelStyleFormatAttribute.UseStyleInHeader
-- uid: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.UseStyleInHeader*
-  name: UseStyleInHeader
-  href: api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelStyleFormatAttribute_UseStyleInHeader_
-  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.UseStyleInHeader
-  isSpec: "True"
-  fullName: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.UseStyleInHeader
-  nameWithType: ExcelStyleFormatAttribute.UseStyleInHeader
 - uid: BigExcelCreator.Enums
   name: BigExcelCreator.Enums
   href: api/BigExcelCreator.Enums.html
@@ -1328,24 +1239,6 @@ references:
   commentId: F:BigExcelCreator.Enums.CellDataType.Text
   fullName: BigExcelCreator.Enums.CellDataType.Text
   nameWithType: CellDataType.Text
-- uid: BigExcelCreator.Enums.StylingPriority
-  name: StylingPriority
-  href: api/BigExcelCreator.Enums.StylingPriority.html
-  commentId: T:BigExcelCreator.Enums.StylingPriority
-  fullName: BigExcelCreator.Enums.StylingPriority
-  nameWithType: StylingPriority
-- uid: BigExcelCreator.Enums.StylingPriority.Data
-  name: Data
-  href: api/BigExcelCreator.Enums.StylingPriority.html#BigExcelCreator_Enums_StylingPriority_Data
-  commentId: F:BigExcelCreator.Enums.StylingPriority.Data
-  fullName: BigExcelCreator.Enums.StylingPriority.Data
-  nameWithType: StylingPriority.Data
-- uid: BigExcelCreator.Enums.StylingPriority.Header
-  name: Header
-  href: api/BigExcelCreator.Enums.StylingPriority.html#BigExcelCreator_Enums_StylingPriority_Header
-  commentId: F:BigExcelCreator.Enums.StylingPriority.Header
-  fullName: BigExcelCreator.Enums.StylingPriority.Header
-  nameWithType: StylingPriority.Header
 - uid: BigExcelCreator.Exceptions
   name: BigExcelCreator.Exceptions
   href: api/BigExcelCreator.Exceptions.html
@@ -2703,15 +2596,6 @@ references:
   fullName.vb: BigExcelCreator.Styles.StyleList.NewDifferentialStyle(String, DocumentFormat.OpenXml.Spreadsheet.Font, DocumentFormat.OpenXml.Spreadsheet.Fill, DocumentFormat.OpenXml.Spreadsheet.Border, DocumentFormat.OpenXml.Spreadsheet.NumberingFormat, DocumentFormat.OpenXml.Spreadsheet.Alignment)
   nameWithType: StyleList.NewDifferentialStyle(string, Font, Fill, Border, NumberingFormat, Alignment)
   nameWithType.vb: StyleList.NewDifferentialStyle(String, Font, Fill, Border, NumberingFormat, Alignment)
-- uid: BigExcelCreator.Styles.StyleList.NewDifferentialStyle(System.String,System.Int32@,DocumentFormat.OpenXml.Spreadsheet.Font,DocumentFormat.OpenXml.Spreadsheet.Fill,DocumentFormat.OpenXml.Spreadsheet.Border,DocumentFormat.OpenXml.Spreadsheet.NumberingFormat,DocumentFormat.OpenXml.Spreadsheet.Alignment)
-  name: NewDifferentialStyle(string, out int, Font, Fill, Border, NumberingFormat, Alignment)
-  href: api/BigExcelCreator.Styles.StyleList.html#BigExcelCreator_Styles_StyleList_NewDifferentialStyle_System_String_System_Int32__DocumentFormat_OpenXml_Spreadsheet_Font_DocumentFormat_OpenXml_Spreadsheet_Fill_DocumentFormat_OpenXml_Spreadsheet_Border_DocumentFormat_OpenXml_Spreadsheet_NumberingFormat_DocumentFormat_OpenXml_Spreadsheet_Alignment_
-  commentId: M:BigExcelCreator.Styles.StyleList.NewDifferentialStyle(System.String,System.Int32@,DocumentFormat.OpenXml.Spreadsheet.Font,DocumentFormat.OpenXml.Spreadsheet.Fill,DocumentFormat.OpenXml.Spreadsheet.Border,DocumentFormat.OpenXml.Spreadsheet.NumberingFormat,DocumentFormat.OpenXml.Spreadsheet.Alignment)
-  name.vb: NewDifferentialStyle(String, Integer, Font, Fill, Border, NumberingFormat, Alignment)
-  fullName: BigExcelCreator.Styles.StyleList.NewDifferentialStyle(string, out int, DocumentFormat.OpenXml.Spreadsheet.Font, DocumentFormat.OpenXml.Spreadsheet.Fill, DocumentFormat.OpenXml.Spreadsheet.Border, DocumentFormat.OpenXml.Spreadsheet.NumberingFormat, DocumentFormat.OpenXml.Spreadsheet.Alignment)
-  fullName.vb: BigExcelCreator.Styles.StyleList.NewDifferentialStyle(String, Integer, DocumentFormat.OpenXml.Spreadsheet.Font, DocumentFormat.OpenXml.Spreadsheet.Fill, DocumentFormat.OpenXml.Spreadsheet.Border, DocumentFormat.OpenXml.Spreadsheet.NumberingFormat, DocumentFormat.OpenXml.Spreadsheet.Alignment)
-  nameWithType: StyleList.NewDifferentialStyle(string, out int, Font, Fill, Border, NumberingFormat, Alignment)
-  nameWithType.vb: StyleList.NewDifferentialStyle(String, Integer, Font, Fill, Border, NumberingFormat, Alignment)
 - uid: BigExcelCreator.Styles.StyleList.NewDifferentialStyle*
   name: NewDifferentialStyle
   href: api/BigExcelCreator.Styles.StyleList.html#BigExcelCreator_Styles_StyleList_NewDifferentialStyle_
@@ -2728,15 +2612,6 @@ references:
   fullName.vb: BigExcelCreator.Styles.StyleList.NewStyle(DocumentFormat.OpenXml.Spreadsheet.Font, DocumentFormat.OpenXml.Spreadsheet.Fill, DocumentFormat.OpenXml.Spreadsheet.Border, DocumentFormat.OpenXml.Spreadsheet.NumberingFormat, DocumentFormat.OpenXml.Spreadsheet.Alignment, String)
   nameWithType: StyleList.NewStyle(Font, Fill, Border, NumberingFormat, Alignment, string)
   nameWithType.vb: StyleList.NewStyle(Font, Fill, Border, NumberingFormat, Alignment, String)
-- uid: BigExcelCreator.Styles.StyleList.NewStyle(DocumentFormat.OpenXml.Spreadsheet.Font,DocumentFormat.OpenXml.Spreadsheet.Fill,DocumentFormat.OpenXml.Spreadsheet.Border,DocumentFormat.OpenXml.Spreadsheet.NumberingFormat,DocumentFormat.OpenXml.Spreadsheet.Alignment,System.String,System.Int32@)
-  name: NewStyle(Font, Fill, Border, NumberingFormat, Alignment, string, out int)
-  href: api/BigExcelCreator.Styles.StyleList.html#BigExcelCreator_Styles_StyleList_NewStyle_DocumentFormat_OpenXml_Spreadsheet_Font_DocumentFormat_OpenXml_Spreadsheet_Fill_DocumentFormat_OpenXml_Spreadsheet_Border_DocumentFormat_OpenXml_Spreadsheet_NumberingFormat_DocumentFormat_OpenXml_Spreadsheet_Alignment_System_String_System_Int32__
-  commentId: M:BigExcelCreator.Styles.StyleList.NewStyle(DocumentFormat.OpenXml.Spreadsheet.Font,DocumentFormat.OpenXml.Spreadsheet.Fill,DocumentFormat.OpenXml.Spreadsheet.Border,DocumentFormat.OpenXml.Spreadsheet.NumberingFormat,DocumentFormat.OpenXml.Spreadsheet.Alignment,System.String,System.Int32@)
-  name.vb: NewStyle(Font, Fill, Border, NumberingFormat, Alignment, String, Integer)
-  fullName: BigExcelCreator.Styles.StyleList.NewStyle(DocumentFormat.OpenXml.Spreadsheet.Font, DocumentFormat.OpenXml.Spreadsheet.Fill, DocumentFormat.OpenXml.Spreadsheet.Border, DocumentFormat.OpenXml.Spreadsheet.NumberingFormat, DocumentFormat.OpenXml.Spreadsheet.Alignment, string, out int)
-  fullName.vb: BigExcelCreator.Styles.StyleList.NewStyle(DocumentFormat.OpenXml.Spreadsheet.Font, DocumentFormat.OpenXml.Spreadsheet.Fill, DocumentFormat.OpenXml.Spreadsheet.Border, DocumentFormat.OpenXml.Spreadsheet.NumberingFormat, DocumentFormat.OpenXml.Spreadsheet.Alignment, String, Integer)
-  nameWithType: StyleList.NewStyle(Font, Fill, Border, NumberingFormat, Alignment, string, out int)
-  nameWithType.vb: StyleList.NewStyle(Font, Fill, Border, NumberingFormat, Alignment, String, Integer)
 - uid: BigExcelCreator.Styles.StyleList.NewStyle(DocumentFormat.OpenXml.Spreadsheet.Font,DocumentFormat.OpenXml.Spreadsheet.Fill,DocumentFormat.OpenXml.Spreadsheet.Border,DocumentFormat.OpenXml.Spreadsheet.NumberingFormat,System.String)
   name: NewStyle(Font, Fill, Border, NumberingFormat, string)
   href: api/BigExcelCreator.Styles.StyleList.html#BigExcelCreator_Styles_StyleList_NewStyle_DocumentFormat_OpenXml_Spreadsheet_Font_DocumentFormat_OpenXml_Spreadsheet_Fill_DocumentFormat_OpenXml_Spreadsheet_Border_DocumentFormat_OpenXml_Spreadsheet_NumberingFormat_System_String_
@@ -2746,15 +2621,6 @@ references:
   fullName.vb: BigExcelCreator.Styles.StyleList.NewStyle(DocumentFormat.OpenXml.Spreadsheet.Font, DocumentFormat.OpenXml.Spreadsheet.Fill, DocumentFormat.OpenXml.Spreadsheet.Border, DocumentFormat.OpenXml.Spreadsheet.NumberingFormat, String)
   nameWithType: StyleList.NewStyle(Font, Fill, Border, NumberingFormat, string)
   nameWithType.vb: StyleList.NewStyle(Font, Fill, Border, NumberingFormat, String)
-- uid: BigExcelCreator.Styles.StyleList.NewStyle(DocumentFormat.OpenXml.Spreadsheet.Font,DocumentFormat.OpenXml.Spreadsheet.Fill,DocumentFormat.OpenXml.Spreadsheet.Border,DocumentFormat.OpenXml.Spreadsheet.NumberingFormat,System.String,System.Int32@)
-  name: NewStyle(Font, Fill, Border, NumberingFormat, string, out int)
-  href: api/BigExcelCreator.Styles.StyleList.html#BigExcelCreator_Styles_StyleList_NewStyle_DocumentFormat_OpenXml_Spreadsheet_Font_DocumentFormat_OpenXml_Spreadsheet_Fill_DocumentFormat_OpenXml_Spreadsheet_Border_DocumentFormat_OpenXml_Spreadsheet_NumberingFormat_System_String_System_Int32__
-  commentId: M:BigExcelCreator.Styles.StyleList.NewStyle(DocumentFormat.OpenXml.Spreadsheet.Font,DocumentFormat.OpenXml.Spreadsheet.Fill,DocumentFormat.OpenXml.Spreadsheet.Border,DocumentFormat.OpenXml.Spreadsheet.NumberingFormat,System.String,System.Int32@)
-  name.vb: NewStyle(Font, Fill, Border, NumberingFormat, String, Integer)
-  fullName: BigExcelCreator.Styles.StyleList.NewStyle(DocumentFormat.OpenXml.Spreadsheet.Font, DocumentFormat.OpenXml.Spreadsheet.Fill, DocumentFormat.OpenXml.Spreadsheet.Border, DocumentFormat.OpenXml.Spreadsheet.NumberingFormat, string, out int)
-  fullName.vb: BigExcelCreator.Styles.StyleList.NewStyle(DocumentFormat.OpenXml.Spreadsheet.Font, DocumentFormat.OpenXml.Spreadsheet.Fill, DocumentFormat.OpenXml.Spreadsheet.Border, DocumentFormat.OpenXml.Spreadsheet.NumberingFormat, String, Integer)
-  nameWithType: StyleList.NewStyle(Font, Fill, Border, NumberingFormat, string, out int)
-  nameWithType.vb: StyleList.NewStyle(Font, Fill, Border, NumberingFormat, String, Integer)
 - uid: BigExcelCreator.Styles.StyleList.NewStyle(System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},DocumentFormat.OpenXml.Spreadsheet.Alignment,System.String)
   name: NewStyle(int?, int?, int?, int?, Alignment, string)
   href: api/BigExcelCreator.Styles.StyleList.html#BigExcelCreator_Styles_StyleList_NewStyle_System_Nullable_System_Int32__System_Nullable_System_Int32__System_Nullable_System_Int32__System_Nullable_System_Int32__DocumentFormat_OpenXml_Spreadsheet_Alignment_System_String_
@@ -2764,15 +2630,6 @@ references:
   fullName.vb: BigExcelCreator.Styles.StyleList.NewStyle(Integer?, Integer?, Integer?, Integer?, DocumentFormat.OpenXml.Spreadsheet.Alignment, String)
   nameWithType: StyleList.NewStyle(int?, int?, int?, int?, Alignment, string)
   nameWithType.vb: StyleList.NewStyle(Integer?, Integer?, Integer?, Integer?, Alignment, String)
-- uid: BigExcelCreator.Styles.StyleList.NewStyle(System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},DocumentFormat.OpenXml.Spreadsheet.Alignment,System.String,System.Int32@)
-  name: NewStyle(int?, int?, int?, int?, Alignment, string, out int)
-  href: api/BigExcelCreator.Styles.StyleList.html#BigExcelCreator_Styles_StyleList_NewStyle_System_Nullable_System_Int32__System_Nullable_System_Int32__System_Nullable_System_Int32__System_Nullable_System_Int32__DocumentFormat_OpenXml_Spreadsheet_Alignment_System_String_System_Int32__
-  commentId: M:BigExcelCreator.Styles.StyleList.NewStyle(System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},DocumentFormat.OpenXml.Spreadsheet.Alignment,System.String,System.Int32@)
-  name.vb: NewStyle(Integer?, Integer?, Integer?, Integer?, Alignment, String, Integer)
-  fullName: BigExcelCreator.Styles.StyleList.NewStyle(int?, int?, int?, int?, DocumentFormat.OpenXml.Spreadsheet.Alignment, string, out int)
-  fullName.vb: BigExcelCreator.Styles.StyleList.NewStyle(Integer?, Integer?, Integer?, Integer?, DocumentFormat.OpenXml.Spreadsheet.Alignment, String, Integer)
-  nameWithType: StyleList.NewStyle(int?, int?, int?, int?, Alignment, string, out int)
-  nameWithType.vb: StyleList.NewStyle(Integer?, Integer?, Integer?, Integer?, Alignment, String, Integer)
 - uid: BigExcelCreator.Styles.StyleList.NewStyle*
   name: NewStyle
   href: api/BigExcelCreator.Styles.StyleList.html#BigExcelCreator_Styles_StyleList_NewStyle_
