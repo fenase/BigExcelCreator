@@ -232,55 +232,6 @@ namespace BigExcelCreator
             rowOpen = false;
         }
 
-        /// <summary>
-        /// Writes a formula cell to the currently open row in the sheet.
-        /// </summary>
-        /// <param name="formula">The formula to write in the cell.</param>
-        /// <param name="format">The format index to apply to the cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
-        /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
-        public void WriteFormulaCell(string formula, int format = 0)
-        {
-#if NET8_0_OR_GREATER
-            ArgumentOutOfRangeException.ThrowIfNegative(format);
-#else
-            if (format < 0) { throw new ArgumentOutOfRangeException(nameof(format)); }
-#endif
-            if (!rowOpen) { throw new NoOpenRowException(ConstantsAndTexts.NoActiveRow); }
-
-            if (!(SkipCellWhenEmpty && string.IsNullOrEmpty(formula)))
-            {
-                //reset the list of attributes
-                List<OpenXmlAttribute> attributes =
-                [
-                    //add the cell reference attribute
-                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
-                    //styles
-                    new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
-                ];
-
-                //write the cell start element with the type and reference attributes
-                workSheetPartWriter.WriteStartElement(new Cell(), attributes);
-                //write the cell value
-                workSheetPartWriter.WriteElement(new CellFormula(formula?.ToUpperInvariant()));
-
-                // write the end cell element
-                workSheetPartWriter.WriteEndElement();
-            }
-            columnNum++;
-        }
-
-        /// <summary>
-        /// Writes a row of text cells to the currently open sheet.
-        /// </summary>
-        /// <param name="texts">The collection of text strings to write in the row.</param>
-        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
-        /// <param name="useSharedStrings">Indicates whether to write the value to the shared strings table. This might help reduce the output file size when the same text is shared multiple times among sheets. Default is false.</param>
-        /// <exception cref="ArgumentNullException">Thrown when the texts collection is null.</exception>
-        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
-        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
         public void WriteTextRow(IEnumerable<string> texts, int format = 0, bool hidden = false, bool useSharedStrings = false)
         {
             BeginRow(hidden);
