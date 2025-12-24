@@ -189,6 +189,7 @@ namespace BigExcelCreator
             Path = path;
             SavingTo = SavingTo.file;
             Document = SpreadsheetDocument.Create(Path, spreadsheetDocumentType);
+            StyleList = styleList;
             Stylesheet stylesheet = styleList.GetStylesheet();
             CtorHelper(spreadsheetDocumentType, skipCellWhenEmpty, stylesheet);
         }
@@ -227,6 +228,7 @@ namespace BigExcelCreator
             Stream = stream;
             SavingTo = SavingTo.stream;
             Document = SpreadsheetDocument.Create(Stream, spreadsheetDocumentType);
+            StyleList = styleList;
             Stylesheet stylesheet = styleList.GetStylesheet();
             CtorHelper(spreadsheetDocumentType, skipCellWhenEmpty, stylesheet);
         }
