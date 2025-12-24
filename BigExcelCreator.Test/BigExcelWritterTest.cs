@@ -322,7 +322,7 @@ namespace BigExcelCreator.Test
             });
         }
 
-        private StyleList GenerateStyleList()
+        private static StyleList GenerateStyleList()
         {
             StyleList styleList = new();
             Font italic = new(new Italic());
