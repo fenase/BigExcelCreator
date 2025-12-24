@@ -1,4 +1,7 @@
-﻿using BigExcelCreator.Enums;
+﻿// Copyright (c) 2022-2026, Federico Seckel.
+// Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
+
+using BigExcelCreator.Enums;
 using System;
 
 namespace BigExcelCreator.ClassAttributes
