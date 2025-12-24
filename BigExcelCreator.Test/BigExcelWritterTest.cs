@@ -322,8 +322,7 @@ namespace BigExcelCreator.Test
             });
         }
 
-        [Test]
-        public void ValidCustomStyles()
+        private StyleList GenerateStyleList()
         {
             StyleList styleList = new();
             Font italic = new(new Italic());
@@ -339,20 +338,28 @@ namespace BigExcelCreator.Test
             styleList.NewStyle(bold, null, null, null, center, "bold center");
             styleList.NewStyle(boldItalic, null, null, null, center, "bold italic center");
             Fill yellowFill = new(new[]{
-                        new PatternFill(new[]{
-                            new ForegroundColor { Rgb = new HexBinaryValue { Value = "FFFF00" } } }
-                        )
-                        { PatternType = PatternValues.Solid } });
+            new PatternFill(new[]{
+                new ForegroundColor { Rgb = new HexBinaryValue { Value = "FFFF00" } } }
+            )
+            { PatternType = PatternValues.Solid } });
             styleList.NewStyle(null, yellowFill, null, null, "YELLOW");
 
             styleList.NewDifferentialStyle("RED", font: new Font(new[] { new Color { Rgb = new HexBinaryValue { Value = "FF0000" } } }));
 
             Fill greenFill = new(new[]{
-                        new PatternFill(new[]{
-                            new BackgroundColor { Rgb = new HexBinaryValue { Value = "00FF00" } } })
-                        { PatternType = PatternValues.Solid } });
+            new PatternFill(new[]{
+                new BackgroundColor { Rgb = new HexBinaryValue { Value = "00FF00" } } })
+            { PatternType = PatternValues.Solid } });
 
             styleList.NewDifferentialStyle("GREENBKG", fill: greenFill);
+
+            return styleList;
+        }
+
+        [Test]
+        public void ValidCustomStyles()
+        {
+            StyleList styleList = GenerateStyleList();
 
             MemoryStream stream = new();
             using (BigExcelWriter writer = new(stream, styleList.GetStylesheet()))
@@ -380,6 +387,32 @@ namespace BigExcelCreator.Test
                 Assert.That(workbookStylesPart!.Stylesheet.DifferentialFormats, Is.Not.Null);
                 Assert.That(workbookStylesPart!.Stylesheet.DifferentialFormats!.ChildElements, Has.Count.EqualTo(2));
             });
+        }
+
+        [Test]
+        public void UnableToUseNamedStyles()
+        {
+            StyleList styleList = GenerateStyleList();
+            MemoryStream stream = new();
+            using BigExcelWriter writer = new(stream, styleList.GetStylesheet());
+            writer.CreateAndOpenSheet("first");
+            writer.BeginRow();
+            Assert.Throws<StyleListNotAvailableException>(() => writer.WriteTextCell("text", "styleNotIncluded"));
+            writer.EndRow();
+            writer.CloseSheet();
+        }
+
+        [Test]
+        public void MissingStyleFails()
+        {
+            StyleList styleList = GenerateStyleList();
+            MemoryStream stream = new();
+            using BigExcelWriter writer = new(stream, styleList);
+            writer.CreateAndOpenSheet("first");
+            writer.BeginRow();
+            Assert.Throws<StyleNameNotFoundException>(() => writer.WriteTextCell("text", "styleNotIncluded"));
+            writer.EndRow();
+            writer.CloseSheet();
         }
 
         [Test]
