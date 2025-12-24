@@ -3,7 +3,7 @@ using BigExcelCreator.Enums;
 
 namespace Example
 {
-    [ExcelHeaderStyleFormat(6)]
+    [ExcelHeaderStyleFormat("bold center")]
     internal class ExampleModel
     {
         [ExcelColumnName("Identifier")]

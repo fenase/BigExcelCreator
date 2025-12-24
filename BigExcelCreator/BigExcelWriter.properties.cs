@@ -123,6 +123,7 @@ namespace BigExcelCreator
         private const bool _printRowAndColumnHeadingsDefault = false;
 
         private StyleList StyleList { get; }
+        private StyleModes AllowedStyleModes { get; set; } = StyleModes.None;
 
         private bool sheetOpen;
         private string currentSheetName = "";

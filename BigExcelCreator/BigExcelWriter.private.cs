@@ -291,14 +291,11 @@ namespace BigExcelCreator
             foreach (var column in sortedColumns)
             {
                 string columnName = column.GetCustomAttributes(typeof(ExcelColumnNameAttribute), false).Cast<ExcelColumnNameAttribute>().FirstOrDefault()?.Name ?? column.Name;
-                int format = 0;
+                int format = GetHeaderStyleFormatIndexFromAttributeAndStyleList(headerFormat);
 
                 ExcelStyleFormatAttribute columnFormat = column.GetCustomAttributes(typeof(ExcelStyleFormatAttribute), false).Cast<ExcelStyleFormatAttribute>().FirstOrDefault();
 
-                if (headerFormat != null)
-                {
-                    format = headerFormat.Format;
-                }
+
 
                 if (columnFormat != null
                     && (columnFormat.UseStyleInHeader == StylingPriority.Data
@@ -324,6 +321,31 @@ namespace BigExcelCreator
             int styleIndex = StyleList.GetIndexByName(name);
             if (styleIndex == -1) { throw new StyleNameNotFoundException(); }
             return styleIndex;
+        }
+
+        private bool IsStyleModeAllowed(StyleModes styleMode)
+        {
+            return (AllowedStyleModes & styleMode) == styleMode;
+        }
+
+        private int GetHeaderStyleFormatIndexFromAttributeAndStyleList(ExcelHeaderStyleFormatAttribute headerFormat)
+        {
+            if (headerFormat == null) { return 0; }
+
+            if (!IsStyleModeAllowed(headerFormat.StyleMode))
+            {
+                throw new InvalidOperationException($"Unable to fetch style. This is most likely due to creating this instance using {nameof(Stylesheet)} instead of {nameof(StyleList)}. Please check the constructors documentation.");
+            }
+
+            if (headerFormat.StyleMode.HasFlag(StyleModes.Name))
+            {
+                return GetFormatFromStyleName(headerFormat.StyleName);
+            }
+            if (headerFormat.StyleMode.HasFlag(StyleModes.Index))
+            {
+                return headerFormat.Format;
+            }
+            return 0;
         }
     }
 }

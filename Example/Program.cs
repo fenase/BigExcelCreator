@@ -60,7 +60,8 @@ Fill greenFill = new Fill(new[]{
 
 styleList.NewDifferentialStyle("GREENBKG", fill: greenFill);
 
-using BigExcelWriter excel = new(fullPath, styleList.GetStylesheet());
+//using BigExcelWriter excel = new(fullPath, styleList.GetStylesheet());
+using BigExcelWriter excel = new(fullPath, styleList);
 
 excel.CreateAndOpenSheet("S1", columns: columns, sheetState: SheetStateValues.Visible);
 

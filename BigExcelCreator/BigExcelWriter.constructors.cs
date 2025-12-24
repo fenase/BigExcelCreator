@@ -190,6 +190,7 @@ namespace BigExcelCreator
             SavingTo = SavingTo.file;
             Document = SpreadsheetDocument.Create(Path, spreadsheetDocumentType);
             StyleList = styleList;
+            AllowedStyleModes |= StyleModes.Name;
             Stylesheet stylesheet = styleList.GetStylesheet();
             CtorHelper(spreadsheetDocumentType, skipCellWhenEmpty, stylesheet);
         }
@@ -229,6 +230,7 @@ namespace BigExcelCreator
             SavingTo = SavingTo.stream;
             Document = SpreadsheetDocument.Create(Stream, spreadsheetDocumentType);
             StyleList = styleList;
+            AllowedStyleModes |= StyleModes.Name;
             Stylesheet stylesheet = styleList.GetStylesheet();
             CtorHelper(spreadsheetDocumentType, skipCellWhenEmpty, stylesheet);
         }
@@ -245,6 +247,7 @@ namespace BigExcelCreator
                 // add styles to sheet
                 workbookStylesPart.Stylesheet = stylesheet;
                 workbookStylesPart.Stylesheet.Save();
+                AllowedStyleModes |= StyleModes.Index;
             }
 
             SharedStringTablePart = workbookPart.AddNewPart<SharedStringTablePart>();
