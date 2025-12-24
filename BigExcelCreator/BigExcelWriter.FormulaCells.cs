@@ -65,5 +65,40 @@ namespace BigExcelCreator
         /// <exception cref="NoOpenRowException">Thrown when there is no open row to write the cell to.</exception>
         public void WriteFormulaCell(string formula, string styleName)
             => WriteFormulaCell(formula, GetFormatFromStyleName(styleName));
+
+        /// <summary>
+        /// Writes a row of formula cells to the currently open sheet.
+        /// </summary>
+        /// <param name="formulas">The collection of formulas to write in the row.</param>
+        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the formulas collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
+        public void WriteFormulaRow(IEnumerable<string> formulas, int format = 0, bool hidden = false)
+        {
+            BeginRow(hidden);
+            foreach (string text in formulas ?? throw new ArgumentNullException(nameof(formulas)))
+            {
+                WriteFormulaCell(text, format);
+            }
+            EndRow();
+        }
+
+        /// <summary>
+        /// Writes a row of formula cells to the currently open sheet.
+        /// </summary>
+        /// <param name="formulas">The collection of formulas to write in the row.</param>
+        /// <param name="styleName">The style name to apply to the cell.</param>
+        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the formulas collection is null.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
+        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
+        /// <exception cref="StyleListNotAvailableException">Thrown when no style list was provided to the <see cref="BigExcelWriter"/> instance.</exception>
+        /// <exception cref="StyleNameMustBeProvidedException">Thrown when <paramref name="styleName"/>is empty.</exception>
+        /// <exception cref="StyleNameNotFoundException">Thrown when the provided style name was not found in the style list.</exception>"
+        public void WriteFormulaRow(IEnumerable<string> formulas, string styleName, bool hidden = false)
+            => WriteFormulaRow(formulas, GetFormatFromStyleName(styleName), hidden);
     }
 }

@@ -233,26 +233,6 @@ namespace BigExcelCreator
         }
 
         /// <summary>
-        /// Writes a row of formula cells to the currently open sheet.
-        /// </summary>
-        /// <param name="formulas">The collection of formulas to write in the row.</param>
-        /// <param name="format">The format index to apply to each cell. Default is 0. See <see cref="Styles.StyleList.GetIndexByName(string)"/></param>
-        /// <param name="hidden">Indicates whether the row should be hidden. Default is false.</param>
-        /// <exception cref="ArgumentNullException">Thrown when the formulas collection is null.</exception>
-        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to write a row to.</exception>
-        /// <exception cref="RowAlreadyOpenException">Thrown when a row is already open. Use EndRow to close it.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is less than 0</exception>
-        public void WriteFormulaRow(IEnumerable<string> formulas, int format = 0, bool hidden = false)
-        {
-            BeginRow(hidden);
-            foreach (string text in formulas ?? throw new ArgumentNullException(nameof(formulas)))
-            {
-                WriteFormulaCell(text, format);
-            }
-            EndRow();
-        }
-
-        /// <summary>
         /// Adds an autofilter to the specified range in the current sheet.
         /// </summary>
         /// <remarks>
