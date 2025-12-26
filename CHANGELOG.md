@@ -1,5 +1,10 @@
 ﻿# Changelog
 
+## 3.4
+THIS IS A BETA VERSION. It may contain bugs and breaking changes.
+### Added
+- Ability to reference styles by name when writing cells. This is achieved by passing a `StyleList` instance when creating the `BigExcelWriter` instead of a `StyleSheet` instance.
+
 ## 3.3 (and 2.3.2025.35601)
 ### Added
 - Support to write a new sheet directly from a list of objects of a custom class, configuring which properties to write using attributes.
