@@ -276,6 +276,7 @@ namespace BigExcelCreator
         /// <param name="writeHeaderRow">If set to <c>true</c>, writes column headers as first row. Default is <c>true</c>.</param>
         /// <param name="addAutoFilterOnFirstColumn">If set to <c>true</c>, adds an autofilter to the first row. Default is <c>false</c>.</param>
         /// <param name="columns">The column definitions to use for the sheet. If not provided, columns will be generated automatically from the object type. Default is <c>null</c>.</param>
+        /// <param name="useSharedStringsOnTextData">Indicates whether to write the text values to the shared strings table. This might help reduce the output file size when the same text is shared multiple times among sheets. Default is false.</param>
         /// <remarks>
         /// <para>This method automatically discovers properties from type <typeparamref name="T"/> and writes them as sheet columns.</para>
         /// <para>Properties can be decorated with the following attributes to customize their behavior:</para>
@@ -295,8 +296,8 @@ namespace BigExcelCreator
         /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
         /// <exception cref="SheetNameCannotBeEmptyException">Thrown when <paramref name="sheetName"/> is null or empty.</exception>
         /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
-        public void CreateSheetFromObject<T>(IEnumerable<T> data, string sheetName, bool writeHeaderRow = true, bool addAutoFilterOnFirstColumn = false, IList<Column> columns = default)
-             where T : class => CreateSheetFromObject(data, sheetName, SheetStateValues.Visible, writeHeaderRow, addAutoFilterOnFirstColumn, columns);
+        public void CreateSheetFromObject<T>(IEnumerable<T> data, string sheetName, bool writeHeaderRow = true, bool addAutoFilterOnFirstColumn = false, IList<Column> columns = default, bool useSharedStringsOnTextData = false)
+             where T : class => CreateSheetFromObject(data, sheetName, SheetStateValues.Visible, writeHeaderRow, addAutoFilterOnFirstColumn, columns, useSharedStringsOnTextData);
 
         /// <summary>
         /// Creates a new sheet from a collection of objects with a specified sheet state, automatically mapping object properties to columns.
@@ -308,6 +309,7 @@ namespace BigExcelCreator
         /// <param name="writeHeaderRow">If set to <c>true</c>, writes column headers as first row. Default is <c>true</c>.</param>
         /// <param name="addAutoFilterOnFirstColumn">If set to <c>true</c>, adds an autofilter to the first row. Default is <c>false</c>.</param>
         /// <param name="columns">The column definitions to use for the sheet. If not provided, columns will be generated automatically from the object type. Default is <c>null</c>.</param>
+        /// <param name="useSharedStringsOnTextData">Indicates whether to write the text values to the shared strings table. This might help reduce the output file size when the same text is shared multiple times among sheets. Default is false.</param>
         /// <remarks>
         /// <para>This method automatically discovers properties from type <typeparamref name="T"/> and writes them as sheet columns.</para>
         /// <para>Properties can be decorated with the following attributes to customize their behavior:</para>
@@ -326,7 +328,7 @@ namespace BigExcelCreator
         /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
         /// <exception cref="SheetNameCannotBeEmptyException">Thrown when <paramref name="sheetName"/> is null or empty.</exception>
         /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
-        public void CreateSheetFromObject<T>(IEnumerable<T> data, string sheetName, SheetStateValues sheetState, bool writeHeaderRow = true, bool addAutoFilterOnFirstColumn = false, IList<Column> columns = default)
+        public void CreateSheetFromObject<T>(IEnumerable<T> data, string sheetName, SheetStateValues sheetState, bool writeHeaderRow = true, bool addAutoFilterOnFirstColumn = false, IList<Column> columns = default, bool useSharedStringsOnTextData = false)
             where T : class
         {
 #if NET6_0_OR_GREATER
@@ -339,7 +341,7 @@ namespace BigExcelCreator
 
             CreateAndOpenSheet(sheetName, columns, sheetState);
 
-            IOrderedEnumerable<PropertyInfo> sortedColumns = GetColumnsOrdered(typeof(T));
+            List<PropertyInfo> sortedColumns = [.. GetColumnsOrdered(typeof(T))];
 
             ExcelHeaderStyleFormatAttribute headerStyle = typeof(T)
                 .GetCustomAttributes(typeof(ExcelHeaderStyleFormatAttribute), false)
@@ -353,7 +355,7 @@ namespace BigExcelCreator
 
             if (addAutoFilterOnFirstColumn)
             {
-                CellRange autoFilterRange = new(1, 1, sortedColumns.Count(), 1, sheetName);
+                CellRange autoFilterRange = new(1, 1, sortedColumns.Count, 1, sheetName);
                 AddAutofilter(autoFilterRange);
             }
 
@@ -375,7 +377,7 @@ namespace BigExcelCreator
                         .Type ?? CellDataType.Text;
                     object cellData = columnName.GetValue(dataRow, null);
 
-                    WriteCellFromData(cellData, cellType, cellStyleIndex);
+                    WriteCellFromData(cellData, cellType, cellStyleIndex, useSharedStringsOnTextData);
                 }
                 EndRow();
             }

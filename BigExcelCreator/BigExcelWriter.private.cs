@@ -253,7 +253,7 @@ namespace BigExcelCreator
                         .Order ?? int.MaxValue);
         }
 
-        private void WriteCellFromData(object cellData, CellDataType cellType, int format)
+        private void WriteCellFromData(object cellData, CellDataType cellType, int format, bool useSharedStringsOnTextData)
         {
             switch (cellType)
             {
@@ -280,12 +280,12 @@ namespace BigExcelCreator
                     break;
                 case CellDataType.Text:
                     string cellDataString = cellData?.ToString() ?? "";
-                    WriteTextCell(cellDataString, format);
+                    WriteTextCell(cellDataString, format, useSharedStringsOnTextData);
                     break;
             }
         }
 
-        private void WriteHeaderRowFromData(IOrderedEnumerable<PropertyInfo> sortedColumns, ExcelHeaderStyleFormatAttribute headerFormat)
+        private void WriteHeaderRowFromData(List<PropertyInfo> sortedColumns, ExcelHeaderStyleFormatAttribute headerFormat)
         {
             BeginRow();
             foreach (var column in sortedColumns)

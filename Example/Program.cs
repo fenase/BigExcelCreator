@@ -54,8 +54,8 @@ styleList.NewStyle(null, yellowFill, null, null, "YELLOW");
 styleList.NewDifferentialStyle("RED", font: new Font(new[] { new Color { Rgb = new HexBinaryValue { Value = "FF0000" } } }));
 
 Fill greenFill = new Fill(new[]{
-                        new PatternFill(new[]{
-                            new BackgroundColor { Rgb = new HexBinaryValue { Value = "00FF00" } } })
+                                new PatternFill(new[]{
+                                        new BackgroundColor { Rgb = new HexBinaryValue { Value = "00FF00" } } })
                         { PatternType = PatternValues.Solid } });
 
 styleList.NewDifferentialStyle("GREENBKG", fill: greenFill);
@@ -158,6 +158,6 @@ excel.CloseSheet();
 
 
 
-excel.CreateSheetFromObject(ExampleModel.GetTestData(), "From objects");
+excel.CreateSheetFromObject(ExampleModel.GetTestData(), "From objects", useSharedStringsOnTextData: true);
 
 
