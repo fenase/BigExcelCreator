@@ -116,6 +116,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.yml\" sourcestartlinenumber=\"1\">Format index to apply to the header row.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute.yml",
       "output": {
         ".html": {
@@ -127,6 +141,20 @@
       "IsMRef": true,
       "Title": "BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute",
       "Summary": "<p sourcefile=\"api/BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute.yml\" sourcestartlinenumber=\"1\">Marks a property to be ignored when generating Excel output.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.yml\" sourcestartlinenumber=\"1\">Format index to apply to cells.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -155,6 +183,20 @@
       "IsMRef": true,
       "Title": "BigExcelCreator.Enums.CellDataType",
       "Summary": "<p sourcefile=\"api/BigExcelCreator.Enums.CellDataType.yml\" sourcestartlinenumber=\"1\">Specifies the Excel cell type for a spreadsheet cell.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Enums.StylingPriority.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Enums.StylingPriority.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Enums.StylingPriority",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Enums.StylingPriority.yml\" sourcestartlinenumber=\"1\">Specifies, for a column, whether the header row or the data rows have priority when applying styles.</p>\n"
     },
     {
       "type": "ManagedReference",
