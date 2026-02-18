@@ -130,12 +130,15 @@ namespace BigExcelCreator
 
         private int AddTextToSharedStringsTable(string text)
         {
-            int pos = SharedStringsList.IndexOf(text);
-            if (pos < 0)
+            if (SharedStringsDictionary.TryGetValue(text, out int pos))
             {
-                pos = SharedStringsList.Count;
-                SharedStringsList.Add(text);
+                return pos;
             }
+
+            pos = SharedStringsList.Count;
+            SharedStringsList.Add(text);
+            SharedStringsDictionary[text] = pos;
+
             return pos;
         }
 

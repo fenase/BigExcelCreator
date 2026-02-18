@@ -142,6 +142,7 @@ namespace BigExcelCreator
         private OpenXmlWriter workSheetPartWriter;
 
         private readonly List<string> SharedStringsList = [];
+        private readonly Dictionary<string, int> SharedStringsDictionary = [];
 
         private WorksheetPart workSheetPart;
 
