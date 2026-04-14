@@ -222,11 +222,11 @@ namespace BigExcelCreator
             }
         }
 
-        private static List<Column> CreateColumnsFromObject(Type type)
+        private static List<Column> CreateSpreadsheetColumnsFromObject(Type type)
         {
             List<Column> columns = [];
 
-            var dtoCols = GetColumnsOrdered(type);
+            var dtoCols = GetOrderedColumnProperties(type);
             foreach (var dtoCol in dtoCols)
             {
                 bool hidden = Attribute.IsDefined(dtoCol, typeof(ExcelColumnHiddenAttribute));
@@ -247,7 +247,7 @@ namespace BigExcelCreator
             return columns;
         }
 
-        private static IOrderedEnumerable<PropertyInfo> GetColumnsOrdered(Type type)
+        private static IOrderedEnumerable<PropertyInfo> GetOrderedColumnProperties(Type type)
         {
             return type.GetProperties()
                     .Where(x => !Attribute.IsDefined(x, typeof(ExcelIgnoreAttribute)))

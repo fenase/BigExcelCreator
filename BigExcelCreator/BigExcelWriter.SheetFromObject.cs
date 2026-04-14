@@ -90,11 +90,11 @@ namespace BigExcelCreator
 #endif
             IList<T> list = data as IList<T> ?? [.. data];
 
-            if (columns?.Any() != true) { columns = CreateColumnsFromObject(typeof(T)); }
+            if (columns?.Any() != true) { columns = CreateSpreadsheetColumnsFromObject(typeof(T)); }
 
             CreateAndOpenSheet(sheetName, columns, sheetState);
 
-            List<PropertyInfo> sortedColumns = [.. GetColumnsOrdered(typeof(T))];
+            List<PropertyInfo> sortedColumns = [.. GetOrderedColumnProperties(typeof(T))];
 
             ExcelHeaderStyleFormatAttribute headerStyle = typeof(T)
                 .GetCustomAttributes(typeof(ExcelHeaderStyleFormatAttribute), false)

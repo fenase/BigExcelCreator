@@ -28,6 +28,7 @@ namespace BigExcelCreator.Test.Classes
         [ExcelColumnOrder(3)]
         [ExcelColumnType(CellDataType.Text)]
         [ExcelColumnWidth(50)]
+        [ExcelConditionalFormatDuplicatedValues(0)]
         public string Description { get; set; } = "";
 
         [ExcelColumnName("Creation Date")]
