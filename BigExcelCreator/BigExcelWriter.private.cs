@@ -4,6 +4,7 @@
 // Ignore Spelling: Validator Validators Autofilter stylesheet finalizer inline unhiding gridlines rownum
 
 using BigExcelCreator.ClassAttributes;
+using BigExcelCreator.ClassAttributes.Interfaces;
 using BigExcelCreator.Enums;
 using BigExcelCreator.Exceptions;
 using BigExcelCreator.Extensions;
@@ -368,7 +369,7 @@ namespace BigExcelCreator
 
             if (!IsStyleModeAllowed(styleFormat.StyleMode))
             {
-                throw new InvalidOperationException($"Unable to fetch style. This is most likely due to creating this instance using {nameof(Stylesheet)} instead of {nameof(StyleList)}. Please check the constructors documentation.");
+                throw new InvalidOperationException($"Unable to fetch style. This is most likely due to creating this instance using {nameof(Stylesheet)} instead of {nameof(Styles.StyleList)}. Please check the constructors documentation.");
             }
 
             if (styleFormat.StyleMode.HasFlag(StyleModes.Name))
@@ -388,7 +389,7 @@ namespace BigExcelCreator
 
             if (!IsStyleModeAllowed(conditionalFormat.StyleMode))
             {
-                throw new InvalidOperationException($"Unable to fetch style. This is most likely due to creating this instance using {nameof(Stylesheet)} instead of {nameof(StyleList)}. Please check the constructors documentation.");
+                throw new InvalidOperationException($"Unable to fetch style. This is most likely due to creating this instance using {nameof(Stylesheet)} instead of {nameof(Styles.StyleList)}. Please check the constructors documentation.");
             }
 
             if (conditionalFormat.StyleMode.HasFlag(StyleModes.Name))
