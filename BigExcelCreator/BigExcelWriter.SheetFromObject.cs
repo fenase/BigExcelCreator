@@ -4,6 +4,7 @@
 // Ignore Spelling: Validator Validators Autofilter stylesheet finalizer inline unhiding gridlines rownum
 
 using BigExcelCreator.ClassAttributes;
+using BigExcelCreator.ClassAttributes.Interfaces;
 using BigExcelCreator.Enums;
 using BigExcelCreator.Exceptions;
 using BigExcelCreator.Ranges;
@@ -152,6 +153,17 @@ namespace BigExcelCreator
                 {
                     case ExcelConditionalFormatFormulaAttribute formulaAttribute:
                         AddConditionalFormattingFormula(conditionalFormatRange, formulaAttribute.Formula, format);
+                        break;
+                    case ExcelConditionalFormatCellIsAttribute cellIsAttribute:
+                        AddConditionalFormattingCellIs(
+                            conditionalFormatRange,
+                            cellIsAttribute.Operator,
+                            cellIsAttribute.Value,
+                            format,
+                            cellIsAttribute.Value2);
+                        break;
+                    case ExcelConditionalFormatDuplicatedValuesAttribute _:
+                        AddConditionalFormattingDuplicatedValues(conditionalFormatRange, format);
                         break;
                     default:
                         throw new NotImplementedException();

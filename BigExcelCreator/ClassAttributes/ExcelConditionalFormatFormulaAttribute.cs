@@ -1,18 +1,12 @@
 ﻿// Copyright (c) 2022-2026, Federico Seckel.
 // Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
 
+using BigExcelCreator.ClassAttributes.Interfaces;
 using BigExcelCreator.Enums;
 using System;
 
 namespace BigExcelCreator.ClassAttributes
 {
-    internal interface IConditionalFormatAttributes
-    {
-        int Format { get; }
-        string StyleName { get; }
-        internal StyleModes StyleMode { get; }
-    }
-
     /// <summary>
     /// Adds a conditional formatting rule based on a formula
     /// </summary>
