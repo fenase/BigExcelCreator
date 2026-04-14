@@ -87,6 +87,7 @@ namespace BigExcelCreator
 #else
             if (data is null) throw new ArgumentNullException(nameof(data));
 #endif
+            IList<T> list = data as IList<T> ?? [.. data];
 
             if (columns?.Any() != true) { columns = CreateColumnsFromObject(typeof(T)); }
 
@@ -110,7 +111,7 @@ namespace BigExcelCreator
                 AddAutofilter(autoFilterRange);
             }
 
-            foreach (T dataRow in data)
+            foreach (T dataRow in list)
             {
                 BeginRow();
                 foreach (PropertyInfo columnName in sortedColumns)
@@ -132,6 +133,31 @@ namespace BigExcelCreator
                 }
                 EndRow();
             }
+
+            int colNum = 0;
+            int baseRow = writeHeaderRow ? 2 : 1;
+            foreach (PropertyInfo column in sortedColumns)
+            {
+                colNum++;
+                IConditionalFormatAttributes styleFormat =
+                    column.GetCustomAttributes(typeof(IConditionalFormatAttributes), false)
+                    .Cast<IConditionalFormatAttributes>()
+                    .FirstOrDefault();
+                if (styleFormat == null) { continue; }
+
+                CellRange conditionalFormatRange = new(colNum, baseRow, colNum, Math.Max(baseRow + list.Count - 1, baseRow), currentSheetName);
+                int format = GetStyleDifferentialFormatIndexFromAttributeAndStyleList(styleFormat);
+
+                switch (styleFormat)
+                {
+                    case ExcelConditionalFormatFormulaAttribute formulaAttribute:
+                        AddConditionalFormattingFormula(conditionalFormatRange, formulaAttribute.Formula, format);
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+
             CloseSheet();
         }
     }

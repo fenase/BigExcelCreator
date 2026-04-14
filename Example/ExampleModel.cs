@@ -40,6 +40,7 @@ namespace Example
         [ExcelColumnOrder(4)]
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
+        [ExcelConditionalFormatFormula("RED", "E2<6100")]
         public decimal Salary { get; set; }
 
         [ExcelColumnName("Monthly Bonus")]

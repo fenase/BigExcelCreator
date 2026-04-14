@@ -324,6 +324,19 @@ namespace BigExcelCreator
             return styleIndex;
         }
 
+        private int GetDifferentialFormatFromStyleName(string name)
+        {
+            if (name.IsNullOrWhiteSpace()) { throw new StyleNameMustBeProvidedException(); }
+            if (!AllowedStyleModes.HasFlag(StyleModes.Name))
+            {
+                throw new StyleListNotAvailableException("In order to use named styles, a StyleList must be provided in the constructor");
+            }
+
+            int styleIndex = StyleList.GetIndexDifferentialByName(name);
+            if (styleIndex == -1) { throw new StyleNameNotFoundException(); }
+            return styleIndex;
+        }
+
         private bool IsStyleModeAllowed(StyleModes styleMode)
         {
             return AllowedStyleModes.HasFlag(styleMode);
@@ -365,6 +378,26 @@ namespace BigExcelCreator
             if (styleFormat.StyleMode.HasFlag(StyleModes.Index))
             {
                 return styleFormat.Format;
+            }
+            return 0;
+        }
+
+        private int GetStyleDifferentialFormatIndexFromAttributeAndStyleList(IConditionalFormatAttributes conditionalFormat)
+        {
+            if (conditionalFormat == null) { return 0; }
+
+            if (!IsStyleModeAllowed(conditionalFormat.StyleMode))
+            {
+                throw new InvalidOperationException($"Unable to fetch style. This is most likely due to creating this instance using {nameof(Stylesheet)} instead of {nameof(StyleList)}. Please check the constructors documentation.");
+            }
+
+            if (conditionalFormat.StyleMode.HasFlag(StyleModes.Name))
+            {
+                return GetDifferentialFormatFromStyleName(conditionalFormat.StyleName);
+            }
+            if (conditionalFormat.StyleMode.HasFlag(StyleModes.Index))
+            {
+                return conditionalFormat.Format;
             }
             return 0;
         }
