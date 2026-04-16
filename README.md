@@ -19,9 +19,11 @@ Since the most common reason for a file to become corrupted when creating it usi
 > ### NOTE
 >  
 > Version 2.x of this package is linked to 
-> version [2.18 of DocumentFormat.OpenXml](https://www.nuget.org/packages/DocumentFormat.OpenXml/2.18.0),
+> version [2.20.0 of DocumentFormat.OpenXml](https://www.nuget.org/packages/DocumentFormat.OpenXml/2.20.0),
 > and starting on version 3, BigExcelCreator is linked to 
 > version [3 of DocumentFormat.OpenXml](https://www.nuget.org/packages/DocumentFormat.OpenXml).
+> 
+> **Version 2.3.x is maintained as legacy.** New features might be included, but not guaranteed. Testing is limited. I recommend using version 3.x if possible.
 > 
 > If you're already using DocumentFormat.OpenXml v2, either directly or as transitive reference,
 > and you can't upgrade for some reason (e.g. dependency on another package), 
