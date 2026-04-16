@@ -167,7 +167,7 @@ namespace BigExcelCreator
             ThrowIfInvalidSpreadsheetDocumentType(spreadsheetDocumentType);
             Path = path;
             SavingTo = SavingTo.file;
-            Document = SpreadsheetDocument.Create(Path, spreadsheetDocumentType);
+            Document = SpreadsheetDocument.Create(Path, spreadsheetDocumentType, autoSave: true);
             CtorHelper(spreadsheetDocumentType, skipCellWhenEmpty, stylesheet);
         }
 
@@ -188,7 +188,7 @@ namespace BigExcelCreator
 #endif
             Path = path;
             SavingTo = SavingTo.file;
-            Document = SpreadsheetDocument.Create(Path, spreadsheetDocumentType);
+            Document = SpreadsheetDocument.Create(Path, spreadsheetDocumentType, autoSave: true);
             StyleList = styleList;
             AllowedStyleModes |= StyleModes.Name;
             Stylesheet stylesheet = styleList.GetStylesheet();
@@ -207,7 +207,7 @@ namespace BigExcelCreator
             ThrowIfInvalidSpreadsheetDocumentType(spreadsheetDocumentType);
             Stream = stream;
             SavingTo = SavingTo.stream;
-            Document = SpreadsheetDocument.Create(Stream, spreadsheetDocumentType);
+            Document = SpreadsheetDocument.Create(Stream, spreadsheetDocumentType, autoSave: true);
             CtorHelper(spreadsheetDocumentType, skipCellWhenEmpty, stylesheet);
         }
 
@@ -228,7 +228,7 @@ namespace BigExcelCreator
 #endif
             Stream = stream;
             SavingTo = SavingTo.stream;
-            Document = SpreadsheetDocument.Create(Stream, spreadsheetDocumentType);
+            Document = SpreadsheetDocument.Create(Stream, spreadsheetDocumentType, autoSave: true);
             StyleList = styleList;
             AllowedStyleModes |= StyleModes.Name;
             Stylesheet stylesheet = styleList.GetStylesheet();
