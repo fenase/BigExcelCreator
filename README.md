@@ -41,6 +41,7 @@ Since the most common reason for a file to become corrupted when creating it usi
 
 - [Usage](#usage)
   - [Shared Strings](#shared-strings)
+  - [Creating sheets from objects](#creating-sheets-from-objects)
 - [Data Validation](#data-validation)
 - [Styling and formatting](#styling-and-formatting)
   - [Column formatting](#column-formatting)
@@ -71,11 +72,11 @@ Since the most common reason for a file to become corrupted when creating it usi
 4. Between `BeginRow` and `EndRow`, use `WriteTextCell` to write a cell.
     > Alternatively, you can use `WriteTextRow` to write an entire row at once, using the same format.
     
-    > Starting on version 1.1, text cells can be written using the shared strings table, which should reduce the generated file size.
-    > See [Shared Strings](#shared-strings) below
+    > Text cells can be written using the shared strings table, which can reduce the generated file size.
+    > See [Shared Strings](#shared-strings) below.
 
-    > Starting on version 3.3, you can use `CreateSheetFromObject` to write an entire sheet from a list of elements.
-    > This method uses class decorators to define how to write each column from a property.
+    > If you are exporting a collection of objects, use `CreateSheetFromObject`.
+    > See [Creating sheets from objects](#creating-sheets-from-objects) for object-based export and configuration.
     >
     > See more in the [example code](https://github.com/fenase/BigExcelCreator/blob/main/Example/Program.cs)
 	> and in the [API documentation](https://fenase.github.io/BigExcelCreator/api/BigExcelCreator.html)
@@ -88,6 +89,65 @@ Since the most common reason for a file to become corrupted when creating it usi
 
 If the same text appears across different sheets, using the shared strings table may help reduce the generated file size.
 In order to do this, simply set to `true` the `useSharedStrings` parameter when calling `WriteTextCell` or `WriteTextRow`.
+
+If you use object export with `CreateSheetFromObject`, enable `useSharedStringsOnTextData` for the same shared-string optimization. See [Creating sheets from objects](#creating-sheets-from-objects).
+
+
+## Creating sheets from objects
+
+Use `CreateSheetFromObject` to write an entire sheet from a collection of objects.
+This method maps object properties to sheet columns and applies attribute-based configuration for headers, styles, and conditional formatting.
+
+```c#
+using BigExcelCreator;
+using BigExcelCreator.ClassAttributes;
+
+[ExcelHeaderStyleFormat("HeaderStyle")]
+public class Product
+{
+    [ExcelColumnOrder(0)]
+    [ExcelColumnName("Product Id")]
+    [ExcelColumnType(CellDataType.Number)]
+    [ExcelColumnWidth(10)]
+    public int Id { get; set; }
+
+    [ExcelColumnOrder(1)]
+    [ExcelColumnName("Product Name")]
+    [ExcelColumnType(CellDataType.Text)]
+    [ExcelColumnWidth(25)]
+    public string Name { get; set; } = string.Empty;
+}
+
+....
+
+MemoryStream stream = new MemoryStream();
+using (BigExcelWriter excel = new(stream))
+{
+    var data = new List<Product>
+    {
+        new() { Id = 1, Name = "Product A" },
+        new() { Id = 2, Name = "Product B" }
+    };
+    
+    excel.CreateSheetFromObject(data, "Products");
+    excel.CloseSheet();
+}
+```
+
+Available attributes for configuration:
+- `ExcelIgnore`: Exclude property from output
+- `ExcelColumnName`: Custom column header
+- `ExcelColumnOrder`: Column position (0-based)
+- `ExcelColumnType`: Cell data type mapping
+- `ExcelColumnWidth`: Column width in characters
+- `ExcelColumnHidden`: Hide column from view
+- `ExcelStyleFormat`: Style for data cells
+- `ExcelHeaderStyleFormat`: Style for header row
+- `ExcelConditionalFormatFormula`: Formula-based conditional formatting
+- `ExcelConditionalFormatCellIs`: Value-based conditional formatting
+- `ExcelConditionalFormatDuplicatedValues`: Highlight duplicates
+
+See the [API documentation](https://fenase.github.io/BigExcelCreator/api/BigExcelCreator.html) for more details.
 
 
 ## Example
@@ -120,6 +180,8 @@ using (BigExcelWriter excel = new(stream))
 Use `AddListValidator` to restrict, to a list defined in a formula,
 possible values to be written to a cell by an user.
 
+If you are exporting objects with `CreateSheetFromObject`, use conditional formatting attributes on properties instead of per-cell validation. See [Creating sheets from objects](#creating-sheets-from-objects).
+
 Alternatively, use `AddIntegerValidator` or `AddDecimalValidator` to restrict / validate values
 as defined by `validationType` (equal, greater than, between, etc.)
 
@@ -147,6 +209,8 @@ When calling `CreateAndOpenSheet`, pass `IList<Column>` as second parameter.
 Each element represents a single column.
 Only the `CustomWidth`, `Width` and `Hidden` are used.
 
+When using `CreateSheetFromObject`, styling and conditional formatting can be configured on object properties using attributes. See [Creating sheets from objects](#creating-sheets-from-objects).
+
 `Width` represents the column width in characters (Same unit as when resizing in Excel).
 
 `CustomWidth` allows the use of `Width`.
@@ -173,6 +237,8 @@ excel.CreateAndOpenSheet("Sheet Name", cols);
 * `SheetStateValues.Visible` (default): Sheet is visible
 * `SheetStateValues.Hidden`: Sheet is hidden
 * `SheetStateValues.VeryHidden`: Sheet is hidden and cannot be unhidden from Excel's UI.
+
+When exporting collections with `CreateSheetFromObject`, you can also control sheet visibility using the same `SheetStateValues` parameter. See [Creating sheets from objects](#creating-sheets-from-objects).
 
 
 ## Merge Cells
