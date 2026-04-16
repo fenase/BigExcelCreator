@@ -12,7 +12,7 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 		<EnableNETAnalyzers>True</EnableNETAnalyzers>
 		<AnalysisLevel>latest-all</AnalysisLevel>
-		<VersionPrefix>3.4</VersionPrefix>
+		<VersionPrefix>2.3</VersionPrefix>
 		<VersionSuffix>$([System.DateTime]::UtcNow.ToString(yyyy)).$([System.DateTime]::UtcNow.DayOfYear.ToString())$([System.DateTime]::UtcNow.ToString(HH))</VersionSuffix>
 		<Version>$(VersionPrefix).$(VersionSuffix)</Version>
 		<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
@@ -130,7 +130,7 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 
 
 	<ItemGroup>
-		<PackageReference Include="DocumentFormat.OpenXml" Version="[3.5,4)" />
+		<PackageReference Include="DocumentFormat.OpenXml" Version="[2.20,3)" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.202">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
