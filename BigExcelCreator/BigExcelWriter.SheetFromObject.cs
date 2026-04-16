@@ -128,6 +128,7 @@ namespace BigExcelCreator
                         .Cast<ExcelColumnTypeAttribute>()
                         .FirstOrDefault()?
                         .Type ?? CellDataType.Text;
+
                     object cellData = columnName.GetValue(dataRow, null);
 
                     WriteCellFromData(cellData, cellType, cellStyleIndex, useSharedStringsOnTextData);
