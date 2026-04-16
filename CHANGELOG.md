@@ -1,9 +1,9 @@
 ﻿# Changelog
 
 ## 3.4
-THIS IS A BETA VERSION. It may contain bugs and breaking changes.
 ### Added
 - Ability to reference styles by name when writing cells. This is achieved by passing a `StyleList` instance when creating the `BigExcelWriter` instead of a `StyleSheet` instance.
+- Ability to format the output when writing from a list of objects of a custom class, configuring which properties to write and how to format them using attributes.
 
 ## 3.3 (and 2.3.2025.35601)
 ### Added
@@ -11,7 +11,6 @@ THIS IS A BETA VERSION. It may contain bugs and breaking changes.
 - .Net10.0 build target
 ### Removed
 - .NetStandard1.3 build target (from version 2.3.x) since it's EOL.
-
 
 ## 3.2 (and 2.3.2024.32600)
 ### Added
