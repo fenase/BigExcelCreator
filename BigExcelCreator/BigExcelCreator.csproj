@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;net35;net40;net46;net48;net6.0;net8.0;net10.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;net35;net40;net46;net48;net8.0;net10.0</TargetFrameworks>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<Title>Create large Excel files with stylesheet Quickly using SAX</Title>
 		<Description>Create Excel files using OpenXML SAX with styling.
@@ -14,7 +14,7 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 		<AnalysisLevel>latest-all</AnalysisLevel>
 		<VersionPrefix>3.4</VersionPrefix>
 		<VersionSuffix>$([System.DateTime]::UtcNow.ToString(yyyy)).$([System.DateTime]::UtcNow.DayOfYear.ToString())$([System.DateTime]::UtcNow.ToString(HH))</VersionSuffix>
-		<Version>$(VersionPrefix).$(VersionSuffix)-beta</Version>
+		<Version>$(VersionPrefix).$(VersionSuffix)</Version>
 		<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 		<Deterministic>True</Deterministic>
 		<LangVersion>latest</LangVersion>
@@ -26,7 +26,6 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 		<NoWarn>1701;1702;S3220</NoWarn>
 		<WarningsNotAsErrors>CS1591</WarningsNotAsErrors>
 	</PropertyGroup>
-
 
 	<PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
@@ -93,16 +92,6 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 		<DebugType>embedded</DebugType>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-		<DebugType>embedded</DebugType>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-		<DebugType>embedded</DebugType>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net35|AnyCPU'">
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 		<DebugType>embedded</DebugType>
@@ -128,10 +117,9 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 		</None>
 	</ItemGroup>
 
-
 	<ItemGroup>
-		<PackageReference Include="DocumentFormat.OpenXml" Version="[3.3,4)" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+		<PackageReference Include="DocumentFormat.OpenXml" Version="[3.5.1,4)" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.202">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

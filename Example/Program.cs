@@ -54,13 +54,13 @@ styleList.NewStyle(null, yellowFill, null, null, "YELLOW");
 styleList.NewDifferentialStyle("RED", font: new Font(new[] { new Color { Rgb = new HexBinaryValue { Value = "FF0000" } } }));
 
 Fill greenFill = new Fill(new[]{
-                        new PatternFill(new[]{
-                            new BackgroundColor { Rgb = new HexBinaryValue { Value = "00FF00" } } })
+                                new PatternFill(new[]{
+                                        new BackgroundColor { Rgb = new HexBinaryValue { Value = "00FF00" } } })
                         { PatternType = PatternValues.Solid } });
 
 styleList.NewDifferentialStyle("GREENBKG", fill: greenFill);
 
-using BigExcelWriter excel = new(fullPath, styleList.GetStylesheet());
+using BigExcelWriter excel = new(fullPath, styleList); // another way: use styleList.GetStylesheet() instead of styleList. That, however, does not allow to use named styles.
 
 excel.CreateAndOpenSheet("S1", columns: columns, sheetState: SheetStateValues.Visible);
 
@@ -158,6 +158,6 @@ excel.CloseSheet();
 
 
 
-excel.CreateSheetFromObject(ExampleModel.GetTestData(), "From objects");
+excel.CreateSheetFromObject(ExampleModel.GetTestData(), "From objects", useSharedStringsOnTextData: true);
 
 
