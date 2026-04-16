@@ -93,9 +93,10 @@ Since the most common reason for a file to become corrupted when creating it usi
 <blockquote>
 <h3 id="note">NOTE</h3>
 <p>Version 2.x of this package is linked to
-version <a href="https://www.nuget.org/packages/DocumentFormat.OpenXml/2.18.0">2.18 of DocumentFormat.OpenXml</a>,
+version <a href="https://www.nuget.org/packages/DocumentFormat.OpenXml/2.20.0">2.20.0 of DocumentFormat.OpenXml</a>,
 and starting on version 3, BigExcelCreator is linked to
 version <a href="https://www.nuget.org/packages/DocumentFormat.OpenXml">3 of DocumentFormat.OpenXml</a>.</p>
+<p><strong>Version 2.3.x is maintained as legacy.</strong> New features might be included, but not guaranteed. Testing is limited. I recommend using version 3.x if possible.</p>
 <p>If you're already using DocumentFormat.OpenXml v2, either directly or as transitive reference,
 and you can't upgrade for some reason (e.g. dependency on another package),
 use <a href="https://www.nuget.org/packages/BigExcelCreator/2.2.2022.32620">BigExcelCreator v2</a></p>
@@ -111,6 +112,7 @@ use <a href="https://www.nuget.org/packages/BigExcelCreator/2.2.2022.32620">BigE
 <li><a href="#usage">Usage</a>
 <ul>
 <li><a href="#shared-strings">Shared Strings</a></li>
+<li><a href="#creating-sheets-from-objects">Creating sheets from objects</a></li>
 </ul>
 </li>
 <li><a href="#data-validation">Data Validation</a></li>
@@ -162,12 +164,12 @@ on gitHub, part of the vs solution.</p>
 <p>Alternatively, you can use <code>WriteTextRow</code> to write an entire row at once, using the same format.</p>
 </blockquote>
 <blockquote>
-<p>Starting on version 1.1, text cells can be written using the shared strings table, which should reduce the generated file size.
-See <a href="#shared-strings">Shared Strings</a> below</p>
+<p>Text cells can be written using the shared strings table, which can reduce the generated file size.
+See <a href="#shared-strings">Shared Strings</a> below.</p>
 </blockquote>
 <blockquote>
-<p>Starting on version 3.3, you can use <code>CreateSheetFromObject</code> to write an entire sheet from a list of elements.
-This method uses class decorators to define how to write each column from a property.</p>
+<p>If you are exporting a collection of objects, use <code>CreateSheetFromObject</code>.
+See <a href="#creating-sheets-from-objects">Creating sheets from objects</a> for object-based export and configuration.</p>
 <p>See more in the <a href="https://github.com/fenase/BigExcelCreator/blob/main/Example/Program.cs">example code</a>
 and in the <a href="https://fenase.github.io/BigExcelCreator/api/BigExcelCreator.html">API documentation</a></p>
 </blockquote>
@@ -184,6 +186,59 @@ and in the <a href="https://fenase.github.io/BigExcelCreator/api/BigExcelCreator
 <h2 id="shared-strings">Shared Strings</h2>
 <p>If the same text appears across different sheets, using the shared strings table may help reduce the generated file size.
 In order to do this, simply set to <code>true</code> the <code>useSharedStrings</code> parameter when calling <code>WriteTextCell</code> or <code>WriteTextRow</code>.</p>
+<p>If you use object export with <code>CreateSheetFromObject</code>, enable <code>useSharedStringsOnTextData</code> for the same shared-string optimization. See <a href="#creating-sheets-from-objects">Creating sheets from objects</a>.</p>
+<h2 id="creating-sheets-from-objects">Creating sheets from objects</h2>
+<p>Use <code>CreateSheetFromObject</code> to write an entire sheet from a collection of objects.
+This method maps object properties to sheet columns and applies attribute-based configuration for headers, styles, and conditional formatting.</p>
+<pre><code class="lang-c#">using BigExcelCreator;
+using BigExcelCreator.ClassAttributes;
+
+[ExcelHeaderStyleFormat(&quot;HeaderStyle&quot;)]
+public class Product
+{
+    [ExcelColumnOrder(0)]
+    [ExcelColumnName(&quot;Product Id&quot;)]
+    [ExcelColumnType(CellDataType.Number)]
+    [ExcelColumnWidth(10)]
+    public int Id { get; set; }
+
+    [ExcelColumnOrder(1)]
+    [ExcelColumnName(&quot;Product Name&quot;)]
+    [ExcelColumnType(CellDataType.Text)]
+    [ExcelColumnWidth(25)]
+    public string Name { get; set; } = string.Empty;
+}
+
+....
+
+MemoryStream stream = new MemoryStream();
+using (BigExcelWriter excel = new(stream))
+{
+    var data = new List&lt;Product&gt;
+    {
+        new() { Id = 1, Name = &quot;Product A&quot; },
+        new() { Id = 2, Name = &quot;Product B&quot; }
+    };
+    
+    excel.CreateSheetFromObject(data, &quot;Products&quot;);
+    excel.CloseSheet();
+}
+</code></pre>
+<p>Available attributes for configuration:</p>
+<ul>
+<li><code>ExcelIgnore</code>: Exclude property from output</li>
+<li><code>ExcelColumnName</code>: Custom column header</li>
+<li><code>ExcelColumnOrder</code>: Column position (0-based)</li>
+<li><code>ExcelColumnType</code>: Cell data type mapping</li>
+<li><code>ExcelColumnWidth</code>: Column width in characters</li>
+<li><code>ExcelColumnHidden</code>: Hide column from view</li>
+<li><code>ExcelStyleFormat</code>: Style for data cells</li>
+<li><code>ExcelHeaderStyleFormat</code>: Style for header row</li>
+<li><code>ExcelConditionalFormatFormula</code>: Formula-based conditional formatting</li>
+<li><code>ExcelConditionalFormatCellIs</code>: Value-based conditional formatting</li>
+<li><code>ExcelConditionalFormatDuplicatedValues</code>: Highlight duplicates</li>
+</ul>
+<p>See the <a href="https://fenase.github.io/BigExcelCreator/api/BigExcelCreator.html">API documentation</a> for more details.</p>
 <h2 id="example">Example</h2>
 <pre><code class="lang-c#">using BigExcelCreator;
 
@@ -208,6 +263,7 @@ using (BigExcelWriter excel = new(stream))
 <h1 id="data-validation">Data Validation</h1>
 <p>Use <code>AddListValidator</code> to restrict, to a list defined in a formula,
 possible values to be written to a cell by an user.</p>
+<p>If you are exporting objects with <code>CreateSheetFromObject</code>, use conditional formatting attributes on properties instead of per-cell validation. See <a href="#creating-sheets-from-objects">Creating sheets from objects</a>.</p>
 <p>Alternatively, use <code>AddIntegerValidator</code> or <code>AddDecimalValidator</code> to restrict / validate values
 as defined by <code>validationType</code> (equal, greater than, between, etc.)</p>
 <pre><code class="lang-c#">    excel.CreateAndOpenSheet(&quot;Sheet Name&quot;);
@@ -227,6 +283,7 @@ as defined by <code>validationType</code> (equal, greater than, between, etc.)</
 <p>When calling <code>CreateAndOpenSheet</code>, pass <code>IList&lt;Column&gt;</code> as second parameter.
 Each element represents a single column.
 Only the <code>CustomWidth</code>, <code>Width</code> and <code>Hidden</code> are used.</p>
+<p>When using <code>CreateSheetFromObject</code>, styling and conditional formatting can be configured on object properties using attributes. See <a href="#creating-sheets-from-objects">Creating sheets from objects</a>.</p>
 <p><code>Width</code> represents the column width in characters (Same unit as when resizing in Excel).</p>
 <p><code>CustomWidth</code> allows the use of <code>Width</code>.</p>
 <p><code>Hidden</code> hides the column.</p>
@@ -247,6 +304,7 @@ excel.CreateAndOpenSheet(&quot;Sheet Name&quot;, cols);
 <li><code>SheetStateValues.Hidden</code>: Sheet is hidden</li>
 <li><code>SheetStateValues.VeryHidden</code>: Sheet is hidden and cannot be unhidden from Excel's UI.</li>
 </ul>
+<p>When exporting collections with <code>CreateSheetFromObject</code>, you can also control sheet visibility using the same <code>SheetStateValues</code> parameter. See <a href="#creating-sheets-from-objects">Creating sheets from objects</a>.</p>
 <h2 id="merge-cells">Merge Cells</h2>
 <p>In order to merge a range of cells while a sheet is open, use <code>MergeCells</code> with a range.</p>
 <pre><code class="lang-c#">excel.MergeCells(&quot;A1:A5&quot;);

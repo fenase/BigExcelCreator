@@ -116,6 +116,48 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.yml\" sourcestartlinenumber=\"1\">Adds a conditional formatting rule based on a cell value (CellIs)</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.yml\" sourcestartlinenumber=\"1\">Adds a conditional formatting rule to highlight duplicated values</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.yml\" sourcestartlinenumber=\"1\">Adds a conditional formatting rule based on a formula</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.yml",
       "output": {
         ".html": {
@@ -126,7 +168,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute",
-      "Summary": "<p sourcefile=\"api/BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.yml\" sourcestartlinenumber=\"1\">Format index to apply to the header row.</p>\n"
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.yml\" sourcestartlinenumber=\"1\">Format to apply to the header row.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -154,7 +196,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute",
-      "Summary": "<p sourcefile=\"api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.yml\" sourcestartlinenumber=\"1\">Format index to apply to cells.</p>\n"
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.yml\" sourcestartlinenumber=\"1\">Format to apply to cells.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -323,6 +365,48 @@
       "IsMRef": true,
       "Title": "BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException",
       "Summary": "<p sourcefile=\"api/BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.yml\" sourcestartlinenumber=\"1\">When attempting to open a sheet when there is another already open</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Exceptions.StyleListNotAvailableException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Exceptions.StyleListNotAvailableException.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Exceptions.StyleListNotAvailableException",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Exceptions.StyleListNotAvailableException.yml\" sourcestartlinenumber=\"1\">When trying to get a style by name but no name was provided.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Exceptions.StyleNameMustBeProvidedException",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.yml\" sourcestartlinenumber=\"1\">When trying to get a style by name but no name was provided.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Exceptions.StyleNameNotFoundException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Exceptions.StyleNameNotFoundException.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Exceptions.StyleNameNotFoundException",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Exceptions.StyleNameNotFoundException.yml\" sourcestartlinenumber=\"1\">When trying to get a style by name but it's not included in StyleList.</p>\n"
     },
     {
       "type": "ManagedReference",

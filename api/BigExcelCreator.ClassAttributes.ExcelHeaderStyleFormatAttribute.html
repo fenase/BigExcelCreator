@@ -6,7 +6,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta name="title" content="Class ExcelHeaderStyleFormatAttribute | BigExcelCreator ">
       
-      <meta name="description" content="Format index to apply to the header row.">
+      <meta name="description" content="Format to apply to the header row.">
       <link rel="icon" href="../favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -89,7 +89,7 @@
 
 
   <h1 id="BigExcelCreator_ClassAttributes_ExcelHeaderStyleFormatAttribute" data-uid="BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute" class="text-break">
-Class ExcelHeaderStyleFormatAttribute  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelHeaderStyleFormatAttribute.cs/#L9"><i class="bi bi-code-slash"></i></a>
+Class ExcelHeaderStyleFormatAttribute  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelHeaderStyleFormatAttribute.cs/#L12"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -97,7 +97,7 @@ Class ExcelHeaderStyleFormatAttribute  <a class="header-action link-secondary" t
   <dl><dt>Assembly</dt><dd>BigExcelCreator.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>Format index to apply to the header row.</p>
+  <div class="markdown summary"><p>Format to apply to the header row.</p>
 </div>
   <div class="markdown conceptual"></div>
 
@@ -261,7 +261,7 @@ public sealed class ExcelHeaderStyleFormatAttribute : Attribute</code></pre>
 
   <h3 id="BigExcelCreator_ClassAttributes_ExcelHeaderStyleFormatAttribute__ctor_System_Int32_" data-uid="BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.#ctor(System.Int32)">
   ExcelHeaderStyleFormatAttribute(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelHeaderStyleFormatAttribute.cs/#L9"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelHeaderStyleFormatAttribute.cs/#L31"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Format index to apply to the header row.</p>
@@ -290,6 +290,39 @@ public sealed class ExcelHeaderStyleFormatAttribute : Attribute</code></pre>
 
 
 
+  <a id="BigExcelCreator_ClassAttributes_ExcelHeaderStyleFormatAttribute__ctor_" data-uid="BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.#ctor*"></a>
+
+  <h3 id="BigExcelCreator_ClassAttributes_ExcelHeaderStyleFormatAttribute__ctor_System_String_" data-uid="BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.#ctor(System.String)">
+  ExcelHeaderStyleFormatAttribute(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelHeaderStyleFormatAttribute.cs/#L41"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Format index to apply to the header row.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ExcelHeaderStyleFormatAttribute(string styleName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>styleName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The style name to apply to the cell.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
   <h2 class="section" id="properties">Properties
 </h2>
 
@@ -298,10 +331,10 @@ public sealed class ExcelHeaderStyleFormatAttribute : Attribute</code></pre>
 
   <h3 id="BigExcelCreator_ClassAttributes_ExcelHeaderStyleFormatAttribute_Format" data-uid="BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.Format">
   Format
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelHeaderStyleFormatAttribute.cs/#L15"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelHeaderStyleFormatAttribute.cs/#L18"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>The format index to apply to the cell. Default is 0. See <a class="xref" href="BigExcelCreator.Styles.StyleList.html#BigExcelCreator_Styles_StyleList_GetIndexByName_System_String_">GetIndexByName(string)</a>.</p>
+  <div class="markdown level1 summary"><p>The format to apply to the cell./&gt;.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -326,11 +359,43 @@ public sealed class ExcelHeaderStyleFormatAttribute : Attribute</code></pre>
 
 
 
+  <a id="BigExcelCreator_ClassAttributes_ExcelHeaderStyleFormatAttribute_StyleName_" data-uid="BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.StyleName*"></a>
+
+  <h3 id="BigExcelCreator_ClassAttributes_ExcelHeaderStyleFormatAttribute_StyleName" data-uid="BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.StyleName">
+  StyleName
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelHeaderStyleFormatAttribute.cs/#L23"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The style name to apply to the cells in header row.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string StyleName { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelHeaderStyleFormatAttribute.cs/#L9" class="edit-link">Edit this page</a>
+          <a href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelHeaderStyleFormatAttribute.cs/#L12" class="edit-link">Edit this page</a>
         </div>
 
 

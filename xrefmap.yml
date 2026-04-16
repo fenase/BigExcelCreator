@@ -22,6 +22,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.New(System.IO.Stream)
   nameWithType: BigExcelWriter.BigExcelWriter(Stream)
   nameWithType.vb: BigExcelWriter.New(Stream)
+- uid: BigExcelCreator.BigExcelWriter.#ctor(System.IO.Stream,BigExcelCreator.Styles.StyleList)
+  name: BigExcelWriter(Stream, StyleList)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_IO_Stream_BigExcelCreator_Styles_StyleList_
+  commentId: M:BigExcelCreator.BigExcelWriter.#ctor(System.IO.Stream,BigExcelCreator.Styles.StyleList)
+  name.vb: New(Stream, StyleList)
+  fullName: BigExcelCreator.BigExcelWriter.BigExcelWriter(System.IO.Stream, BigExcelCreator.Styles.StyleList)
+  fullName.vb: BigExcelCreator.BigExcelWriter.New(System.IO.Stream, BigExcelCreator.Styles.StyleList)
+  nameWithType: BigExcelWriter.BigExcelWriter(Stream, StyleList)
+  nameWithType.vb: BigExcelWriter.New(Stream, StyleList)
 - uid: BigExcelCreator.BigExcelWriter.#ctor(System.IO.Stream,DocumentFormat.OpenXml.Spreadsheet.Stylesheet)
   name: BigExcelWriter(Stream, Stylesheet)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_IO_Stream_DocumentFormat_OpenXml_Spreadsheet_Stylesheet_
@@ -40,6 +49,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.New(System.IO.Stream, DocumentFormat.OpenXml.SpreadsheetDocumentType)
   nameWithType: BigExcelWriter.BigExcelWriter(Stream, SpreadsheetDocumentType)
   nameWithType.vb: BigExcelWriter.New(Stream, SpreadsheetDocumentType)
+- uid: BigExcelCreator.BigExcelWriter.#ctor(System.IO.Stream,DocumentFormat.OpenXml.SpreadsheetDocumentType,BigExcelCreator.Styles.StyleList)
+  name: BigExcelWriter(Stream, SpreadsheetDocumentType, StyleList)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_IO_Stream_DocumentFormat_OpenXml_SpreadsheetDocumentType_BigExcelCreator_Styles_StyleList_
+  commentId: M:BigExcelCreator.BigExcelWriter.#ctor(System.IO.Stream,DocumentFormat.OpenXml.SpreadsheetDocumentType,BigExcelCreator.Styles.StyleList)
+  name.vb: New(Stream, SpreadsheetDocumentType, StyleList)
+  fullName: BigExcelCreator.BigExcelWriter.BigExcelWriter(System.IO.Stream, DocumentFormat.OpenXml.SpreadsheetDocumentType, BigExcelCreator.Styles.StyleList)
+  fullName.vb: BigExcelCreator.BigExcelWriter.New(System.IO.Stream, DocumentFormat.OpenXml.SpreadsheetDocumentType, BigExcelCreator.Styles.StyleList)
+  nameWithType: BigExcelWriter.BigExcelWriter(Stream, SpreadsheetDocumentType, StyleList)
+  nameWithType.vb: BigExcelWriter.New(Stream, SpreadsheetDocumentType, StyleList)
 - uid: BigExcelCreator.BigExcelWriter.#ctor(System.IO.Stream,DocumentFormat.OpenXml.SpreadsheetDocumentType,DocumentFormat.OpenXml.Spreadsheet.Stylesheet)
   name: BigExcelWriter(Stream, SpreadsheetDocumentType, Stylesheet)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_IO_Stream_DocumentFormat_OpenXml_SpreadsheetDocumentType_DocumentFormat_OpenXml_Spreadsheet_Stylesheet_
@@ -58,6 +76,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.New(System.IO.Stream, DocumentFormat.OpenXml.SpreadsheetDocumentType, Boolean)
   nameWithType: BigExcelWriter.BigExcelWriter(Stream, SpreadsheetDocumentType, bool)
   nameWithType.vb: BigExcelWriter.New(Stream, SpreadsheetDocumentType, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.#ctor(System.IO.Stream,DocumentFormat.OpenXml.SpreadsheetDocumentType,System.Boolean,BigExcelCreator.Styles.StyleList)
+  name: BigExcelWriter(Stream, SpreadsheetDocumentType, bool, StyleList)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_IO_Stream_DocumentFormat_OpenXml_SpreadsheetDocumentType_System_Boolean_BigExcelCreator_Styles_StyleList_
+  commentId: M:BigExcelCreator.BigExcelWriter.#ctor(System.IO.Stream,DocumentFormat.OpenXml.SpreadsheetDocumentType,System.Boolean,BigExcelCreator.Styles.StyleList)
+  name.vb: New(Stream, SpreadsheetDocumentType, Boolean, StyleList)
+  fullName: BigExcelCreator.BigExcelWriter.BigExcelWriter(System.IO.Stream, DocumentFormat.OpenXml.SpreadsheetDocumentType, bool, BigExcelCreator.Styles.StyleList)
+  fullName.vb: BigExcelCreator.BigExcelWriter.New(System.IO.Stream, DocumentFormat.OpenXml.SpreadsheetDocumentType, Boolean, BigExcelCreator.Styles.StyleList)
+  nameWithType: BigExcelWriter.BigExcelWriter(Stream, SpreadsheetDocumentType, bool, StyleList)
+  nameWithType.vb: BigExcelWriter.New(Stream, SpreadsheetDocumentType, Boolean, StyleList)
 - uid: BigExcelCreator.BigExcelWriter.#ctor(System.IO.Stream,DocumentFormat.OpenXml.SpreadsheetDocumentType,System.Boolean,DocumentFormat.OpenXml.Spreadsheet.Stylesheet)
   name: BigExcelWriter(Stream, SpreadsheetDocumentType, bool, Stylesheet)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_IO_Stream_DocumentFormat_OpenXml_SpreadsheetDocumentType_System_Boolean_DocumentFormat_OpenXml_Spreadsheet_Stylesheet_
@@ -85,6 +112,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.New(String)
   nameWithType: BigExcelWriter.BigExcelWriter(string)
   nameWithType.vb: BigExcelWriter.New(String)
+- uid: BigExcelCreator.BigExcelWriter.#ctor(System.String,BigExcelCreator.Styles.StyleList)
+  name: BigExcelWriter(string, StyleList)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_String_BigExcelCreator_Styles_StyleList_
+  commentId: M:BigExcelCreator.BigExcelWriter.#ctor(System.String,BigExcelCreator.Styles.StyleList)
+  name.vb: New(String, StyleList)
+  fullName: BigExcelCreator.BigExcelWriter.BigExcelWriter(string, BigExcelCreator.Styles.StyleList)
+  fullName.vb: BigExcelCreator.BigExcelWriter.New(String, BigExcelCreator.Styles.StyleList)
+  nameWithType: BigExcelWriter.BigExcelWriter(string, StyleList)
+  nameWithType.vb: BigExcelWriter.New(String, StyleList)
 - uid: BigExcelCreator.BigExcelWriter.#ctor(System.String,DocumentFormat.OpenXml.Spreadsheet.Stylesheet)
   name: BigExcelWriter(string, Stylesheet)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_String_DocumentFormat_OpenXml_Spreadsheet_Stylesheet_
@@ -103,6 +139,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.New(String, DocumentFormat.OpenXml.SpreadsheetDocumentType)
   nameWithType: BigExcelWriter.BigExcelWriter(string, SpreadsheetDocumentType)
   nameWithType.vb: BigExcelWriter.New(String, SpreadsheetDocumentType)
+- uid: BigExcelCreator.BigExcelWriter.#ctor(System.String,DocumentFormat.OpenXml.SpreadsheetDocumentType,BigExcelCreator.Styles.StyleList)
+  name: BigExcelWriter(string, SpreadsheetDocumentType, StyleList)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_String_DocumentFormat_OpenXml_SpreadsheetDocumentType_BigExcelCreator_Styles_StyleList_
+  commentId: M:BigExcelCreator.BigExcelWriter.#ctor(System.String,DocumentFormat.OpenXml.SpreadsheetDocumentType,BigExcelCreator.Styles.StyleList)
+  name.vb: New(String, SpreadsheetDocumentType, StyleList)
+  fullName: BigExcelCreator.BigExcelWriter.BigExcelWriter(string, DocumentFormat.OpenXml.SpreadsheetDocumentType, BigExcelCreator.Styles.StyleList)
+  fullName.vb: BigExcelCreator.BigExcelWriter.New(String, DocumentFormat.OpenXml.SpreadsheetDocumentType, BigExcelCreator.Styles.StyleList)
+  nameWithType: BigExcelWriter.BigExcelWriter(string, SpreadsheetDocumentType, StyleList)
+  nameWithType.vb: BigExcelWriter.New(String, SpreadsheetDocumentType, StyleList)
 - uid: BigExcelCreator.BigExcelWriter.#ctor(System.String,DocumentFormat.OpenXml.SpreadsheetDocumentType,DocumentFormat.OpenXml.Spreadsheet.Stylesheet)
   name: BigExcelWriter(string, SpreadsheetDocumentType, Stylesheet)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_String_DocumentFormat_OpenXml_SpreadsheetDocumentType_DocumentFormat_OpenXml_Spreadsheet_Stylesheet_
@@ -121,6 +166,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.New(String, DocumentFormat.OpenXml.SpreadsheetDocumentType, Boolean)
   nameWithType: BigExcelWriter.BigExcelWriter(string, SpreadsheetDocumentType, bool)
   nameWithType.vb: BigExcelWriter.New(String, SpreadsheetDocumentType, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.#ctor(System.String,DocumentFormat.OpenXml.SpreadsheetDocumentType,System.Boolean,BigExcelCreator.Styles.StyleList)
+  name: BigExcelWriter(string, SpreadsheetDocumentType, bool, StyleList)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_String_DocumentFormat_OpenXml_SpreadsheetDocumentType_System_Boolean_BigExcelCreator_Styles_StyleList_
+  commentId: M:BigExcelCreator.BigExcelWriter.#ctor(System.String,DocumentFormat.OpenXml.SpreadsheetDocumentType,System.Boolean,BigExcelCreator.Styles.StyleList)
+  name.vb: New(String, SpreadsheetDocumentType, Boolean, StyleList)
+  fullName: BigExcelCreator.BigExcelWriter.BigExcelWriter(string, DocumentFormat.OpenXml.SpreadsheetDocumentType, bool, BigExcelCreator.Styles.StyleList)
+  fullName.vb: BigExcelCreator.BigExcelWriter.New(String, DocumentFormat.OpenXml.SpreadsheetDocumentType, Boolean, BigExcelCreator.Styles.StyleList)
+  nameWithType: BigExcelWriter.BigExcelWriter(string, SpreadsheetDocumentType, bool, StyleList)
+  nameWithType.vb: BigExcelWriter.New(String, SpreadsheetDocumentType, Boolean, StyleList)
 - uid: BigExcelCreator.BigExcelWriter.#ctor(System.String,DocumentFormat.OpenXml.SpreadsheetDocumentType,System.Boolean,DocumentFormat.OpenXml.Spreadsheet.Stylesheet)
   name: BigExcelWriter(string, SpreadsheetDocumentType, bool, Stylesheet)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter__ctor_System_String_DocumentFormat_OpenXml_SpreadsheetDocumentType_System_Boolean_DocumentFormat_OpenXml_Spreadsheet_Stylesheet_
@@ -555,24 +609,24 @@ references:
   isSpec: "True"
   fullName: BigExcelCreator.BigExcelWriter.CreateSheetFromObject
   nameWithType: BigExcelWriter.CreateSheetFromObject
-- uid: BigExcelCreator.BigExcelWriter.CreateSheetFromObject``1(System.Collections.Generic.IEnumerable{``0},System.String,DocumentFormat.OpenXml.Spreadsheet.SheetStateValues,System.Boolean,System.Boolean,System.Collections.Generic.IList{DocumentFormat.OpenXml.Spreadsheet.Column})
-  name: CreateSheetFromObject<T>(IEnumerable<T>, string, SheetStateValues, bool, bool, IList<Column>)
-  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_CreateSheetFromObject__1_System_Collections_Generic_IEnumerable___0__System_String_DocumentFormat_OpenXml_Spreadsheet_SheetStateValues_System_Boolean_System_Boolean_System_Collections_Generic_IList_DocumentFormat_OpenXml_Spreadsheet_Column__
-  commentId: M:BigExcelCreator.BigExcelWriter.CreateSheetFromObject``1(System.Collections.Generic.IEnumerable{``0},System.String,DocumentFormat.OpenXml.Spreadsheet.SheetStateValues,System.Boolean,System.Boolean,System.Collections.Generic.IList{DocumentFormat.OpenXml.Spreadsheet.Column})
-  name.vb: CreateSheetFromObject(Of T)(IEnumerable(Of T), String, SheetStateValues, Boolean, Boolean, IList(Of Column))
-  fullName: BigExcelCreator.BigExcelWriter.CreateSheetFromObject<T>(System.Collections.Generic.IEnumerable<T>, string, DocumentFormat.OpenXml.Spreadsheet.SheetStateValues, bool, bool, System.Collections.Generic.IList<DocumentFormat.OpenXml.Spreadsheet.Column>)
-  fullName.vb: BigExcelCreator.BigExcelWriter.CreateSheetFromObject(Of T)(System.Collections.Generic.IEnumerable(Of T), String, DocumentFormat.OpenXml.Spreadsheet.SheetStateValues, Boolean, Boolean, System.Collections.Generic.IList(Of DocumentFormat.OpenXml.Spreadsheet.Column))
-  nameWithType: BigExcelWriter.CreateSheetFromObject<T>(IEnumerable<T>, string, SheetStateValues, bool, bool, IList<Column>)
-  nameWithType.vb: BigExcelWriter.CreateSheetFromObject(Of T)(IEnumerable(Of T), String, SheetStateValues, Boolean, Boolean, IList(Of Column))
-- uid: BigExcelCreator.BigExcelWriter.CreateSheetFromObject``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Boolean,System.Boolean,System.Collections.Generic.IList{DocumentFormat.OpenXml.Spreadsheet.Column})
-  name: CreateSheetFromObject<T>(IEnumerable<T>, string, bool, bool, IList<Column>)
-  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_CreateSheetFromObject__1_System_Collections_Generic_IEnumerable___0__System_String_System_Boolean_System_Boolean_System_Collections_Generic_IList_DocumentFormat_OpenXml_Spreadsheet_Column__
-  commentId: M:BigExcelCreator.BigExcelWriter.CreateSheetFromObject``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Boolean,System.Boolean,System.Collections.Generic.IList{DocumentFormat.OpenXml.Spreadsheet.Column})
-  name.vb: CreateSheetFromObject(Of T)(IEnumerable(Of T), String, Boolean, Boolean, IList(Of Column))
-  fullName: BigExcelCreator.BigExcelWriter.CreateSheetFromObject<T>(System.Collections.Generic.IEnumerable<T>, string, bool, bool, System.Collections.Generic.IList<DocumentFormat.OpenXml.Spreadsheet.Column>)
-  fullName.vb: BigExcelCreator.BigExcelWriter.CreateSheetFromObject(Of T)(System.Collections.Generic.IEnumerable(Of T), String, Boolean, Boolean, System.Collections.Generic.IList(Of DocumentFormat.OpenXml.Spreadsheet.Column))
-  nameWithType: BigExcelWriter.CreateSheetFromObject<T>(IEnumerable<T>, string, bool, bool, IList<Column>)
-  nameWithType.vb: BigExcelWriter.CreateSheetFromObject(Of T)(IEnumerable(Of T), String, Boolean, Boolean, IList(Of Column))
+- uid: BigExcelCreator.BigExcelWriter.CreateSheetFromObject``1(System.Collections.Generic.IEnumerable{``0},System.String,DocumentFormat.OpenXml.Spreadsheet.SheetStateValues,System.Boolean,System.Boolean,System.Collections.Generic.IList{DocumentFormat.OpenXml.Spreadsheet.Column},System.Boolean)
+  name: CreateSheetFromObject<T>(IEnumerable<T>, string, SheetStateValues, bool, bool, IList<Column>, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_CreateSheetFromObject__1_System_Collections_Generic_IEnumerable___0__System_String_DocumentFormat_OpenXml_Spreadsheet_SheetStateValues_System_Boolean_System_Boolean_System_Collections_Generic_IList_DocumentFormat_OpenXml_Spreadsheet_Column__System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.CreateSheetFromObject``1(System.Collections.Generic.IEnumerable{``0},System.String,DocumentFormat.OpenXml.Spreadsheet.SheetStateValues,System.Boolean,System.Boolean,System.Collections.Generic.IList{DocumentFormat.OpenXml.Spreadsheet.Column},System.Boolean)
+  name.vb: CreateSheetFromObject(Of T)(IEnumerable(Of T), String, SheetStateValues, Boolean, Boolean, IList(Of Column), Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.CreateSheetFromObject<T>(System.Collections.Generic.IEnumerable<T>, string, DocumentFormat.OpenXml.Spreadsheet.SheetStateValues, bool, bool, System.Collections.Generic.IList<DocumentFormat.OpenXml.Spreadsheet.Column>, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.CreateSheetFromObject(Of T)(System.Collections.Generic.IEnumerable(Of T), String, DocumentFormat.OpenXml.Spreadsheet.SheetStateValues, Boolean, Boolean, System.Collections.Generic.IList(Of DocumentFormat.OpenXml.Spreadsheet.Column), Boolean)
+  nameWithType: BigExcelWriter.CreateSheetFromObject<T>(IEnumerable<T>, string, SheetStateValues, bool, bool, IList<Column>, bool)
+  nameWithType.vb: BigExcelWriter.CreateSheetFromObject(Of T)(IEnumerable(Of T), String, SheetStateValues, Boolean, Boolean, IList(Of Column), Boolean)
+- uid: BigExcelCreator.BigExcelWriter.CreateSheetFromObject``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Boolean,System.Boolean,System.Collections.Generic.IList{DocumentFormat.OpenXml.Spreadsheet.Column},System.Boolean)
+  name: CreateSheetFromObject<T>(IEnumerable<T>, string, bool, bool, IList<Column>, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_CreateSheetFromObject__1_System_Collections_Generic_IEnumerable___0__System_String_System_Boolean_System_Boolean_System_Collections_Generic_IList_DocumentFormat_OpenXml_Spreadsheet_Column__System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.CreateSheetFromObject``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Boolean,System.Boolean,System.Collections.Generic.IList{DocumentFormat.OpenXml.Spreadsheet.Column},System.Boolean)
+  name.vb: CreateSheetFromObject(Of T)(IEnumerable(Of T), String, Boolean, Boolean, IList(Of Column), Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.CreateSheetFromObject<T>(System.Collections.Generic.IEnumerable<T>, string, bool, bool, System.Collections.Generic.IList<DocumentFormat.OpenXml.Spreadsheet.Column>, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.CreateSheetFromObject(Of T)(System.Collections.Generic.IEnumerable(Of T), String, Boolean, Boolean, System.Collections.Generic.IList(Of DocumentFormat.OpenXml.Spreadsheet.Column), Boolean)
+  nameWithType: BigExcelWriter.CreateSheetFromObject<T>(IEnumerable<T>, string, bool, bool, IList<Column>, bool)
+  nameWithType.vb: BigExcelWriter.CreateSheetFromObject(Of T)(IEnumerable(Of T), String, Boolean, Boolean, IList(Of Column), Boolean)
 - uid: BigExcelCreator.BigExcelWriter.Dispose
   name: Dispose()
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_Dispose
@@ -772,6 +826,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteFormulaCell(String, Integer)
   nameWithType: BigExcelWriter.WriteFormulaCell(string, int)
   nameWithType.vb: BigExcelWriter.WriteFormulaCell(String, Integer)
+- uid: BigExcelCreator.BigExcelWriter.WriteFormulaCell(System.String,System.String)
+  name: WriteFormulaCell(string, string)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteFormulaCell_System_String_System_String_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteFormulaCell(System.String,System.String)
+  name.vb: WriteFormulaCell(String, String)
+  fullName: BigExcelCreator.BigExcelWriter.WriteFormulaCell(string, string)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteFormulaCell(String, String)
+  nameWithType: BigExcelWriter.WriteFormulaCell(string, string)
+  nameWithType.vb: BigExcelWriter.WriteFormulaCell(String, String)
 - uid: BigExcelCreator.BigExcelWriter.WriteFormulaCell*
   name: WriteFormulaCell
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteFormulaCell_
@@ -788,6 +851,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteFormulaRow(System.Collections.Generic.IEnumerable(Of String), Integer, Boolean)
   nameWithType: BigExcelWriter.WriteFormulaRow(IEnumerable<string>, int, bool)
   nameWithType.vb: BigExcelWriter.WriteFormulaRow(IEnumerable(Of String), Integer, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.WriteFormulaRow(System.Collections.Generic.IEnumerable{System.String},System.String,System.Boolean)
+  name: WriteFormulaRow(IEnumerable<string>, string, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteFormulaRow_System_Collections_Generic_IEnumerable_System_String__System_String_System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteFormulaRow(System.Collections.Generic.IEnumerable{System.String},System.String,System.Boolean)
+  name.vb: WriteFormulaRow(IEnumerable(Of String), String, Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.WriteFormulaRow(System.Collections.Generic.IEnumerable<string>, string, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteFormulaRow(System.Collections.Generic.IEnumerable(Of String), String, Boolean)
+  nameWithType: BigExcelWriter.WriteFormulaRow(IEnumerable<string>, string, bool)
+  nameWithType.vb: BigExcelWriter.WriteFormulaRow(IEnumerable(Of String), String, Boolean)
 - uid: BigExcelCreator.BigExcelWriter.WriteFormulaRow*
   name: WriteFormulaRow
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteFormulaRow_
@@ -804,6 +876,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(Byte, Integer)
   nameWithType: BigExcelWriter.WriteNumberCell(byte, int)
   nameWithType.vb: BigExcelWriter.WriteNumberCell(Byte, Integer)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Byte,System.String)
+  name: WriteNumberCell(byte, string)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_Byte_System_String_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Byte,System.String)
+  name.vb: WriteNumberCell(Byte, String)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberCell(byte, string)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(Byte, String)
+  nameWithType: BigExcelWriter.WriteNumberCell(byte, string)
+  nameWithType.vb: BigExcelWriter.WriteNumberCell(Byte, String)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Decimal,System.Int32)
   name: WriteNumberCell(decimal, int)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_Decimal_System_Int32_
@@ -813,6 +894,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(Decimal, Integer)
   nameWithType: BigExcelWriter.WriteNumberCell(decimal, int)
   nameWithType.vb: BigExcelWriter.WriteNumberCell(Decimal, Integer)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Decimal,System.String)
+  name: WriteNumberCell(decimal, string)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_Decimal_System_String_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Decimal,System.String)
+  name.vb: WriteNumberCell(Decimal, String)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberCell(decimal, string)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(Decimal, String)
+  nameWithType: BigExcelWriter.WriteNumberCell(decimal, string)
+  nameWithType.vb: BigExcelWriter.WriteNumberCell(Decimal, String)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Double,System.Int32)
   name: WriteNumberCell(double, int)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_Double_System_Int32_
@@ -822,6 +912,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(Double, Integer)
   nameWithType: BigExcelWriter.WriteNumberCell(double, int)
   nameWithType.vb: BigExcelWriter.WriteNumberCell(Double, Integer)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Double,System.String)
+  name: WriteNumberCell(double, string)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_Double_System_String_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Double,System.String)
+  name.vb: WriteNumberCell(Double, String)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberCell(double, string)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(Double, String)
+  nameWithType: BigExcelWriter.WriteNumberCell(double, string)
+  nameWithType.vb: BigExcelWriter.WriteNumberCell(Double, String)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Int16,System.Int32)
   name: WriteNumberCell(short, int)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_Int16_System_Int32_
@@ -831,6 +930,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(Short, Integer)
   nameWithType: BigExcelWriter.WriteNumberCell(short, int)
   nameWithType.vb: BigExcelWriter.WriteNumberCell(Short, Integer)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Int16,System.String)
+  name: WriteNumberCell(short, string)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_Int16_System_String_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Int16,System.String)
+  name.vb: WriteNumberCell(Short, String)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberCell(short, string)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(Short, String)
+  nameWithType: BigExcelWriter.WriteNumberCell(short, string)
+  nameWithType.vb: BigExcelWriter.WriteNumberCell(Short, String)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Int32,System.Int32)
   name: WriteNumberCell(int, int)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_Int32_System_Int32_
@@ -840,6 +948,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(Integer, Integer)
   nameWithType: BigExcelWriter.WriteNumberCell(int, int)
   nameWithType.vb: BigExcelWriter.WriteNumberCell(Integer, Integer)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Int32,System.String)
+  name: WriteNumberCell(int, string)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_Int32_System_String_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Int32,System.String)
+  name.vb: WriteNumberCell(Integer, String)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberCell(int, string)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(Integer, String)
+  nameWithType: BigExcelWriter.WriteNumberCell(int, string)
+  nameWithType.vb: BigExcelWriter.WriteNumberCell(Integer, String)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Int64,System.Int32)
   name: WriteNumberCell(long, int)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_Int64_System_Int32_
@@ -849,6 +966,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(Long, Integer)
   nameWithType: BigExcelWriter.WriteNumberCell(long, int)
   nameWithType.vb: BigExcelWriter.WriteNumberCell(Long, Integer)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Int64,System.String)
+  name: WriteNumberCell(long, string)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_Int64_System_String_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Int64,System.String)
+  name.vb: WriteNumberCell(Long, String)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberCell(long, string)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(Long, String)
+  nameWithType: BigExcelWriter.WriteNumberCell(long, string)
+  nameWithType.vb: BigExcelWriter.WriteNumberCell(Long, String)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.SByte,System.Int32)
   name: WriteNumberCell(sbyte, int)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_SByte_System_Int32_
@@ -858,6 +984,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(SByte, Integer)
   nameWithType: BigExcelWriter.WriteNumberCell(sbyte, int)
   nameWithType.vb: BigExcelWriter.WriteNumberCell(SByte, Integer)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.SByte,System.String)
+  name: WriteNumberCell(sbyte, string)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_SByte_System_String_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberCell(System.SByte,System.String)
+  name.vb: WriteNumberCell(SByte, String)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberCell(sbyte, string)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(SByte, String)
+  nameWithType: BigExcelWriter.WriteNumberCell(sbyte, string)
+  nameWithType.vb: BigExcelWriter.WriteNumberCell(SByte, String)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Single,System.Int32)
   name: WriteNumberCell(float, int)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_Single_System_Int32_
@@ -867,6 +1002,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(Single, Integer)
   nameWithType: BigExcelWriter.WriteNumberCell(float, int)
   nameWithType.vb: BigExcelWriter.WriteNumberCell(Single, Integer)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Single,System.String)
+  name: WriteNumberCell(float, string)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_Single_System_String_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberCell(System.Single,System.String)
+  name.vb: WriteNumberCell(Single, String)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberCell(float, string)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(Single, String)
+  nameWithType: BigExcelWriter.WriteNumberCell(float, string)
+  nameWithType.vb: BigExcelWriter.WriteNumberCell(Single, String)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.UInt16,System.Int32)
   name: WriteNumberCell(ushort, int)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_UInt16_System_Int32_
@@ -876,6 +1020,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(UShort, Integer)
   nameWithType: BigExcelWriter.WriteNumberCell(ushort, int)
   nameWithType.vb: BigExcelWriter.WriteNumberCell(UShort, Integer)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.UInt16,System.String)
+  name: WriteNumberCell(ushort, string)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_UInt16_System_String_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberCell(System.UInt16,System.String)
+  name.vb: WriteNumberCell(UShort, String)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberCell(ushort, string)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(UShort, String)
+  nameWithType: BigExcelWriter.WriteNumberCell(ushort, string)
+  nameWithType.vb: BigExcelWriter.WriteNumberCell(UShort, String)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.UInt32,System.Int32)
   name: WriteNumberCell(uint, int)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_UInt32_System_Int32_
@@ -885,6 +1038,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(UInteger, Integer)
   nameWithType: BigExcelWriter.WriteNumberCell(uint, int)
   nameWithType.vb: BigExcelWriter.WriteNumberCell(UInteger, Integer)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.UInt32,System.String)
+  name: WriteNumberCell(uint, string)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_UInt32_System_String_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberCell(System.UInt32,System.String)
+  name.vb: WriteNumberCell(UInteger, String)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberCell(uint, string)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(UInteger, String)
+  nameWithType: BigExcelWriter.WriteNumberCell(uint, string)
+  nameWithType.vb: BigExcelWriter.WriteNumberCell(UInteger, String)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.UInt64,System.Int32)
   name: WriteNumberCell(ulong, int)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_UInt64_System_Int32_
@@ -894,6 +1056,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(ULong, Integer)
   nameWithType: BigExcelWriter.WriteNumberCell(ulong, int)
   nameWithType.vb: BigExcelWriter.WriteNumberCell(ULong, Integer)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberCell(System.UInt64,System.String)
+  name: WriteNumberCell(ulong, string)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_System_UInt64_System_String_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberCell(System.UInt64,System.String)
+  name.vb: WriteNumberCell(ULong, String)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberCell(ulong, string)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberCell(ULong, String)
+  nameWithType: BigExcelWriter.WriteNumberCell(ulong, string)
+  nameWithType.vb: BigExcelWriter.WriteNumberCell(ULong, String)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberCell*
   name: WriteNumberCell
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberCell_
@@ -910,6 +1081,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of Byte), Integer, Boolean)
   nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<byte>, int, bool)
   nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of Byte), Integer, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Byte},System.String,System.Boolean)
+  name: WriteNumberRow(IEnumerable<byte>, string, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_Byte__System_String_System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Byte},System.String,System.Boolean)
+  name.vb: WriteNumberRow(IEnumerable(Of Byte), String, Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable<byte>, string, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of Byte), String, Boolean)
+  nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<byte>, string, bool)
+  nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of Byte), String, Boolean)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Decimal},System.Int32,System.Boolean)
   name: WriteNumberRow(IEnumerable<decimal>, int, bool)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_Decimal__System_Int32_System_Boolean_
@@ -919,6 +1099,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of Decimal), Integer, Boolean)
   nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<decimal>, int, bool)
   nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of Decimal), Integer, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Decimal},System.String,System.Boolean)
+  name: WriteNumberRow(IEnumerable<decimal>, string, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_Decimal__System_String_System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Decimal},System.String,System.Boolean)
+  name.vb: WriteNumberRow(IEnumerable(Of Decimal), String, Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable<decimal>, string, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of Decimal), String, Boolean)
+  nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<decimal>, string, bool)
+  nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of Decimal), String, Boolean)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Double},System.Int32,System.Boolean)
   name: WriteNumberRow(IEnumerable<double>, int, bool)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_Double__System_Int32_System_Boolean_
@@ -928,6 +1117,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of Double), Integer, Boolean)
   nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<double>, int, bool)
   nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of Double), Integer, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Double},System.String,System.Boolean)
+  name: WriteNumberRow(IEnumerable<double>, string, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_Double__System_String_System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Double},System.String,System.Boolean)
+  name.vb: WriteNumberRow(IEnumerable(Of Double), String, Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable<double>, string, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of Double), String, Boolean)
+  nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<double>, string, bool)
+  nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of Double), String, Boolean)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Int16},System.Int32,System.Boolean)
   name: WriteNumberRow(IEnumerable<short>, int, bool)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_Int16__System_Int32_System_Boolean_
@@ -937,6 +1135,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of Short), Integer, Boolean)
   nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<short>, int, bool)
   nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of Short), Integer, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Int16},System.String,System.Boolean)
+  name: WriteNumberRow(IEnumerable<short>, string, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_Int16__System_String_System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Int16},System.String,System.Boolean)
+  name.vb: WriteNumberRow(IEnumerable(Of Short), String, Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable<short>, string, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of Short), String, Boolean)
+  nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<short>, string, bool)
+  nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of Short), String, Boolean)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Int32},System.Int32,System.Boolean)
   name: WriteNumberRow(IEnumerable<int>, int, bool)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_Int32__System_Int32_System_Boolean_
@@ -946,6 +1153,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of Integer), Integer, Boolean)
   nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<int>, int, bool)
   nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of Integer), Integer, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Int32},System.String,System.Boolean)
+  name: WriteNumberRow(IEnumerable<int>, string, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_Int32__System_String_System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Int32},System.String,System.Boolean)
+  name.vb: WriteNumberRow(IEnumerable(Of Integer), String, Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable<int>, string, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of Integer), String, Boolean)
+  nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<int>, string, bool)
+  nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of Integer), String, Boolean)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Int64},System.Int32,System.Boolean)
   name: WriteNumberRow(IEnumerable<long>, int, bool)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_Int64__System_Int32_System_Boolean_
@@ -955,6 +1171,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of Long), Integer, Boolean)
   nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<long>, int, bool)
   nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of Long), Integer, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Int64},System.String,System.Boolean)
+  name: WriteNumberRow(IEnumerable<long>, string, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_Int64__System_String_System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Int64},System.String,System.Boolean)
+  name.vb: WriteNumberRow(IEnumerable(Of Long), String, Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable<long>, string, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of Long), String, Boolean)
+  nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<long>, string, bool)
+  nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of Long), String, Boolean)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.SByte},System.Int32,System.Boolean)
   name: WriteNumberRow(IEnumerable<sbyte>, int, bool)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_SByte__System_Int32_System_Boolean_
@@ -964,6 +1189,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of SByte), Integer, Boolean)
   nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<sbyte>, int, bool)
   nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of SByte), Integer, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.SByte},System.String,System.Boolean)
+  name: WriteNumberRow(IEnumerable<sbyte>, string, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_SByte__System_String_System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.SByte},System.String,System.Boolean)
+  name.vb: WriteNumberRow(IEnumerable(Of SByte), String, Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable<sbyte>, string, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of SByte), String, Boolean)
+  nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<sbyte>, string, bool)
+  nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of SByte), String, Boolean)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Single},System.Int32,System.Boolean)
   name: WriteNumberRow(IEnumerable<float>, int, bool)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_Single__System_Int32_System_Boolean_
@@ -973,6 +1207,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of Single), Integer, Boolean)
   nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<float>, int, bool)
   nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of Single), Integer, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Single},System.String,System.Boolean)
+  name: WriteNumberRow(IEnumerable<float>, string, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_Single__System_String_System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.Single},System.String,System.Boolean)
+  name.vb: WriteNumberRow(IEnumerable(Of Single), String, Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable<float>, string, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of Single), String, Boolean)
+  nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<float>, string, bool)
+  nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of Single), String, Boolean)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.UInt16},System.Int32,System.Boolean)
   name: WriteNumberRow(IEnumerable<ushort>, int, bool)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_UInt16__System_Int32_System_Boolean_
@@ -982,6 +1225,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of UShort), Integer, Boolean)
   nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<ushort>, int, bool)
   nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of UShort), Integer, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.UInt16},System.String,System.Boolean)
+  name: WriteNumberRow(IEnumerable<ushort>, string, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_UInt16__System_String_System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.UInt16},System.String,System.Boolean)
+  name.vb: WriteNumberRow(IEnumerable(Of UShort), String, Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable<ushort>, string, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of UShort), String, Boolean)
+  nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<ushort>, string, bool)
+  nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of UShort), String, Boolean)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.UInt32},System.Int32,System.Boolean)
   name: WriteNumberRow(IEnumerable<uint>, int, bool)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_UInt32__System_Int32_System_Boolean_
@@ -991,6 +1243,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of UInteger), Integer, Boolean)
   nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<uint>, int, bool)
   nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of UInteger), Integer, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.UInt32},System.String,System.Boolean)
+  name: WriteNumberRow(IEnumerable<uint>, string, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_UInt32__System_String_System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.UInt32},System.String,System.Boolean)
+  name.vb: WriteNumberRow(IEnumerable(Of UInteger), String, Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable<uint>, string, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of UInteger), String, Boolean)
+  nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<uint>, string, bool)
+  nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of UInteger), String, Boolean)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.UInt64},System.Int32,System.Boolean)
   name: WriteNumberRow(IEnumerable<ulong>, int, bool)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_UInt64__System_Int32_System_Boolean_
@@ -1000,6 +1261,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of ULong), Integer, Boolean)
   nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<ulong>, int, bool)
   nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of ULong), Integer, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.UInt64},System.String,System.Boolean)
+  name: WriteNumberRow(IEnumerable<ulong>, string, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_System_Collections_Generic_IEnumerable_System_UInt64__System_String_System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable{System.UInt64},System.String,System.Boolean)
+  name.vb: WriteNumberRow(IEnumerable(Of ULong), String, Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable<ulong>, string, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteNumberRow(System.Collections.Generic.IEnumerable(Of ULong), String, Boolean)
+  nameWithType: BigExcelWriter.WriteNumberRow(IEnumerable<ulong>, string, bool)
+  nameWithType.vb: BigExcelWriter.WriteNumberRow(IEnumerable(Of ULong), String, Boolean)
 - uid: BigExcelCreator.BigExcelWriter.WriteNumberRow*
   name: WriteNumberRow
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteNumberRow_
@@ -1016,6 +1286,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteTextCell(String, Integer, Boolean)
   nameWithType: BigExcelWriter.WriteTextCell(string, int, bool)
   nameWithType.vb: BigExcelWriter.WriteTextCell(String, Integer, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.WriteTextCell(System.String,System.String,System.Boolean)
+  name: WriteTextCell(string, string, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteTextCell_System_String_System_String_System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteTextCell(System.String,System.String,System.Boolean)
+  name.vb: WriteTextCell(String, String, Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.WriteTextCell(string, string, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteTextCell(String, String, Boolean)
+  nameWithType: BigExcelWriter.WriteTextCell(string, string, bool)
+  nameWithType.vb: BigExcelWriter.WriteTextCell(String, String, Boolean)
 - uid: BigExcelCreator.BigExcelWriter.WriteTextCell*
   name: WriteTextCell
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteTextCell_
@@ -1032,6 +1311,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.WriteTextRow(System.Collections.Generic.IEnumerable(Of String), Integer, Boolean, Boolean)
   nameWithType: BigExcelWriter.WriteTextRow(IEnumerable<string>, int, bool, bool)
   nameWithType.vb: BigExcelWriter.WriteTextRow(IEnumerable(Of String), Integer, Boolean, Boolean)
+- uid: BigExcelCreator.BigExcelWriter.WriteTextRow(System.Collections.Generic.IEnumerable{System.String},System.String,System.Boolean,System.Boolean)
+  name: WriteTextRow(IEnumerable<string>, string, bool, bool)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteTextRow_System_Collections_Generic_IEnumerable_System_String__System_String_System_Boolean_System_Boolean_
+  commentId: M:BigExcelCreator.BigExcelWriter.WriteTextRow(System.Collections.Generic.IEnumerable{System.String},System.String,System.Boolean,System.Boolean)
+  name.vb: WriteTextRow(IEnumerable(Of String), String, Boolean, Boolean)
+  fullName: BigExcelCreator.BigExcelWriter.WriteTextRow(System.Collections.Generic.IEnumerable<string>, string, bool, bool)
+  fullName.vb: BigExcelCreator.BigExcelWriter.WriteTextRow(System.Collections.Generic.IEnumerable(Of String), String, Boolean, Boolean)
+  nameWithType: BigExcelWriter.WriteTextRow(IEnumerable<string>, string, bool, bool)
+  nameWithType.vb: BigExcelWriter.WriteTextRow(IEnumerable(Of String), String, Boolean, Boolean)
 - uid: BigExcelCreator.BigExcelWriter.WriteTextRow*
   name: WriteTextRow
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_WriteTextRow_
@@ -1203,6 +1491,238 @@ references:
   isSpec: "True"
   fullName: BigExcelCreator.ClassAttributes.ExcelColumnWidthAttribute.Width
   nameWithType: ExcelColumnWidthAttribute.Width
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute
+  name: ExcelConditionalFormatCellIsAttribute
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html
+  commentId: T:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute
+  nameWithType: ExcelConditionalFormatCellIsAttribute
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor(System.Int32,DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues,System.String,System.String)
+  name: ExcelConditionalFormatCellIsAttribute(int, ConditionalFormattingOperatorValues, string, string)
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute__ctor_System_Int32_DocumentFormat_OpenXml_Spreadsheet_ConditionalFormattingOperatorValues_System_String_System_String_
+  commentId: M:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor(System.Int32,DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues,System.String,System.String)
+  name.vb: New(Integer, ConditionalFormattingOperatorValues, String, String)
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.ExcelConditionalFormatCellIsAttribute(int, DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues, string, string)
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.New(Integer, DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues, String, String)
+  nameWithType: ExcelConditionalFormatCellIsAttribute.ExcelConditionalFormatCellIsAttribute(int, ConditionalFormattingOperatorValues, string, string)
+  nameWithType.vb: ExcelConditionalFormatCellIsAttribute.New(Integer, ConditionalFormattingOperatorValues, String, String)
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor(System.String,DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues,System.String,System.String)
+  name: ExcelConditionalFormatCellIsAttribute(string, ConditionalFormattingOperatorValues, string, string)
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute__ctor_System_String_DocumentFormat_OpenXml_Spreadsheet_ConditionalFormattingOperatorValues_System_String_System_String_
+  commentId: M:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor(System.String,DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues,System.String,System.String)
+  name.vb: New(String, ConditionalFormattingOperatorValues, String, String)
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.ExcelConditionalFormatCellIsAttribute(string, DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues, string, string)
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.New(String, DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues, String, String)
+  nameWithType: ExcelConditionalFormatCellIsAttribute.ExcelConditionalFormatCellIsAttribute(string, ConditionalFormattingOperatorValues, string, string)
+  nameWithType.vb: ExcelConditionalFormatCellIsAttribute.New(String, ConditionalFormattingOperatorValues, String, String)
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor*
+  name: ExcelConditionalFormatCellIsAttribute
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute__ctor_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.ExcelConditionalFormatCellIsAttribute
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.New
+  nameWithType: ExcelConditionalFormatCellIsAttribute.ExcelConditionalFormatCellIsAttribute
+  nameWithType.vb: ExcelConditionalFormatCellIsAttribute.New
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Format
+  name: Format
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute_Format
+  commentId: P:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Format
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Format
+  nameWithType: ExcelConditionalFormatCellIsAttribute.Format
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Format*
+  name: Format
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute_Format_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Format
+  isSpec: "True"
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Format
+  nameWithType: ExcelConditionalFormatCellIsAttribute.Format
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Operator
+  name: Operator
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute_Operator
+  commentId: P:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Operator
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Operator
+  nameWithType: ExcelConditionalFormatCellIsAttribute.Operator
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Operator*
+  name: Operator
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute_Operator_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Operator
+  isSpec: "True"
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Operator
+  nameWithType: ExcelConditionalFormatCellIsAttribute.Operator
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.StyleName
+  name: StyleName
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute_StyleName
+  commentId: P:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.StyleName
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.StyleName
+  nameWithType: ExcelConditionalFormatCellIsAttribute.StyleName
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.StyleName*
+  name: StyleName
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute_StyleName_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.StyleName
+  isSpec: "True"
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.StyleName
+  nameWithType: ExcelConditionalFormatCellIsAttribute.StyleName
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Value
+  name: Value
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute_Value
+  commentId: P:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Value
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Value
+  nameWithType: ExcelConditionalFormatCellIsAttribute.Value
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Value*
+  name: Value
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute_Value_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Value
+  isSpec: "True"
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Value
+  nameWithType: ExcelConditionalFormatCellIsAttribute.Value
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Value2
+  name: Value2
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute_Value2
+  commentId: P:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Value2
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Value2
+  nameWithType: ExcelConditionalFormatCellIsAttribute.Value2
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Value2*
+  name: Value2
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute_Value2_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Value2
+  isSpec: "True"
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Value2
+  nameWithType: ExcelConditionalFormatCellIsAttribute.Value2
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute
+  name: ExcelConditionalFormatDuplicatedValuesAttribute
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.html
+  commentId: T:BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute
+  nameWithType: ExcelConditionalFormatDuplicatedValuesAttribute
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.#ctor(System.Int32)
+  name: ExcelConditionalFormatDuplicatedValuesAttribute(int)
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatDuplicatedValuesAttribute__ctor_System_Int32_
+  commentId: M:BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.#ctor(System.Int32)
+  name.vb: New(Integer)
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.ExcelConditionalFormatDuplicatedValuesAttribute(int)
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.New(Integer)
+  nameWithType: ExcelConditionalFormatDuplicatedValuesAttribute.ExcelConditionalFormatDuplicatedValuesAttribute(int)
+  nameWithType.vb: ExcelConditionalFormatDuplicatedValuesAttribute.New(Integer)
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.#ctor(System.String)
+  name: ExcelConditionalFormatDuplicatedValuesAttribute(string)
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatDuplicatedValuesAttribute__ctor_System_String_
+  commentId: M:BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.#ctor(System.String)
+  name.vb: New(String)
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.ExcelConditionalFormatDuplicatedValuesAttribute(string)
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.New(String)
+  nameWithType: ExcelConditionalFormatDuplicatedValuesAttribute.ExcelConditionalFormatDuplicatedValuesAttribute(string)
+  nameWithType.vb: ExcelConditionalFormatDuplicatedValuesAttribute.New(String)
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.#ctor*
+  name: ExcelConditionalFormatDuplicatedValuesAttribute
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatDuplicatedValuesAttribute__ctor_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.ExcelConditionalFormatDuplicatedValuesAttribute
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.New
+  nameWithType: ExcelConditionalFormatDuplicatedValuesAttribute.ExcelConditionalFormatDuplicatedValuesAttribute
+  nameWithType.vb: ExcelConditionalFormatDuplicatedValuesAttribute.New
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.Format
+  name: Format
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatDuplicatedValuesAttribute_Format
+  commentId: P:BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.Format
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.Format
+  nameWithType: ExcelConditionalFormatDuplicatedValuesAttribute.Format
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.Format*
+  name: Format
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatDuplicatedValuesAttribute_Format_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.Format
+  isSpec: "True"
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.Format
+  nameWithType: ExcelConditionalFormatDuplicatedValuesAttribute.Format
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.StyleName
+  name: StyleName
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatDuplicatedValuesAttribute_StyleName
+  commentId: P:BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.StyleName
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.StyleName
+  nameWithType: ExcelConditionalFormatDuplicatedValuesAttribute.StyleName
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.StyleName*
+  name: StyleName
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatDuplicatedValuesAttribute_StyleName_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.StyleName
+  isSpec: "True"
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatDuplicatedValuesAttribute.StyleName
+  nameWithType: ExcelConditionalFormatDuplicatedValuesAttribute.StyleName
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute
+  name: ExcelConditionalFormatFormulaAttribute
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.html
+  commentId: T:BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute
+  nameWithType: ExcelConditionalFormatFormulaAttribute
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.#ctor(System.Int32,System.String)
+  name: ExcelConditionalFormatFormulaAttribute(int, string)
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatFormulaAttribute__ctor_System_Int32_System_String_
+  commentId: M:BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.#ctor(System.Int32,System.String)
+  name.vb: New(Integer, String)
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.ExcelConditionalFormatFormulaAttribute(int, string)
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.New(Integer, String)
+  nameWithType: ExcelConditionalFormatFormulaAttribute.ExcelConditionalFormatFormulaAttribute(int, string)
+  nameWithType.vb: ExcelConditionalFormatFormulaAttribute.New(Integer, String)
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.#ctor(System.String,System.String)
+  name: ExcelConditionalFormatFormulaAttribute(string, string)
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatFormulaAttribute__ctor_System_String_System_String_
+  commentId: M:BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.#ctor(System.String,System.String)
+  name.vb: New(String, String)
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.ExcelConditionalFormatFormulaAttribute(string, string)
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.New(String, String)
+  nameWithType: ExcelConditionalFormatFormulaAttribute.ExcelConditionalFormatFormulaAttribute(string, string)
+  nameWithType.vb: ExcelConditionalFormatFormulaAttribute.New(String, String)
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.#ctor*
+  name: ExcelConditionalFormatFormulaAttribute
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatFormulaAttribute__ctor_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.ExcelConditionalFormatFormulaAttribute
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.New
+  nameWithType: ExcelConditionalFormatFormulaAttribute.ExcelConditionalFormatFormulaAttribute
+  nameWithType.vb: ExcelConditionalFormatFormulaAttribute.New
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.Format
+  name: Format
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatFormulaAttribute_Format
+  commentId: P:BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.Format
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.Format
+  nameWithType: ExcelConditionalFormatFormulaAttribute.Format
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.Format*
+  name: Format
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatFormulaAttribute_Format_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.Format
+  isSpec: "True"
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.Format
+  nameWithType: ExcelConditionalFormatFormulaAttribute.Format
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.Formula
+  name: Formula
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatFormulaAttribute_Formula
+  commentId: P:BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.Formula
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.Formula
+  nameWithType: ExcelConditionalFormatFormulaAttribute.Formula
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.Formula*
+  name: Formula
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatFormulaAttribute_Formula_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.Formula
+  isSpec: "True"
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.Formula
+  nameWithType: ExcelConditionalFormatFormulaAttribute.Formula
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.StyleName
+  name: StyleName
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatFormulaAttribute_StyleName
+  commentId: P:BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.StyleName
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.StyleName
+  nameWithType: ExcelConditionalFormatFormulaAttribute.StyleName
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.StyleName*
+  name: StyleName
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatFormulaAttribute_StyleName_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.StyleName
+  isSpec: "True"
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatFormulaAttribute.StyleName
+  nameWithType: ExcelConditionalFormatFormulaAttribute.StyleName
 - uid: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute
   name: ExcelHeaderStyleFormatAttribute
   href: api/BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.html
@@ -1218,6 +1738,15 @@ references:
   fullName.vb: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.New(Integer)
   nameWithType: ExcelHeaderStyleFormatAttribute.ExcelHeaderStyleFormatAttribute(int)
   nameWithType.vb: ExcelHeaderStyleFormatAttribute.New(Integer)
+- uid: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.#ctor(System.String)
+  name: ExcelHeaderStyleFormatAttribute(string)
+  href: api/BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelHeaderStyleFormatAttribute__ctor_System_String_
+  commentId: M:BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.#ctor(System.String)
+  name.vb: New(String)
+  fullName: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.ExcelHeaderStyleFormatAttribute(string)
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.New(String)
+  nameWithType: ExcelHeaderStyleFormatAttribute.ExcelHeaderStyleFormatAttribute(string)
+  nameWithType.vb: ExcelHeaderStyleFormatAttribute.New(String)
 - uid: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.#ctor*
   name: ExcelHeaderStyleFormatAttribute
   href: api/BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelHeaderStyleFormatAttribute__ctor_
@@ -1241,6 +1770,19 @@ references:
   isSpec: "True"
   fullName: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.Format
   nameWithType: ExcelHeaderStyleFormatAttribute.Format
+- uid: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.StyleName
+  name: StyleName
+  href: api/BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelHeaderStyleFormatAttribute_StyleName
+  commentId: P:BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.StyleName
+  fullName: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.StyleName
+  nameWithType: ExcelHeaderStyleFormatAttribute.StyleName
+- uid: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.StyleName*
+  name: StyleName
+  href: api/BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelHeaderStyleFormatAttribute_StyleName_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.StyleName
+  isSpec: "True"
+  fullName: BigExcelCreator.ClassAttributes.ExcelHeaderStyleFormatAttribute.StyleName
+  nameWithType: ExcelHeaderStyleFormatAttribute.StyleName
 - uid: BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute
   name: ExcelIgnoreAttribute
   href: api/BigExcelCreator.ClassAttributes.ExcelIgnoreAttribute.html
@@ -1262,6 +1804,15 @@ references:
   fullName.vb: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.New(Integer, BigExcelCreator.Enums.StylingPriority)
   nameWithType: ExcelStyleFormatAttribute.ExcelStyleFormatAttribute(int, StylingPriority)
   nameWithType.vb: ExcelStyleFormatAttribute.New(Integer, StylingPriority)
+- uid: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.#ctor(System.String,BigExcelCreator.Enums.StylingPriority)
+  name: ExcelStyleFormatAttribute(string, StylingPriority)
+  href: api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelStyleFormatAttribute__ctor_System_String_BigExcelCreator_Enums_StylingPriority_
+  commentId: M:BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.#ctor(System.String,BigExcelCreator.Enums.StylingPriority)
+  name.vb: New(String, StylingPriority)
+  fullName: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.ExcelStyleFormatAttribute(string, BigExcelCreator.Enums.StylingPriority)
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.New(String, BigExcelCreator.Enums.StylingPriority)
+  nameWithType: ExcelStyleFormatAttribute.ExcelStyleFormatAttribute(string, StylingPriority)
+  nameWithType.vb: ExcelStyleFormatAttribute.New(String, StylingPriority)
 - uid: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.#ctor*
   name: ExcelStyleFormatAttribute
   href: api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelStyleFormatAttribute__ctor_
@@ -1285,6 +1836,19 @@ references:
   isSpec: "True"
   fullName: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.Format
   nameWithType: ExcelStyleFormatAttribute.Format
+- uid: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.StyleName
+  name: StyleName
+  href: api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelStyleFormatAttribute_StyleName
+  commentId: P:BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.StyleName
+  fullName: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.StyleName
+  nameWithType: ExcelStyleFormatAttribute.StyleName
+- uid: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.StyleName*
+  name: StyleName
+  href: api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelStyleFormatAttribute_StyleName_
+  commentId: Overload:BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.StyleName
+  isSpec: "True"
+  fullName: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.StyleName
+  nameWithType: ExcelStyleFormatAttribute.StyleName
 - uid: BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.UseStyleInHeader
   name: UseStyleInHeader
   href: api/BigExcelCreator.ClassAttributes.ExcelStyleFormatAttribute.html#BigExcelCreator_ClassAttributes_ExcelStyleFormatAttribute_UseStyleInHeader
@@ -1768,6 +2332,162 @@ references:
   fullName.vb: BigExcelCreator.Exceptions.SheetWithSameNameAlreadyExistsException.New
   nameWithType: SheetWithSameNameAlreadyExistsException.SheetWithSameNameAlreadyExistsException
   nameWithType.vb: SheetWithSameNameAlreadyExistsException.New
+- uid: BigExcelCreator.Exceptions.StyleListNotAvailableException
+  name: StyleListNotAvailableException
+  href: api/BigExcelCreator.Exceptions.StyleListNotAvailableException.html
+  commentId: T:BigExcelCreator.Exceptions.StyleListNotAvailableException
+  fullName: BigExcelCreator.Exceptions.StyleListNotAvailableException
+  nameWithType: StyleListNotAvailableException
+- uid: BigExcelCreator.Exceptions.StyleListNotAvailableException.#ctor
+  name: StyleListNotAvailableException()
+  href: api/BigExcelCreator.Exceptions.StyleListNotAvailableException.html#BigExcelCreator_Exceptions_StyleListNotAvailableException__ctor
+  commentId: M:BigExcelCreator.Exceptions.StyleListNotAvailableException.#ctor
+  name.vb: New()
+  fullName: BigExcelCreator.Exceptions.StyleListNotAvailableException.StyleListNotAvailableException()
+  fullName.vb: BigExcelCreator.Exceptions.StyleListNotAvailableException.New()
+  nameWithType: StyleListNotAvailableException.StyleListNotAvailableException()
+  nameWithType.vb: StyleListNotAvailableException.New()
+- uid: BigExcelCreator.Exceptions.StyleListNotAvailableException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  name: StyleListNotAvailableException(SerializationInfo, StreamingContext)
+  href: api/BigExcelCreator.Exceptions.StyleListNotAvailableException.html#BigExcelCreator_Exceptions_StyleListNotAvailableException__ctor_System_Runtime_Serialization_SerializationInfo_System_Runtime_Serialization_StreamingContext_
+  commentId: M:BigExcelCreator.Exceptions.StyleListNotAvailableException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  name.vb: New(SerializationInfo, StreamingContext)
+  fullName: BigExcelCreator.Exceptions.StyleListNotAvailableException.StyleListNotAvailableException(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+  fullName.vb: BigExcelCreator.Exceptions.StyleListNotAvailableException.New(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+  nameWithType: StyleListNotAvailableException.StyleListNotAvailableException(SerializationInfo, StreamingContext)
+  nameWithType.vb: StyleListNotAvailableException.New(SerializationInfo, StreamingContext)
+- uid: BigExcelCreator.Exceptions.StyleListNotAvailableException.#ctor(System.String)
+  name: StyleListNotAvailableException(string)
+  href: api/BigExcelCreator.Exceptions.StyleListNotAvailableException.html#BigExcelCreator_Exceptions_StyleListNotAvailableException__ctor_System_String_
+  commentId: M:BigExcelCreator.Exceptions.StyleListNotAvailableException.#ctor(System.String)
+  name.vb: New(String)
+  fullName: BigExcelCreator.Exceptions.StyleListNotAvailableException.StyleListNotAvailableException(string)
+  fullName.vb: BigExcelCreator.Exceptions.StyleListNotAvailableException.New(String)
+  nameWithType: StyleListNotAvailableException.StyleListNotAvailableException(string)
+  nameWithType.vb: StyleListNotAvailableException.New(String)
+- uid: BigExcelCreator.Exceptions.StyleListNotAvailableException.#ctor(System.String,System.Exception)
+  name: StyleListNotAvailableException(string, Exception)
+  href: api/BigExcelCreator.Exceptions.StyleListNotAvailableException.html#BigExcelCreator_Exceptions_StyleListNotAvailableException__ctor_System_String_System_Exception_
+  commentId: M:BigExcelCreator.Exceptions.StyleListNotAvailableException.#ctor(System.String,System.Exception)
+  name.vb: New(String, Exception)
+  fullName: BigExcelCreator.Exceptions.StyleListNotAvailableException.StyleListNotAvailableException(string, System.Exception)
+  fullName.vb: BigExcelCreator.Exceptions.StyleListNotAvailableException.New(String, System.Exception)
+  nameWithType: StyleListNotAvailableException.StyleListNotAvailableException(string, Exception)
+  nameWithType.vb: StyleListNotAvailableException.New(String, Exception)
+- uid: BigExcelCreator.Exceptions.StyleListNotAvailableException.#ctor*
+  name: StyleListNotAvailableException
+  href: api/BigExcelCreator.Exceptions.StyleListNotAvailableException.html#BigExcelCreator_Exceptions_StyleListNotAvailableException__ctor_
+  commentId: Overload:BigExcelCreator.Exceptions.StyleListNotAvailableException.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BigExcelCreator.Exceptions.StyleListNotAvailableException.StyleListNotAvailableException
+  fullName.vb: BigExcelCreator.Exceptions.StyleListNotAvailableException.New
+  nameWithType: StyleListNotAvailableException.StyleListNotAvailableException
+  nameWithType.vb: StyleListNotAvailableException.New
+- uid: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException
+  name: StyleNameMustBeProvidedException
+  href: api/BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.html
+  commentId: T:BigExcelCreator.Exceptions.StyleNameMustBeProvidedException
+  fullName: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException
+  nameWithType: StyleNameMustBeProvidedException
+- uid: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.#ctor
+  name: StyleNameMustBeProvidedException()
+  href: api/BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.html#BigExcelCreator_Exceptions_StyleNameMustBeProvidedException__ctor
+  commentId: M:BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.#ctor
+  name.vb: New()
+  fullName: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.StyleNameMustBeProvidedException()
+  fullName.vb: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.New()
+  nameWithType: StyleNameMustBeProvidedException.StyleNameMustBeProvidedException()
+  nameWithType.vb: StyleNameMustBeProvidedException.New()
+- uid: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  name: StyleNameMustBeProvidedException(SerializationInfo, StreamingContext)
+  href: api/BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.html#BigExcelCreator_Exceptions_StyleNameMustBeProvidedException__ctor_System_Runtime_Serialization_SerializationInfo_System_Runtime_Serialization_StreamingContext_
+  commentId: M:BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  name.vb: New(SerializationInfo, StreamingContext)
+  fullName: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.StyleNameMustBeProvidedException(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+  fullName.vb: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.New(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+  nameWithType: StyleNameMustBeProvidedException.StyleNameMustBeProvidedException(SerializationInfo, StreamingContext)
+  nameWithType.vb: StyleNameMustBeProvidedException.New(SerializationInfo, StreamingContext)
+- uid: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.#ctor(System.String)
+  name: StyleNameMustBeProvidedException(string)
+  href: api/BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.html#BigExcelCreator_Exceptions_StyleNameMustBeProvidedException__ctor_System_String_
+  commentId: M:BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.#ctor(System.String)
+  name.vb: New(String)
+  fullName: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.StyleNameMustBeProvidedException(string)
+  fullName.vb: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.New(String)
+  nameWithType: StyleNameMustBeProvidedException.StyleNameMustBeProvidedException(string)
+  nameWithType.vb: StyleNameMustBeProvidedException.New(String)
+- uid: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.#ctor(System.String,System.Exception)
+  name: StyleNameMustBeProvidedException(string, Exception)
+  href: api/BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.html#BigExcelCreator_Exceptions_StyleNameMustBeProvidedException__ctor_System_String_System_Exception_
+  commentId: M:BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.#ctor(System.String,System.Exception)
+  name.vb: New(String, Exception)
+  fullName: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.StyleNameMustBeProvidedException(string, System.Exception)
+  fullName.vb: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.New(String, System.Exception)
+  nameWithType: StyleNameMustBeProvidedException.StyleNameMustBeProvidedException(string, Exception)
+  nameWithType.vb: StyleNameMustBeProvidedException.New(String, Exception)
+- uid: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.#ctor*
+  name: StyleNameMustBeProvidedException
+  href: api/BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.html#BigExcelCreator_Exceptions_StyleNameMustBeProvidedException__ctor_
+  commentId: Overload:BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.StyleNameMustBeProvidedException
+  fullName.vb: BigExcelCreator.Exceptions.StyleNameMustBeProvidedException.New
+  nameWithType: StyleNameMustBeProvidedException.StyleNameMustBeProvidedException
+  nameWithType.vb: StyleNameMustBeProvidedException.New
+- uid: BigExcelCreator.Exceptions.StyleNameNotFoundException
+  name: StyleNameNotFoundException
+  href: api/BigExcelCreator.Exceptions.StyleNameNotFoundException.html
+  commentId: T:BigExcelCreator.Exceptions.StyleNameNotFoundException
+  fullName: BigExcelCreator.Exceptions.StyleNameNotFoundException
+  nameWithType: StyleNameNotFoundException
+- uid: BigExcelCreator.Exceptions.StyleNameNotFoundException.#ctor
+  name: StyleNameNotFoundException()
+  href: api/BigExcelCreator.Exceptions.StyleNameNotFoundException.html#BigExcelCreator_Exceptions_StyleNameNotFoundException__ctor
+  commentId: M:BigExcelCreator.Exceptions.StyleNameNotFoundException.#ctor
+  name.vb: New()
+  fullName: BigExcelCreator.Exceptions.StyleNameNotFoundException.StyleNameNotFoundException()
+  fullName.vb: BigExcelCreator.Exceptions.StyleNameNotFoundException.New()
+  nameWithType: StyleNameNotFoundException.StyleNameNotFoundException()
+  nameWithType.vb: StyleNameNotFoundException.New()
+- uid: BigExcelCreator.Exceptions.StyleNameNotFoundException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  name: StyleNameNotFoundException(SerializationInfo, StreamingContext)
+  href: api/BigExcelCreator.Exceptions.StyleNameNotFoundException.html#BigExcelCreator_Exceptions_StyleNameNotFoundException__ctor_System_Runtime_Serialization_SerializationInfo_System_Runtime_Serialization_StreamingContext_
+  commentId: M:BigExcelCreator.Exceptions.StyleNameNotFoundException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  name.vb: New(SerializationInfo, StreamingContext)
+  fullName: BigExcelCreator.Exceptions.StyleNameNotFoundException.StyleNameNotFoundException(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+  fullName.vb: BigExcelCreator.Exceptions.StyleNameNotFoundException.New(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+  nameWithType: StyleNameNotFoundException.StyleNameNotFoundException(SerializationInfo, StreamingContext)
+  nameWithType.vb: StyleNameNotFoundException.New(SerializationInfo, StreamingContext)
+- uid: BigExcelCreator.Exceptions.StyleNameNotFoundException.#ctor(System.String)
+  name: StyleNameNotFoundException(string)
+  href: api/BigExcelCreator.Exceptions.StyleNameNotFoundException.html#BigExcelCreator_Exceptions_StyleNameNotFoundException__ctor_System_String_
+  commentId: M:BigExcelCreator.Exceptions.StyleNameNotFoundException.#ctor(System.String)
+  name.vb: New(String)
+  fullName: BigExcelCreator.Exceptions.StyleNameNotFoundException.StyleNameNotFoundException(string)
+  fullName.vb: BigExcelCreator.Exceptions.StyleNameNotFoundException.New(String)
+  nameWithType: StyleNameNotFoundException.StyleNameNotFoundException(string)
+  nameWithType.vb: StyleNameNotFoundException.New(String)
+- uid: BigExcelCreator.Exceptions.StyleNameNotFoundException.#ctor(System.String,System.Exception)
+  name: StyleNameNotFoundException(string, Exception)
+  href: api/BigExcelCreator.Exceptions.StyleNameNotFoundException.html#BigExcelCreator_Exceptions_StyleNameNotFoundException__ctor_System_String_System_Exception_
+  commentId: M:BigExcelCreator.Exceptions.StyleNameNotFoundException.#ctor(System.String,System.Exception)
+  name.vb: New(String, Exception)
+  fullName: BigExcelCreator.Exceptions.StyleNameNotFoundException.StyleNameNotFoundException(string, System.Exception)
+  fullName.vb: BigExcelCreator.Exceptions.StyleNameNotFoundException.New(String, System.Exception)
+  nameWithType: StyleNameNotFoundException.StyleNameNotFoundException(string, Exception)
+  nameWithType.vb: StyleNameNotFoundException.New(String, Exception)
+- uid: BigExcelCreator.Exceptions.StyleNameNotFoundException.#ctor*
+  name: StyleNameNotFoundException
+  href: api/BigExcelCreator.Exceptions.StyleNameNotFoundException.html#BigExcelCreator_Exceptions_StyleNameNotFoundException__ctor_
+  commentId: Overload:BigExcelCreator.Exceptions.StyleNameNotFoundException.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BigExcelCreator.Exceptions.StyleNameNotFoundException.StyleNameNotFoundException
+  fullName.vb: BigExcelCreator.Exceptions.StyleNameNotFoundException.New
+  nameWithType: StyleNameNotFoundException.StyleNameNotFoundException
+  nameWithType.vb: StyleNameNotFoundException.New
 - uid: BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException
   name: UnsupportedSpreadsheetDocumentTypeException
   href: api/BigExcelCreator.Exceptions.UnsupportedSpreadsheetDocumentTypeException.html
