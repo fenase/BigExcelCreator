@@ -48,6 +48,7 @@ namespace Example
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
         [ExcelStyleFormat("bold italic center")]
+        [ExcelConditionalFormatCellIs("RED", ConditionalFormattingOperator.lessThan, "540")]
         public double? Bonus { get; set; }
 
         [ExcelColumnName("Monthly Net Income")]
