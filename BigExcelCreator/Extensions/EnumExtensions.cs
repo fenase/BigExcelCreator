@@ -24,18 +24,18 @@ namespace BigExcelCreator.Extensions
 
         internal static ConditionalFormattingOperatorValues Value(this ConditionalFormattingOperator @operator) => @operator switch
         {
-            ConditionalFormattingOperator.lessThan => ConditionalFormattingOperatorValues.LessThan,
-            ConditionalFormattingOperator.lessThanOrEqual => ConditionalFormattingOperatorValues.LessThanOrEqual,
-            ConditionalFormattingOperator.equal => ConditionalFormattingOperatorValues.Equal,
-            ConditionalFormattingOperator.notEqual => ConditionalFormattingOperatorValues.NotEqual,
-            ConditionalFormattingOperator.greaterThanOrEqual => ConditionalFormattingOperatorValues.GreaterThanOrEqual,
-            ConditionalFormattingOperator.greaterThan => ConditionalFormattingOperatorValues.GreaterThan,
-            ConditionalFormattingOperator.between => ConditionalFormattingOperatorValues.Between,
-            ConditionalFormattingOperator.notBetween => ConditionalFormattingOperatorValues.NotBetween,
-            ConditionalFormattingOperator.containsText => ConditionalFormattingOperatorValues.ContainsText,
-            ConditionalFormattingOperator.notContains => ConditionalFormattingOperatorValues.NotContains,
-            ConditionalFormattingOperator.beginsWith => ConditionalFormattingOperatorValues.BeginsWith,
-            ConditionalFormattingOperator.endsWith => ConditionalFormattingOperatorValues.EndsWith,
+            ConditionalFormattingOperator.LessThan => ConditionalFormattingOperatorValues.LessThan,
+            ConditionalFormattingOperator.LessThanOrEqual => ConditionalFormattingOperatorValues.LessThanOrEqual,
+            ConditionalFormattingOperator.Equal => ConditionalFormattingOperatorValues.Equal,
+            ConditionalFormattingOperator.NotEqual => ConditionalFormattingOperatorValues.NotEqual,
+            ConditionalFormattingOperator.GreaterThanOrEqual => ConditionalFormattingOperatorValues.GreaterThanOrEqual,
+            ConditionalFormattingOperator.GreaterThan => ConditionalFormattingOperatorValues.GreaterThan,
+            ConditionalFormattingOperator.Between => ConditionalFormattingOperatorValues.Between,
+            ConditionalFormattingOperator.NotBetween => ConditionalFormattingOperatorValues.NotBetween,
+            ConditionalFormattingOperator.ContainsText => ConditionalFormattingOperatorValues.ContainsText,
+            ConditionalFormattingOperator.NotContains => ConditionalFormattingOperatorValues.NotContains,
+            ConditionalFormattingOperator.BeginsWith => ConditionalFormattingOperatorValues.BeginsWith,
+            ConditionalFormattingOperator.EndsWith => ConditionalFormattingOperatorValues.EndsWith,
             _ => throw new ArgumentOutOfRangeException(nameof(@operator), @operator, null)
         };
     }

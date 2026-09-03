@@ -10,72 +10,72 @@
         /// Less Than.
         /// When the item is serialized out as XML, its value is "lessThan".
         /// </summary>
-        lessThan,
+        LessThan,
 
         /// <summary>
         /// Less Than Or Equal.
         /// When the item is serialized out as XML, its value is "lessThanOrEqual".
         /// </summary>
-        lessThanOrEqual,
+        LessThanOrEqual,
 
         /// <summary>
         /// Equal.
         /// When the item is serialized out as XML, its value is "equal".
         /// </summary>
-        equal,
+        Equal,
 
         /// <summary>
         /// Not Equal.
         /// When the item is serialized out as XML, its value is "notEqual".
         /// </summary>
-        notEqual,
+        NotEqual,
 
         /// <summary>
         /// Greater Than Or Equal.
         /// When the item is serialized out as XML, its value is "greaterThanOrEqual".
         /// </summary>
-        greaterThanOrEqual,
+        GreaterThanOrEqual,
 
         /// <summary>
         /// Greater Than.
         /// When the item is serialized out as XML, its value is "greaterThan".
         /// </summary>
-        greaterThan,
+        GreaterThan,
 
         /// <summary>
         /// Between.
         /// When the item is serialized out as XML, its value is "between".
         /// </summary>
-        between,
+        Between,
 
         /// <summary>
         /// Not Between.
         /// When the item is serialized out as XML, its value is "notBetween".
         /// </summary>
-        notBetween,
+        NotBetween,
 
         /// <summary>
         /// Contains.
         /// When the item is serialized out as XML, its value is "containsText".
         /// </summary>
-        containsText,
+        ContainsText,
 
         /// <summary>
         /// Does Not Contain.
         /// When the item is serialized out as XML, its value is "notContains".
         /// </summary>
-        notContains,
+        NotContains,
 
         /// <summary>
         /// Begins With.
         /// When the item is serialized out as XML, its value is "beginsWith".
         /// </summary>
-        beginsWith,
+        BeginsWith,
 
         /// <summary>
         /// Ends With.
         /// When the item is serialized out as XML, its value is "endsWith".
         /// </summary>
-        endsWith,
+        EndsWith,
     }
 }
