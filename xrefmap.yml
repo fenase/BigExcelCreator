@@ -228,6 +228,15 @@ references:
   isSpec: "True"
   fullName: BigExcelCreator.BigExcelWriter.AddAutofilter
   nameWithType: BigExcelWriter.AddAutofilter
+- uid: BigExcelCreator.BigExcelWriter.AddConditionalFormattingCellIs(BigExcelCreator.Ranges.CellRange,BigExcelCreator.Enums.ConditionalFormattingOperator,System.String,System.Int32,System.String)
+  name: AddConditionalFormattingCellIs(CellRange, ConditionalFormattingOperator, string, int, string)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddConditionalFormattingCellIs_BigExcelCreator_Ranges_CellRange_BigExcelCreator_Enums_ConditionalFormattingOperator_System_String_System_Int32_System_String_
+  commentId: M:BigExcelCreator.BigExcelWriter.AddConditionalFormattingCellIs(BigExcelCreator.Ranges.CellRange,BigExcelCreator.Enums.ConditionalFormattingOperator,System.String,System.Int32,System.String)
+  name.vb: AddConditionalFormattingCellIs(CellRange, ConditionalFormattingOperator, String, Integer, String)
+  fullName: BigExcelCreator.BigExcelWriter.AddConditionalFormattingCellIs(BigExcelCreator.Ranges.CellRange, BigExcelCreator.Enums.ConditionalFormattingOperator, string, int, string)
+  fullName.vb: BigExcelCreator.BigExcelWriter.AddConditionalFormattingCellIs(BigExcelCreator.Ranges.CellRange, BigExcelCreator.Enums.ConditionalFormattingOperator, String, Integer, String)
+  nameWithType: BigExcelWriter.AddConditionalFormattingCellIs(CellRange, ConditionalFormattingOperator, string, int, string)
+  nameWithType.vb: BigExcelWriter.AddConditionalFormattingCellIs(CellRange, ConditionalFormattingOperator, String, Integer, String)
 - uid: BigExcelCreator.BigExcelWriter.AddConditionalFormattingCellIs(BigExcelCreator.Ranges.CellRange,DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues,System.String,System.Int32,System.String)
   name: AddConditionalFormattingCellIs(CellRange, ConditionalFormattingOperatorValues, string, int, string)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddConditionalFormattingCellIs_BigExcelCreator_Ranges_CellRange_DocumentFormat_OpenXml_Spreadsheet_ConditionalFormattingOperatorValues_System_String_System_Int32_System_String_
@@ -237,6 +246,15 @@ references:
   fullName.vb: BigExcelCreator.BigExcelWriter.AddConditionalFormattingCellIs(BigExcelCreator.Ranges.CellRange, DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues, String, Integer, String)
   nameWithType: BigExcelWriter.AddConditionalFormattingCellIs(CellRange, ConditionalFormattingOperatorValues, string, int, string)
   nameWithType.vb: BigExcelWriter.AddConditionalFormattingCellIs(CellRange, ConditionalFormattingOperatorValues, String, Integer, String)
+- uid: BigExcelCreator.BigExcelWriter.AddConditionalFormattingCellIs(System.String,BigExcelCreator.Enums.ConditionalFormattingOperator,System.String,System.Int32,System.String)
+  name: AddConditionalFormattingCellIs(string, ConditionalFormattingOperator, string, int, string)
+  href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddConditionalFormattingCellIs_System_String_BigExcelCreator_Enums_ConditionalFormattingOperator_System_String_System_Int32_System_String_
+  commentId: M:BigExcelCreator.BigExcelWriter.AddConditionalFormattingCellIs(System.String,BigExcelCreator.Enums.ConditionalFormattingOperator,System.String,System.Int32,System.String)
+  name.vb: AddConditionalFormattingCellIs(String, ConditionalFormattingOperator, String, Integer, String)
+  fullName: BigExcelCreator.BigExcelWriter.AddConditionalFormattingCellIs(string, BigExcelCreator.Enums.ConditionalFormattingOperator, string, int, string)
+  fullName.vb: BigExcelCreator.BigExcelWriter.AddConditionalFormattingCellIs(String, BigExcelCreator.Enums.ConditionalFormattingOperator, String, Integer, String)
+  nameWithType: BigExcelWriter.AddConditionalFormattingCellIs(string, ConditionalFormattingOperator, string, int, string)
+  nameWithType.vb: BigExcelWriter.AddConditionalFormattingCellIs(String, ConditionalFormattingOperator, String, Integer, String)
 - uid: BigExcelCreator.BigExcelWriter.AddConditionalFormattingCellIs(System.String,DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues,System.String,System.Int32,System.String)
   name: AddConditionalFormattingCellIs(string, ConditionalFormattingOperatorValues, string, int, string)
   href: api/BigExcelCreator.BigExcelWriter.html#BigExcelCreator_BigExcelWriter_AddConditionalFormattingCellIs_System_String_DocumentFormat_OpenXml_Spreadsheet_ConditionalFormattingOperatorValues_System_String_System_Int32_System_String_
@@ -1497,24 +1515,24 @@ references:
   commentId: T:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute
   fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute
   nameWithType: ExcelConditionalFormatCellIsAttribute
-- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor(System.Int32,DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues,System.String,System.String)
-  name: ExcelConditionalFormatCellIsAttribute(int, ConditionalFormattingOperatorValues, string, string)
-  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute__ctor_System_Int32_DocumentFormat_OpenXml_Spreadsheet_ConditionalFormattingOperatorValues_System_String_System_String_
-  commentId: M:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor(System.Int32,DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues,System.String,System.String)
-  name.vb: New(Integer, ConditionalFormattingOperatorValues, String, String)
-  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.ExcelConditionalFormatCellIsAttribute(int, DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues, string, string)
-  fullName.vb: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.New(Integer, DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues, String, String)
-  nameWithType: ExcelConditionalFormatCellIsAttribute.ExcelConditionalFormatCellIsAttribute(int, ConditionalFormattingOperatorValues, string, string)
-  nameWithType.vb: ExcelConditionalFormatCellIsAttribute.New(Integer, ConditionalFormattingOperatorValues, String, String)
-- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor(System.String,DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues,System.String,System.String)
-  name: ExcelConditionalFormatCellIsAttribute(string, ConditionalFormattingOperatorValues, string, string)
-  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute__ctor_System_String_DocumentFormat_OpenXml_Spreadsheet_ConditionalFormattingOperatorValues_System_String_System_String_
-  commentId: M:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor(System.String,DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues,System.String,System.String)
-  name.vb: New(String, ConditionalFormattingOperatorValues, String, String)
-  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.ExcelConditionalFormatCellIsAttribute(string, DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues, string, string)
-  fullName.vb: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.New(String, DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues, String, String)
-  nameWithType: ExcelConditionalFormatCellIsAttribute.ExcelConditionalFormatCellIsAttribute(string, ConditionalFormattingOperatorValues, string, string)
-  nameWithType.vb: ExcelConditionalFormatCellIsAttribute.New(String, ConditionalFormattingOperatorValues, String, String)
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor(System.Int32,BigExcelCreator.Enums.ConditionalFormattingOperator,System.String,System.String)
+  name: ExcelConditionalFormatCellIsAttribute(int, ConditionalFormattingOperator, string, string)
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute__ctor_System_Int32_BigExcelCreator_Enums_ConditionalFormattingOperator_System_String_System_String_
+  commentId: M:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor(System.Int32,BigExcelCreator.Enums.ConditionalFormattingOperator,System.String,System.String)
+  name.vb: New(Integer, ConditionalFormattingOperator, String, String)
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.ExcelConditionalFormatCellIsAttribute(int, BigExcelCreator.Enums.ConditionalFormattingOperator, string, string)
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.New(Integer, BigExcelCreator.Enums.ConditionalFormattingOperator, String, String)
+  nameWithType: ExcelConditionalFormatCellIsAttribute.ExcelConditionalFormatCellIsAttribute(int, ConditionalFormattingOperator, string, string)
+  nameWithType.vb: ExcelConditionalFormatCellIsAttribute.New(Integer, ConditionalFormattingOperator, String, String)
+- uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor(System.String,BigExcelCreator.Enums.ConditionalFormattingOperator,System.String,System.String)
+  name: ExcelConditionalFormatCellIsAttribute(string, ConditionalFormattingOperator, string, string)
+  href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute__ctor_System_String_BigExcelCreator_Enums_ConditionalFormattingOperator_System_String_System_String_
+  commentId: M:BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor(System.String,BigExcelCreator.Enums.ConditionalFormattingOperator,System.String,System.String)
+  name.vb: New(String, ConditionalFormattingOperator, String, String)
+  fullName: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.ExcelConditionalFormatCellIsAttribute(string, BigExcelCreator.Enums.ConditionalFormattingOperator, string, string)
+  fullName.vb: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.New(String, BigExcelCreator.Enums.ConditionalFormattingOperator, String, String)
+  nameWithType: ExcelConditionalFormatCellIsAttribute.ExcelConditionalFormatCellIsAttribute(string, ConditionalFormattingOperator, string, string)
+  nameWithType.vb: ExcelConditionalFormatCellIsAttribute.New(String, ConditionalFormattingOperator, String, String)
 - uid: BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor*
   name: ExcelConditionalFormatCellIsAttribute
   href: api/BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.html#BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute__ctor_
@@ -1892,6 +1910,84 @@ references:
   commentId: F:BigExcelCreator.Enums.CellDataType.Text
   fullName: BigExcelCreator.Enums.CellDataType.Text
   nameWithType: CellDataType.Text
+- uid: BigExcelCreator.Enums.ConditionalFormattingOperator
+  name: ConditionalFormattingOperator
+  href: api/BigExcelCreator.Enums.ConditionalFormattingOperator.html
+  commentId: T:BigExcelCreator.Enums.ConditionalFormattingOperator
+  fullName: BigExcelCreator.Enums.ConditionalFormattingOperator
+  nameWithType: ConditionalFormattingOperator
+- uid: BigExcelCreator.Enums.ConditionalFormattingOperator.BeginsWith
+  name: BeginsWith
+  href: api/BigExcelCreator.Enums.ConditionalFormattingOperator.html#BigExcelCreator_Enums_ConditionalFormattingOperator_BeginsWith
+  commentId: F:BigExcelCreator.Enums.ConditionalFormattingOperator.BeginsWith
+  fullName: BigExcelCreator.Enums.ConditionalFormattingOperator.BeginsWith
+  nameWithType: ConditionalFormattingOperator.BeginsWith
+- uid: BigExcelCreator.Enums.ConditionalFormattingOperator.Between
+  name: Between
+  href: api/BigExcelCreator.Enums.ConditionalFormattingOperator.html#BigExcelCreator_Enums_ConditionalFormattingOperator_Between
+  commentId: F:BigExcelCreator.Enums.ConditionalFormattingOperator.Between
+  fullName: BigExcelCreator.Enums.ConditionalFormattingOperator.Between
+  nameWithType: ConditionalFormattingOperator.Between
+- uid: BigExcelCreator.Enums.ConditionalFormattingOperator.ContainsText
+  name: ContainsText
+  href: api/BigExcelCreator.Enums.ConditionalFormattingOperator.html#BigExcelCreator_Enums_ConditionalFormattingOperator_ContainsText
+  commentId: F:BigExcelCreator.Enums.ConditionalFormattingOperator.ContainsText
+  fullName: BigExcelCreator.Enums.ConditionalFormattingOperator.ContainsText
+  nameWithType: ConditionalFormattingOperator.ContainsText
+- uid: BigExcelCreator.Enums.ConditionalFormattingOperator.EndsWith
+  name: EndsWith
+  href: api/BigExcelCreator.Enums.ConditionalFormattingOperator.html#BigExcelCreator_Enums_ConditionalFormattingOperator_EndsWith
+  commentId: F:BigExcelCreator.Enums.ConditionalFormattingOperator.EndsWith
+  fullName: BigExcelCreator.Enums.ConditionalFormattingOperator.EndsWith
+  nameWithType: ConditionalFormattingOperator.EndsWith
+- uid: BigExcelCreator.Enums.ConditionalFormattingOperator.Equal
+  name: Equal
+  href: api/BigExcelCreator.Enums.ConditionalFormattingOperator.html#BigExcelCreator_Enums_ConditionalFormattingOperator_Equal
+  commentId: F:BigExcelCreator.Enums.ConditionalFormattingOperator.Equal
+  fullName: BigExcelCreator.Enums.ConditionalFormattingOperator.Equal
+  nameWithType: ConditionalFormattingOperator.Equal
+- uid: BigExcelCreator.Enums.ConditionalFormattingOperator.GreaterThan
+  name: GreaterThan
+  href: api/BigExcelCreator.Enums.ConditionalFormattingOperator.html#BigExcelCreator_Enums_ConditionalFormattingOperator_GreaterThan
+  commentId: F:BigExcelCreator.Enums.ConditionalFormattingOperator.GreaterThan
+  fullName: BigExcelCreator.Enums.ConditionalFormattingOperator.GreaterThan
+  nameWithType: ConditionalFormattingOperator.GreaterThan
+- uid: BigExcelCreator.Enums.ConditionalFormattingOperator.GreaterThanOrEqual
+  name: GreaterThanOrEqual
+  href: api/BigExcelCreator.Enums.ConditionalFormattingOperator.html#BigExcelCreator_Enums_ConditionalFormattingOperator_GreaterThanOrEqual
+  commentId: F:BigExcelCreator.Enums.ConditionalFormattingOperator.GreaterThanOrEqual
+  fullName: BigExcelCreator.Enums.ConditionalFormattingOperator.GreaterThanOrEqual
+  nameWithType: ConditionalFormattingOperator.GreaterThanOrEqual
+- uid: BigExcelCreator.Enums.ConditionalFormattingOperator.LessThan
+  name: LessThan
+  href: api/BigExcelCreator.Enums.ConditionalFormattingOperator.html#BigExcelCreator_Enums_ConditionalFormattingOperator_LessThan
+  commentId: F:BigExcelCreator.Enums.ConditionalFormattingOperator.LessThan
+  fullName: BigExcelCreator.Enums.ConditionalFormattingOperator.LessThan
+  nameWithType: ConditionalFormattingOperator.LessThan
+- uid: BigExcelCreator.Enums.ConditionalFormattingOperator.LessThanOrEqual
+  name: LessThanOrEqual
+  href: api/BigExcelCreator.Enums.ConditionalFormattingOperator.html#BigExcelCreator_Enums_ConditionalFormattingOperator_LessThanOrEqual
+  commentId: F:BigExcelCreator.Enums.ConditionalFormattingOperator.LessThanOrEqual
+  fullName: BigExcelCreator.Enums.ConditionalFormattingOperator.LessThanOrEqual
+  nameWithType: ConditionalFormattingOperator.LessThanOrEqual
+- uid: BigExcelCreator.Enums.ConditionalFormattingOperator.NotBetween
+  name: NotBetween
+  href: api/BigExcelCreator.Enums.ConditionalFormattingOperator.html#BigExcelCreator_Enums_ConditionalFormattingOperator_NotBetween
+  commentId: F:BigExcelCreator.Enums.ConditionalFormattingOperator.NotBetween
+  fullName: BigExcelCreator.Enums.ConditionalFormattingOperator.NotBetween
+  nameWithType: ConditionalFormattingOperator.NotBetween
+- uid: BigExcelCreator.Enums.ConditionalFormattingOperator.NotContains
+  name: NotContains
+  href: api/BigExcelCreator.Enums.ConditionalFormattingOperator.html#BigExcelCreator_Enums_ConditionalFormattingOperator_NotContains
+  commentId: F:BigExcelCreator.Enums.ConditionalFormattingOperator.NotContains
+  fullName: BigExcelCreator.Enums.ConditionalFormattingOperator.NotContains
+  nameWithType: ConditionalFormattingOperator.NotContains
+- uid: BigExcelCreator.Enums.ConditionalFormattingOperator.NotEqual
+  name: NotEqual
+  href: api/BigExcelCreator.Enums.ConditionalFormattingOperator.html#BigExcelCreator_Enums_ConditionalFormattingOperator_NotEqual
+  commentId: F:BigExcelCreator.Enums.ConditionalFormattingOperator.NotEqual
+  fullName: BigExcelCreator.Enums.ConditionalFormattingOperator.NotEqual
+  nameWithType: ConditionalFormattingOperator.NotEqual
 - uid: BigExcelCreator.Enums.StylingPriority
   name: StylingPriority
   href: api/BigExcelCreator.Enums.StylingPriority.html

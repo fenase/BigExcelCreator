@@ -89,7 +89,7 @@
 
 
   <h1 id="BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute" data-uid="BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute" class="text-break">
-Class ExcelConditionalFormatCellIsAttribute  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L14"><i class="bi bi-code-slash"></i></a>
+Class ExcelConditionalFormatCellIsAttribute  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L13"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -260,9 +260,9 @@ public sealed class ExcelConditionalFormatCellIsAttribute : Attribute</code></pr
 
   <a id="BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute__ctor_" data-uid="BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor*"></a>
 
-  <h3 id="BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute__ctor_System_Int32_DocumentFormat_OpenXml_Spreadsheet_ConditionalFormattingOperatorValues_System_String_System_String_" data-uid="BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor(System.Int32,DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues,System.String,System.String)">
-  ExcelConditionalFormatCellIsAttribute(int, ConditionalFormattingOperatorValues, string, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L54"><i class="bi bi-code-slash"></i></a>
+  <h3 id="BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute__ctor_System_Int32_BigExcelCreator_Enums_ConditionalFormattingOperator_System_String_System_String_" data-uid="BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor(System.Int32,BigExcelCreator.Enums.ConditionalFormattingOperator,System.String,System.String)">
+  ExcelConditionalFormatCellIsAttribute(int, ConditionalFormattingOperator, string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L53"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Adds a conditional formatting rule based on a cell value (CellIs) with the specified format, operator, and comparison values.</p>
@@ -270,7 +270,7 @@ public sealed class ExcelConditionalFormatCellIsAttribute : Attribute</code></pr
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ExcelConditionalFormatCellIsAttribute(int format, ConditionalFormattingOperatorValues @operator, string value, string value2 = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public ExcelConditionalFormatCellIsAttribute(int format, ConditionalFormattingOperator @operator, string value, string value2 = null)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -278,7 +278,7 @@ public sealed class ExcelConditionalFormatCellIsAttribute : Attribute</code></pr
     <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
     <dd><p>The index of the conditional format to apply when the condition is met.</p>
 </dd>
-    <dt><code>operator</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.conditionalformattingoperatorvalues">ConditionalFormattingOperatorValues</a></dt>
+    <dt><code>operator</code> <a class="xref" href="BigExcelCreator.Enums.ConditionalFormattingOperator.html">ConditionalFormattingOperator</a></dt>
     <dd><p>The comparison operator used to evaluate the cell value.</p>
 </dd>
     <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
@@ -303,9 +303,9 @@ may be null for single-value operators.</p>
 
   <a id="BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute__ctor_" data-uid="BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor*"></a>
 
-  <h3 id="BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute__ctor_System_String_DocumentFormat_OpenXml_Spreadsheet_ConditionalFormattingOperatorValues_System_String_System_String_" data-uid="BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor(System.String,DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues,System.String,System.String)">
-  ExcelConditionalFormatCellIsAttribute(string, ConditionalFormattingOperatorValues, string, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L70"><i class="bi bi-code-slash"></i></a>
+  <h3 id="BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute__ctor_System_String_BigExcelCreator_Enums_ConditionalFormattingOperator_System_String_System_String_" data-uid="BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.#ctor(System.String,BigExcelCreator.Enums.ConditionalFormattingOperator,System.String,System.String)">
+  ExcelConditionalFormatCellIsAttribute(string, ConditionalFormattingOperator, string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L69"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Adds a conditional formatting rule based on a cell value (CellIs) with the specified format, operator, and comparison values.</p>
@@ -313,7 +313,7 @@ may be null for single-value operators.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ExcelConditionalFormatCellIsAttribute(string styleName, ConditionalFormattingOperatorValues @operator, string value, string value2 = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public ExcelConditionalFormatCellIsAttribute(string styleName, ConditionalFormattingOperator @operator, string value, string value2 = null)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
@@ -321,7 +321,7 @@ may be null for single-value operators.</p>
     <dt><code>styleName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
     <dd><p>The name of the style to apply when the conditional formatting rule is met. Cannot be null or empty.</p>
 </dd>
-    <dt><code>operator</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.conditionalformattingoperatorvalues">ConditionalFormattingOperatorValues</a></dt>
+    <dt><code>operator</code> <a class="xref" href="BigExcelCreator.Enums.ConditionalFormattingOperator.html">ConditionalFormattingOperator</a></dt>
     <dd><p>The comparison operator used to evaluate the cell's value against the specified criteria.</p>
 </dd>
     <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
@@ -351,7 +351,7 @@ may be null for single-value operators.</p>
 
   <h3 id="BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute_Format" data-uid="BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Format">
   Format
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L21"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L20"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The format ID of the differential format in styleSheet to apply when the condition is met. See <a class="xref" href="BigExcelCreator.Styles.StyleList.html#BigExcelCreator_Styles_StyleList_GetIndexDifferentialByName_System_String_">GetIndexDifferentialByName(string)</a>.</p>
@@ -383,7 +383,7 @@ may be null for single-value operators.</p>
 
   <h3 id="BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute_Operator" data-uid="BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Operator">
   Operator
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L31"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L30"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The operator to use for the conditional formatting rule.</p>
@@ -391,7 +391,7 @@ may be null for single-value operators.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ConditionalFormattingOperatorValues Operator { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public ConditionalFormattingOperator Operator { get; }</code></pre>
   </div>
 
 
@@ -400,7 +400,7 @@ may be null for single-value operators.</p>
 
   <h4 class="section">Property Value</h4>
   <dl class="parameters">
-    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/documentformat.openxml.spreadsheet.conditionalformattingoperatorvalues">ConditionalFormattingOperatorValues</a></dt>
+    <dt><a class="xref" href="BigExcelCreator.Enums.ConditionalFormattingOperator.html">ConditionalFormattingOperator</a></dt>
     <dd></dd>
   </dl>
 
@@ -415,7 +415,7 @@ may be null for single-value operators.</p>
 
   <h3 id="BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute_StyleName" data-uid="BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.StyleName">
   StyleName
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L26"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L25"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The differential style name to apply to the cell.</p>
@@ -447,7 +447,7 @@ may be null for single-value operators.</p>
 
   <h3 id="BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute_Value" data-uid="BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Value">
   Value
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L36"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L35"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The value to compare the cell value against.</p>
@@ -479,7 +479,7 @@ may be null for single-value operators.</p>
 
   <h3 id="BigExcelCreator_ClassAttributes_ExcelConditionalFormatCellIsAttribute_Value2" data-uid="BigExcelCreator.ClassAttributes.ExcelConditionalFormatCellIsAttribute.Value2">
   Value2
-  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L41"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L40"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>The second value to compare the cell value against, used for &quot;Between&quot; and &quot;NotBetween&quot; operators.</p>
@@ -511,7 +511,7 @@ may be null for single-value operators.</p>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L14" class="edit-link">Edit this page</a>
+          <a href="https://github.com/fenase/BigExcelCreator/blob/main/BigExcelCreator/ClassAttributes/ExcelConditionalFormatCellIsAttribute.cs/#L13" class="edit-link">Edit this page</a>
         </div>
 
 

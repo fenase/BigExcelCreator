@@ -228,6 +228,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/BigExcelCreator.Enums.ConditionalFormattingOperator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BigExcelCreator.Enums.ConditionalFormattingOperator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BigExcelCreator.Enums.ConditionalFormattingOperator",
+      "Summary": "<p sourcefile=\"api/BigExcelCreator.Enums.ConditionalFormattingOperator.yml\" sourcestartlinenumber=\"1\">Conditional formatting operators for Excel conditional formatting rules.\nWrapper for <xref href=\"DocumentFormat.OpenXml.Spreadsheet.ConditionalFormattingOperatorValues\" data-throw-if-not-resolved=\"false\"></xref> to use on attributes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/BigExcelCreator.Enums.StylingPriority.yml",
       "output": {
         ".html": {
@@ -566,11 +580,11 @@
       "type": "Toc",
       "source_relative_path": "api/toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "api/toc.html"
-        },
         ".json": {
           "relative_path": "api/toc.json"
+        },
+        ".html": {
+          "relative_path": "api/toc.html"
         }
       },
       "version": ""
@@ -589,11 +603,11 @@
       "type": "Toc",
       "source_relative_path": "toc.yml",
       "output": {
-        ".html": {
-          "relative_path": "toc.html"
-        },
         ".json": {
           "relative_path": "toc.json"
+        },
+        ".html": {
+          "relative_path": "toc.html"
         }
       },
       "version": ""
