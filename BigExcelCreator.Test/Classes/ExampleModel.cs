@@ -57,6 +57,7 @@ namespace BigExcelCreator.Test.Classes
         [ExcelColumnType(CellDataType.Formula)]
         [ExcelColumnWidth(20)]
         [ExcelStyleFormat(8, StylingPriority.Data)]
+        [ExcelConditionalFormatCellIs(1, ConditionalFormattingOperator.GreaterThanOrEqual, "540")]
         public string? NetIncome { get; set; } = "";
 
         [ExcelColumnName("Sale Amount")]
