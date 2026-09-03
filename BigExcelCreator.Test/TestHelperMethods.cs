@@ -1,4 +1,6 @@
-﻿using DocumentFormat.OpenXml.Packaging;
+﻿using BigExcelCreator.Styles;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace BigExcelCreator.Test
@@ -56,6 +58,41 @@ namespace BigExcelCreator.Test
         {
             stream = new MemoryStream();
             return new BigExcelWriter(stream);
+        }
+
+
+
+        internal static StyleList GetStyleList()
+        {
+            StyleList styleList = new();
+            Font italic = new(new Italic());
+            Font bold = new(new Bold());
+            Font boldItalic = new(new Bold(), new Italic());
+            styleList.NewStyle(italic, null, null, null, "italic default");
+            styleList.NewStyle(bold, null, null, null, "bold default", out int boldStyleIndex);
+            styleList.NewStyle(boldItalic, null, null, null, "bold italic default");
+
+            Alignment center = new() { Horizontal = HorizontalAlignmentValues.Center };
+
+            styleList.NewStyle(italic, null, null, null, center, "italic center");
+            styleList.NewStyle(bold, null, null, null, center, "bold center");
+            styleList.NewStyle(boldItalic, null, null, null, center, "bold italic center");
+            Fill yellowFill = new Fill(new[]{
+                        new PatternFill(new[]{
+                            new ForegroundColor { Rgb = new HexBinaryValue { Value = "FFFF00" } } }
+                        )
+                        { PatternType = PatternValues.Solid } });
+            styleList.NewStyle(null, yellowFill, null, null, "YELLOW");
+
+            styleList.NewDifferentialStyle("RED", font: new Font(new[] { new Color { Rgb = new HexBinaryValue { Value = "FF0000" } } }));
+
+            Fill greenFill = new Fill(new[]{
+                                new PatternFill(new[]{
+                                        new BackgroundColor { Rgb = new HexBinaryValue { Value = "00FF00" } } })
+                        { PatternType = PatternValues.Solid } });
+
+            styleList.NewDifferentialStyle("GREENBKG", fill: greenFill);
+            return styleList;
         }
     }
 }

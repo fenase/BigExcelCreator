@@ -3,6 +3,7 @@
 
 // Ignore Spelling: Validator Validators Autofilter stylesheet finalizer inline unhiding gridlines rownum
 
+using BigExcelCreator.Enums;
 using BigExcelCreator.Exceptions;
 using BigExcelCreator.Extensions;
 using BigExcelCreator.Ranges;
@@ -88,11 +89,40 @@ namespace BigExcelCreator
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is negative.</exception>
         /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the conditional formatting to.</exception>
         /// <exception cref="InvalidRangeException">Thrown when the <paramref name="reference"/> does not represent a valid range.</exception>
+        public void AddConditionalFormattingCellIs(string reference, ConditionalFormattingOperator @operator, string value, int format, string value2 = null)
+            => AddConditionalFormattingCellIs(reference, @operator.Value(), value, format, value2);
+
+        /// <summary>
+        /// Adds a conditional formatting rule based on a cell value to the specified cell range.
+        /// </summary>
+        /// <param name="reference">The cell range to apply the conditional formatting to.</param>
+        /// <param name="operator">The operator to use for the conditional formatting rule.</param>
+        /// <param name="value">The value to compare the cell value against.</param>
+        /// <param name="format">The format ID of the differential format in stylesheet to apply when the condition is met. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <param name="value2">The second value to compare the cell value against, used for "Between" and "NotBetween" operators.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="reference"/>, <paramref name="value"/>, or <paramref name="value2"/> (if required) is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is negative.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the conditional formatting to.</exception>
+        /// <exception cref="InvalidRangeException">Thrown when the <paramref name="reference"/> does not represent a valid range.</exception>
         public void AddConditionalFormattingCellIs(string reference, ConditionalFormattingOperatorValues @operator, string value, int format, string value2 = null)
         {
             CellRange cellRange = new(reference);
             AddConditionalFormattingCellIs(cellRange, @operator, value, format, value2);
         }
+
+        /// <summary>
+        /// Adds a conditional formatting rule based on a cell value to the specified cell range.
+        /// </summary>
+        /// <param name="cellRange">The cell range to apply the conditional formatting to.</param>
+        /// <param name="operator">The operator to use for the conditional formatting rule.</param>
+        /// <param name="value">The value to compare the cell value against.</param>
+        /// <param name="format">The format ID of the differential format in stylesheet to apply when the condition is met. See <see cref="Styles.StyleList.GetIndexDifferentialByName(string)"/></param>
+        /// <param name="value2">The second value to compare the cell value against, used for "Between" and "NotBetween" operators.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="cellRange"/>, <paramref name="value"/>, or <paramref name="value2"/> (if required) is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="format"/> is negative.</exception>
+        /// <exception cref="NoOpenSheetException">Thrown when there is no open sheet to add the conditional formatting to.</exception>
+        public void AddConditionalFormattingCellIs(CellRange cellRange, ConditionalFormattingOperator @operator, string value, int format, string value2 = null)
+            => AddConditionalFormattingCellIs(cellRange, @operator.Value(), value, format, value2);
 
         /// <summary>
         /// Adds a conditional formatting rule based on a cell value to the specified cell range.

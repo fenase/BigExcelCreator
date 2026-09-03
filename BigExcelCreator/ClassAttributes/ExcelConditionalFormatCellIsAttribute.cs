@@ -3,7 +3,6 @@
 
 using BigExcelCreator.ClassAttributes.Interfaces;
 using BigExcelCreator.Enums;
-using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 
 namespace BigExcelCreator.ClassAttributes
@@ -28,7 +27,7 @@ namespace BigExcelCreator.ClassAttributes
         /// <summary>
         /// The operator to use for the conditional formatting rule.
         /// </summary>
-        public ConditionalFormattingOperatorValues Operator { get; }
+        public ConditionalFormattingOperator Operator { get; }
 
         /// <summary>
         /// The value to compare the cell value against.
@@ -51,7 +50,7 @@ namespace BigExcelCreator.ClassAttributes
         /// <param name="value">The first value to compare against the cell value. Cannot be null.</param>
         /// <param name="value2">The second value to compare against the cell value, used for operators that require two values. Optional;
         /// may be null for single-value operators.</param>
-        public ExcelConditionalFormatCellIsAttribute(int format, ConditionalFormattingOperatorValues @operator, string value, string value2 = null)
+        public ExcelConditionalFormatCellIsAttribute(int format, ConditionalFormattingOperator @operator, string value, string value2 = null)
         {
             Format = format;
             Operator = @operator;
@@ -67,7 +66,7 @@ namespace BigExcelCreator.ClassAttributes
         /// <param name="operator">The comparison operator used to evaluate the cell's value against the specified criteria.</param>
         /// <param name="value">The first value to compare the cell's value against, according to the specified operator. Cannot be null.</param>
         /// <param name="value2">The second value to use for comparison when the operator requires two values; otherwise, null.</param>
-        public ExcelConditionalFormatCellIsAttribute(string styleName, ConditionalFormattingOperatorValues @operator, string value, string value2 = null)
+        public ExcelConditionalFormatCellIsAttribute(string styleName, ConditionalFormattingOperator @operator, string value, string value2 = null)
         {
             StyleName = styleName;
             Operator = @operator;
