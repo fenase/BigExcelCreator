@@ -11,6 +11,11 @@ namespace BigExcelCreator.Extensions
     internal static class EnumExtensions
     {
 #if NET35
+        /// <summary>Determines whether one or more bit fields are set in the current instance.</summary>
+        /// <param name="enum"></param>
+        /// <param name="flag">An enumeration value.</param>
+        /// <returns><see langword="true"/> if the bit field or bit fields that are set in <paramref name="flag"/> are also set in the current instance; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentException"><paramref name="flag"/> is a different type than the current instance.</exception>
         internal static bool HasFlag<TEnum>(this TEnum @enum, TEnum flag) where TEnum : Enum
         {
             var enumValue = Convert.ToUInt64(@enum, CultureInfo.InvariantCulture);
