@@ -1858,7 +1858,7 @@ namespace BigExcelCreator.Test
         public void FromObjectTest()
         {
             MemoryStream stream = new();
-            using (BigExcelWriter writer = new(stream))
+            using (BigExcelWriter writer = new(stream, GetStyleList()))
             {
 
                 List<ExampleModel> data =

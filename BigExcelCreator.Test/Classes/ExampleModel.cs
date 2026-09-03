@@ -41,6 +41,7 @@ namespace BigExcelCreator.Test.Classes
         [ExcelColumnOrder(4)]
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
+        [ExcelConditionalFormatFormula("RED", "E2<6100")]
         public decimal Salary { get; set; }
 
         [ExcelColumnName("Monthly Bonus")]
@@ -48,6 +49,7 @@ namespace BigExcelCreator.Test.Classes
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
         [ExcelStyleFormat(8)]
+        [ExcelConditionalFormatCellIs("RED", ConditionalFormattingOperator.LessThan, "540")]
         public double? Bonus { get; set; }
 
         [ExcelColumnName("Monthly Net Income")]
