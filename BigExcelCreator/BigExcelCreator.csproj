@@ -12,9 +12,8 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 		<EnableNETAnalyzers>True</EnableNETAnalyzers>
 		<AnalysisLevel>latest-all</AnalysisLevel>
-		<VersionPrefix>3.4</VersionPrefix>
-		<VersionSuffix>$([System.DateTime]::UtcNow.ToString(yyyy)).$([System.DateTime]::UtcNow.DayOfYear.ToString())$([System.DateTime]::UtcNow.ToString(HH))</VersionSuffix>
-		<Version>$(VersionPrefix).$(VersionSuffix)</Version>
+		<VersionPrefix>$([System.Text.RegularExpressions.Regex]::Match($([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)/../version.json')), '"version"\s*:\s*"(\d+\.\d+)').Groups[1].Value)</VersionPrefix>
+		<NBGV_SetVersion>false</NBGV_SetVersion>
 		<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 		<Deterministic>True</Deterministic>
 		<LangVersion>latest</LangVersion>
@@ -33,6 +32,24 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 	<PropertyGroup Condition="'$(TF_BUILD)' == 'true' Or '$(GITHUB_ACTIONS)' == 'true'">
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 	</PropertyGroup>
+
+	<Target Name="SetVersionFromCommitDate" AfterTargets="GetBuildVersion" BeforeTargets="GetAssemblyVersion;GenerateNuspec;_GetOutputItemsFromPack">
+		<PropertyGroup>
+			<!-- Fallback to 2000-01-01 UTC if built from a source archive without a .git directory -->
+			<CommitTicks Condition="'$(GitCommitDateTicks)' != ''">$(GitCommitDateTicks)</CommitTicks>
+			<CommitTicks Condition="'$(CommitTicks)' == ''">630822816000000000</CommitTicks>
+
+			<!-- Format directly from DateTime to avoid culture-dependent Parse issues -->
+			<CommitYear>$([System.DateTime]::new($(CommitTicks), System.DateTimeKind.Utc).ToString('yyyy'))</CommitYear>
+			<CommitHour>$([System.DateTime]::new($(CommitTicks), System.DateTimeKind.Utc).ToString('HH'))</CommitHour>
+			<CommitIso>$([System.DateTime]::new($(CommitTicks), System.DateTimeKind.Utc).ToString('yyyy-MM-dd'))</CommitIso>
+			<CommitDayOfYear>$([System.DateTime]::Parse($(CommitIso)).DayOfYear)</CommitDayOfYear>
+
+			<VersionSuffix>$(CommitYear).$(CommitDayOfYear)$(CommitHour)</VersionSuffix>
+			<Version>$(VersionPrefix).$(VersionSuffix)</Version>
+			<PackageVersion>$(Version)</PackageVersion>
+		</PropertyGroup>
+	</Target>
 
 	<ItemGroup>
 		<None Include="..\README.md">
@@ -54,6 +71,9 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.400">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Nerdbank.GitVersioning" Version="3.10.94">
+			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 	</ItemGroup>
 
