@@ -8,7 +8,6 @@ using BigExcelCreator.ClassAttributes.Interfaces;
 using BigExcelCreator.Enums;
 using BigExcelCreator.Exceptions;
 using BigExcelCreator.Ranges;
-using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections.Generic;
@@ -29,6 +28,7 @@ namespace BigExcelCreator
         /// <param name="addAutoFilterOnFirstColumn">If set to <c>true</c>, adds an autofilter to the first row. Default is <c>false</c>.</param>
         /// <param name="columns">The column definitions to use for the sheet. If not provided, columns will be generated automatically from the object type. Default is <c>null</c>.</param>
         /// <param name="useSharedStringsOnTextData">Indicates whether to write the text values to the shared strings table. This might help reduce the output file size when the same text is shared multiple times among sheets. Default is false.</param>
+        /// <param name="keepSheetOpen">Indicates whether to keep the sheet open after writing the data. Default is false. Useful for further modifications, like adding data validation. You MUST call <see cref="CloseSheet"/> manually if this is set to <c>true</c>.</param>
         /// <remarks>
         /// <para>This method automatically discovers properties from type <typeparamref name="T"/> and writes them as sheet columns.</para>
         /// <para>Properties can be decorated with the following attributes to customize their behavior:</para>
@@ -43,13 +43,17 @@ namespace BigExcelCreator
         /// <item><description><see cref="ExcelHeaderStyleFormatAttribute"/> (in class) - Controls header row styling</description></item>
         /// </list>
         /// <para>The sheet state is set to <see cref="SheetStateValues.Visible"/> by default.</para>
+        /// <para>
+        /// If <paramref name="keepSheetOpen"/> is set to <c>true</c>, the sheet will remain open after writing the data, allowing for further modifications. Otherwise, the sheet will be closed automatically.
+        /// You MUST call <see cref="CloseSheet"/> manually if <paramref name="keepSheetOpen"/> is set to <c>true</c>.
+        /// </para>
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="data"/> is <c>null</c>.</exception>
         /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
         /// <exception cref="SheetNameCannotBeEmptyException">Thrown when <paramref name="sheetName"/> is null or empty.</exception>
         /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
-        public void CreateSheetFromObject<T>(IEnumerable<T> data, string sheetName, bool writeHeaderRow = true, bool addAutoFilterOnFirstColumn = false, IList<Column> columns = default, bool useSharedStringsOnTextData = false)
-             where T : class => CreateSheetFromObject(data, sheetName, SheetStateValues.Visible, writeHeaderRow, addAutoFilterOnFirstColumn, columns, useSharedStringsOnTextData);
+        public void CreateSheetFromObject<T>(IEnumerable<T> data, string sheetName, bool writeHeaderRow = true, bool addAutoFilterOnFirstColumn = false, IList<Column> columns = default, bool useSharedStringsOnTextData = false, bool keepSheetOpen = false)
+             where T : class => CreateSheetFromObject(data, sheetName, SheetStateValues.Visible, writeHeaderRow, addAutoFilterOnFirstColumn, columns, useSharedStringsOnTextData, keepSheetOpen);
 
         /// <summary>
         /// Creates a new sheet from a collection of objects with a specified sheet state, automatically mapping object properties to columns.
@@ -62,6 +66,7 @@ namespace BigExcelCreator
         /// <param name="addAutoFilterOnFirstColumn">If set to <c>true</c>, adds an autofilter to the first row. Default is <c>false</c>.</param>
         /// <param name="columns">The column definitions to use for the sheet. If not provided, columns will be generated automatically from the object type. Default is <c>null</c>.</param>
         /// <param name="useSharedStringsOnTextData">Indicates whether to write the text values to the shared strings table. This might help reduce the output file size when the same text is shared multiple times among sheets. Default is false.</param>
+        /// <param name="keepSheetOpen">Indicates whether to keep the sheet open after writing the data. Default is false. Useful for further modifications, like adding data validation. You MUST call <see cref="CloseSheet"/> manually if this is set to <c>true</c>.</param>
         /// <remarks>
         /// <para>This method automatically discovers properties from type <typeparamref name="T"/> and writes them as sheet columns.</para>
         /// <para>Properties can be decorated with the following attributes to customize their behavior:</para>
@@ -75,12 +80,25 @@ namespace BigExcelCreator
         /// <item><description><see cref="ExcelStyleFormatAttribute"/> - Controls styling</description></item>
         /// <item><description><see cref="ExcelHeaderStyleFormatAttribute"/> (in class) - Controls header row styling</description></item>
         /// </list>
+        /// <para>
+        /// If <paramref name="keepSheetOpen"/> is set to <c>true</c>, the sheet will remain open after writing the data, allowing for further modifications. Otherwise, the sheet will be closed automatically.
+        /// You MUST call <see cref="CloseSheet"/> manually if <paramref name="keepSheetOpen"/> is set to <c>true</c>.
+        /// </para>
         /// </remarks>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="data"/> is <c>null</c>.</exception>
         /// <exception cref="SheetAlreadyOpenException">Thrown when a sheet is already open and not closed before opening a new one.</exception>
         /// <exception cref="SheetNameCannotBeEmptyException">Thrown when <paramref name="sheetName"/> is null or empty.</exception>
         /// <exception cref="SheetWithSameNameAlreadyExistsException">Thrown when a sheet with the same name already exists.</exception>
-        public void CreateSheetFromObject<T>(IEnumerable<T> data, string sheetName, SheetStateValues sheetState, bool writeHeaderRow = true, bool addAutoFilterOnFirstColumn = false, IList<Column> columns = default, bool useSharedStringsOnTextData = false)
+#pragma warning disable S107
+        public void CreateSheetFromObject<T>(IEnumerable<T> data,
+                                             string sheetName,
+                                             SheetStateValues sheetState,
+                                             bool writeHeaderRow = true,
+                                             bool addAutoFilterOnFirstColumn = false,
+                                             IList<Column> columns = default,
+                                             bool useSharedStringsOnTextData = false,
+                                             bool keepSheetOpen = false)
+#pragma warning restore S107
             where T : class
         {
 #if NET6_0_OR_GREATER
@@ -90,7 +108,7 @@ namespace BigExcelCreator
 #endif
             IList<T> list = data as IList<T> ?? [.. data];
 
-            if (columns?.Any() != true) { columns = CreateSpreadsheetColumnsFromObject(typeof(T)); }
+            if (!(columns?.Count > 0)) { columns = CreateSpreadsheetColumnsFromObject(typeof(T)); }
 
             CreateAndOpenSheet(sheetName, columns, sheetState);
 
@@ -171,7 +189,10 @@ namespace BigExcelCreator
                 }
             }
 
-            CloseSheet();
+            if (!keepSheetOpen)
+            {
+                CloseSheet();
+            }
         }
     }
 }
