@@ -142,9 +142,20 @@ excel.AddConditionalFormattingDuplicatedValues(conditionalFormattingRange, style
 excel.AddConditionalFormattingCellIs(conditionalFormattingRange, ConditionalFormattingOperatorValues.LessThan, "5", styleList.GetIndexDifferentialByName("RED"));
 excel.AddConditionalFormattingCellIs(conditionalFormattingRange, ConditionalFormattingOperatorValues.Between, "3", styleList.GetIndexDifferentialByName("RED"), "7");
 
-excel.AddIntegerValidator("B1:B10", 2, DataValidationOperatorValues.Between, secondOperand: 8);
-excel.AddDecimalValidator("C1:C10", 0d, DataValidationOperatorValues.Between, secondOperand: 3.14159265359d);
+excel.CloseSheet();
 
+const string listValidationSheetName = "list Validation";
+
+excel.CreateAndOpenSheet("validation", [new Column { Width = 25, Hidden = false }, new Column { Width = 25, Hidden = false }, new Column { Width = 25, Hidden = false }]);
+excel.WriteTextRow(["Integer between 2 and 8", "Decimal between 0 and pi", "List"]);
+excel.AddIntegerValidator("A2:A100", 2, DataValidationOperatorValues.Between, secondOperand: 8);
+excel.AddDecimalValidator("B2:B100", 0d, DataValidationOperatorValues.Between, secondOperand: 3.14159265359d);
+excel.AddListValidator("C2:C100", $"'{listValidationSheetName}'!$A$1:$A$3");
+
+excel.CloseSheet();
+
+excel.CreateAndOpenSheet(listValidationSheetName, SheetStateValues.VeryHidden);
+new List<string> { "one", "two", "three" }.ForEach(x => excel.WriteTextRow([x]));
 excel.CloseSheet();
 
 excel.CreateAndOpenSheet("merged cells");
