@@ -145,6 +145,7 @@ excel.AddConditionalFormattingCellIs(conditionalFormattingRange, ConditionalForm
 excel.CloseSheet();
 
 const string listValidationSheetName = "list Validation";
+const string positionValidationSheetName = "position Validation";
 
 excel.CreateAndOpenSheet("validation", [new Column { Width = 25, Hidden = false }, new Column { Width = 25, Hidden = false }, new Column { Width = 25, Hidden = false }]);
 excel.WriteTextRow(["Integer between 2 and 8", "Decimal between 0 and pi", "List"]);
@@ -158,6 +159,30 @@ excel.CreateAndOpenSheet(listValidationSheetName, SheetStateValues.VeryHidden);
 new List<string> { "one", "two", "three" }.ForEach(x => excel.WriteTextRow([x]));
 excel.CloseSheet();
 
+string[] availablePositions =
+[
+    "Software Engineer",
+    "Project Manager",
+    "UX Designer",
+    "Data Analyst",
+    "Marketing Specialist",
+    "Product Owner",
+    "QA Engineer",
+    "Data Scientist",
+];
+excel.CreateAndOpenSheet(positionValidationSheetName, SheetStateValues.VeryHidden);
+foreach (string position in availablePositions)
+{
+    excel.WriteTextRow([position]);
+}
+excel.CloseSheet();
+
+excel.CreateSheetFromObject(ExampleModel.GetTestData(), "From objects", useSharedStringsOnTextData: true);
+
+excel.CreateSheetFromObject(ExampleModel.GetTestData(), "validation from objects", keepSheetOpen: true);
+excel.AddListValidator("C2:C100", $"'{positionValidationSheetName}'!$A$1:$A${availablePositions.Length}");
+excel.CloseSheet();
+
 excel.CreateAndOpenSheet("merged cells");
 
 excel.MergeCells("1");
@@ -169,6 +194,5 @@ excel.CloseSheet();
 
 
 
-excel.CreateSheetFromObject(ExampleModel.GetTestData(), "From objects", useSharedStringsOnTextData: true);
 
 

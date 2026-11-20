@@ -1890,7 +1890,9 @@ namespace BigExcelCreator.Test
                     }
                 ];
 
-                writer.CreateSheetFromObject(data, "example");
+                writer.CreateSheetFromObject(data, "example", keepSheetOpen: true);
+                writer.AddListValidator("B2:B3", "'lists'!$A$1:$A$3");
+                writer.CloseSheet();
             }
 
             using SpreadsheetDocument reader = SpreadsheetDocument.Open(stream, false);
@@ -1913,6 +1915,36 @@ namespace BigExcelCreator.Test
                 Assert.That(sheet, Is.Not.Null);
                 Assert.That(sheet.Name!.ToString(), Is.EqualTo("example"));
             });
+
+            DataValidation dataValidation = workbookPart.WorksheetParts.First().Worksheet
+                .ChildElements.OfType<DataValidations>().Single()
+                .ChildElements.OfType<DataValidation>().Single();
+            Assert.Multiple(() =>
+            {
+                Assert.That(dataValidation.Type!.Value, Is.EqualTo(DataValidationValues.List));
+                Assert.That(dataValidation.SequenceOfReferences!.InnerText, Is.EqualTo("B2:B3"));
+                Assert.That(dataValidation.Formula1!.Text, Is.EqualTo("'lists'!$A$1:$A$3"));
+            });
+        }
+
+        [Test]
+        public void FromObjectDefaultClosesSheet()
+        {
+            using BigExcelWriter writer = new(new MemoryStream(), GetStyleList());
+            writer.CreateSheetFromObject([new ExampleModel()], "example");
+            writer.CreateAndOpenSheet("next");
+            writer.CloseSheet();
+        }
+
+        [Test]
+        public void FromObjectWithSheetStateCanKeepSheetOpen()
+        {
+            using BigExcelWriter writer = new(new MemoryStream(), GetStyleList());
+            writer.CreateSheetFromObject([new ExampleModel()], "example", SheetStateValues.Hidden, keepSheetOpen: true);
+
+            Assert.Throws<SheetAlreadyOpenException>(() => writer.CreateAndOpenSheet("next"));
+            writer.AddListValidator("A2:A2", "'lists'!$A$1:$A$3");
+            writer.CloseSheet();
         }
 
         [Test]

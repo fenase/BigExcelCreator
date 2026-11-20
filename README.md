@@ -187,6 +187,8 @@ If you are exporting objects with `CreateSheetFromObject`, use conditional forma
 Alternatively, use `AddIntegerValidator` or `AddDecimalValidator` to restrict / validate values
 as defined by `validationType` (equal, greater than, between, etc.)
 
+> Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook. Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+
 ```c#
     excel.CreateAndOpenSheet("Sheet Name");
     

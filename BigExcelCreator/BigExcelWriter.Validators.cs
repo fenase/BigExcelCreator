@@ -17,6 +17,10 @@ namespace BigExcelCreator
         /// <summary>
         /// Adds a list data validation to the specified cell range.
         /// </summary>
+        /// <remarks>
+        /// Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook.
+        /// Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+        /// </remarks>
         /// <param name="range">The cell range to apply the validation to.</param>
         /// <param name="formula">The formula defining the list of valid values.</param>
         /// <param name="allowBlank">If set to <c>true</c>, blank values are considered valid.</param>
@@ -41,6 +45,10 @@ namespace BigExcelCreator
         /// <summary>
         /// Adds a list data validation to the specified cell range.
         /// </summary>
+        /// <remarks>
+        /// Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook.
+        /// Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+        /// </remarks>
         /// <param name="range">The cell range to apply the validation to.</param>
         /// <param name="formula">The formula defining the list of valid values.</param>
         /// <param name="allowBlank">If set to <c>true</c>, blank values are considered valid.</param>
@@ -62,6 +70,10 @@ namespace BigExcelCreator
         /// <summary>
         /// Adds an integer data validation to the specified cell range.
         /// </summary>
+        /// <remarks>
+        /// Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook.
+        /// Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+        /// </remarks>
         /// <param name="range">The cell range to apply the validation to.</param>
         /// <param name="firstOperand">The first operand for the validation.</param>
         /// <param name="validationType">The type of validation to apply.</param>
@@ -93,6 +105,10 @@ namespace BigExcelCreator
         /// <summary>
         /// Adds an integer data validation to the specified cell range.
         /// </summary>
+        /// <remarks>
+        /// Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook.
+        /// Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+        /// </remarks>
         /// <param name="range">The cell range to apply the validation to.</param>
         /// <param name="firstOperand">The first operand for the validation.</param>
         /// <param name="validationType">The type of validation to apply.</param>
@@ -124,6 +140,10 @@ namespace BigExcelCreator
         /// <summary>
         /// Adds an integer data validation to the specified cell range.
         /// </summary>
+        /// <remarks>
+        /// Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook.
+        /// Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+        /// </remarks>
         /// <param name="range">The cell range to apply the validation to.</param>
         /// <param name="firstOperand">The first operand for the validation.</param>
         /// <param name="validationType">The type of validation to apply.</param>
@@ -156,6 +176,10 @@ namespace BigExcelCreator
         /// <summary>
         /// Adds an integer data validation to the specified cell range.
         /// </summary>
+        /// <remarks>
+        /// Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook.
+        /// Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+        /// </remarks>
         /// <param name="range">The cell range to apply the validation to.</param>
         /// <param name="firstOperand">The first operand for the validation.</param>
         /// <param name="validationType">The type of validation to apply.</param>
@@ -188,6 +212,10 @@ namespace BigExcelCreator
         /// <summary>
         /// Adds an integer data validation to the specified cell range.
         /// </summary>
+        /// <remarks>
+        /// Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook.
+        /// Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+        /// </remarks>
         /// <param name="range">The cell range to apply the validation to.</param>
         /// <param name="firstOperand">The first operand for the validation.</param>
         /// <param name="validationType">The type of validation to apply.</param>
@@ -219,6 +247,10 @@ namespace BigExcelCreator
         /// <summary>
         /// Adds an integer data validation to the specified cell range.
         /// </summary>
+        /// <remarks>
+        /// Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook.
+        /// Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+        /// </remarks>
         /// <param name="range">The cell range to apply the validation to.</param>
         /// <param name="firstOperand">The first operand for the validation.</param>
         /// <param name="validationType">The type of validation to apply.</param>
@@ -250,6 +282,10 @@ namespace BigExcelCreator
         /// <summary>
         /// Adds an integer data validation to the specified cell range.
         /// </summary>
+        /// <remarks>
+        /// Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook.
+        /// Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+        /// </remarks>
         /// <param name="range">The cell range to apply the validation to.</param>
         /// <param name="firstOperand">The first operand for the validation.</param>
         /// <param name="validationType">The type of validation to apply.</param>
@@ -282,6 +318,10 @@ namespace BigExcelCreator
         /// <summary>
         /// Adds an integer data validation to the specified cell range.
         /// </summary>
+        /// <remarks>
+        /// Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook.
+        /// Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+        /// </remarks>
         /// <param name="range">The cell range to apply the validation to.</param>
         /// <param name="firstOperand">The first operand for the validation.</param>
         /// <param name="validationType">The type of validation to apply.</param>
@@ -314,6 +354,10 @@ namespace BigExcelCreator
         /// <summary>
         /// Adds a decimal data validation to the specified cell range.
         /// </summary>
+        /// <remarks>
+        /// Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook.
+        /// Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+        /// </remarks>
         /// <param name="range">The cell range to apply the validation to.</param>
         /// <param name="firstOperand">The first operand for the validation.</param>
         /// <param name="validationType">The type of validation to apply.</param>
@@ -345,6 +389,10 @@ namespace BigExcelCreator
         /// <summary>
         /// Adds a decimal data validation to the specified cell range.
         /// </summary>
+        /// <remarks>
+        /// Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook.
+        /// Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+        /// </remarks>
         /// <param name="range">The cell range to apply the validation to.</param>
         /// <param name="firstOperand">The first operand for the validation.</param>
         /// <param name="validationType">The type of validation to apply.</param>
@@ -376,6 +424,10 @@ namespace BigExcelCreator
         /// <summary>
         /// Adds a decimal data validation to the specified cell range.
         /// </summary>
+        /// <remarks>
+        /// Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook.
+        /// Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+        /// </remarks>
         /// <param name="range">The cell range to apply the validation to.</param>
         /// <param name="firstOperand">The first operand for the validation.</param>
         /// <param name="validationType">The type of validation to apply.</param>
@@ -407,6 +459,10 @@ namespace BigExcelCreator
         /// <summary>
         /// Adds a decimal data validation to the specified cell range.
         /// </summary>
+        /// <remarks>
+        /// Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook.
+        /// Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+        /// </remarks>
         /// <param name="range">The cell range to apply the validation to.</param>
         /// <param name="firstOperand">The first operand for the validation.</param>
         /// <param name="validationType">The type of validation to apply.</param>
@@ -438,6 +494,10 @@ namespace BigExcelCreator
         /// <summary>
         /// Adds a decimal data validation to the specified cell range.
         /// </summary>
+        /// <remarks>
+        /// Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook.
+        /// Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+        /// </remarks>
         /// <param name="range">The cell range to apply the validation to.</param>
         /// <param name="firstOperand">The first operand for the validation.</param>
         /// <param name="validationType">The type of validation to apply.</param>
@@ -469,6 +529,10 @@ namespace BigExcelCreator
         /// <summary>
         /// Adds a decimal data validation to the specified cell range.
         /// </summary>
+        /// <remarks>
+        /// Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook.
+        /// Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
+        /// </remarks>
         /// <param name="range">The cell range to apply the validation to.</param>
         /// <param name="firstOperand">The first operand for the validation.</param>
         /// <param name="validationType">The type of validation to apply.</param>
