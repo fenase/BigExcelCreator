@@ -177,7 +177,7 @@ foreach (string position in availablePositions)
 }
 excel.CloseSheet();
 
-excel.CreateSheetFromObject(ExampleModel.GetTestData(), "validation from objects", useSharedStringsOnTextData: true);
+excel.CreateSheetFromObject(ExampleModel.GetTestData(), "from objects", useSharedStringsOnTextData: true);
 
 excel.CreateAndOpenSheet("merged cells");
 
