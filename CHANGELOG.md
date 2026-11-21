@@ -1,5 +1,10 @@
 ﻿# Changelog
 
+## 3.5
+### Added
+- Property attributes for literal-list, formula-list, integer, and decimal data validation when creating sheets from objects. Literal lists are stored on uniquely named very-hidden (cannot be unhidden via the Excel UI) helper sheets.
+- The `keepSheetOpen` option for `CreateSheetFromObject`, allowing further changes to the generated sheet before closing it manually.
+
 ## 3.4
 ### Added
 - Ability to reference styles by name when writing cells. This is achieved by passing a `StyleList` instance when creating the `BigExcelWriter` instead of a `StyleSheet` instance.

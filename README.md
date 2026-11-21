@@ -98,11 +98,12 @@ If you use object export with `CreateSheetFromObject`, enable `useSharedStringsO
 ## Creating sheets from objects
 
 Use `CreateSheetFromObject` to write an entire sheet from a collection of objects.
-This method maps object properties to sheet columns and applies attribute-based configuration for headers, styles, and conditional formatting.
+This method maps object properties to sheet columns and applies attribute-based configuration for headers, styles, conditional formatting, and data validation.
 
 ```c#
 using BigExcelCreator;
 using BigExcelCreator.ClassAttributes;
+using BigExcelCreator.Enums;
 
 [ExcelHeaderStyleFormat("HeaderStyle")]
 public class Product
@@ -111,6 +112,7 @@ public class Product
     [ExcelColumnName("Product Id")]
     [ExcelColumnType(CellDataType.Number)]
     [ExcelColumnWidth(10)]
+    [ExcelIntegerValidator(0, ValidatorOperator.GreaterThan)]
     public int Id { get; set; }
 
     [ExcelColumnOrder(1)]
@@ -118,6 +120,12 @@ public class Product
     [ExcelColumnType(CellDataType.Text)]
     [ExcelColumnWidth(25)]
     public string Name { get; set; } = string.Empty;
+
+    [ExcelColumnOrder(2)]
+    [ExcelColumnName("Category")]
+    [ExcelColumnType(CellDataType.Text)]
+    [ExcelListValidator("Food", "Drink", "Other")]
+    public string Category { get; set; } = string.Empty;
 }
 
 ....
@@ -132,9 +140,18 @@ using (BigExcelWriter excel = new(stream))
     };
     
     excel.CreateSheetFromObject(data, "Products");
-    excel.CloseSheet();
 }
 ```
+
+`CreateSheetFromObject` closes its sheet when it finishes by default. Set `keepSheetOpen: true` to make additional changes to the sheet, such as adding validators manually; call `CloseSheet()` yourself before opening another sheet or finishing the workbook.
+
+Validator attributes are applied to all data cells in their property column:
+- `ExcelListValidator`: Restricts values to a literal list. The writer creates a uniquely named, very-hidden helper sheet for the list.
+- `ExcelListFormulaValidator`: Restricts values using an Excel formula, such as a range reference. Use this when the list is already stored in another sheet.
+- `ExcelIntegerValidator`: Applies an integer rule. Its operand types match the manual integer validator overloads: `int`, `uint`, `long`, and `ulong`.
+- `ExcelDecimalValidator`: Applies a decimal rule. Its operand types match the manual decimal validator overloads: `decimal`, `float`, and `double`.
+
+Use `ValidatorOperator` from `BigExcelCreator.Enums` for comparison operations such as `GreaterThan`, `Between`, and `Equal`. For example, `[ExcelIntegerValidator(1, ValidatorOperator.Between, secondOperand: 10)]` limits a property to values from 1 through 10. Validator attributes support the same blank, input-message, and error-message options as the corresponding manual validator methods.
 
 Available attributes for configuration:
 - `ExcelIgnore`: Exclude property from output
@@ -148,6 +165,8 @@ Available attributes for configuration:
 - `ExcelConditionalFormatFormula`: Formula-based conditional formatting
 - `ExcelConditionalFormatCellIs`: Value-based conditional formatting
 - `ExcelConditionalFormatDuplicatedValues`: Highlight duplicates
+- `ExcelListValidator` and `ExcelListFormulaValidator`: Apply list data validation
+- `ExcelIntegerValidator` and `ExcelDecimalValidator`: Apply numeric data validation
 
 See the [API documentation](https://fenase.github.io/BigExcelCreator/api/BigExcelCreator.html) for more details.
 
@@ -182,10 +201,9 @@ using (BigExcelWriter excel = new(stream))
 Use `AddListValidator` to restrict, to a list defined in a formula,
 possible values to be written to a cell by an user.
 
-If you are exporting objects with `CreateSheetFromObject`, use conditional formatting attributes on properties instead of per-cell validation. See [Creating sheets from objects](#creating-sheets-from-objects).
+For object exports, use `ExcelListValidator`, `ExcelListFormulaValidator`, `ExcelIntegerValidator`, or `ExcelDecimalValidator` on the relevant properties. See [Creating sheets from objects](#creating-sheets-from-objects).
 
-Alternatively, use `AddIntegerValidator` or `AddDecimalValidator` to restrict / validate values
-as defined by `validationType` (equal, greater than, between, etc.)
+For manually created sheets, use `AddListValidator`, `AddIntegerValidator`, or `AddDecimalValidator` to add a rule to a cell range. Numeric validators accept operators such as equal, greater than, and between.
 
 > Data validation is written as a spreadsheet rule; this library does not check or limit values it writes when creating the workbook. Excel applies the rule when users edit cells, so values already present or written by other tools may not satisfy it.
 
@@ -198,8 +216,8 @@ as defined by `validationType` (equal, greater than, between, etc.)
     // when writing to cells between B2 and B10 of the current sheet.
     string range = "B2:B10";
     string formula = "vals!$A$1:$A$6";
-    excel.AddValidator(range, formula);
-    
+    excel.AddListValidator(range, formula);
+
     excel.CloseSheet();
 ```
 
