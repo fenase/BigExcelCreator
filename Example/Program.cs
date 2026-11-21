@@ -177,11 +177,7 @@ foreach (string position in availablePositions)
 }
 excel.CloseSheet();
 
-excel.CreateSheetFromObject(ExampleModel.GetTestData(), "From objects", useSharedStringsOnTextData: true);
-
-excel.CreateSheetFromObject(ExampleModel.GetTestData(), "validation from objects", keepSheetOpen: true);
-excel.AddListValidator("C2:C100", $"'{positionValidationSheetName}'!$A$1:$A${availablePositions.Length}");
-excel.CloseSheet();
+excel.CreateSheetFromObject(ExampleModel.GetTestData(), "validation from objects", useSharedStringsOnTextData: true);
 
 excel.CreateAndOpenSheet("merged cells");
 

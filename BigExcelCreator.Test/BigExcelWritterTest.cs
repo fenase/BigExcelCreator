@@ -1,6 +1,9 @@
 ﻿// Ignore Spelling: Validator
 
+using BigExcelCreator.ClassAttributes;
+using BigExcelCreator.Enums;
 using BigExcelCreator.Exceptions;
+using BigExcelCreator.Extensions;
 using BigExcelCreator.Ranges;
 using BigExcelCreator.Styles;
 using BigExcelCreator.Test.Classes;
@@ -1953,6 +1956,81 @@ namespace BigExcelCreator.Test
             using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
             List<InvalidColumnWidthExample> data = new();
             Assert.Throws<ArgumentOutOfRangeException>(() => writer.CreateSheetFromObject(data, "example"));
+        }
+
+        [Test]
+        public void ValidatorListSheetNameUsesPascalCaseBalancedPartsAndUniqueRandomSuffix()
+        {
+            const string sheetName = "A very long original sheet name that must be limited";
+            const string propertyName = "A very long property name that must be limited";
+
+            string firstName = SheetExtensions.CreateValidatorListSheetName(sheetName, propertyName);
+            string secondName = SheetExtensions.CreateValidatorListSheetName(sheetName, propertyName);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(firstName.Length, Is.EqualTo(31));
+                Assert.That(firstName, Does.Not.Contains("_"));
+                Assert.That(firstName, Does.Match("^[A-Z][A-Za-z0-9]*[A-F0-9]{12}$"));
+                Assert.That(firstName.Remove(firstName.Length - 12), Does.Not.StartWith("_"));
+                Assert.That(secondName, Is.Not.EqualTo(firstName));
+            });
+        }
+
+        [Test]
+        public void CreateSheetFromObjectAppliesLiteralListAndIntegerValidators()
+        {
+            MemoryStream stream = new();
+            using (BigExcelWriter writer = new(stream))
+            {
+                ValidatorExampleModel[] data =
+                [
+                    new ValidatorExampleModel { Category = "Alpha", Quantity = 1 },
+                    new ValidatorExampleModel { Category = "Beta", Quantity = 2 },
+                ];
+
+                writer.CreateSheetFromObject(data, "validated");
+            }
+
+            using SpreadsheetDocument reader = SpreadsheetDocument.Open(stream, false);
+            WorkbookPart workbookPart = reader.WorkbookPart!;
+            Sheet[] sheets = workbookPart.Workbook.Sheets!.ChildElements.OfType<Sheet>().ToArray();
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(sheets.Length, Is.EqualTo(2));
+                Assert.That(sheets.Any(x => x.Name?.Value == "validated"), Is.True);
+                Assert.That(sheets.Any(x => x.State?.Value == SheetStateValues.VeryHidden), Is.True);
+            });
+
+            Sheet targetSheet = sheets.Single(x => x.Name?.Value == "validated");
+            WorksheetPart targetWorksheetPart = (WorksheetPart)workbookPart.GetPartById(targetSheet.Id!.Value!);
+            DataValidation[] validations = targetWorksheetPart.Worksheet
+                .ChildElements.OfType<DataValidations>()
+                .Single()
+                .ChildElements.OfType<DataValidation>()
+                .ToArray();
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(validations.Length, Is.EqualTo(2));
+                Assert.That(validations[0].Type!.Value, Is.EqualTo(DataValidationValues.List));
+                Assert.That(validations[0].Formula1!.Text, Does.StartWith("'").And.Contain("'!$A$1:$A$2"));
+                Assert.That(validations[1].Type!.Value, Is.EqualTo(DataValidationValues.Whole));
+                Assert.That(validations[1].Operator!.Value, Is.EqualTo(DataValidationOperatorValues.GreaterThan));
+                Assert.That(validations[1].Formula1!.Text, Is.EqualTo("0"));
+            });
+        }
+
+        private sealed class ValidatorExampleModel
+        {
+            [ExcelColumnOrder(0)]
+            [ExcelListValidator("Alpha", "Beta")]
+            public string Category { get; set; } = string.Empty;
+
+            [ExcelColumnOrder(1)]
+            [ExcelIntegerValidator(0, ValidatorOperator.GreaterThan)]
+            public int Quantity { get; set; }
         }
     }
 }

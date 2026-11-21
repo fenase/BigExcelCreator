@@ -7,10 +7,12 @@ using BigExcelCreator.ClassAttributes;
 using BigExcelCreator.ClassAttributes.Interfaces;
 using BigExcelCreator.Enums;
 using BigExcelCreator.Exceptions;
+using BigExcelCreator.Extensions;
 using BigExcelCreator.Ranges;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
@@ -41,6 +43,10 @@ namespace BigExcelCreator
         /// <item><description><see cref="ExcelColumnHiddenAttribute"/> - Hides the column from view.</description></item>
         /// <item><description><see cref="ExcelStyleFormatAttribute"/> - Controls styling</description></item>
         /// <item><description><see cref="ExcelHeaderStyleFormatAttribute"/> (in class) - Controls header row styling</description></item>
+        /// <item><description><see cref="ExcelListValidatorAttribute"/> - Applies a literal list validation.</description></item>
+        /// <item><description><see cref="ExcelListFormulaValidatorAttribute"/> - Applies a formula-based list validation.</description></item>
+        /// <item><description><see cref="ExcelIntegerValidatorAttribute"/> - Applies an integer validation.</description></item>
+        /// <item><description><see cref="ExcelDecimalValidatorAttribute"/> - Applies a decimal validation.</description></item>
         /// </list>
         /// <para>The sheet state is set to <see cref="SheetStateValues.Visible"/> by default.</para>
         /// <para>
@@ -79,6 +85,10 @@ namespace BigExcelCreator
         /// <item><description><see cref="ExcelColumnHiddenAttribute"/> - Hides the column from view.</description></item>
         /// <item><description><see cref="ExcelStyleFormatAttribute"/> - Controls styling</description></item>
         /// <item><description><see cref="ExcelHeaderStyleFormatAttribute"/> (in class) - Controls header row styling</description></item>
+        /// <item><description><see cref="ExcelListValidatorAttribute"/> - Applies a literal list validation.</description></item>
+        /// <item><description><see cref="ExcelListFormulaValidatorAttribute"/> - Applies a formula-based list validation.</description></item>
+        /// <item><description><see cref="ExcelIntegerValidatorAttribute"/> - Applies an integer validation.</description></item>
+        /// <item><description><see cref="ExcelDecimalValidatorAttribute"/> - Applies a decimal validation.</description></item>
         /// </list>
         /// <para>
         /// If <paramref name="keepSheetOpen"/> is set to <c>true</c>, the sheet will remain open after writing the data, allowing for further modifications. Otherwise, the sheet will be closed automatically.
@@ -110,9 +120,11 @@ namespace BigExcelCreator
 
             if (!(columns?.Count > 0)) { columns = CreateSpreadsheetColumnsFromObject(typeof(T)); }
 
-            CreateAndOpenSheet(sheetName, columns, sheetState);
-
             List<PropertyInfo> sortedColumns = [.. GetOrderedColumnProperties(typeof(T))];
+
+            Dictionary<PropertyInfo, string> literalListValidatorFormulae = CreateAuxSheetForListValidator(sortedColumns, sheetName);
+
+            CreateAndOpenSheet(sheetName, columns, sheetState);
 
             ExcelHeaderStyleFormatAttribute headerStyle = typeof(T)
                 .GetCustomAttributes(typeof(ExcelHeaderStyleFormatAttribute), false)
@@ -154,6 +166,19 @@ namespace BigExcelCreator
                 EndRow();
             }
 
+            AttachConditionalFormattingToSheet(writeHeaderRow, list, sortedColumns);
+
+            AttachValidatorsToSheet(writeHeaderRow, list, sortedColumns, literalListValidatorFormulae);
+
+            if (!keepSheetOpen)
+            {
+                CloseSheet();
+            }
+        }
+
+        private void AttachConditionalFormattingToSheet<T>(bool writeHeaderRow, IList<T> list, List<PropertyInfo> sortedColumns)
+             where T : class
+        {
             int colNum = 0;
             int baseRow = writeHeaderRow ? 2 : 1;
             foreach (PropertyInfo column in sortedColumns)
@@ -188,11 +213,167 @@ namespace BigExcelCreator
                         throw new NotImplementedException();
                 }
             }
+        }
 
-            if (!keepSheetOpen)
+        private Dictionary<PropertyInfo, string> CreateAuxSheetForListValidator(List<PropertyInfo> sortedColumns, string sheetName)
+        {
+            Dictionary<PropertyInfo, string> literalListValidatorFormulae = [];
+
+            foreach (PropertyInfo column in sortedColumns)
             {
-                CloseSheet();
+                ExcelListValidatorAttribute listAttribute = column
+                    .GetCustomAttributes(typeof(ExcelListValidatorAttribute), false)
+                    .Cast<ExcelListValidatorAttribute>()
+                    .FirstOrDefault();
+
+                if (listAttribute == null)
+                {
+                    continue;
+                }
+
+                string hiddenSheetName = sheetName.CreateValidatorListSheetName(column.Name);
+                literalListValidatorFormulae[column] = CreateLiteralListValidationSheet(hiddenSheetName, listAttribute.Values);
             }
+
+            return literalListValidatorFormulae;
+        }
+
+        private void AttachValidatorsToSheet<T>(bool writeHeaderRow, IList<T> list, List<PropertyInfo> sortedColumns, Dictionary<PropertyInfo, string> literalListValidatorFormulae)
+            where T : class
+        {
+            int validationBaseRow = writeHeaderRow ? 2 : 1;
+            int validationEndRow = Math.Max(validationBaseRow + list.Count - 1, validationBaseRow);
+
+            foreach (PropertyInfo column in sortedColumns)
+            {
+                int columnNumber = sortedColumns.IndexOf(column) + 1;
+                CellRange validationRange = new(columnNumber, validationBaseRow, columnNumber, validationEndRow, null);
+
+                ExcelListValidatorAttribute listAttribute = column
+                    .GetCustomAttributes(typeof(ExcelListValidatorAttribute), false)
+                    .Cast<ExcelListValidatorAttribute>()
+                    .FirstOrDefault();
+
+                if (listAttribute != null)
+                {
+                    AddListValidator(validationRange,
+                                     literalListValidatorFormulae[column],
+                                     listAttribute.AllowBlank,
+                                     listAttribute.ShowInputMessage,
+                                     listAttribute.ShowErrorMessage);
+                    continue;
+                }
+
+                ExcelListFormulaValidatorAttribute listFormulaAttribute = column
+                    .GetCustomAttributes(typeof(ExcelListFormulaValidatorAttribute), false)
+                    .Cast<ExcelListFormulaValidatorAttribute>()
+                    .FirstOrDefault();
+
+                if (listFormulaAttribute != null)
+                {
+                    AddListValidator(validationRange,
+                                     listFormulaAttribute.Formula,
+                                     listFormulaAttribute.AllowBlank,
+                                     listFormulaAttribute.ShowInputMessage,
+                                     listFormulaAttribute.ShowErrorMessage);
+                    continue;
+                }
+
+                ExcelIntegerValidatorAttribute integerAttribute = column
+                    .GetCustomAttributes(typeof(ExcelIntegerValidatorAttribute), false)
+                    .Cast<ExcelIntegerValidatorAttribute>()
+                    .FirstOrDefault();
+
+                if (integerAttribute != null)
+                {
+                    AttachIntegerValidatorToSheet(integerAttribute, validationRange);
+                    continue;
+                }
+
+                ExcelDecimalValidatorAttribute decimalAttribute = column
+                    .GetCustomAttributes(typeof(ExcelDecimalValidatorAttribute), false)
+                    .Cast<ExcelDecimalValidatorAttribute>()
+                    .FirstOrDefault();
+
+                if (decimalAttribute != null)
+                {
+                    AttachDecimalValidatorToSheet(decimalAttribute, validationRange);
+                    continue;
+                }
+            }
+        }
+
+        private void AttachIntegerValidatorToSheet(ExcelIntegerValidatorAttribute integerAttribute, CellRange validationRange)
+        {
+            DataValidationOperatorValues validationOperator = integerAttribute.ValidationType.ToDataValidationOperatorValues();
+            switch (integerAttribute.FirstOperand)
+            {
+                case int firstOperand:
+                    int? intSecondOperand = validationOperator.RequiresSecondOperand() ? (int)integerAttribute.SecondOperand : (int?)null;
+                    AddIntegerValidator(validationRange, firstOperand, validationOperator, integerAttribute.AllowBlank,
+                                        integerAttribute.ShowInputMessage, integerAttribute.ShowErrorMessage, intSecondOperand);
+                    break;
+                case uint firstOperand:
+                    uint? uintSecondOperand = validationOperator.RequiresSecondOperand() ? (uint)integerAttribute.SecondOperand : (uint?)null;
+                    AddIntegerValidator(validationRange, firstOperand, validationOperator, integerAttribute.AllowBlank,
+                                        integerAttribute.ShowInputMessage, integerAttribute.ShowErrorMessage, uintSecondOperand);
+                    break;
+                case long firstOperand:
+                    long? longSecondOperand = validationOperator.RequiresSecondOperand() ? (long)integerAttribute.SecondOperand : (long?)null;
+                    AddIntegerValidator(validationRange, firstOperand, validationOperator, integerAttribute.AllowBlank,
+                                        integerAttribute.ShowInputMessage, integerAttribute.ShowErrorMessage, longSecondOperand);
+                    break;
+                case ulong firstOperand:
+                    ulong? ulongSecondOperand = validationOperator.RequiresSecondOperand() ? (ulong)integerAttribute.SecondOperand : (ulong?)null;
+                    AddIntegerValidator(validationRange, firstOperand, validationOperator, integerAttribute.AllowBlank,
+                                        integerAttribute.ShowInputMessage, integerAttribute.ShowErrorMessage, ulongSecondOperand);
+                    break;
+                default:
+                    throw new NotSupportedException("Unsupported integer validator operand type.");
+            }
+        }
+
+        private void AttachDecimalValidatorToSheet(ExcelDecimalValidatorAttribute decimalAttribute, CellRange validationRange)
+        {
+            DataValidationOperatorValues validationOperator = decimalAttribute.ValidationType.ToDataValidationOperatorValues();
+            switch (decimalAttribute.FirstOperand)
+            {
+                case decimal firstOperand:
+                    decimal? decimalSecondOperand = validationOperator.RequiresSecondOperand() ? (decimal)decimalAttribute.SecondOperand : (decimal?)null;
+                    AddDecimalValidator(validationRange, firstOperand, validationOperator, decimalAttribute.AllowBlank,
+                                        decimalAttribute.ShowInputMessage, decimalAttribute.ShowErrorMessage, decimalSecondOperand);
+                    break;
+                case float firstOperand:
+                    float? floatSecondOperand = validationOperator.RequiresSecondOperand() ? (float)decimalAttribute.SecondOperand : (float?)null;
+                    AddDecimalValidator(validationRange, firstOperand, validationOperator, decimalAttribute.AllowBlank,
+                                        decimalAttribute.ShowInputMessage, decimalAttribute.ShowErrorMessage, floatSecondOperand);
+                    break;
+                case double firstOperand:
+                    double? doubleSecondOperand = validationOperator.RequiresSecondOperand() ? (double)decimalAttribute.SecondOperand : (double?)null;
+                    AddDecimalValidator(validationRange, firstOperand, validationOperator, decimalAttribute.AllowBlank,
+                                        decimalAttribute.ShowInputMessage, decimalAttribute.ShowErrorMessage, doubleSecondOperand);
+                    break;
+                default:
+                    throw new NotSupportedException("Unsupported decimal validator operand type.");
+            }
+        }
+
+        private string CreateLiteralListValidationSheet(string hiddenSheetName, string[] values)
+        {
+            CreateAndOpenSheet(hiddenSheetName, null, SheetStateValues.VeryHidden);
+
+            int valueCount = values.Length > 0 ? values.Length : 1;
+            for (int index = 0; index < valueCount; index++)
+            {
+                BeginRow();
+                string value = values.Length > 0 ? values[index] ?? string.Empty : string.Empty;
+                WriteTextCell(value);
+                EndRow();
+            }
+
+            CloseSheet();
+
+            return "'" + hiddenSheetName + "'!$A$1:$A$" + valueCount.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

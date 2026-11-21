@@ -10,6 +10,7 @@ namespace Example
         [ExcelColumnOrder(0)]
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(15)]
+        [ExcelIntegerValidator(0, ValidatorOperator.GreaterThan)]
         public int Id { get; set; }
 
         [ExcelColumnName("Full Name")]
@@ -22,6 +23,7 @@ namespace Example
         [ExcelColumnOrder(2)]
         [ExcelColumnType(CellDataType.Text)]
         [ExcelColumnWidth(25)]
+        [ExcelListValidator(values: ["Software Engineer", "Project Manager", "UX Designer", "Data Analyst", "Marketing Specialist", "Product Owner", "QA Engineer", "Data Scientist"])]
         public string Position { get; set; } = "";
 
         [ExcelColumnName("Job Description")]
@@ -41,6 +43,7 @@ namespace Example
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
         [ExcelConditionalFormatFormula("RED", "E2<6100")]
+        [ExcelDecimalValidator(0, ValidatorOperator.GreaterThan)]
         public decimal Salary { get; set; }
 
         [ExcelColumnName("Monthly Bonus")]
