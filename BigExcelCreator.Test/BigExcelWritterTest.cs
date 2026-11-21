@@ -136,8 +136,9 @@ namespace BigExcelCreator.Test
 
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
+            Assert.That(workbookPart.Workbook, Is.Not.Null);
 
-            Workbook workbook = workbookPart!.Workbook;
+            Workbook workbook = workbookPart.Workbook!;
 
             Sheets? sheets = workbook.Sheets;
             Assert.Multiple(() =>
@@ -170,8 +171,9 @@ namespace BigExcelCreator.Test
 
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
+            Assert.That(workbookPart.Workbook, Is.Not.Null);
 
-            Workbook workbook = workbookPart!.Workbook;
+            Workbook workbook = workbookPart.Workbook!;
 
             Sheets? sheets = workbook.Sheets;
             Assert.Multiple(() =>
@@ -208,8 +210,9 @@ namespace BigExcelCreator.Test
 
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
+            Assert.That(workbookPart.Workbook, Is.Not.Null);
 
-            Workbook workbook = workbookPart!.Workbook;
+            Workbook workbook = workbookPart.Workbook!;
 
             Sheets? sheets = workbook.Sheets;
             Assert.Multiple(() =>
@@ -246,8 +249,9 @@ namespace BigExcelCreator.Test
 
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
+            Assert.That(workbookPart.Workbook, Is.Not.Null);
 
-            Workbook workbook = workbookPart!.Workbook;
+            Workbook workbook = workbookPart.Workbook!;
 
             Sheets? sheets = workbook.Sheets;
             Assert.Multiple(() =>
@@ -283,12 +287,12 @@ namespace BigExcelCreator.Test
             Assert.Multiple(() =>
             {
                 Assert.That(workbookStylesPart!.Stylesheet, Is.Not.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.ChildElements, Is.Empty);
-                Assert.That(workbookStylesPart!.Stylesheet.Fonts, Is.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.Fills, Is.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.Borders, Is.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.CellFormats, Is.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.DifferentialFormats, Is.Null);
+                Assert.That(workbookStylesPart.Stylesheet!.ChildElements, Is.Empty);
+                Assert.That(workbookStylesPart.Stylesheet.Fonts, Is.Null);
+                Assert.That(workbookStylesPart.Stylesheet.Fills, Is.Null);
+                Assert.That(workbookStylesPart.Stylesheet.Borders, Is.Null);
+                Assert.That(workbookStylesPart.Stylesheet.CellFormats, Is.Null);
+                Assert.That(workbookStylesPart.Stylesheet.DifferentialFormats, Is.Null);
             });
         }
 
@@ -314,14 +318,14 @@ namespace BigExcelCreator.Test
             Assert.Multiple(() =>
             {
                 Assert.That(workbookStylesPart!.Stylesheet, Is.Not.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.ChildElements, Is.Not.Empty);
-                Assert.That(workbookStylesPart!.Stylesheet.Fonts, Is.Not.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.Fills, Is.Not.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.Borders, Is.Not.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.CellFormats, Is.Not.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.CellFormats!.ChildElements, Has.Count.EqualTo(2)); // default formats (# = 2)
-                Assert.That(workbookStylesPart!.Stylesheet.DifferentialFormats, Is.Not.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.DifferentialFormats!.ChildElements, Is.Empty);
+                Assert.That(workbookStylesPart.Stylesheet!.ChildElements, Is.Not.Empty);
+                Assert.That(workbookStylesPart.Stylesheet.Fonts, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.Fills, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.Borders, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.CellFormats, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.CellFormats!.ChildElements, Has.Count.EqualTo(2)); // default formats (# = 2)
+                Assert.That(workbookStylesPart.Stylesheet.DifferentialFormats, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.DifferentialFormats!.ChildElements, Is.Empty);
             });
         }
 
@@ -381,14 +385,14 @@ namespace BigExcelCreator.Test
             Assert.Multiple(() =>
             {
                 Assert.That(workbookStylesPart!.Stylesheet, Is.Not.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.ChildElements, Is.Not.Empty);
-                Assert.That(workbookStylesPart!.Stylesheet.Fonts, Is.Not.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.Fills, Is.Not.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.Borders, Is.Not.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.CellFormats, Is.Not.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.CellFormats!.ChildElements, Has.Count.EqualTo(9)); // default formats (# = 2) + inserted (# = 7)
-                Assert.That(workbookStylesPart!.Stylesheet.DifferentialFormats, Is.Not.Null);
-                Assert.That(workbookStylesPart!.Stylesheet.DifferentialFormats!.ChildElements, Has.Count.EqualTo(2));
+                Assert.That(workbookStylesPart.Stylesheet!.ChildElements, Is.Not.Empty);
+                Assert.That(workbookStylesPart.Stylesheet.Fonts, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.Fills, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.Borders, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.CellFormats, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.CellFormats!.ChildElements, Has.Count.EqualTo(9)); // default formats (# = 2) + inserted (# = 7)
+                Assert.That(workbookStylesPart.Stylesheet.DifferentialFormats, Is.Not.Null);
+                Assert.That(workbookStylesPart.Stylesheet.DifferentialFormats!.ChildElements, Has.Count.EqualTo(2));
             });
         }
 
@@ -486,8 +490,9 @@ namespace BigExcelCreator.Test
 
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
+            Assert.That(workbookPart.Workbook, Is.Not.Null);
 
-            Workbook workbook = workbookPart!.Workbook;
+            Workbook workbook = workbookPart.Workbook!;
 
             Sheets? sheets = workbook.Sheets;
             Assert.Multiple(() =>
@@ -502,11 +507,18 @@ namespace BigExcelCreator.Test
                 Assert.That(sheet.Name!.ToString(), Is.EqualTo("first"));
             });
 
-            IEnumerable<Column> columns = GetColumns(workbookPart.WorksheetParts.First().Worksheet);
+            Assert.Multiple(() =>
+            {
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Null);
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Empty);
+                Assert.That(workbookPart.WorksheetParts.First().Worksheet, Is.Not.Null);
+            });
+
+            IEnumerable<Column> columns = GetColumns(workbookPart.WorksheetParts.First().Worksheet!);
             Assert.Multiple(() =>
             {
                 Assert.That(columns, Is.Not.Null);
-                Assert.That(columns!.Count(), Is.EqualTo(creationColumns.Count));
+                Assert.That(columns.Count(), Is.EqualTo(creationColumns.Count));
                 for (int i = 0; i < creationColumns.Count; i++)
                 {
                     Assert.That(columns.ElementAt(i).CustomWidth, Is.Not.Null);
@@ -603,8 +615,9 @@ namespace BigExcelCreator.Test
 
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
+            Assert.That(workbookPart.Workbook, Is.Not.Null);
 
-            Workbook workbook = workbookPart!.Workbook;
+            Workbook workbook = workbookPart.Workbook!;
 
             Sheets? sheets = workbook.Sheets;
             Assert.Multiple(() =>
@@ -619,11 +632,18 @@ namespace BigExcelCreator.Test
                 Assert.That(sheet.Name!.ToString(), Is.EqualTo("first"));
             });
 
+            Assert.Multiple(() =>
+            {
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Null);
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Empty);
+                Assert.That(workbookPart.WorksheetParts.First().Worksheet, Is.Not.Null);
+            });
+
             IEnumerable<Column> columns = GetColumns(workbookPart.WorksheetParts.First().Worksheet);
             Assert.Multiple(() =>
             {
                 Assert.That(columns, Is.Not.Null);
-                Assert.That(columns!.Count(), Is.EqualTo(creationColumns.Count));
+                Assert.That(columns.Count(), Is.EqualTo(creationColumns.Count));
                 for (int i = 0; i < creationColumns.Count; i++)
                 {
                     Assert.That(columns.ElementAt(i).CustomWidth, Is.Not.Null);
@@ -719,8 +739,9 @@ namespace BigExcelCreator.Test
 
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
+            Assert.That(workbookPart.Workbook, Is.Not.Null);
 
-            Workbook workbook = workbookPart!.Workbook;
+            Workbook workbook = workbookPart.Workbook;
 
             Sheets? sheets = workbook.Sheets;
             Assert.Multiple(() =>
@@ -733,6 +754,13 @@ namespace BigExcelCreator.Test
             {
                 Assert.That(sheet, Is.Not.Null);
                 Assert.That(sheet.Name!.ToString(), Is.EqualTo("first"));
+            });
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Null);
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Empty);
+                Assert.That(workbookPart.WorksheetParts.First().Worksheet, Is.Not.Null);
             });
 
             IEnumerable<Columns> columnsData = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<Columns>();
@@ -942,10 +970,10 @@ namespace BigExcelCreator.Test
 
             WorkbookPart? workbookPart1 = reader1.WorkbookPart;
             Assert.That(workbookPart1, Is.Not.Null);
-            IEnumerable<Row> rows1 = GetRows(workbookPart1!.WorksheetParts.First().Worksheet);
+            IEnumerable<Row> rows1 = GetRows(workbookPart1!.WorksheetParts.First().Worksheet!);
             WorkbookPart? workbookPart2 = reader2.WorkbookPart;
             Assert.That(workbookPart2, Is.Not.Null);
-            IEnumerable<Row> rows2 = GetRows(workbookPart2!.WorksheetParts.First().Worksheet);
+            IEnumerable<Row> rows2 = GetRows(workbookPart2!.WorksheetParts.First().Worksheet!);
 
             Assert.Multiple(() =>
             {
@@ -1046,6 +1074,13 @@ namespace BigExcelCreator.Test
             WorkbookPart workbookPart = reader.WorkbookPart!;
             Assert.That(workbookPart, Is.Not.Null);
 
+            Assert.Multiple(() =>
+            {
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Null);
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Empty);
+                Assert.That(workbookPart.WorksheetParts.First().Worksheet, Is.Not.Null);
+            });
+
             IEnumerable<AutoFilter> afs = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<AutoFilter>();
             Assert.That(afs, Is.Not.Null);
             Assert.Multiple(() =>
@@ -1118,8 +1153,8 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>, Is.Not.Empty);
-                IEnumerable<ConditionalFormatting> conditionalFormattings = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>();
+                Assert.That(workbookPart!.WorksheetParts.First().Worksheet!.ChildElements.OfType<ConditionalFormatting>, Is.Not.Empty);
+                IEnumerable<ConditionalFormatting> conditionalFormattings = workbookPart.WorksheetParts.First().Worksheet!.ChildElements.OfType<ConditionalFormatting>();
                 Assert.That(conditionalFormattings.Count(), Is.EqualTo(1));
                 Assert.That(conditionalFormattings.First().SequenceOfReferences, Is.Not.Null);
                 Assert.That(conditionalFormattings.First().SequenceOfReferences!.Items, Has.Count.EqualTo(1));
@@ -1156,8 +1191,8 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>, Is.Not.Empty);
-                IEnumerable<ConditionalFormatting> conditionalFormattings = workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<ConditionalFormatting>();
+                Assert.That(workbookPart!.WorksheetParts.First().Worksheet!.ChildElements.OfType<ConditionalFormatting>, Is.Not.Empty);
+                IEnumerable<ConditionalFormatting> conditionalFormattings = workbookPart.WorksheetParts.First().Worksheet!.ChildElements.OfType<ConditionalFormatting>();
                 Assert.That(conditionalFormattings.Count(), Is.EqualTo(1));
                 Assert.That(conditionalFormattings.First().SequenceOfReferences, Is.Not.Null);
                 Assert.That(conditionalFormattings.First().SequenceOfReferences!.Items, Has.Count.EqualTo(1));
@@ -1213,8 +1248,8 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>, Is.Not.Empty);
-                IEnumerable<DataValidations> dataValidations = workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>();
+                Assert.That(workbookPart!.WorksheetParts.First().Worksheet!.ChildElements.OfType<DataValidations>, Is.Not.Empty);
+                IEnumerable<DataValidations> dataValidations = workbookPart.WorksheetParts.First().Worksheet!.ChildElements.OfType<DataValidations>();
                 Assert.That(dataValidations.Count(), Is.EqualTo(1));
 
                 IEnumerable<DataValidation> dataValidationsE = dataValidations.First().ChildElements.OfType<DataValidation>();
@@ -1363,8 +1398,8 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>, Is.Not.Empty);
-                IEnumerable<DataValidations> dataValidations = workbookPart.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>();
+                Assert.That(workbookPart.WorksheetParts.First().Worksheet!.ChildElements.OfType<DataValidations>, Is.Not.Empty);
+                IEnumerable<DataValidations> dataValidations = workbookPart.WorksheetParts.First().Worksheet!.ChildElements.OfType<DataValidations>();
                 Assert.That(dataValidations.Count(), Is.EqualTo(1));
 
                 IEnumerable<DataValidation> dataValidationsE = dataValidations.First().ChildElements.OfType<DataValidation>();
@@ -1504,8 +1539,8 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>, Is.Not.Empty);
-                IEnumerable<DataValidations> dataValidations = workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<DataValidations>();
+                Assert.That(workbookPart!.WorksheetParts.First().Worksheet!.ChildElements.OfType<DataValidations>, Is.Not.Empty);
+                IEnumerable<DataValidations> dataValidations = workbookPart.WorksheetParts.First().Worksheet!.ChildElements.OfType<DataValidations>();
                 Assert.That(dataValidations.Count(), Is.EqualTo(1));
 
                 IEnumerable<DataValidation> dataValidationsE = dataValidations.First().ChildElements.OfType<DataValidation>();
@@ -1541,8 +1576,8 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<MergeCells>, Is.Not.Empty);
-                IEnumerable<MergeCells> mergedCellsElement = workbookPart!.WorksheetParts.First().Worksheet.ChildElements.OfType<MergeCells>();
+                Assert.That(workbookPart!.WorksheetParts.First().Worksheet!.ChildElements.OfType<MergeCells>, Is.Not.Empty);
+                IEnumerable<MergeCells> mergedCellsElement = workbookPart.WorksheetParts.First().Worksheet!.ChildElements.OfType<MergeCells>();
                 Assert.Multiple(() =>
                 {
                     Assert.That(mergedCellsElement, Is.Not.Null);
@@ -1625,7 +1660,10 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Worksheet worksheet = workbookPart!.WorksheetParts.ElementAt(0).Worksheet;
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Null);
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Empty);
+                Assert.That(workbookPart.WorksheetParts.ElementAt(0).Worksheet, Is.Not.Null);
+                Worksheet worksheet = workbookPart.WorksheetParts.ElementAt(0).Worksheet!;
                 IEnumerable<SheetViews> sheetViewsParts = worksheet.ChildElements.OfType<SheetViews>();
                 Assert.That(sheetViewsParts, Is.Empty);
 
@@ -1635,7 +1673,10 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Worksheet worksheet = workbookPart!.WorksheetParts.ElementAt(1).Worksheet;
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Null);
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Empty);
+                Assert.That(workbookPart.WorksheetParts.ElementAt(1).Worksheet, Is.Not.Null);
+                Worksheet worksheet = workbookPart.WorksheetParts.ElementAt(1).Worksheet!;
                 IEnumerable<SheetViews> sheetViewsParts = worksheet.ChildElements.OfType<SheetViews>();
                 Assert.That(sheetViewsParts.Count, Is.EqualTo(1));
                 SheetViews sheetViews = sheetViewsParts.ElementAt(0);
@@ -1649,7 +1690,10 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Worksheet worksheet = workbookPart!.WorksheetParts.ElementAt(2).Worksheet;
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Null);
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Empty);
+                Assert.That(workbookPart.WorksheetParts.ElementAt(2).Worksheet, Is.Not.Null);
+                Worksheet worksheet = workbookPart.WorksheetParts.ElementAt(2).Worksheet!;
                 IEnumerable<SheetViews> sheetViewsParts = worksheet.ChildElements.OfType<SheetViews>();
                 Assert.That(sheetViewsParts.Count, Is.EqualTo(1));
                 SheetViews sheetViews = sheetViewsParts.ElementAt(0);
@@ -1671,7 +1715,10 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Worksheet worksheet = workbookPart!.WorksheetParts.ElementAt(3).Worksheet;
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Null);
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Empty);
+                Assert.That(workbookPart.WorksheetParts.ElementAt(3).Worksheet, Is.Not.Null);
+                Worksheet worksheet = workbookPart.WorksheetParts.ElementAt(3).Worksheet!;
                 IEnumerable<SheetViews> sheetViewsParts = worksheet.ChildElements.OfType<SheetViews>();
                 Assert.That(sheetViewsParts.Count, Is.EqualTo(1));
                 SheetViews sheetViews = sheetViewsParts.ElementAt(0);
@@ -1903,8 +1950,9 @@ namespace BigExcelCreator.Test
 
             WorkbookPart? workbookPart = reader.WorkbookPart;
             Assert.That(workbookPart, Is.Not.Null);
+            Assert.That(workbookPart.Workbook, Is.Not.Null);
 
-            Workbook workbook = workbookPart!.Workbook;
+            Workbook workbook = workbookPart.Workbook!;
 
             Sheets? sheets = workbook.Sheets;
             Assert.Multiple(() =>
@@ -1917,6 +1965,13 @@ namespace BigExcelCreator.Test
             {
                 Assert.That(sheet, Is.Not.Null);
                 Assert.That(sheet.Name!.ToString(), Is.EqualTo("example"));
+            });
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Null);
+                Assert.That(workbookPart.WorksheetParts, Is.Not.Empty);
+                Assert.That(workbookPart.WorksheetParts.First().Worksheet, Is.Not.Null);
             });
 
             DataValidation dataValidation = workbookPart.WorksheetParts.First().Worksheet
@@ -1935,7 +1990,7 @@ namespace BigExcelCreator.Test
         {
             using BigExcelWriter writer = new(new MemoryStream(), GetStyleList());
             writer.CreateSheetFromObject([new ExampleModel()], "example");
-            writer.CreateAndOpenSheet("next");
+            Assert.DoesNotThrow(() => writer.CreateAndOpenSheet("next"));
             writer.CloseSheet();
         }
 
@@ -1951,7 +2006,7 @@ namespace BigExcelCreator.Test
         }
 
         [Test]
-        public void FromObjectNoDataThrowsColumnWidthExeption()
+        public void FromObjectNoDataThrowsColumnWidthException()
         {
             using BigExcelWriter writer = GetWriterStream(out MemoryStream _);
             List<InvalidColumnWidthExample> data = new();
@@ -1964,12 +2019,12 @@ namespace BigExcelCreator.Test
             const string sheetName = "A very long original sheet name that must be limited";
             const string propertyName = "A very long property name that must be limited";
 
-            string firstName = SheetExtensions.CreateValidatorListSheetName(sheetName, propertyName);
-            string secondName = SheetExtensions.CreateValidatorListSheetName(sheetName, propertyName);
+            string firstName = sheetName.CreateValidatorListSheetName(propertyName);
+            string secondName = sheetName.CreateValidatorListSheetName(propertyName);
 
             Assert.Multiple(() =>
             {
-                Assert.That(firstName.Length, Is.EqualTo(31));
+                Assert.That(firstName, Has.Length.EqualTo(31));
                 Assert.That(firstName, Does.Not.Contains("_"));
                 Assert.That(firstName, Does.Match("^[A-Z][A-Za-z0-9]*[A-F0-9]{12}$"));
                 Assert.That(firstName.Remove(firstName.Length - 12), Does.Not.StartWith("_"));
@@ -1994,6 +2049,13 @@ namespace BigExcelCreator.Test
 
             using SpreadsheetDocument reader = SpreadsheetDocument.Open(stream, false);
             WorkbookPart workbookPart = reader.WorkbookPart!;
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(workbookPart.Workbook, Is.Not.Null);
+                Assert.That(workbookPart.Workbook!.Sheets, Is.Not.Empty);
+            });
+
             Sheet[] sheets = workbookPart.Workbook.Sheets!.ChildElements.OfType<Sheet>().ToArray();
 
             Assert.Multiple(() =>
@@ -2005,6 +2067,8 @@ namespace BigExcelCreator.Test
 
             Sheet targetSheet = sheets.Single(x => x.Name?.Value == "validated");
             WorksheetPart targetWorksheetPart = (WorksheetPart)workbookPart.GetPartById(targetSheet.Id!.Value!);
+            Assert.That(targetWorksheetPart, Is.Not.Null);
+            Assert.That(targetWorksheetPart.Worksheet, Is.Not.Null);
             DataValidation[] validations = targetWorksheetPart.Worksheet
                 .ChildElements.OfType<DataValidations>()
                 .Single()

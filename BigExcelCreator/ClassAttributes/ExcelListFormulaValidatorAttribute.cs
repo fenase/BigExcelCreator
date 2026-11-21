@@ -50,16 +50,7 @@ namespace BigExcelCreator.ClassAttributes
         /// <param name="showErrorMessage">Whether the Excel error message is shown.</param>
         public ExcelListFormulaValidatorAttribute(string formula, bool allowBlank, bool showInputMessage, bool showErrorMessage)
         {
-#if NET6_0_OR_GREATER
-            ArgumentNullException.ThrowIfNull(formula);
-#else
-            if (formula == null)
-            {
-                throw new ArgumentNullException(nameof(formula));
-            }
-#endif
-
-            Formula = formula;
+            Formula = formula ?? throw new ArgumentNullException(nameof(formula));
             AllowBlank = allowBlank;
             ShowInputMessage = showInputMessage;
             ShowErrorMessage = showErrorMessage;

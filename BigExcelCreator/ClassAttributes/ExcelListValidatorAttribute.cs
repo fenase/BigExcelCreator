@@ -51,16 +51,7 @@ namespace BigExcelCreator.ClassAttributes
         /// <param name="values">The literal values accepted by the validation.</param>
         public ExcelListValidatorAttribute(bool allowBlank, bool showInputMessage, bool showErrorMessage, params string[] values)
         {
-#if NET6_0_OR_GREATER
-            ArgumentNullException.ThrowIfNull(values);
-#else
-            if (values == null)
-            {
-                throw new ArgumentNullException(nameof(values));
-            }
-#endif
-
-            Values = values;
+            Values = values ?? throw new ArgumentNullException(nameof(values));
             AllowBlank = allowBlank;
             ShowInputMessage = showInputMessage;
             ShowErrorMessage = showErrorMessage;
