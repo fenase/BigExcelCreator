@@ -10,6 +10,7 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' != 'net35' ">
+		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
 		<PackageReference Include="NUnit" Version="4.4.0" />
 		<PackageReference Include="NUnit.Analyzers" Version="4.11.2">
 			<PrivateAssets>all</PrivateAssets>

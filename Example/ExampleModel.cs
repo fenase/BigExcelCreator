@@ -1,5 +1,6 @@
 ﻿using BigExcelCreator.ClassAttributes;
 using BigExcelCreator.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Example
 {
@@ -19,27 +20,34 @@ namespace Example
         [ExcelColumnWidth(30)]
         public string Name { get; set; } = "";
 
-        [ExcelColumnName("Job Position")]
+        [ExcelColumnName("Department")]
         [ExcelColumnOrder(2)]
+        [ExcelColumnType(CellDataType.Text)]
+        [ExcelColumnWidth(25)]
+        [ExcelListValidator(typeof(Departments), nameof(Departments.Member))]
+        public string Department { get; set; } = "";
+
+        [ExcelColumnName("Job Position")]
+        [ExcelColumnOrder(3)]
         [ExcelColumnType(CellDataType.Text)]
         [ExcelColumnWidth(25)]
         [ExcelListValidator(values: ["Software Engineer", "Project Manager", "UX Designer", "Data Analyst", "Marketing Specialist", "Product Owner", "QA Engineer", "Data Scientist"])]
         public string Position { get; set; } = "";
 
         [ExcelColumnName("Job Description")]
-        [ExcelColumnOrder(3)]
+        [ExcelColumnOrder(4)]
         [ExcelColumnType(CellDataType.Text)]
         [ExcelColumnWidth(50)]
         public string Description { get; set; } = "";
 
         [ExcelColumnName("Creation Date")]
-        [ExcelColumnOrder(10)]
+        [ExcelColumnOrder(11)]
         [ExcelColumnType(CellDataType.Text)]
         [ExcelColumnWidth(20)]
         public DateTime CreatedAt { get; set; }
 
         [ExcelColumnName("Monthly Salary")]
-        [ExcelColumnOrder(4)]
+        [ExcelColumnOrder(5)]
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
         [ExcelConditionalFormatFormula("RED", "E2<6100")]
@@ -47,7 +55,7 @@ namespace Example
         public decimal Salary { get; set; }
 
         [ExcelColumnName("Monthly Bonus")]
-        [ExcelColumnOrder(5)]
+        [ExcelColumnOrder(6)]
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
         [ExcelStyleFormat("bold italic center")]
@@ -55,35 +63,43 @@ namespace Example
         public double? Bonus { get; set; }
 
         [ExcelColumnName("Monthly Net Income")]
-        [ExcelColumnOrder(6)]
+        [ExcelColumnOrder(7)]
         [ExcelColumnType(CellDataType.Formula)]
         [ExcelColumnWidth(20)]
         [ExcelStyleFormat(8, StylingPriority.Data)]
         public string? NetIncome { get; set; } = "";
 
         [ExcelColumnName("Sale Amount")]
-        [ExcelColumnOrder(7)]
+        [ExcelColumnOrder(8)]
         [ExcelColumnType(CellDataType.Number)]
         [ExcelColumnWidth(20)]
         public float? Sale { get; set; }
 
         [ExcelColumnName("Additional Notes")]
-        [ExcelColumnOrder(8)]
+        [ExcelColumnOrder(9)]
         [ExcelColumnType(CellDataType.Text)]
         [ExcelColumnWidth(40)]
         string? Notes { get; set; }
 
         [ExcelColumnHidden]
+        [ExcelColumnWidth(16)]
         public string Secret { get; set; } = "";
 
         [ExcelColumnName("Public Information")]
-        [ExcelColumnOrder(9)]
+        [ExcelColumnOrder(10)]
         [ExcelColumnType(CellDataType.Text)]
         [ExcelColumnWidth(40)]
         public string PublicInfo { get; set; } = "";
 
         [ExcelIgnore]
         public int TopSecretNumber { get; set; }
+
+        [ExcelColumnName("Candidate to Promotion")]
+        [ExcelColumnOrder(12)]
+        [ExcelColumnType(CellDataType.Text)]
+        [ExcelColumnWidth(22)]
+        [ExcelListValidator(typeof(IsElegible))]
+        public IsElegible CandidateToPromotion { get; set; } = IsElegible.No;
 
         internal static List<ExampleModel> GetTestData() =>
             new()
@@ -147,6 +163,7 @@ namespace Example
                     Secret = "Enjoys skydiving",
                     PublicInfo = "Active in community sports.",
                     TopSecretNumber= 99,
+                    CandidateToPromotion = IsElegible.Yes,
                 },
                 new ExampleModel
                 {
@@ -164,4 +181,26 @@ namespace Example
                 }
             };
     }
+
+
+    internal enum IsElegible
+    {
+        [Display(Name = "Yes, eligible")]
+        Yes,
+
+        [Display(Name = "No, not eligible")]
+        No
+    }
+
+    internal static class Departments
+    {
+        public static IEnumerable<string> Member
+        {
+            get
+            {
+                return new[] { "Engineering", "Finance", "Engineering" }.Distinct();
+            }
+        }
+    }
+
 }

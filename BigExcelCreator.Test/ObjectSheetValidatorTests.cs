@@ -150,6 +150,99 @@ namespace BigExcelCreator.Test
         }
 
         [Test]
+        public void ExcelListValidatorEnumConstructorResolvesDisplayNamesAndFlags()
+        {
+            ExcelListValidatorAttribute defaultAttribute = new ExcelListValidatorAttribute(typeof(ListValidatorTestEnum));
+            ExcelListValidatorAttribute configuredAttribute = new ExcelListValidatorAttribute(false, false, false, typeof(ListValidatorTestEnum));
+
+            string[] expectedValues = new[] { "Yes", "No", "Pending" };
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(defaultAttribute.EnumType, Is.EqualTo(typeof(ListValidatorTestEnum)));
+                Assert.That(defaultAttribute.Values, Is.EqualTo(expectedValues));
+                Assert.That(defaultAttribute.AllowBlank, Is.True);
+                Assert.That(defaultAttribute.ShowInputMessage, Is.True);
+                Assert.That(defaultAttribute.ShowErrorMessage, Is.True);
+                Assert.That(configuredAttribute.EnumType, Is.EqualTo(typeof(ListValidatorTestEnum)));
+                Assert.That(configuredAttribute.Values, Is.EqualTo(expectedValues));
+                Assert.That(configuredAttribute.AllowBlank, Is.False);
+                Assert.That(configuredAttribute.ShowInputMessage, Is.False);
+                Assert.That(configuredAttribute.ShowErrorMessage, Is.False);
+            });
+        }
+
+        [Test]
+        public void ExcelListValidatorEnumConstructorRejectsNullAndNonEnumTypes()
+        {
+            Type nullType = null!;
+            Assert.Throws<ArgumentNullException>(() => new ExcelListValidatorAttribute(nullType));
+            Assert.Throws<ArgumentException>(() => new ExcelListValidatorAttribute(typeof(string)));
+            Assert.Throws<ArgumentNullException>(() => new ExcelListValidatorAttribute(true, true, true, nullType));
+            Assert.Throws<ArgumentException>(() => new ExcelListValidatorAttribute(true, true, true, typeof(string)));
+        }
+
+        [TestCase("PublicProperty")]
+        [TestCase("InternalProperty")]
+        [TestCase("PublicField")]
+        [TestCase("InternalField")]
+        [TestCase("PublicMethod")]
+        [TestCase("InternalMethod")]
+        public void ExcelListValidatorMemberConstructorResolvesPublicAndInternalStringSources(string memberName)
+        {
+            ExcelListValidatorAttribute defaultAttribute = new ExcelListValidatorAttribute(typeof(ListValidatorSource), memberName);
+            ExcelListValidatorAttribute configuredAttribute = new ExcelListValidatorAttribute(false, false, false, typeof(ListValidatorSource), memberName);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(defaultAttribute.SourceType, Is.EqualTo(typeof(ListValidatorSource)));
+                Assert.That(defaultAttribute.MemberName, Is.EqualTo(memberName));
+                Assert.That(defaultAttribute.Values, Is.EqualTo(new[] { "Engineering", "Finance" }));
+                Assert.That(defaultAttribute.AllowBlank, Is.True);
+                Assert.That(defaultAttribute.ShowInputMessage, Is.True);
+                Assert.That(defaultAttribute.ShowErrorMessage, Is.True);
+                Assert.That(configuredAttribute.SourceType, Is.EqualTo(typeof(ListValidatorSource)));
+                Assert.That(configuredAttribute.MemberName, Is.EqualTo(memberName));
+                Assert.That(configuredAttribute.Values, Is.EqualTo(new[] { "Engineering", "Finance" }));
+                Assert.That(configuredAttribute.AllowBlank, Is.False);
+                Assert.That(configuredAttribute.ShowInputMessage, Is.False);
+                Assert.That(configuredAttribute.ShowErrorMessage, Is.False);
+            });
+        }
+
+        [TestCase("PublicEnumProperty")]
+        [TestCase("InternalEnumProperty")]
+        [TestCase("PublicEnumMethod")]
+        [TestCase("InternalEnumField")]
+        public void ExcelListValidatorMemberConstructorResolvesEnumSourcesAndDisplayNames(string memberName)
+        {
+            ExcelListValidatorAttribute attribute = new ExcelListValidatorAttribute(typeof(ListValidatorSource), memberName);
+
+            string[] expectedValues = new[] { "Yes", "No", "Pending" };
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(attribute.SourceType, Is.EqualTo(typeof(ListValidatorSource)));
+                Assert.That(attribute.MemberName, Is.EqualTo(memberName));
+                Assert.That(attribute.Values, Is.EqualTo(expectedValues));
+            });
+        }
+
+        [Test]
+        public void ExcelListValidatorMemberConstructorRejectsInvalidArgumentsAndReturnTypes()
+        {
+            Type nullType = null!;
+            Assert.Throws<ArgumentNullException>(() => new ExcelListValidatorAttribute(nullType, "PublicProperty"));
+            Assert.Throws<ArgumentException>(() => new ExcelListValidatorAttribute(typeof(ListValidatorSource), null!));
+            Assert.Throws<ArgumentException>(() => new ExcelListValidatorAttribute(typeof(ListValidatorSource), string.Empty));
+            Assert.Throws<ArgumentException>(() => new ExcelListValidatorAttribute(typeof(ListValidatorSource), "   "));
+            Assert.Throws<ArgumentException>(() => new ExcelListValidatorAttribute(typeof(ListValidatorSource), "MissingMember"));
+            Assert.Throws<InvalidOperationException>(() => new ExcelListValidatorAttribute(typeof(ListValidatorSource), "NullProperty"));
+            Assert.Throws<InvalidOperationException>(() => new ExcelListValidatorAttribute(typeof(ListValidatorSource), "StringProperty"));
+            Assert.Throws<InvalidOperationException>(() => new ExcelListValidatorAttribute(typeof(ListValidatorSource), "IntegerArrayField"));
+        }
+
+        [Test]
         public void FormulaListValidatorRejectsNullFormula()
         {
             Assert.Throws<ArgumentNullException>(() => new ExcelListFormulaValidatorAttribute(null!));
@@ -253,6 +346,89 @@ namespace BigExcelCreator.Test
 
             [ExcelListFormulaValidator("NamedCategories", false, false, true)]
             public string ConfiguredFormulaList { get; set; } = string.Empty;
+        }
+
+        internal enum ListValidatorTestEnum
+        {
+            Yes,
+
+            No,
+
+            Pending
+        }
+
+        private sealed class ListValidatorSource
+        {
+            public static IEnumerable<string> PublicProperty
+            {
+                get
+                {
+                    return new[] { "Engineering", "Finance", "Engineering" }.Distinct();
+                }
+            }
+
+            internal static IEnumerable<string> InternalProperty
+            {
+                get
+                {
+                    return new[] { "Engineering", "Finance", "Engineering" }.Distinct();
+                }
+            }
+
+            public static IEnumerable<string> PublicField = new[] { "Engineering", "Finance", "Engineering" }.Distinct();
+
+            internal static IEnumerable<string> InternalField = new[] { "Engineering", "Finance", "Engineering" }.Distinct();
+
+            public static IEnumerable<string> PublicMethod()
+            {
+                return new[] { "Engineering", "Finance", "Engineering" }.Distinct();
+            }
+
+            internal static IEnumerable<string> InternalMethod()
+            {
+                return new[] { "Engineering", "Finance", "Engineering" }.Distinct();
+            }
+
+            public static IEnumerable<Enum> PublicEnumProperty
+            {
+                get
+                {
+                    return new Enum[] { ListValidatorTestEnum.Yes, ListValidatorTestEnum.No, ListValidatorTestEnum.Pending };
+                }
+            }
+
+            internal static IEnumerable<Enum> InternalEnumProperty
+            {
+                get
+                {
+                    return new Enum[] { ListValidatorTestEnum.Yes, ListValidatorTestEnum.No, ListValidatorTestEnum.Pending };
+                }
+            }
+
+            public static IEnumerable<Enum> PublicEnumMethod()
+            {
+                return new Enum[] { ListValidatorTestEnum.Yes, ListValidatorTestEnum.No, ListValidatorTestEnum.Pending };
+            }
+
+            internal static IEnumerable<Enum> InternalEnumField = new Enum[] { ListValidatorTestEnum.Yes, ListValidatorTestEnum.No, ListValidatorTestEnum.Pending };
+
+            public static IEnumerable<string> NullProperty
+            {
+                get
+                {
+                    return null!;
+                }
+            }
+
+            public static string StringProperty
+            {
+                get
+                {
+                    return "Engineering";
+                }
+            }
+
+            public static int[] IntegerArrayField = new[] { 1, 2, 3 };
         }
 
         private sealed class EmptyDataModel
