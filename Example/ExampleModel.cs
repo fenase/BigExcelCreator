@@ -24,7 +24,7 @@ namespace Example
         [ExcelColumnOrder(2)]
         [ExcelColumnType(CellDataType.Text)]
         [ExcelColumnWidth(25)]
-        [ExcelListValidator(typeof(Departments), nameof(Departments.Member))]
+        [ExcelListValidator(typeof(Departments), nameof(Departments.DirectEmployees))]
         public string Department { get; set; } = "";
 
         [ExcelColumnName("Job Position")]
@@ -206,13 +206,8 @@ namespace Example
 
     internal static class Departments
     {
-        public static IEnumerable<string> Member
-        {
-            get
-            {
-                return new[] { "Engineering", "Finance", "Marketing" }.Distinct();
-            }
-        }
+        public static readonly IEnumerable<string> AllDepartments = new[] { "Engineering", "Finance", "Marketing", "HR", "Operations", "Facilities", "Contracting" }.Distinct();
+        public static readonly IEnumerable<string> DirectEmployees = AllDepartments.Where(d => d != "Contracting").Order();
     }
 
 }
