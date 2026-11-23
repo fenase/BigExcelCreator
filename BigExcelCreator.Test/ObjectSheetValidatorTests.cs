@@ -125,6 +125,38 @@ namespace BigExcelCreator.Test
         }
 
         [Test]
+        public void CreateSheetFromObjectWritesEnumTextAndFallbackNames()
+        {
+            MemoryStream stream = new MemoryStream();
+            using (BigExcelWriter writer = new BigExcelWriter(stream))
+            {
+                writer.CreateSheetFromObject([new EnumTextModel()], "EnumText");
+            }
+
+            using SpreadsheetDocument document = SpreadsheetDocument.Open(stream, false);
+            WorkbookPart workbookPart = document.WorkbookPart!;
+            Sheet targetSheet = workbookPart.Workbook!.Sheets!.ChildElements
+                .OfType<Sheet>()
+                .Single(sheet => sheet.Name?.Value == "EnumText");
+            WorksheetPart targetPart = (WorksheetPart)workbookPart.GetPartById(targetSheet.Id!.Value!);
+            Row[] rows = targetPart.Worksheet!.GetFirstChild<SheetData>()!.Elements<Row>().ToArray();
+            string[] values = rows[1].Elements<Cell>()
+                .Select(cell => TestHelperMethods.GetCellRealValue(cell, workbookPart))
+                .ToArray();
+
+            Assert.That(values, Is.EqualTo(new[] { "Yes", "Pending" }));
+        }
+
+        [Test]
+        public void CreateSheetFromObjectEnumTextRejectsNonEnumValues()
+        {
+            using MemoryStream stream = new MemoryStream();
+            using BigExcelWriter writer = new BigExcelWriter(stream);
+
+            Assert.Throws<InvalidOperationException>(() => writer.CreateSheetFromObject([new InvalidEnumTextModel()], "InvalidEnumText"));
+        }
+
+        [Test]
         public void CreateSheetFromObjectCreatesSingleCellValidationRangeWhenDataIsEmpty()
         {
             MemoryStream stream = new();
@@ -153,18 +185,24 @@ namespace BigExcelCreator.Test
         public void ExcelListValidatorEnumConstructorResolvesDisplayNamesAndFlags()
         {
             ExcelListValidatorAttribute defaultAttribute = new ExcelListValidatorAttribute(typeof(ListValidatorTestEnum));
-            ExcelListValidatorAttribute configuredAttribute = new ExcelListValidatorAttribute(false, false, false, typeof(ListValidatorTestEnum));
+            ExcelListValidatorAttribute rawAttribute = new ExcelListValidatorAttribute(typeof(ListValidatorTestEnum), false);
+            ExcelListValidatorAttribute configuredAttribute = new ExcelListValidatorAttribute(false, false, false, typeof(ListValidatorTestEnum), false);
 
             string[] expectedValues = new[] { "Yes", "No", "Pending" };
 
             Assert.Multiple(() =>
             {
                 Assert.That(defaultAttribute.EnumType, Is.EqualTo(typeof(ListValidatorTestEnum)));
+                Assert.That(defaultAttribute.UseDisplayName, Is.True);
                 Assert.That(defaultAttribute.Values, Is.EqualTo(expectedValues));
+                Assert.That(rawAttribute.EnumType, Is.EqualTo(typeof(ListValidatorTestEnum)));
+                Assert.That(rawAttribute.UseDisplayName, Is.False);
+                Assert.That(rawAttribute.Values, Is.EqualTo(expectedValues));
                 Assert.That(defaultAttribute.AllowBlank, Is.True);
                 Assert.That(defaultAttribute.ShowInputMessage, Is.True);
                 Assert.That(defaultAttribute.ShowErrorMessage, Is.True);
                 Assert.That(configuredAttribute.EnumType, Is.EqualTo(typeof(ListValidatorTestEnum)));
+                Assert.That(configuredAttribute.UseDisplayName, Is.False);
                 Assert.That(configuredAttribute.Values, Is.EqualTo(expectedValues));
                 Assert.That(configuredAttribute.AllowBlank, Is.False);
                 Assert.That(configuredAttribute.ShowInputMessage, Is.False);
@@ -179,7 +217,9 @@ namespace BigExcelCreator.Test
             Assert.Throws<ArgumentNullException>(() => new ExcelListValidatorAttribute(nullType));
             Assert.Throws<ArgumentException>(() => new ExcelListValidatorAttribute(typeof(string)));
             Assert.Throws<ArgumentNullException>(() => new ExcelListValidatorAttribute(true, true, true, nullType));
+            Assert.Throws<ArgumentNullException>(() => new ExcelListValidatorAttribute(true, true, true, nullType, false));
             Assert.Throws<ArgumentException>(() => new ExcelListValidatorAttribute(true, true, true, typeof(string)));
+            Assert.Throws<ArgumentException>(() => new ExcelListValidatorAttribute(typeof(string), false));
         }
 
         [TestCase("PublicProperty")]
@@ -197,12 +237,14 @@ namespace BigExcelCreator.Test
             {
                 Assert.That(defaultAttribute.SourceType, Is.EqualTo(typeof(ListValidatorSource)));
                 Assert.That(defaultAttribute.MemberName, Is.EqualTo(memberName));
+                Assert.That(defaultAttribute.UseDisplayName, Is.True);
                 Assert.That(defaultAttribute.Values, Is.EqualTo(new[] { "Engineering", "Finance" }));
                 Assert.That(defaultAttribute.AllowBlank, Is.True);
                 Assert.That(defaultAttribute.ShowInputMessage, Is.True);
                 Assert.That(defaultAttribute.ShowErrorMessage, Is.True);
                 Assert.That(configuredAttribute.SourceType, Is.EqualTo(typeof(ListValidatorSource)));
                 Assert.That(configuredAttribute.MemberName, Is.EqualTo(memberName));
+                Assert.That(configuredAttribute.UseDisplayName, Is.True);
                 Assert.That(configuredAttribute.Values, Is.EqualTo(new[] { "Engineering", "Finance" }));
                 Assert.That(configuredAttribute.AllowBlank, Is.False);
                 Assert.That(configuredAttribute.ShowInputMessage, Is.False);
@@ -429,6 +471,27 @@ namespace BigExcelCreator.Test
             }
 
             public static int[] IntegerArrayField = new[] { 1, 2, 3 };
+        }
+
+        private enum EnumTextValue
+        {
+            Yes,
+            Pending
+        }
+
+        private sealed class EnumTextModel
+        {
+            [ExcelColumnType(CellDataType.EnumText)]
+            public EnumTextValue First { get; set; } = EnumTextValue.Yes;
+
+            [ExcelColumnType(CellDataType.EnumText)]
+            public EnumTextValue Second { get; set; } = EnumTextValue.Pending;
+        }
+
+        private sealed class InvalidEnumTextModel
+        {
+            [ExcelColumnType(CellDataType.EnumText)]
+            public string Value { get; set; } = "Not an enum";
         }
 
         private sealed class EmptyDataModel

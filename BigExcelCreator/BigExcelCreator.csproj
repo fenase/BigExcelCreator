@@ -81,4 +81,8 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 		</PackageReference>
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)' == 'net40' Or '$(TargetFramework)' == 'net46' Or '$(TargetFramework)' == 'net48'">
+		<Reference Include="System.ComponentModel.DataAnnotations" />
+	</ItemGroup>
+
 </Project>

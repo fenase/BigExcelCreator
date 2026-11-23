@@ -82,7 +82,6 @@ namespace Example
         string? Notes { get; set; }
 
         [ExcelColumnHidden]
-        [ExcelColumnWidth(16)]
         public string Secret { get; set; } = "";
 
         [ExcelColumnName("Public Information")]
@@ -96,10 +95,17 @@ namespace Example
 
         [ExcelColumnName("Candidate to Promotion")]
         [ExcelColumnOrder(12)]
+        [ExcelColumnType(CellDataType.EnumText)]
+        [ExcelColumnWidth(23)]
+        [ExcelListValidator(typeof(YesNo))]
+        public YesNo CandidateToPromotion { get; set; } = YesNo.No;
+
+        [ExcelColumnName("Raw Candidate to Promotion")]
+        [ExcelColumnOrder(13)]
         [ExcelColumnType(CellDataType.Text)]
-        [ExcelColumnWidth(22)]
-        [ExcelListValidator(typeof(IsElegible))]
-        public IsElegible CandidateToPromotion { get; set; } = IsElegible.No;
+        [ExcelColumnWidth(28)]
+        [ExcelListValidator(typeof(YesNo), false)]
+        public YesNo RawCandidateToPromotion { get; set; } = YesNo.No;
 
         internal static List<ExampleModel> GetTestData() =>
             new()
@@ -108,6 +114,7 @@ namespace Example
                 {
                     Id = 1,
                     Name = "John Doe",
+                    Department= "Engineering",
                     Position = "Software Engineer",
                     Description = "Responsible for developing software solutions.",
                     CreatedAt = DateTime.Now.AddMonths(-6),
@@ -124,6 +131,7 @@ namespace Example
                 {
                     Id = 2,
                     Name = "Jane Smith",
+                    Department= "Finance",
                     Position = "Project Manager",
                     Description = "Oversees project development and delivery.",
                     CreatedAt = DateTime.Now.AddYears(-1),
@@ -140,6 +148,7 @@ namespace Example
                 {
                     Id = 3,
                     Name = "Alice Johnson",
+                    Department= "Engineering",
                     Position = "UX Designer",
                     Description = "Designs user-friendly interfaces.",
                     CreatedAt = DateTime.Now.AddMonths(-3),
@@ -154,6 +163,7 @@ namespace Example
                 {
                     Id = 4,
                     Name = "Bob Brown",
+                    Department= "Finance",
                     Position = "Data Analyst",
                     Description = "Analyzes data to support business decisions.",
                     CreatedAt = DateTime.Now.AddMonths(-9),
@@ -163,12 +173,14 @@ namespace Example
                     Secret = "Enjoys skydiving",
                     PublicInfo = "Active in community sports.",
                     TopSecretNumber= 99,
-                    CandidateToPromotion = IsElegible.Yes,
+                    CandidateToPromotion = YesNo.Yes,
+                    RawCandidateToPromotion = YesNo.Yes,
                 },
                 new ExampleModel
                 {
                     Id = 5,
                     Name = "Eve Davis",
+                    Department= "Marketing",
                     Position = "Marketing Specialist",
                     Description = "Develops marketing strategies and campaigns.",
                     CreatedAt = DateTime.Now.AddYears(-2),
@@ -183,7 +195,7 @@ namespace Example
     }
 
 
-    internal enum IsElegible
+    internal enum YesNo
     {
         [Display(Name = "Yes, eligible")]
         Yes,
@@ -198,7 +210,7 @@ namespace Example
         {
             get
             {
-                return new[] { "Engineering", "Finance", "Engineering" }.Distinct();
+                return new[] { "Engineering", "Finance", "Marketing" }.Distinct();
             }
         }
     }

@@ -5,11 +5,14 @@ using BigExcelCreator.Enums;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Globalization;
+using System.Reflection;
 
 namespace BigExcelCreator.Extensions
 {
     internal static class EnumExtensions
     {
+
+
 #if NET35
         /// <summary>Determines whether one or more bit fields are set in the current instance.</summary>
         /// <param name="enum"></param>
@@ -43,5 +46,77 @@ namespace BigExcelCreator.Extensions
             ConditionalFormattingOperator.EndsWith => ConditionalFormattingOperatorValues.EndsWith,
             _ => throw new ArgumentOutOfRangeException(nameof(@operator), @operator, null)
         };
+
+        /// <summary>
+        /// Resolves the <c>DisplayAttribute.Name</c> of an enum member if defined;
+        /// otherwise, falls back to <see cref="Enum.ToString()"/>.
+        /// </summary>
+        /// <param name="enumItem">The enum value to resolve.</param>
+        /// <returns>The localized or configured display name if available; otherwise, the enum member name.</returns>
+        internal static string GetEnumDisplayName(this Enum enumItem)
+        {
+            string memberName = enumItem.ToString();
+            Type enumType = enumItem.GetType();
+            FieldInfo field = enumType.GetField(memberName);
+            if (field == null)
+            {
+                return memberName;
+            }
+
+#if NET40_OR_GREATER || NETCOREAPP
+            object[] attributes = field.GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute), false);
+            foreach (object attribute in attributes)
+            {
+                string displayName = ((System.ComponentModel.DataAnnotations.DisplayAttribute)attribute).GetName();
+                if (!string.IsNullOrEmpty(displayName))
+                {
+                    return displayName;
+                }
+            }
+#else
+            object[] attributes = field.GetCustomAttributes(false);
+            foreach (object attribute in attributes)
+            {
+                Type attributeType = attribute.GetType();
+                if (attributeType.FullName == DisplayAttributeFullName)
+                {
+                    string displayName = ExtractDisplayAttributeName(attribute, attributeType);
+                    if (!string.IsNullOrEmpty(displayName))
+                    {
+                        return displayName;
+                    }
+                }
+            }
+#endif
+
+            return memberName;
+        }
+
+#if !(NET40_OR_GREATER || NETCOREAPP)
+        private const string DisplayAttributeFullName = "System.ComponentModel.DataAnnotations.DisplayAttribute";
+
+        /// <summary>
+        /// Extracts the resolved display name from a <c>DisplayAttribute</c> instance without requiring a compile-time assembly reference.
+        /// </summary>
+        /// <param name="displayAttribute">The <c>DisplayAttribute</c> instance.</param>
+        /// <param name="attributeType">The runtime <see cref="Type"/> of the attribute.</param>
+        /// <returns>The resolved display name, or <c>null</c> if not set.</returns>
+        private static string ExtractDisplayAttributeName(object displayAttribute, Type attributeType)
+        {
+            MethodInfo getNameMethod = attributeType.GetMethod("GetName", BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
+            if (getNameMethod != null)
+            {
+                return getNameMethod.Invoke(displayAttribute, null) as string;
+            }
+
+            PropertyInfo nameProperty = attributeType.GetProperty("Name", BindingFlags.Public | BindingFlags.Instance);
+            if (nameProperty != null)
+            {
+                return nameProperty.GetValue(displayAttribute, null) as string;
+            }
+
+            return null;
+        }
+#endif
     }
 }

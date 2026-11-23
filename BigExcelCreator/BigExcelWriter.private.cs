@@ -286,6 +286,14 @@ namespace BigExcelCreator
                     string cellDataString = cellData?.ToString() ?? "";
                     WriteTextCell(cellDataString, format, useSharedStringsOnTextData);
                     break;
+                case CellDataType.EnumText:
+                    if (cellData is not Enum cellDataEnum)
+                    {
+                        throw new InvalidOperationException($"CellDataType is {nameof(CellDataType.EnumText)} but the provided cellData is not an Enum. Actual type: {cellData?.GetType().FullName ?? "null"}");
+                    }
+                    string cellDataEnumString = cellDataEnum.GetEnumDisplayName() ?? cellDataEnum.ToString();
+                    WriteTextCell(cellDataEnumString, format, useSharedStringsOnTextData);
+                    break;
             }
         }
 
