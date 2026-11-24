@@ -18,11 +18,11 @@ namespace BigExcelCreator.Extensions
             sheetPart = LimitValidatorListSheetNamePart(sheetPart, sheetPartLength);
             propertyPart = LimitValidatorListSheetNamePart(propertyPart, propertyPartLength);
 
-            string randomPart = Guid.NewGuid().ToString("N").Remove(randomPartLength).ToUpperInvariant();
+            string randomPart = Guid.NewGuid().ToString("N")[..randomPartLength].ToUpperInvariant();
             string result = sheetPart + propertyPart + randomPart;
 
             return result.Length > maximumSheetNameLength
-                ? result.Remove(maximumSheetNameLength)
+                ? result[..maximumSheetNameLength]
                 : result;
         }
 
