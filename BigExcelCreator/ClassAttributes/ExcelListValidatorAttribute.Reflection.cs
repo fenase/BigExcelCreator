@@ -11,7 +11,9 @@ namespace BigExcelCreator.ClassAttributes
 {
     public sealed partial class ExcelListValidatorAttribute
     {
+#pragma warning disable S3011
         private const BindingFlags MemberLookupFlags = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy;
+#pragma warning restore S3011
 
         /// <summary>
         /// Extracts all values of the specified <see cref="Enum"/> type and resolves their display or member names.
