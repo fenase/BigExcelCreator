@@ -10,7 +10,7 @@ namespace BigExcelCreator.ClassAttributes
     /// <summary>
     /// Applies an integer data validation rule to a property column.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class ExcelIntegerValidatorAttribute : Attribute, IExcelValidatorAttribute
     {
         /// <summary>

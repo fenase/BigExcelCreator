@@ -9,7 +9,7 @@ namespace BigExcelCreator.ClassAttributes
     /// <summary>
     /// Applies a formula-based list data validation to a property column.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class ExcelListFormulaValidatorAttribute : Attribute, IExcelValidatorAttribute
     {
         /// <summary>

@@ -12,4 +12,13 @@
 		<ProjectReference Include="..\BigExcelCreator\BigExcelCreator.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<!-- Make analyzer available in this example project since it's not included by default -->
+		<!-- Developers consuming the library through NuGet will have the analyzer included automatically, and this ItemGroup is not needed -->
+		<ProjectReference
+			Include="..\BigExcelCreator.Analyzers\BigExcelCreator.Analyzers.csproj"
+			OutputItemType="Analyzer"
+			ReferenceOutputAssembly="false" />
+	</ItemGroup>
+
 </Project>

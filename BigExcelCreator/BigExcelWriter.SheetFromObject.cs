@@ -121,8 +121,10 @@ namespace BigExcelCreator
             if (!(columns?.Count > 0)) { columns = CreateSpreadsheetColumnsFromObject(typeof(T)); }
 
             List<PropertyInfo> sortedColumns = [.. GetOrderedColumnProperties(typeof(T))];
-
-            Dictionary<PropertyInfo, string> literalListValidatorFormulae = CreateAuxSheetForListValidator(sortedColumns, sheetName);
+            Dictionary<PropertyInfo, IExcelValidatorAttribute> validatorAttributes =
+                ExcelValidatorAttributeHelper.GetValidatorAttributes(typeof(T), sortedColumns);
+            Dictionary<PropertyInfo, string> literalListValidatorFormulae =
+                CreateAuxSheetForListValidator(sortedColumns, sheetName, validatorAttributes);
 
             CreateAndOpenSheet(sheetName, columns, sheetState);
 
@@ -168,7 +170,7 @@ namespace BigExcelCreator
 
             AttachConditionalFormattingToSheet(writeHeaderRow, list, sortedColumns);
 
-            AttachValidatorsToSheet(writeHeaderRow, list, sortedColumns, literalListValidatorFormulae);
+            AttachValidatorsToSheet(writeHeaderRow, list, sortedColumns, literalListValidatorFormulae, validatorAttributes);
 
             if (!keepSheetOpen)
             {
@@ -215,18 +217,17 @@ namespace BigExcelCreator
             }
         }
 
-        private Dictionary<PropertyInfo, string> CreateAuxSheetForListValidator(List<PropertyInfo> sortedColumns, string sheetName)
+        private Dictionary<PropertyInfo, string> CreateAuxSheetForListValidator(
+            List<PropertyInfo> sortedColumns,
+            string sheetName,
+            Dictionary<PropertyInfo, IExcelValidatorAttribute> validatorAttributes)
         {
             Dictionary<PropertyInfo, string> literalListValidatorFormulae = [];
 
             foreach (PropertyInfo column in sortedColumns)
             {
-                ExcelListValidatorAttribute listAttribute = column
-                    .GetCustomAttributes(typeof(ExcelListValidatorAttribute), false)
-                    .Cast<ExcelListValidatorAttribute>()
-                    .FirstOrDefault();
-
-                if (listAttribute == null)
+                if (!validatorAttributes.TryGetValue(column, out IExcelValidatorAttribute validatorAttribute) ||
+                    validatorAttribute is not ExcelListValidatorAttribute listAttribute)
                 {
                     continue;
                 }
@@ -238,7 +239,12 @@ namespace BigExcelCreator
             return literalListValidatorFormulae;
         }
 
-        private void AttachValidatorsToSheet<T>(bool writeHeaderRow, IList<T> list, List<PropertyInfo> sortedColumns, Dictionary<PropertyInfo, string> literalListValidatorFormulae)
+        private void AttachValidatorsToSheet<T>(
+            bool writeHeaderRow,
+            IList<T> list,
+            List<PropertyInfo> sortedColumns,
+            Dictionary<PropertyInfo, string> literalListValidatorFormulae,
+            Dictionary<PropertyInfo, IExcelValidatorAttribute> validatorAttributes)
             where T : class
         {
             int validationBaseRow = writeHeaderRow ? 2 : 1;
@@ -246,59 +252,41 @@ namespace BigExcelCreator
 
             foreach (PropertyInfo column in sortedColumns)
             {
+                if (!validatorAttributes.TryGetValue(column, out IExcelValidatorAttribute validatorAttribute))
+                {
+                    continue;
+                }
+
                 int columnNumber = sortedColumns.IndexOf(column) + 1;
                 CellRange validationRange = new(columnNumber, validationBaseRow, columnNumber, validationEndRow, null);
 
-                ExcelListValidatorAttribute listAttribute = column
-                    .GetCustomAttributes(typeof(ExcelListValidatorAttribute), false)
-                    .Cast<ExcelListValidatorAttribute>()
-                    .FirstOrDefault();
-
-                if (listAttribute != null)
+                switch (validatorAttribute)
                 {
-                    AddListValidator(validationRange,
-                                     literalListValidatorFormulae[column],
-                                     listAttribute.AllowBlank,
-                                     listAttribute.ShowInputMessage,
-                                     listAttribute.ShowErrorMessage);
-                    continue;
-                }
-
-                ExcelListFormulaValidatorAttribute listFormulaAttribute = column
-                    .GetCustomAttributes(typeof(ExcelListFormulaValidatorAttribute), false)
-                    .Cast<ExcelListFormulaValidatorAttribute>()
-                    .FirstOrDefault();
-
-                if (listFormulaAttribute != null)
-                {
-                    AddListValidator(validationRange,
-                                     listFormulaAttribute.Formula,
-                                     listFormulaAttribute.AllowBlank,
-                                     listFormulaAttribute.ShowInputMessage,
-                                     listFormulaAttribute.ShowErrorMessage);
-                    continue;
-                }
-
-                ExcelIntegerValidatorAttribute integerAttribute = column
-                    .GetCustomAttributes(typeof(ExcelIntegerValidatorAttribute), false)
-                    .Cast<ExcelIntegerValidatorAttribute>()
-                    .FirstOrDefault();
-
-                if (integerAttribute != null)
-                {
-                    AttachIntegerValidatorToSheet(integerAttribute, validationRange);
-                    continue;
-                }
-
-                ExcelDecimalValidatorAttribute decimalAttribute = column
-                    .GetCustomAttributes(typeof(ExcelDecimalValidatorAttribute), false)
-                    .Cast<ExcelDecimalValidatorAttribute>()
-                    .FirstOrDefault();
-
-                if (decimalAttribute != null)
-                {
-                    AttachDecimalValidatorToSheet(decimalAttribute, validationRange);
-                    continue;
+                    case ExcelListValidatorAttribute listAttribute:
+                        AddListValidator(validationRange,
+                                         literalListValidatorFormulae[column],
+                                         listAttribute.AllowBlank,
+                                         listAttribute.ShowInputMessage,
+                                         listAttribute.ShowErrorMessage);
+                        break;
+                    case ExcelListFormulaValidatorAttribute listFormulaAttribute:
+                        AddListValidator(validationRange,
+                                         listFormulaAttribute.Formula,
+                                         listFormulaAttribute.AllowBlank,
+                                         listFormulaAttribute.ShowInputMessage,
+                                         listFormulaAttribute.ShowErrorMessage);
+                        break;
+                    case ExcelIntegerValidatorAttribute integerAttribute:
+                        AttachIntegerValidatorToSheet(integerAttribute, validationRange);
+                        break;
+                    case ExcelDecimalValidatorAttribute decimalAttribute:
+                        AttachDecimalValidatorToSheet(decimalAttribute, validationRange);
+                        break;
+                    default:
+                        throw new NotSupportedException(string.Format(
+                            CultureInfo.InvariantCulture,
+                            "Excel validator attribute type '{0}' is not supported.",
+                            validatorAttribute.GetType().FullName ?? validatorAttribute.GetType().Name));
                 }
             }
         }

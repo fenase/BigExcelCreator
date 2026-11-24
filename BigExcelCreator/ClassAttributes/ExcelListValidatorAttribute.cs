@@ -47,7 +47,7 @@ namespace BigExcelCreator.ClassAttributes
     /// }
     /// </code>
     /// </remarks>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     [CLSCompliant(false)]
     public sealed partial class ExcelListValidatorAttribute : Attribute, IExcelValidatorAttribute
     {
