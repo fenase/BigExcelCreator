@@ -49,7 +49,7 @@ namespace BigExcelCreator.Test
         {
             return (cell.DataType?.ToString()) switch
             {
-                "s" => workbookPart.SharedStringTablePart!.SharedStringTable!.Elements<SharedStringItem>().ElementAt(int.Parse(cell.CellValue!.Text!)).Text!.Text,
+                "s" => workbookPart.SharedStringTablePart!.SharedStringTable!.Elements<SharedStringItem>().ElementAt(int.Parse(cell.CellValue!.Text)).Text!.Text,
                 "str" or _ => cell.CellValue!.Text,
             };
         }
@@ -69,7 +69,7 @@ namespace BigExcelCreator.Test
             Font bold = new(new Bold());
             Font boldItalic = new(new Bold(), new Italic());
             styleList.NewStyle(italic, null, null, null, "italic default");
-            styleList.NewStyle(bold, null, null, null, "bold default", out int boldStyleIndex);
+            styleList.NewStyle(bold, null, null, null, "bold default", out _);
             styleList.NewStyle(boldItalic, null, null, null, "bold italic default");
 
             Alignment center = new() { Horizontal = HorizontalAlignmentValues.Center };
