@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BigExcelCreator
+namespace BigExcelCreator.Helpers
 {
-    internal static class Helpers
+    internal static class ColumnHelper
     {
         //A simple helper to get the column name from the column index. This is not well tested!
         //Starts at 1

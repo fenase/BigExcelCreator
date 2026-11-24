@@ -49,7 +49,7 @@ namespace BigExcelCreator.Test
         {
             return (cell.DataType?.ToString()) switch
             {
-                "s" => workbookPart.SharedStringTablePart!.SharedStringTable.Elements<SharedStringItem>().ElementAt(int.Parse(cell.CellValue!.Text!)).Text!.Text,
+                "s" => workbookPart.SharedStringTablePart!.SharedStringTable!.Elements<SharedStringItem>().ElementAt(int.Parse(cell.CellValue!.Text!)).Text!.Text,
                 "str" or _ => cell.CellValue!.Text,
             };
         }

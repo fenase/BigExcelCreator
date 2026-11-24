@@ -1,13 +1,14 @@
 // Copyright (c) 2022-2026, Federico Seckel.
 // Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
 
+using BigExcelCreator.ClassAttributes.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace BigExcelCreator.ClassAttributes.Interfaces
+namespace BigExcelCreator.Helpers
 {
     internal static class ExcelValidatorAttributeHelper
     {

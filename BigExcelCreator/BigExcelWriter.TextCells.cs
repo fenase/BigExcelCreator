@@ -5,6 +5,7 @@
 
 using BigExcelCreator.Exceptions;
 using BigExcelCreator.Extensions;
+using BigExcelCreator.Helpers;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
@@ -57,7 +58,7 @@ namespace BigExcelCreator
                     attributes =
                     [
                         new OpenXmlAttribute("t", null, "s"),
-                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
+                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoParameterConcatenation, ColumnHelper.GetColumnName(columnNum), lastRowWritten)),
                         //styles
                         new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                     ];
@@ -74,7 +75,7 @@ namespace BigExcelCreator
                         // add data type attribute - in this case inline string (you might want to look at the shared strings table)
                         new OpenXmlAttribute("t", null, "str"),
                         //add the cell reference attribute
-                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
+                        new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoParameterConcatenation, ColumnHelper.GetColumnName(columnNum), lastRowWritten)),
                         //styles
                         new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                     ];

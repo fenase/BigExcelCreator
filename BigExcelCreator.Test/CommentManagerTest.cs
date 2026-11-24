@@ -35,6 +35,8 @@ namespace BigExcelCreator.Test
 
             using SpreadsheetDocument reader = SpreadsheetDocument.Open(memoryStream, false);
             WorksheetPart worksheetPart = reader.WorkbookPart!.WorksheetParts.First();
+            Assert.That(worksheetPart, Is.Not.Null);
+            Assert.That(worksheetPart.Worksheet, Is.Not.Null);
             Row row = GetRows(worksheetPart.Worksheet).First();
             IEnumerable<Cell> cells = GetCells(row);
             Assert.Multiple(() =>
@@ -46,9 +48,9 @@ namespace BigExcelCreator.Test
                 var worksheetCommentsPart = worksheetPart.WorksheetCommentsPart;
                 Assert.That(worksheetCommentsPart, Is.Not.Null);
                 Assert.That(worksheetCommentsPart!.Comments, Is.Not.Null);
-                Assert.That(worksheetCommentsPart!.Comments.CommentList, Is.Not.Null);
-                Assert.That(worksheetCommentsPart!.Comments.CommentList!.Count(), Is.EqualTo(2));
-                Assert.That(worksheetCommentsPart!.Comments.CommentList!.ElementAt(0), Is.Not.Null);
+                Assert.That(worksheetCommentsPart.Comments!.CommentList, Is.Not.Null);
+                Assert.That(worksheetCommentsPart.Comments.CommentList!.Count(), Is.EqualTo(2));
+                Assert.That(worksheetCommentsPart.Comments.CommentList!.ElementAt(0), Is.Not.Null);
                 Assert.That(((Comment)worksheetCommentsPart!.Comments.CommentList!.ElementAt(0)).Reference, Is.Not.Null);
                 Assert.That(((Comment)worksheetCommentsPart!.Comments.CommentList!.ElementAt(0)).Reference!.Value, Is.EqualTo("A1"));
                 Assert.That(((Comment)worksheetCommentsPart!.Comments.CommentList!.ElementAt(0)).CommentText, Is.Not.Null);

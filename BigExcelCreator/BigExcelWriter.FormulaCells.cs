@@ -5,6 +5,7 @@
 
 using BigExcelCreator.Exceptions;
 using BigExcelCreator.Extensions;
+using BigExcelCreator.Helpers;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
@@ -37,7 +38,7 @@ namespace BigExcelCreator
                 List<OpenXmlAttribute> attributes =
                 [
                     //add the cell reference attribute
-                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoParameterConcatenation, Helpers.GetColumnName(columnNum), lastRowWritten)),
+                    new OpenXmlAttribute("r", "", string.Format(CultureInfo.InvariantCulture, ConstantsAndTexts.TwoParameterConcatenation, ColumnHelper.GetColumnName(columnNum), lastRowWritten)),
                     //styles
                     new OpenXmlAttribute("s", null, format.ToString(CultureInfo.InvariantCulture))
                 ];

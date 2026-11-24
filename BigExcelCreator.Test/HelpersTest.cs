@@ -1,5 +1,6 @@
 ﻿using BigExcelCreator.Enums;
 using BigExcelCreator.Extensions;
+using BigExcelCreator.Helpers;
 using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace BigExcelCreator.Test
@@ -18,10 +19,10 @@ namespace BigExcelCreator.Test
         {
             Assert.Multiple(() =>
             {
-                Assert.That(Helpers.GetColumnName(1), Is.EqualTo("A"));
-                Assert.That(Helpers.GetColumnName(2), Is.EqualTo("B"));
-                Assert.That(Helpers.GetColumnName(26), Is.EqualTo("Z"));
-                Assert.That(Helpers.GetColumnName(27), Is.EqualTo("AA"));
+                Assert.That(ColumnHelper.GetColumnName(1), Is.EqualTo("A"));
+                Assert.That(ColumnHelper.GetColumnName(2), Is.EqualTo("B"));
+                Assert.That(ColumnHelper.GetColumnName(26), Is.EqualTo("Z"));
+                Assert.That(ColumnHelper.GetColumnName(27), Is.EqualTo("AA"));
             });
         }
 
@@ -30,10 +31,10 @@ namespace BigExcelCreator.Test
         {
             Assert.Multiple(() =>
             {
-                Assert.That(Helpers.GetColumnIndex("A"), Is.EqualTo(1));
-                Assert.That(Helpers.GetColumnIndex("B"), Is.EqualTo(2));
-                Assert.That(Helpers.GetColumnIndex("Z"), Is.EqualTo(26));
-                Assert.That(Helpers.GetColumnIndex("AA"), Is.EqualTo(27));
+                Assert.That(ColumnHelper.GetColumnIndex("A"), Is.EqualTo(1));
+                Assert.That(ColumnHelper.GetColumnIndex("B"), Is.EqualTo(2));
+                Assert.That(ColumnHelper.GetColumnIndex("Z"), Is.EqualTo(26));
+                Assert.That(ColumnHelper.GetColumnIndex("AA"), Is.EqualTo(27));
             });
         }
 
@@ -42,7 +43,7 @@ namespace BigExcelCreator.Test
         {
             for (int i = 1; i <= 16384; i++)
             {
-                Assert.That(Helpers.GetColumnIndex(Helpers.GetColumnName(i)), Is.EqualTo(i));
+                Assert.That(ColumnHelper.GetColumnIndex(ColumnHelper.GetColumnName(i)), Is.EqualTo(i));
             }
         }
 

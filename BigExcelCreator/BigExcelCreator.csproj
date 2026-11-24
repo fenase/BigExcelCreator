@@ -107,18 +107,10 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 
 	<ItemGroup>
 		<!-- Build the analyzer once and enforce build ordering. -->
-		<ProjectReference
-			Include="$(AnalyzerProjectPath)"
-			ReferenceOutputAssembly="false"
-			SkipGetTargetFrameworkProperties="true"
-			Condition="'$(TargetFramework)' == '$(AnalyzerTargetFramework)'" />
+		<ProjectReference Include="$(AnalyzerProjectPath)" ReferenceOutputAssembly="false" SkipGetTargetFrameworkProperties="true" Condition="'$(TargetFramework)' == '$(AnalyzerTargetFramework)'" />
 
 		<!-- Include one analyzer assembly in the NuGet package. -->
-		<None
-			Include="$(AnalyzerAssemblyPath)"
-			Pack="true"
-			PackagePath="analyzers/dotnet/cs"
-			Visible="false" />
+		<None Include="$(AnalyzerAssemblyPath)" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
 
 </Project>

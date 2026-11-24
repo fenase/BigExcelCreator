@@ -4,6 +4,7 @@
 // Ignore Spelling: sheetname
 
 using BigExcelCreator.Extensions;
+using BigExcelCreator.Helpers;
 using System;
 using System.Globalization;
 using System.Text;
@@ -57,7 +58,7 @@ namespace BigExcelCreator.Ranges
         private void RangeStringColAndRowPart(StringBuilder sb)
         {
             if (StartingColumnIsFixed) { _ = sb.Append('$'); }
-            if (StartingColumn != null) { _ = sb.Append(Helpers.GetColumnName(StartingColumn)); }
+            if (StartingColumn != null) { _ = sb.Append(ColumnHelper.GetColumnName(StartingColumn)); }
 
             if (StartingRowIsFixed) { _ = sb.Append('$'); }
             if (StartingRow != null) { _ = sb.Append(StartingRow); }
@@ -67,7 +68,7 @@ namespace BigExcelCreator.Ranges
                 _ = sb.Append(':');
 
                 if (EndingColumnIsFixed) { _ = sb.Append('$'); }
-                if (EndingColumn != null) { _ = sb.Append(Helpers.GetColumnName(EndingColumn)); }
+                if (EndingColumn != null) { _ = sb.Append(ColumnHelper.GetColumnName(EndingColumn)); }
 
                 if (EndingRowIsFixed) { _ = sb.Append('$'); }
                 if (EndingRow != null) { _ = sb.Append(EndingRow); }
@@ -361,17 +362,17 @@ namespace BigExcelCreator.Ranges
             if ((StartRangeType & RangeTypes.RowInfinite) == 0)
             {
 #if NET6_0_OR_GREATER
-                StartingColumn = Helpers.GetColumnIndex(rangeArray[RANGE_START][..^numbers1]);
+                StartingColumn = ColumnHelper.GetColumnIndex(rangeArray[RANGE_START][..^numbers1]);
 #else
-                StartingColumn = Helpers.GetColumnIndex(rangeArray[RANGE_START].Substring(0, rangeArray[RANGE_START].Length - numbers1));
+                StartingColumn = ColumnHelper.GetColumnIndex(rangeArray[RANGE_START].Substring(0, rangeArray[RANGE_START].Length - numbers1));
 #endif
             }
             if ((EndRangeType & RangeTypes.RowInfinite) == 0)
             {
 #if NET6_0_OR_GREATER
-                EndingColumn = Helpers.GetColumnIndex(rangeArray[RANGE_END][..^numbers2]);
+                EndingColumn = ColumnHelper.GetColumnIndex(rangeArray[RANGE_END][..^numbers2]);
 #else
-                EndingColumn = Helpers.GetColumnIndex(rangeArray[RANGE_END].Substring(0, rangeArray[RANGE_END].Length - numbers2));
+                EndingColumn = ColumnHelper.GetColumnIndex(rangeArray[RANGE_END].Substring(0, rangeArray[RANGE_END].Length - numbers2));
 #endif
             }
         }

@@ -5,6 +5,7 @@
 
 using BigExcelCreator.Enums;
 using BigExcelCreator.Exceptions;
+using BigExcelCreator.Helpers;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -146,7 +147,7 @@ namespace BigExcelCreator
             });
 
             currentSheetName = "";
-            workSheetPart.Worksheet.SheetDimension = new SheetDimension() { Reference = $"A1:{Helpers.GetColumnName(maxColumnNum)}{Math.Max(1, lastRowWritten)}" };
+            workSheetPart.Worksheet.SheetDimension = new SheetDimension() { Reference = $"A1:{ColumnHelper.GetColumnName(maxColumnNum)}{Math.Max(1, lastRowWritten)}" };
 
             WritePageConfig(workSheetPart.Worksheet);
 

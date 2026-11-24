@@ -8,6 +8,7 @@ using BigExcelCreator.ClassAttributes.Interfaces;
 using BigExcelCreator.Enums;
 using BigExcelCreator.Exceptions;
 using BigExcelCreator.Extensions;
+using BigExcelCreator.Helpers;
 using BigExcelCreator.Ranges;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
