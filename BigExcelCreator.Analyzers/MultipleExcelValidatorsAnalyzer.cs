@@ -14,34 +14,95 @@ namespace BigExcelCreator.Analyzers
     public sealed class MultipleExcelValidatorsAnalyzer : DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-            ImmutableArray.Create(DiagnosticDescriptors.MultipleExcelValidators);
+            [DiagnosticDescriptors.MultipleExcelValidators];
 
         public override void Initialize(AnalysisContext context)
         {
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.EnableConcurrentExecution();
-            context.RegisterSymbolAction(AnalyzeProperty, SymbolKind.Property);
+
+            context.RegisterCompilationStartAction(compilationContext =>
+            {
+                INamedTypeSymbol? validatorInterface =
+                    compilationContext.Compilation.GetTypeByMetadataName(
+                        KnownTypeNames.ExcelValidatorAttributeInterface);
+
+                if (validatorInterface is null)
+                {
+                    return;
+                }
+
+                compilationContext.RegisterSymbolAction(
+                    symbolContext => AnalyzeProperty(
+                        symbolContext,
+                        validatorInterface),
+                    SymbolKind.Property);
+            });
         }
 
-        private static void AnalyzeProperty(SymbolAnalysisContext context)
+        private static void AnalyzeProperty(
+            SymbolAnalysisContext context,
+            INamedTypeSymbol validatorInterface)
         {
             CancellationToken cancellationToken = context.CancellationToken;
+
             if (context.Symbol is not IPropertySymbol property)
             {
                 return;
             }
 
-            INamedTypeSymbol? validatorInterface = context.Compilation.GetTypeByMetadataName(
-                KnownTypeNames.ExcelValidatorAttributeInterface);
-            if (validatorInterface is null)
+            List<AttributeData> directValidators = GetValidators(
+                property,
+                validatorInterface,
+                cancellationToken);
+
+            int inheritedValidatorCount = 0;
+
+            for (IPropertySymbol? baseProperty = property.OverriddenProperty;
+                 baseProperty is not null;
+                 baseProperty = baseProperty.OverriddenProperty)
             {
+                inheritedValidatorCount += GetValidators(
+                    baseProperty,
+                    validatorInterface,
+                    cancellationToken).Count;
+            }
+
+            if (inheritedValidatorCount == 0)
+            {
+                for (int index = 1; index < directValidators.Count; index++)
+                {
+                    ReportDiagnostic(
+                        context,
+                        property,
+                        directValidators[index],
+                        cancellationToken);
+                }
+
                 return;
             }
 
+            foreach (AttributeData directValidator in directValidators)
+            {
+                ReportDiagnostic(
+                    context,
+                    property,
+                    directValidator,
+                    cancellationToken);
+            }
+        }
+
+        private static List<AttributeData> GetValidators(
+            IPropertySymbol property,
+            INamedTypeSymbol validatorInterface,
+            CancellationToken cancellationToken)
+        {
             List<AttributeData> validators = [];
+
             foreach (AttributeData attribute in property.GetAttributes())
             {
                 cancellationToken.ThrowIfCancellationRequested();
+
                 if (attribute.AttributeClass is INamedTypeSymbol attributeType &&
                     attributeType.ImplementsInterface(validatorInterface))
                 {
@@ -49,17 +110,27 @@ namespace BigExcelCreator.Analyzers
                 }
             }
 
-            for (int index = 1; index < validators.Count; index++)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                Location location = validators[index].ApplicationSyntaxReference?
+            return validators;
+        }
+
+        private static void ReportDiagnostic(
+            SymbolAnalysisContext context,
+            IPropertySymbol property,
+            AttributeData validator,
+            CancellationToken cancellationToken)
+        {
+            Location location =
+                validator.ApplicationSyntaxReference?
                     .GetSyntax(cancellationToken)
-                    .GetLocation() ?? property.Locations.FirstOrDefault() ?? Location.None;
-                context.ReportDiagnostic(Diagnostic.Create(
+                    .GetLocation()
+                ?? property.Locations.FirstOrDefault()
+                ?? Location.None;
+
+            context.ReportDiagnostic(
+                Diagnostic.Create(
                     DiagnosticDescriptors.MultipleExcelValidators,
                     location,
                     property.Name));
-            }
         }
     }
 }

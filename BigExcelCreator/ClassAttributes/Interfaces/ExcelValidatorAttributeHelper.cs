@@ -19,24 +19,31 @@ namespace BigExcelCreator.ClassAttributes.Interfaces
 
             foreach (PropertyInfo property in properties)
             {
-                IExcelValidatorAttribute[] attributes = [.. Attribute
-                    .GetCustomAttributes(
-                        property,
-                        typeof(IExcelValidatorAttribute),
-                        true)
-                    .Cast<IExcelValidatorAttribute>()];
+                IExcelValidatorAttribute[] attributes =
+                [
+                    .. Attribute
+                        .GetCustomAttributes(property, true)
+                        .OfType<IExcelValidatorAttribute>()
+                ];
 
                 if (attributes.Length > 1)
                 {
                     string conflictingTypes = string.Join(
                         ", ",
-                        [.. attributes.Select(attribute => attribute.GetType().FullName ?? attribute.GetType().Name)]);
-                    throw new InvalidOperationException(string.Format(
-                        CultureInfo.InvariantCulture,
-                        "Model type '{0}', property '{1}' has multiple Excel validators: {2}. Only one validator is allowed per generated Excel column.",
-                        modelType.FullName ?? modelType.Name,
-                        property.Name,
-                        conflictingTypes));
+                        [
+                            .. attributes.Select(
+                                attribute =>
+                                    attribute.GetType().FullName ??
+                                    attribute.GetType().Name)
+                        ]);
+
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            "Model type '{0}', property '{1}' has multiple Excel validators: {2}. Only one validator is allowed per generated Excel column.",
+                            modelType.FullName ?? modelType.Name,
+                            property.Name,
+                            conflictingTypes));
                 }
 
                 if (attributes.Length == 1)
