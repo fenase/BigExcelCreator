@@ -27,12 +27,11 @@ namespace BigExcelCreator.Test
                 .OfType<Sheet>()
                 .Single(sheet => sheet.Name?.Value == "Operators");
             WorksheetPart targetPart = (WorksheetPart)workbookPart.GetPartById(targetSheet.Id!.Value!);
-            DataValidation[] validations = targetPart.Worksheet!.ChildElements
+            DataValidation[] validations = [.. targetPart.Worksheet!.ChildElements
                 .OfType<DataValidations>()
                 .Single()
                 .ChildElements
-                .OfType<DataValidation>()
-                .ToArray();
+                .OfType<DataValidation>()];
 
             DataValidationOperatorValues[] expectedOperators =
             [
@@ -90,12 +89,11 @@ namespace BigExcelCreator.Test
             Sheet[] sheets = workbookPart.Workbook!.Sheets!.ChildElements.OfType<Sheet>().ToArray();
             Sheet targetSheet = sheets.Single(sheet => sheet.Name?.Value == "Lists");
             WorksheetPart targetPart = (WorksheetPart)workbookPart.GetPartById(targetSheet.Id!.Value!);
-            DataValidation[] validations = targetPart.Worksheet!.ChildElements
+            DataValidation[] validations = [.. targetPart.Worksheet!.ChildElements
                 .OfType<DataValidations>()
                 .Single()
                 .ChildElements
-                .OfType<DataValidation>()
-                .ToArray();
+                .OfType<DataValidation>()];
 
             Assert.Multiple(() =>
             {
@@ -114,8 +112,8 @@ namespace BigExcelCreator.Test
                 Assert.That(validations[3].ShowErrorMessage!.Value, Is.True);
             });
 
-            string[] literalValues = GetListValues(workbookPart, validations[0].Formula1!.Text!);
-            string[] emptyLiteralValues = GetListValues(workbookPart, validations[1].Formula1!.Text!);
+            string[] literalValues = GetListValues(workbookPart, validations[0].Formula1!.Text);
+            string[] emptyLiteralValues = GetListValues(workbookPart, validations[1].Formula1!.Text);
 
             Assert.Multiple(() =>
             {
@@ -140,9 +138,7 @@ namespace BigExcelCreator.Test
                 .Single(sheet => sheet.Name?.Value == "EnumText");
             WorksheetPart targetPart = (WorksheetPart)workbookPart.GetPartById(targetSheet.Id!.Value!);
             Row[] rows = targetPart.Worksheet!.GetFirstChild<SheetData>()!.Elements<Row>().ToArray();
-            string[] values = rows[1].Elements<Cell>()
-                .Select(cell => TestHelperMethods.GetCellRealValue(cell, workbookPart))
-                .ToArray();
+            string[] values = [.. rows[1].Elements<Cell>().Select(cell => TestHelperMethods.GetCellRealValue(cell, workbookPart))];
 
             Assert.That(values, Is.EqualTo(new[] { "Yes", "Pending" }));
         }
@@ -184,24 +180,24 @@ namespace BigExcelCreator.Test
         [Test]
         public void ExcelListValidatorEnumConstructorResolvesDisplayNamesAndFlags()
         {
-            ExcelListValidatorAttribute defaultAttribute = new ExcelListValidatorAttribute(typeof(ListValidatorTestEnum));
-            ExcelListValidatorAttribute rawAttribute = new ExcelListValidatorAttribute(typeof(ListValidatorTestEnum), false);
-            ExcelListValidatorAttribute configuredAttribute = new ExcelListValidatorAttribute(false, false, false, typeof(ListValidatorTestEnum), false);
+            ExcelListValidatorAttribute defaultAttribute = new ExcelListValidatorAttribute(typeof(ListValidatorEnumTest));
+            ExcelListValidatorAttribute rawAttribute = new ExcelListValidatorAttribute(typeof(ListValidatorEnumTest), false);
+            ExcelListValidatorAttribute configuredAttribute = new ExcelListValidatorAttribute(false, false, false, typeof(ListValidatorEnumTest), false);
 
-            string[] expectedValues = new[] { "Yes", "No", "Pending" };
+            string[] expectedValues = ["Yes", "No", "Pending"];
 
             Assert.Multiple(() =>
             {
-                Assert.That(defaultAttribute.EnumType, Is.EqualTo(typeof(ListValidatorTestEnum)));
+                Assert.That(defaultAttribute.EnumType, Is.EqualTo(typeof(ListValidatorEnumTest)));
                 Assert.That(defaultAttribute.UseDisplayName, Is.True);
                 Assert.That(defaultAttribute.Values, Is.EqualTo(expectedValues));
-                Assert.That(rawAttribute.EnumType, Is.EqualTo(typeof(ListValidatorTestEnum)));
+                Assert.That(rawAttribute.EnumType, Is.EqualTo(typeof(ListValidatorEnumTest)));
                 Assert.That(rawAttribute.UseDisplayName, Is.False);
                 Assert.That(rawAttribute.Values, Is.EqualTo(expectedValues));
                 Assert.That(defaultAttribute.AllowBlank, Is.True);
                 Assert.That(defaultAttribute.ShowInputMessage, Is.True);
                 Assert.That(defaultAttribute.ShowErrorMessage, Is.True);
-                Assert.That(configuredAttribute.EnumType, Is.EqualTo(typeof(ListValidatorTestEnum)));
+                Assert.That(configuredAttribute.EnumType, Is.EqualTo(typeof(ListValidatorEnumTest)));
                 Assert.That(configuredAttribute.UseDisplayName, Is.False);
                 Assert.That(configuredAttribute.Values, Is.EqualTo(expectedValues));
                 Assert.That(configuredAttribute.AllowBlank, Is.False);
@@ -260,7 +256,7 @@ namespace BigExcelCreator.Test
         {
             ExcelListValidatorAttribute attribute = new ExcelListValidatorAttribute(typeof(ListValidatorSource), memberName);
 
-            string[] expectedValues = new[] { "Yes", "No", "Pending" };
+            string[] expectedValues = ["Yes", "No", "Pending"];
 
             Assert.Multiple(() =>
             {
@@ -390,7 +386,7 @@ namespace BigExcelCreator.Test
             public string ConfiguredFormulaList { get; set; } = string.Empty;
         }
 
-        internal enum ListValidatorTestEnum
+        internal enum ListValidatorEnumTest
         {
             Yes,
 
@@ -399,13 +395,20 @@ namespace BigExcelCreator.Test
             Pending
         }
 
+#pragma warning disable S1144
+#pragma warning disable S1118
         private sealed class ListValidatorSource
+#pragma warning restore S1118
         {
+
+            public static int[] IntegerArrayField = [1, 2, 3];
+            private static readonly string[] sourceArray = ["Engineering", "Finance", "Engineering"];
+
             public static IEnumerable<string> PublicProperty
             {
                 get
                 {
-                    return new[] { "Engineering", "Finance", "Engineering" }.Distinct();
+                    return sourceArray.Distinct();
                 }
             }
 
@@ -413,29 +416,29 @@ namespace BigExcelCreator.Test
             {
                 get
                 {
-                    return new[] { "Engineering", "Finance", "Engineering" }.Distinct();
+                    return sourceArray.Distinct();
                 }
             }
 
-            public static IEnumerable<string> PublicField = new[] { "Engineering", "Finance", "Engineering" }.Distinct();
+            public static IEnumerable<string> PublicField = sourceArray.Distinct();
 
-            internal static IEnumerable<string> InternalField = new[] { "Engineering", "Finance", "Engineering" }.Distinct();
+            internal static IEnumerable<string> InternalField = sourceArray.Distinct();
 
             public static IEnumerable<string> PublicMethod()
             {
-                return new[] { "Engineering", "Finance", "Engineering" }.Distinct();
+                return sourceArray.Distinct();
             }
 
             internal static IEnumerable<string> InternalMethod()
             {
-                return new[] { "Engineering", "Finance", "Engineering" }.Distinct();
+                return sourceArray.Distinct();
             }
 
             public static IEnumerable<Enum> PublicEnumProperty
             {
                 get
                 {
-                    return new Enum[] { ListValidatorTestEnum.Yes, ListValidatorTestEnum.No, ListValidatorTestEnum.Pending };
+                    return [ListValidatorEnumTest.Yes, ListValidatorEnumTest.No, ListValidatorEnumTest.Pending];
                 }
             }
 
@@ -443,16 +446,16 @@ namespace BigExcelCreator.Test
             {
                 get
                 {
-                    return new Enum[] { ListValidatorTestEnum.Yes, ListValidatorTestEnum.No, ListValidatorTestEnum.Pending };
+                    return [ListValidatorEnumTest.Yes, ListValidatorEnumTest.No, ListValidatorEnumTest.Pending];
                 }
             }
 
             public static IEnumerable<Enum> PublicEnumMethod()
             {
-                return new Enum[] { ListValidatorTestEnum.Yes, ListValidatorTestEnum.No, ListValidatorTestEnum.Pending };
+                return [ListValidatorEnumTest.Yes, ListValidatorEnumTest.No, ListValidatorEnumTest.Pending];
             }
 
-            internal static IEnumerable<Enum> InternalEnumField = new Enum[] { ListValidatorTestEnum.Yes, ListValidatorTestEnum.No, ListValidatorTestEnum.Pending };
+            internal static IEnumerable<Enum> InternalEnumField = [ListValidatorEnumTest.Yes, ListValidatorEnumTest.No, ListValidatorEnumTest.Pending];
 
             public static IEnumerable<string> NullProperty
             {
@@ -469,8 +472,6 @@ namespace BigExcelCreator.Test
                     return "Engineering";
                 }
             }
-
-            public static int[] IntegerArrayField = new[] { 1, 2, 3 };
         }
 
         private enum EnumTextValue
@@ -499,5 +500,6 @@ namespace BigExcelCreator.Test
             [ExcelListFormulaValidator("AvailableValues")]
             public string Value { get; set; } = string.Empty;
         }
+#pragma warning restore S1144
     }
 }

@@ -58,7 +58,7 @@ namespace BigExcelCreator.Extensions
                 return value;
             }
 
-            return value.Remove(maximumLength);
+            return value[..maximumLength];
         }
     }
 }

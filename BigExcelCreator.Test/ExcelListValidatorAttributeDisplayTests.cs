@@ -3,49 +3,52 @@
 
 #if NET48_OR_GREATER || NET6_0_OR_GREATER || NET8_0_OR_GREATER || NET10_0_OR_GREATER
 using BigExcelCreator.ClassAttributes;
+using BigExcelCreator.Enums;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
-using BigExcelCreator.Enums;
 
 namespace BigExcelCreator.Test
 {
     [TestFixture]
     internal sealed class ExcelListValidatorAttributeDisplayTests
     {
+        internal static readonly string[] expectedWhenUseDisplayName = ["Yes, eligible", "No, not eligible", "Pending"];
+        internal static readonly string[] expectedWhenUseDisplayNameIsFalse = ["Yes", "No", "Pending"];
+
         [Test]
         public void EnumConstructorResolvesDisplayNamesAndFallbacks()
         {
-            ExcelListValidatorAttribute attribute = new ExcelListValidatorAttribute(typeof(DisplayTestEnum));
-            ExcelListValidatorAttribute rawAttribute = new ExcelListValidatorAttribute(typeof(DisplayTestEnum), false);
+            ExcelListValidatorAttribute attribute = new(typeof(DisplayTestEnumExample));
+            ExcelListValidatorAttribute rawAttribute = new(typeof(DisplayTestEnumExample), false);
 
             Assert.Multiple(() =>
             {
-                Assert.That(attribute.EnumType, Is.EqualTo(typeof(DisplayTestEnum)));
+                Assert.That(attribute.EnumType, Is.EqualTo(typeof(DisplayTestEnumExample)));
                 Assert.That(attribute.UseDisplayName, Is.True);
-                Assert.That(attribute.Values, Is.EqualTo(new[] { "Yes, eligible", "No, not eligible", "Pending" }));
-                Assert.That(rawAttribute.EnumType, Is.EqualTo(typeof(DisplayTestEnum)));
+                Assert.That(attribute.Values, Is.EqualTo(expectedWhenUseDisplayName));
+                Assert.That(rawAttribute.EnumType, Is.EqualTo(typeof(DisplayTestEnumExample)));
                 Assert.That(rawAttribute.UseDisplayName, Is.False);
-                Assert.That(rawAttribute.Values, Is.EqualTo(new[] { "Yes", "No", "Pending" }));
+                Assert.That(rawAttribute.Values, Is.EqualTo(expectedWhenUseDisplayNameIsFalse));
             });
         }
 
         [Test]
         public void EnumConstructorWithDisplayOptionsUsesResolvedNamesAndFlags()
         {
-            ExcelListValidatorAttribute attribute = new ExcelListValidatorAttribute(false, false, false, typeof(DisplayTestEnum));
-            ExcelListValidatorAttribute rawAttribute = new ExcelListValidatorAttribute(false, false, false, typeof(DisplayTestEnum), false);
+            ExcelListValidatorAttribute attribute = new(false, false, false, typeof(DisplayTestEnumExample));
+            ExcelListValidatorAttribute rawAttribute = new(false, false, false, typeof(DisplayTestEnumExample), false);
 
             Assert.Multiple(() =>
             {
-                Assert.That(attribute.EnumType, Is.EqualTo(typeof(DisplayTestEnum)));
+                Assert.That(attribute.EnumType, Is.EqualTo(typeof(DisplayTestEnumExample)));
                 Assert.That(attribute.UseDisplayName, Is.True);
-                Assert.That(attribute.Values, Is.EqualTo(new[] { "Yes, eligible", "No, not eligible", "Pending" }));
-                Assert.That(rawAttribute.EnumType, Is.EqualTo(typeof(DisplayTestEnum)));
+                Assert.That(attribute.Values, Is.EqualTo(expectedWhenUseDisplayName));
+                Assert.That(rawAttribute.EnumType, Is.EqualTo(typeof(DisplayTestEnumExample)));
                 Assert.That(rawAttribute.UseDisplayName, Is.False);
-                Assert.That(rawAttribute.Values, Is.EqualTo(new[] { "Yes", "No", "Pending" }));
+                Assert.That(rawAttribute.Values, Is.EqualTo(expectedWhenUseDisplayNameIsFalse));
                 Assert.That(attribute.AllowBlank, Is.False);
                 Assert.That(attribute.ShowInputMessage, Is.False);
                 Assert.That(attribute.ShowErrorMessage, Is.False);
@@ -55,8 +58,8 @@ namespace BigExcelCreator.Test
         [Test]
         public void CreateSheetFromObjectWritesEnumTextDisplayNames()
         {
-            MemoryStream stream = new MemoryStream();
-            using (BigExcelWriter writer = new BigExcelWriter(stream))
+            MemoryStream stream = new();
+            using (BigExcelWriter writer = new(stream))
             {
                 writer.CreateSheetFromObject([new EnumTextModel()], "EnumTextDisplay");
             }
@@ -67,32 +70,30 @@ namespace BigExcelCreator.Test
                 .OfType<Sheet>()
                 .Single(sheet => sheet.Name?.Value == "EnumTextDisplay");
             WorksheetPart targetPart = (WorksheetPart)workbookPart.GetPartById(targetSheet.Id!.Value!);
-            Row[] rows = targetPart.Worksheet!.GetFirstChild<SheetData>()!.Elements<Row>().ToArray();
-            string[] values = rows[1].Elements<Cell>()
-                .Select(cell => TestHelperMethods.GetCellRealValue(cell, workbookPart))
-                .ToArray();
+            Row[] rows = [.. targetPart.Worksheet!.GetFirstChild<SheetData>()!.Elements<Row>()];
+            string[] values = [.. rows[1].Elements<Cell>().Select(cell => TestHelperMethods.GetCellRealValue(cell, workbookPart))];
 
-            Assert.That(values, Is.EqualTo(new[] { "Yes, eligible", "No, not eligible", "Pending" }));
+            Assert.That(values, Is.EqualTo(expectedWhenUseDisplayName));
         }
 
         [Test]
         public void MemberConstructorResolvesEnumDisplayNames()
         {
-            ExcelListValidatorAttribute attribute = new ExcelListValidatorAttribute(typeof(DisplaySource), nameof(DisplaySource.Values));
-            ExcelListValidatorAttribute rawAttribute = new ExcelListValidatorAttribute(typeof(DisplaySource), nameof(DisplaySource.Values), false);
+            ExcelListValidatorAttribute attribute = new(typeof(DisplaySource), nameof(DisplaySource.Values));
+            ExcelListValidatorAttribute rawAttribute = new(typeof(DisplaySource), nameof(DisplaySource.Values), false);
 
             Assert.Multiple(() =>
             {
                 Assert.That(attribute.SourceType, Is.EqualTo(typeof(DisplaySource)));
                 Assert.That(attribute.MemberName, Is.EqualTo(nameof(DisplaySource.Values)));
                 Assert.That(attribute.UseDisplayName, Is.True);
-                Assert.That(attribute.Values, Is.EqualTo(new[] { "Yes, eligible", "No, not eligible", "Pending" }));
+                Assert.That(attribute.Values, Is.EqualTo(expectedWhenUseDisplayName));
                 Assert.That(rawAttribute.UseDisplayName, Is.False);
-                Assert.That(rawAttribute.Values, Is.EqualTo(new[] { "Yes", "No", "Pending" }));
+                Assert.That(rawAttribute.Values, Is.EqualTo(expectedWhenUseDisplayNameIsFalse));
             });
         }
 
-        private enum DisplayTestEnum
+        private enum DisplayTestEnumExample
         {
             [Display(Name = "Yes, eligible")]
             Yes,
@@ -106,13 +107,13 @@ namespace BigExcelCreator.Test
         private sealed class EnumTextModel
         {
             [ExcelColumnType(CellDataType.EnumText)]
-            public DisplayTestEnum Display { get; set; } = DisplayTestEnum.Yes;
+            public DisplayTestEnumExample Display { get; set; } = DisplayTestEnumExample.Yes;
 
             [ExcelColumnType(CellDataType.EnumText)]
-            public DisplayTestEnum NotEligible { get; set; } = DisplayTestEnum.No;
+            public DisplayTestEnumExample NotEligible { get; set; } = DisplayTestEnumExample.No;
 
             [ExcelColumnType(CellDataType.EnumText)]
-            public DisplayTestEnum PendingValue { get; set; } = DisplayTestEnum.Pending;
+            public DisplayTestEnumExample PendingValue { get; set; } = DisplayTestEnumExample.Pending;
         }
 
         private static class DisplaySource
@@ -121,7 +122,7 @@ namespace BigExcelCreator.Test
             {
                 get
                 {
-                    return new Enum[] { DisplayTestEnum.Yes, DisplayTestEnum.No, DisplayTestEnum.Pending };
+                    return [DisplayTestEnumExample.Yes, DisplayTestEnumExample.No, DisplayTestEnumExample.Pending];
                 }
             }
         }

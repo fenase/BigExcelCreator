@@ -221,20 +221,12 @@ namespace BigExcelCreator.ClassAttributes
         /// <exception cref="InvalidOperationException">Thrown when the resolved member returns <c>null</c> or an incompatible type.</exception>
         public ExcelListValidatorAttribute(bool allowBlank, bool showInputMessage, bool showErrorMessage, Type sourceType, string memberName, bool useDisplayName = true)
         {
-#if NET6_0_OR_GREATER
-            ArgumentNullException.ThrowIfNull(sourceType);
-#else
-            if (sourceType == null)
-            {
-                throw new ArgumentNullException(nameof(sourceType));
-            }
-#endif
             if (string.IsNullOrEmpty(memberName) || memberName.Trim().Length == 0)
             {
                 throw new ArgumentException("Member name cannot be null or whitespace.", nameof(memberName));
             }
 
-            SourceType = sourceType;
+            SourceType = sourceType ?? throw new ArgumentNullException(nameof(sourceType));
             MemberName = memberName;
             UseDisplayName = useDisplayName;
             Values = ResolveValuesFromMember(sourceType, memberName, useDisplayName);
