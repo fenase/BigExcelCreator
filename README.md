@@ -153,7 +153,7 @@ Validator attributes are applied to all data cells in their property column:
 
 Use `ValidatorOperator` from `BigExcelCreator.Enums` for comparison operations such as `GreaterThan`, `Between`, and `Equal`. For example, `[ExcelIntegerValidator(1, ValidatorOperator.Between, secondOperand: 10)]` limits a property to values from 1 through 10. Validator attributes support the same blank, input-message, and error-message options as the corresponding manual validator methods.
 
-Apply at most one validator attribute to each property. The NuGet package includes a compiler analyzer that reports multiple validators as `BIGEXCEL001`; runtime validation also throws an `InvalidOperationException` if multiple validators are found.
+Apply at most one validator attribute to each property. The NuGet package includes compiler analyzers for model configuration, validators, formulas, styles, and constant ranges. Multiple validators are reported as `BIGEXCEL0001`, and runtime validation also throws an `InvalidOperationException` if multiple validators are found. Duplicate column-order values produce a warning (`BIGEXCEL0002`); columns tied at the same order are sorted alphabetically by property name, which may differ from the intended layout. Range and sheet-name diagnostics can validate only compile-time constant strings; computed values remain subject to runtime validation.
 
 Available attributes for configuration:
 - `ExcelIgnore`: Exclude property from output

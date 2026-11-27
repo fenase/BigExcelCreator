@@ -1,7 +1,7 @@
 // Copyright (c) 2022-2026, Federico Seckel.
 // Licensed under the BSD 3-Clause License. See LICENSE file in the project root for full license information.
 
-using BigExcelCreator.Analyzers;
+using BigExcelCreator.Analyzers.Rules.PropertyConfiguration.MultipleExcelValidators;
 using BigExcelCreator.ClassAttributes;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -124,9 +124,9 @@ namespace BigExcelCreator.Analyzers.Tests
 
             Assert.Multiple(() =>
             {
-                Assert.That(diagnostic.Id, Is.EqualTo("BIGEXCEL001"));
+                Assert.That(diagnostic.Id, Is.EqualTo("BIGEXCEL0001"));
                 Assert.That(diagnostic.GetMessage(), Is.EqualTo(
-                    "Property 'Value' has multiple Excel validators; only one validator is allowed per generated Excel column."));
+                    "Property 'Value' has multiple Excel validators; the writer can apply only one rule per generated Excel column, so the resulting workbook would omit validations."));
                 Assert.That(diagnostic.Severity, Is.EqualTo(DiagnosticSeverity.Error));
                 Assert.That(diagnostic.Location.SourceSpan.Start, Is.EqualTo(expectedStart));
                 Assert.That(diagnostic.Location.SourceSpan.Length, Is.EqualTo(expectedLength));
@@ -148,7 +148,7 @@ namespace BigExcelCreator.Analyzers.Tests
         private static void AssertDiagnostic(ImmutableArray<Diagnostic> diagnostics, int expectedCount)
         {
             Assert.That(diagnostics.Length, Is.EqualTo(expectedCount));
-            Assert.That(diagnostics.Select(diagnostic => diagnostic.Id), Is.All.EqualTo("BIGEXCEL001"));
+            Assert.That(diagnostics.Select(diagnostic => diagnostic.Id), Is.All.EqualTo("BIGEXCEL0001"));
         }
 
         private static async Task<ImmutableArray<Diagnostic>> AnalyzeAsync(

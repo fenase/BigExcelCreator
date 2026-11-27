@@ -2086,6 +2086,37 @@ namespace BigExcelCreator.Test
             });
         }
 
+        [Test]
+        public void CreateSheetFromObjectOrdersTiedColumnsAlphabeticallyByPropertyName()
+        {
+            MemoryStream stream = new();
+            using (BigExcelWriter writer = new(stream))
+            {
+                writer.CreateSheetFromObject([new DuplicateOrderExampleModel()], "ordered");
+            }
+
+            using SpreadsheetDocument reader = SpreadsheetDocument.Open(stream, false);
+            WorkbookPart workbookPart = reader.WorkbookPart!;
+            Row[] rows = GetRows(workbookPart.WorksheetParts.First().Worksheet!).ToArray();
+            string[] headers = [.. GetCells(rows[0]).Select(cell => GetCellRealValue(cell, workbookPart))];
+            string[] values = [.. GetCells(rows[1]).Select(cell => GetCellRealValue(cell, workbookPart))];
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(headers, Is.EqualTo(new[] { "Alpha", "zebra" }));
+                Assert.That(values, Is.EqualTo(new[] { "alpha", "zebra" }));
+            });
+        }
+
+        private sealed class DuplicateOrderExampleModel
+        {
+            [ExcelColumnOrder(1)]
+            public string zebra { get; set; } = "zebra";
+
+            [ExcelColumnOrder(1)]
+            public string Alpha { get; set; } = "alpha";
+        }
+
         private sealed class ValidatorExampleModel
         {
             [ExcelColumnOrder(0)]

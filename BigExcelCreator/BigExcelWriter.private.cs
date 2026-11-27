@@ -254,7 +254,9 @@ namespace BigExcelCreator
                     .OrderBy(x => x.GetCustomAttributes(typeof(ExcelColumnOrderAttribute), false)
                             .Cast<ExcelColumnOrderAttribute>()
                         .FirstOrDefault()?
-                        .Order ?? int.MaxValue);
+                        .Order ?? int.MaxValue)
+                    .ThenBy(x => x.Name, StringComparer.OrdinalIgnoreCase)
+                    .ThenBy(x => x.Name, StringComparer.Ordinal);
         }
 
         private void WriteCellFromData(object cellData, CellDataType cellType, int format, bool useSharedStringsOnTextData)

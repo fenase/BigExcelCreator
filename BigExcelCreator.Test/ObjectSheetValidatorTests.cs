@@ -328,60 +328,78 @@ namespace BigExcelCreator.Test
 
         private sealed class AllValidatorsModel
         {
+            [ExcelColumnOrder(0)]
             [ExcelIntegerValidator(1, ValidatorOperator.Equal)]
             public int IntegerEqual { get; set; }
 
+            [ExcelColumnOrder(1)]
             [ExcelIntegerValidator(1U, ValidatorOperator.NotEqual)]
             public uint IntegerNotEqual { get; set; }
 
+            [ExcelColumnOrder(2)]
             [ExcelIntegerValidator(1L, ValidatorOperator.GreaterThan)]
             public long IntegerGreaterThan { get; set; }
 
+            [ExcelColumnOrder(3)]
             [ExcelIntegerValidator(1UL, ValidatorOperator.GreaterThanOrEqual)]
             public ulong IntegerGreaterThanOrEqual { get; set; }
 
+            [ExcelColumnOrder(4)]
             [ExcelIntegerValidator(1, ValidatorOperator.LessThan)]
             public int IntegerLessThan { get; set; }
 
+            [ExcelColumnOrder(5)]
             [ExcelIntegerValidator(1U, ValidatorOperator.LessThanOrEqual)]
             public uint IntegerLessThanOrEqual { get; set; }
 
+            [ExcelColumnOrder(6)]
             [ExcelIntegerValidator(1L, ValidatorOperator.Between, secondOperand: 10L)]
             public long IntegerBetween { get; set; }
 
+            [ExcelColumnOrder(7)]
             [ExcelIntegerValidator(2UL, ValidatorOperator.NotBetween, secondOperand: 20UL)]
             public ulong IntegerNotBetween { get; set; }
 
+            [ExcelColumnOrder(8)]
             [ExcelIntegerValidator(3, ValidatorOperator.Between, secondOperand: 11)]
             public int IntegerBetweenInt { get; set; }
 
+            [ExcelColumnOrder(9)]
             [ExcelIntegerValidator(4U, ValidatorOperator.Between, secondOperand: 12U)]
             public uint UnsignedIntegerBetween { get; set; }
 
+            [ExcelColumnOrder(10)]
             [ExcelDecimalValidator(0.5d, ValidatorOperator.Between, secondOperand: 5.5d)]
             public decimal DecimalBetween { get; set; }
 
+            [ExcelColumnOrder(11)]
             [ExcelDecimalValidator(1.25f, ValidatorOperator.LessThan)]
             public float FloatLessThan { get; set; }
 
+            [ExcelColumnOrder(12)]
             [ExcelDecimalValidator(2.5d, ValidatorOperator.GreaterThan)]
             public double DoubleGreaterThan { get; set; }
 
+            [ExcelColumnOrder(13)]
             [ExcelDecimalValidator(3.75f, ValidatorOperator.Between, secondOperand: 7.25f)]
             public float FloatBetween { get; set; }
         }
 
         private sealed class ListValidatorsModel
         {
+            [ExcelColumnOrder(0)]
             [ExcelListValidator("Alpha", null!)]
             public string LiteralList { get; set; } = string.Empty;
 
+            [ExcelColumnOrder(1)]
             [ExcelListValidator()]
             public string EmptyLiteralList { get; set; } = string.Empty;
 
+            [ExcelColumnOrder(2)]
             [ExcelListFormulaValidator("'Lookup'!$A$1:$A$4")]
             public string DefaultFormulaList { get; set; } = string.Empty;
 
+            [ExcelColumnOrder(3)]
             [ExcelListFormulaValidator("NamedCategories", false, false, true)]
             public string ConfiguredFormulaList { get; set; } = string.Empty;
         }

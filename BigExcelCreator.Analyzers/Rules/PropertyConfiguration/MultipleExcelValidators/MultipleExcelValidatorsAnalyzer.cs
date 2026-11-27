@@ -8,13 +8,13 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 
-namespace BigExcelCreator.Analyzers
+namespace BigExcelCreator.Analyzers.Rules.PropertyConfiguration.MultipleExcelValidators
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public sealed class MultipleExcelValidatorsAnalyzer : DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-            [DiagnosticDescriptors.MultipleExcelValidators];
+            [MultipleExcelValidatorsDiagnostic.Descriptor];
 
         public override void Initialize(AnalysisContext context)
         {
@@ -128,7 +128,7 @@ namespace BigExcelCreator.Analyzers
 
             context.ReportDiagnostic(
                 Diagnostic.Create(
-                    DiagnosticDescriptors.MultipleExcelValidators,
+                    MultipleExcelValidatorsDiagnostic.Descriptor,
                     location,
                     property.Name));
         }
