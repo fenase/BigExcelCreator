@@ -45,11 +45,17 @@ This is specially useful when trying to write tens of thousands of rows.</Descri
 			<CommitHour>$([System.DateTime]::new($(CommitTicks), System.DateTimeKind.Utc).ToString('HH'))</CommitHour>
 
 			<VersionPrefix Condition="'$(MajorMinorVersion)' != ''">$(MajorMinorVersion)</VersionPrefix>
-			<VersionSuffix>$(CommitYear).$(CommitDayOfYear)$(CommitHour)</VersionSuffix>
-			<Version>$(VersionPrefix).$(VersionSuffix)</Version>
+			<!-- Numeric 4-part base version for AssemblyVersion and FileVersion -->
+			<NumericVersion>$(VersionPrefix).$(CommitYear).$(CommitDayOfYear)$(CommitHour)</NumericVersion>
+
+			<!-- Append $(PrereleaseVersion) (e.g., "-alpha") for SemVer / NuGet -->
+			<Version>$(NumericVersion)$(PrereleaseVersion)</Version>
 			<PackageVersion>$(Version)</PackageVersion>
-			<AssemblyVersion>$(Version)</AssemblyVersion>
-			<FileVersion>$(Version)</FileVersion>
+
+			<!-- Keep AssemblyVersion and FileVersion strictly numeric -->
+			<AssemblyVersion>$(NumericVersion)</AssemblyVersion>
+			<FileVersion>$(NumericVersion)</FileVersion>
+
 			<InformationalVersion Condition="'$(GitCommitIdShort)' != ''">$(Version)+$(GitCommitIdShort)</InformationalVersion>
 			<InformationalVersion Condition="'$(GitCommitIdShort)' == ''">$(Version)</InformationalVersion>
 		</PropertyGroup>
