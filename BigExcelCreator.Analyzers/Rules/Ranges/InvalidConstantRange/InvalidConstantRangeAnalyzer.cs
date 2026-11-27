@@ -16,7 +16,8 @@ namespace BigExcelCreator.Analyzers.Rules.Ranges.InvalidConstantRange
     {
         private static readonly Regex RangeComponentPattern = new(
             @"^\$?(?:[A-Za-z]+(?:\$?\d+)?|\d+)$",
-            RegexOptions.CultureInvariant);
+            RegexOptions.CultureInvariant,
+            TimeSpan.FromSeconds(2));
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [InvalidConstantRangeDiagnostic.Descriptor];
 
