@@ -53,7 +53,7 @@ namespace BigExcelCreator.Test
 
             Assert.Multiple(() =>
             {
-                Assert.That(validations.Length, Is.EqualTo(expectedOperators.Length));
+                Assert.That(validations, Has.Length.EqualTo(expectedOperators.Length));
                 Assert.That(validations.Select(validation => validation.Operator!.Value), Is.EqualTo(expectedOperators));
                 Assert.That(validations[0].Type!.Value, Is.EqualTo(DataValidationValues.Whole));
                 Assert.That(validations[6].Formula1!.Text, Is.EqualTo("1"));
@@ -319,11 +319,10 @@ namespace BigExcelCreator.Test
                 .Single(item => item.Name?.Value == sheetName);
             WorksheetPart worksheetPart = (WorksheetPart)workbookPart.GetPartById(sheet.Id!.Value!);
 
-            return worksheetPart.Worksheet!.ChildElements.OfType<SheetData>().Single()
+            return [.. worksheetPart.Worksheet!.ChildElements.OfType<SheetData>().Single()
                 .ChildElements.OfType<Row>()
                 .SelectMany(row => row.ChildElements.OfType<Cell>())
-                .Select(cell => cell.CellValue?.Text ?? string.Empty)
-                .ToArray();
+                .Select(cell => cell.CellValue?.Text ?? string.Empty)];
         }
 
         private sealed class AllValidatorsModel

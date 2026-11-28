@@ -34,7 +34,7 @@ namespace BigExcelCreator.Helpers
             return columnName.IsNullOrWhiteSpace()
                 ? 0
                 : ((chars.IndexOf(char.ToUpperInvariant(columnName[0])) + 1) * (int)Math.Pow(chars.Count, columnName.Length - 1))
-                    + GetColumnIndex(columnName.Substring(1));
+                    + GetColumnIndex(columnName[1..]);
         }
     }
 }

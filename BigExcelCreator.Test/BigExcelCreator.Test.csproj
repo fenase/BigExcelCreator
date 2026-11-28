@@ -24,6 +24,11 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="IndexRange" Version="1.1.1" PrivateAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net48'">
+		<PackageReference Include="Microsoft.Bcl.Memory" Version="11.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

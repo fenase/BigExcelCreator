@@ -35,11 +35,20 @@ namespace BigExcelCreator.Analyzers.Rules.PropertyConfiguration.UnexportableProp
                 return;
             }
 
-            string? reason = property.Parameters.Length > 0
-                ? "it is an indexer and the writer does not supply index arguments"
-                : property.GetMethod is null
-                    ? "it has no getter"
-                    : null;
+            string? reason;
+            if (property.Parameters.Length > 0)
+            {
+                reason = "it is an indexer and the writer does not supply index arguments";
+            }
+            else if (property.GetMethod is null)
+            {
+                reason = "it has no getter";
+            }
+            else
+            {
+                reason = null;
+            }
+
             if (reason is not null)
             {
                 context.ReportDiagnostic(Diagnostic.Create(

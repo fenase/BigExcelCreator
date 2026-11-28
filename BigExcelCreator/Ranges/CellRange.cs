@@ -277,6 +277,7 @@ namespace BigExcelCreator.Ranges
         /// <param name="sheetname">The name of the sheet.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the column or row values are less than 1.</exception>
         /// <exception cref="InvalidRangeException">Thrown when the range is invalid.</exception>
+#pragma warning disable S107
         public CellRange(int? startingColumn,
                          bool fixedStartingColumn,
                          int? startingRow,
@@ -286,6 +287,7 @@ namespace BigExcelCreator.Ranges
                          int? endingRow,
                          bool fixedEndingRow,
                          string sheetname)
+#pragma warning restore S107
         {
             if (startingColumn < 1) { throw new ArgumentOutOfRangeException(nameof(startingColumn)); }
             if (startingRow < 1) { throw new ArgumentOutOfRangeException(nameof(startingRow)); }
@@ -347,7 +349,7 @@ namespace BigExcelCreator.Ranges
 #if NET6_0_OR_GREATER
                 StartingRow = int.Parse(rangeArray[RANGE_START].AsSpan(letters1), provider: CultureInfo.InvariantCulture);
 #else
-                StartingRow = int.Parse(rangeArray[RANGE_START].Substring(letters1), CultureInfo.InvariantCulture);
+                StartingRow = int.Parse(rangeArray[RANGE_START][letters1..], CultureInfo.InvariantCulture);
 #endif
             }
             if ((EndRangeType & RangeTypes.ColInfinite) == 0)
@@ -355,25 +357,17 @@ namespace BigExcelCreator.Ranges
 #if NET6_0_OR_GREATER
                 EndingRow = int.Parse(rangeArray[RANGE_END].AsSpan(letters2), provider: CultureInfo.InvariantCulture);
 #else
-                EndingRow = int.Parse(rangeArray[RANGE_END].Substring(letters2), CultureInfo.InvariantCulture);
+                EndingRow = int.Parse(rangeArray[RANGE_END][letters2..], CultureInfo.InvariantCulture);
 #endif
             }
 
             if ((StartRangeType & RangeTypes.RowInfinite) == 0)
             {
-#if NET6_0_OR_GREATER
                 StartingColumn = ColumnHelper.GetColumnIndex(rangeArray[RANGE_START][..^numbers1]);
-#else
-                StartingColumn = ColumnHelper.GetColumnIndex(rangeArray[RANGE_START].Substring(0, rangeArray[RANGE_START].Length - numbers1));
-#endif
             }
             if ((EndRangeType & RangeTypes.RowInfinite) == 0)
             {
-#if NET6_0_OR_GREATER
                 EndingColumn = ColumnHelper.GetColumnIndex(rangeArray[RANGE_END][..^numbers2]);
-#else
-                EndingColumn = ColumnHelper.GetColumnIndex(rangeArray[RANGE_END].Substring(0, rangeArray[RANGE_END].Length - numbers2));
-#endif
             }
         }
 
@@ -543,7 +537,7 @@ namespace BigExcelCreator.Ranges
         /// </returns>
         public static bool operator >(CellRange left, CellRange right)
         {
-            return left is not null && left.CompareTo(right) > 0;
+            return left?.CompareTo(right) > 0;
         }
 
         /// <summary>
